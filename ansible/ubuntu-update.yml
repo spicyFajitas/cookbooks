@@ -1,16 +1,14 @@
 ---
 - name: Update Ubuntu Servers
   hosts: k3s
-  become: true
+  become: yes
   become_user: adam
   tasks:
-    - name: Update apt cache
+    - name: Update cache 
       apt:
         update_cache: yes
-      register: update_cache
 
-    - name: Upgrade packages
-      apt:
-        upgrade: dist
-        update_cache: yes
-      when: update_cache.changed
+    - name: Upgrade all packages on servers
+      apt: 
+        name: "*"
+        state: latest
