@@ -2,7 +2,8 @@
 
 ## Links
 
-- [reference `docker-compose.yml`](https://github.com/TheBestPessimist/cloudflare-tunnel-docker-compose-example)
+- ~~[reference `docker-compose.yml`](https://github.com/TheBestPessimist/cloudflare-tunnel-docker-compose-example)~~
+- [uptime kuma built in cloudflare tunnel!](https://github.com/louislam/uptime-kuma/wiki/Reverse-Proxy-with-Cloudflare-Tunnel)
 - [cloudflare zero trust dashboard](https://one.dash.cloudflare.com/)
 
 The docker file will set up an Uptime Kuma instance and Cloudflare Tunnel..
