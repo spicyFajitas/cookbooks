@@ -1,0 +1,21 @@
+# ~/docker_compose/uptime_kuma/docker-compose.yml
+# uptime kuma container
+
+version: "2"
+
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:latest
+    container_name: uptime-kuma
+    volumes:
+      - /opt/kuma:/app/data
+    ports:
+      - 3001:3001  # <Host Port>:<Container Port>
+    restart: always
+
+  cloudflared-laptop:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run
+    restart: unless-stopped
+    environment:
+      CLOUDFLARE_TUNNEL_TOKEN:
