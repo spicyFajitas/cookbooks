@@ -12,10 +12,12 @@ services:
     ports:
       - 3001:3001  # <Host Port>:<Container Port>
     restart: always
-
-  cloudflare-tunnel:
-    image: cloudflare/cloudflared:latest
-    command: tunnel --no-autoupdate run
-    restart: unless-stopped
     environment:
-      CLOUDFLARE_TUNNEL_TOKEN:
+      UPTIME_KUMA_CLOUDFLARED_TOKEN:
+
+  # cloudflare-tunnel:
+  #   image: cloudflare/cloudflared:latest
+  #   command: tunnel --no-autoupdate run
+  #   restart: unless-stopped
+  #   environment:
+  #     TUNNEL_TOKEN:
