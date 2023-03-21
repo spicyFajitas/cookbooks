@@ -18,7 +18,7 @@ services:
       - GITEA__database__HOST=db:5432
       - GITEA__database__NAME=gitea
       - GITEA__database__USER=gitea
-      - GITEA__database__PASSWD=
+      - GITEA__database__PASSWD=      # same as POSTGRES_PASSWORD
     restart: always
     networks:
       - gitea
@@ -37,7 +37,7 @@ services:
     restart: always
     environment:
       - POSTGRES_USER=gitea
-      - POSTGRES_PASSWORD=
+      - POSTGRES_PASSWORD=        # same as GITEA__database__PASSWD
       - POSTGRES_DB=gitea
     networks:
       - gitea
