@@ -27,6 +27,7 @@ services:
       - POSTGRES_USER=netbox
       - POSTGRES_PASSWORD=
       - POSTGRES_DB=netbox
+      - HOST
 
   cloudflare-tunnel:
     image: cloudflare/cloudflared:latest
