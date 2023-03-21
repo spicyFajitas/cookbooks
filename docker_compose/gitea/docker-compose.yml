@@ -37,8 +37,8 @@ services:
     restart: always
     environment:
       - POSTGRES_USER=gitea
-      - POSTGRES_PASSWORD=gitea
-      - POSTGRES_DB=
+      - POSTGRES_PASSWORD=
+      - POSTGRES_DB=gitea
     networks:
       - gitea
     volumes:
