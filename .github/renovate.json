@@ -1,0 +1,25 @@
+{
+    "extends": [
+      "config:base"
+    ],
+    "schedule": [
+      "weekend"
+    ],
+    "packageRules": [
+      {
+        "matchUpdateTypes": [
+          "semver:minor",
+          "semver:patch"
+        ],
+        "automerge": true
+      },
+      {
+        "matchUpdateTypes": [
+          "semver:non-major"
+        ],
+        "schedule": [
+          "weekend"
+        ]
+      }
+    ]
+  }
