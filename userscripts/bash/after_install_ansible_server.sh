@@ -59,11 +59,11 @@ sudo apt update
 
 echo -e "\n\n"
 echo "################################################################################"
-echo -e "apt installing git, neofetch, net-tools, python3-pip, and vim"
+echo -e "apt installing curl, git, neofetch, net-tools, python3-pip, and vim"
 echo "################################################################################"
 echo -e "\n\n"
 sleep 5
-sudo apt --assume-yes install git neofetch net-tools python3-pip vim
+sudo apt --assume-yes install curl git neofetch net-tools python3-pip vim
 
 echo -e "\n\n"
 echo "################################################################################"
