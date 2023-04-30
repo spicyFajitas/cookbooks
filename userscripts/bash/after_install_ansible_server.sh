@@ -59,11 +59,19 @@ sudo apt update
 
 echo -e "\n\n"
 echo "################################################################################"
-echo -e "installing ansible, git, neofetch, net-tools, python3-pip, and vim"
+echo -e "apt installing git, neofetch, net-tools, python3-pip, and vim"
 echo "################################################################################"
 echo -e "\n\n"
 sleep 5
-sudo apt --assume-yes install ansible git neofetch net-tools python3-pip vim
+sudo apt --assume-yes install git neofetch net-tools python3-pip vim
+
+echo -e "\n\n"
+echo "################################################################################"
+echo -e "pip install ansible"
+echo "################################################################################"
+echo -e "\n\n"
+sleep 5
+pip3 install ansible
 
 echo -e "\n\n"
 echo "################################################################################"
