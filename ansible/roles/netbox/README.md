@@ -56,7 +56,7 @@ I was lazy and don't want to fill this out right now as it's 11:50 PM and I just
 
 The most recent and past versions of netbox are published [to their github](https://github.com/netbox-community/netbox/releases/).
 
-Take a database dump of the Netbox production database in case of issues with the upgrade. Change the version of Netbox in /roles/servers/netbox/defaults/main.yml. Save the version change and test the new version in a development container.
+Take a database dump of the Netbox production database in case of issues with the upgrade. Change the version of Netbox in /roles/netbox/defaults/main.yml. Save the version change and test the new version in a development container.
 
 !!! info
     When testing restoring backups to development containers, the development `secret_key` inside of configuration.py is different than the production `secret_key`. If you cannnot see any devices after a seemingly successful database backup, the secret key may be incorrect.

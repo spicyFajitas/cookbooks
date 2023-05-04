@@ -5,4 +5,4 @@
   roles:
     - netbox
   vars_files:
-    - roles/servers/netbox/vaults/production.yml
+    - roles/netbox/vaults/production.yml
