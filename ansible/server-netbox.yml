@@ -3,6 +3,6 @@
   become: true
   become_method: sudo
   roles:
-    - servers/netbox
+    - netbox
   vars_files:
     - roles/servers/netbox/vaults/production.yml
