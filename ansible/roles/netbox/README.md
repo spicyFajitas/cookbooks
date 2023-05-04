@@ -42,6 +42,8 @@ You will also need to look through the playbook and change any variables accordi
 
 ### Main Installation
 
+`cd` into the `/root/cookbooks/ansible` directory of the playbook
+
 Run `ansible-playbook server-netbox.yml -i inventory/inventory.yml --vault-password-file location/of/your/vault-password-file.txt` from your ansible controller. This will get the container mostly set up.
 
 After the playbook runs successfully, run the command `docker compose exec netbox /opt/netbox/netbox/manage.py createsuperuser` in order to create a superuser.
@@ -57,9 +59,6 @@ I was lazy and don't want to fill this out right now as it's 11:50 PM and I just
 The most recent and past versions of netbox are published [to their github](https://github.com/netbox-community/netbox/releases/).
 
 Take a database dump of the Netbox production database in case of issues with the upgrade. Change the version of Netbox in /roles/netbox/defaults/main.yml. Save the version change and test the new version in a development container.
-
-!!! info
-    When testing restoring backups to development containers, the development `secret_key` inside of configuration.py is different than the production `secret_key`. If you cannnot see any devices after a seemingly successful database backup, the secret key may be incorrect.
 
 #### Steps
 
@@ -85,7 +84,6 @@ More information, including manual installation steps, can be found following th
 ## To Do
 
 - Flesh out this `readme.md` file
-- Ensure that upgrades are automatically taken care of with the playbook. Right now, the playbook is "*production ready*" up to installing Netbox from scratch. I have not worked on upgrades yet, which is why I opted to install v3.4.8 instead of the latest version at the time of writing this (v3.5.0)
 - create a role that installs Netbox "bare metal" (essentially just not using a docker container and installing following the docs as close as possible)
 
 ## Resources
