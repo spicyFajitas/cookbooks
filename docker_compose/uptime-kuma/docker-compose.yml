@@ -15,6 +15,9 @@ services:
     environment:
       UPTIME_KUMA_CLOUDFLARED_TOKEN:
 
+  # commented out below due to Cloudflare tunnel functionality being built in
+  # if you wanted to run a separate container uncomment below
+
   # cloudflare-tunnel:
   #   image: cloudflare/cloudflared:latest
   #   command: tunnel --no-autoupdate run

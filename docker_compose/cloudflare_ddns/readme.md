@@ -2,14 +2,14 @@
 
 ## Table of contents
 
-- Summary
-- Requirements
-- Installation
-- Variables
-- Usage
-- To Do
-- Credits
-- Current Maintainers
+[Summary](#summary)
+[Requirements](#requirements)
+[Installation](#installation)
+[Variables](#variables)
+[Usage](#usage)
+[To Do](#to-do)
+[Credits](#credits)
+[Current Maintainers](#current-maintainers)
 
 ## Summary
 

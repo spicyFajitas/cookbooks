@@ -4,3 +4,6 @@
 # ignore .secret and .secrets files
 .secret
 .secrets
+
+# ignore vault files that contain vault passwords
+vault*.txt
