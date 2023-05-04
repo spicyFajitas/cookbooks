@@ -52,9 +52,35 @@ I was lazy and don't want to fill this out right now as it's 11:50 PM and I just
 
 ## Common Tasks
 
-## Usage
+### Upgrading Netbox
 
-TBH I think this section is redundant and I think it will need to be removed from my `readme.md` template.
+The most recent and past versions of netbox are published [to their github](https://github.com/netbox-community/netbox/releases/).
+
+Take a database dump of the Netbox production database in case of issues with the upgrade. Change the version of Netbox in /roles/servers/netbox/defaults/main.yml. Save the version change and test the new version in a development container.
+
+!!! info
+    When testing restoring backups to development containers, the development `secret_key` inside of configuration.py is different than the production `secret_key`. If you cannnot see any devices after a seemingly successful database backup, the secret key may be incorrect.
+
+#### Steps
+
+1. Database dump `pg_dump netbox > netbox_dump.sql`
+1. Copy database dump to new Netbox container/server
+    - `sftp put/get` is good for SSH enabled connections
+    - `lxc file push netbox_dump.sql netbox-dev-name/path/to/file` for pushing into container
+1. Set the `secret_key` in the `configuration.py` file .
+1. Restore database to new container
+    - `su postgres`
+    - `psql -c 'drop database netbox with (FORCE)'`
+    - `psql -c 'create database netbox'`
+    - `psql -c 'ALTER DATABASE netbox OWNER TO netbox'`
+    - `psql netbox < netbox_dump.sql`
+    - `exit`
+1. The migration script may need to be ran again
+    - `/opt/netbox/venv/bin/python3 /opt/netbox/netbox/manage.py migrate`
+1. Restart netbox services
+    - `systemctl restart netbox netbox-rq`
+
+More information, including manual installation steps, can be found following the [Netbox documentation](https://netbox.readthedocs.io/en/stable/installation/upgrading/).
 
 ## To Do
 
