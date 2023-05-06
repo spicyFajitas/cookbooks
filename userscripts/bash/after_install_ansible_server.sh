@@ -49,6 +49,13 @@ echo "##########################################################################
 echo -e "\n\n"
 echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAqz7vI3Iur9UmtKiXpH6zNkieG65xjETZuwdUHDTArw root@ansible-server" >> ~/.ssh/authorized_keys
 
+
+echo "################################################################################"
+echo -e "adding Adam's ThinkPad SSH key to this machine"
+echo "################################################################################"
+echo -e "\n\n"
+echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICC4J5SgvvxMCSR0aTPldYVbI0FjyZC8mwEbzysaIV07 adam@adam-ThinkPad-P53" >> ~/.ssh/authorized_keys
+
 sleep 5
 echo "################################################################################"
 echo -e "running apt update -y"
