@@ -47,4 +47,4 @@
   community.docker.docker_compose:
     project_src: "{{ base_dir }}"
     pull: True
-  notify: Restart netbox
+  notify: Restart container(s)
