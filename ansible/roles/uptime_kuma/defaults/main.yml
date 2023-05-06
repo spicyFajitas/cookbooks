@@ -1,0 +1,12 @@
+---
+
+base_dir: /opt/uptime-kuma
+
+container_name: "uptime-kuma"
+container_image: "louislam/uptime-kuma"
+container_version: "latest"
+container_data_volume: "/app/data"
+host_data_volume: "/opt/{{ container_name }}"
+container_port: "3001"
+host_port: "3001"
+restart_policy: "always"
