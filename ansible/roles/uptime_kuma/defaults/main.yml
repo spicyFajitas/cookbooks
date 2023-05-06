@@ -1,5 +1,7 @@
 ---
 
+base_dir: /opt/kuma
+
 container_name: "uptime-kuma"
 container_image: "louislam/uptime-kuma"
 container_version: "latest"
