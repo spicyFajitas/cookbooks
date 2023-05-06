@@ -37,7 +37,7 @@
     mode: "0644"
   loop:
     - docker-compose.yml
-  notify: Restart netbox
+  notify: Restart container(s)
 
 # - name: Remove outdated files
 #   ansible.builtin.file:

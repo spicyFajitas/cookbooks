@@ -32,7 +32,7 @@
   loop:
     - docker-compose.yml
     - extra.py
-  notify: Restart netbox
+  notify: Restart container(s)
 
 - name: Remove outdated files
   ansible.builtin.file:
