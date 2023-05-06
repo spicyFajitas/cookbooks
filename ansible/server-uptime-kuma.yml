@@ -1,0 +1,8 @@
+- name: Install uptime kuma in docker
+  hosts: cloud kuma
+  become: true
+  become_method: sudo
+  roles:
+    - uptime_kuma
+  vars_files:
+    - roles/uptime_kuma/vaults/production.yml
