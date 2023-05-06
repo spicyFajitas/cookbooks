@@ -1,5 +1,5 @@
 - name: Install uptime kuma in docker
-  hosts: cloud kuma
+  hosts: cloud_kuma
   become: true
   become_method: sudo
   roles:
