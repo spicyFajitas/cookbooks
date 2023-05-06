@@ -9,7 +9,6 @@
 - [Installation](#installation)
 - [Variables](#variables)
 - [Common Tasks](#common-tasks)
-- [Usage](#usage)
 - [To Do](#to-do)
 - [Resources](#resources)
 - [Disaster Recovery](#disaster-recovery)
