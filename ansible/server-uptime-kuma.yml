@@ -6,3 +6,8 @@
     - uptime_kuma
   vars_files:
     - roles/uptime_kuma/vaults/production.yml
+## to do
+## mkdir task for /opt kuma
+
+## create new role [baseline] to ensure baseline packages are
+## installed on servers bc not having them is fucking annoying
