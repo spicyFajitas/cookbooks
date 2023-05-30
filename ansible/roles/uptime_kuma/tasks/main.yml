@@ -12,7 +12,7 @@
 
 - name: template cloud docker compose files
   ansible.builtin.template:
-    src: cloud-docker-compose.yml.j2
+    src: "{{ item }}.j2"
     dest: "{{ base_dir }}/docker-compose.yml"
     mode: "0644"
   loop:
@@ -22,11 +22,11 @@
 
 - name: template on prem docker compose files
   ansible.builtin.template:
-    src: local-docker-compose.yml.j2
+    src: "{{ item }}.j2"
     dest: "{{ base_dir }}/docker-compose.yml"
     mode: "0644"
   loop:
-    - cloud-docker-compose.yml
+    - local-docker-compose.yml
   when: inventory_hostname == "10.100.10.13"
   notify: Restart container(s)
 
