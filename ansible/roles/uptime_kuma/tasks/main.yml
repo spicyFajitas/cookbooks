@@ -10,13 +10,24 @@
     state: directory
     mode: '0755'
 
-- name: Update configuration files
+- name: template cloud docker compose files
   ansible.builtin.template:
     src: "{{ item }}.j2"
-    dest: "{{ base_dir }}/{{ item }}"
+    dest: "{{ base_dir }}/docker-compose.yml"
     mode: "0644"
   loop:
-    - docker-compose.yml
+    - cloud-docker-compose.yml
+  when: inventory_hostname == "68.183.137.200"
+  notify: Restart container(s)
+
+- name: template on prem docker compose files
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ base_dir }}/docker-compose.yml"
+    mode: "0644"
+  loop:
+    - local-docker-compose.yml
+  when: inventory_hostname == "10.100.10.13"
   notify: Restart container(s)
 
 - name: Ensure services are running

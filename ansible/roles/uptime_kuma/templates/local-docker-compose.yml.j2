@@ -1,0 +1,15 @@
+# {{ ansible_managed }}
+
+version: "3"
+
+services:
+  uptime-kuma:
+    image: "{{ container_image }}:{{ container_version }}"
+    container_name: "{{ container_name }}"
+    volumes:
+      - "{{ host_data_volume }}:{{ container_data_volume }}"
+    ports:
+      - "{{ host_port }}:{{ container_port }}"  # <Host Port>:<Container Port>
+    restart: "{{ restart_policy }}"
+    environment:
+      UPTIME_KUMA_CLOUDFLARED_TOKEN: "{{ local_uptime_kuma_cloudflare_token }}"
