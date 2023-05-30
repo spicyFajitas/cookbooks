@@ -6,6 +6,6 @@ services:
             - ACCESS_TOKEN="{{ twingate_access_token }}"
             - REFRESH_TOKEN="{{ twingate_refresh_token }}"
             - TWINGATE_LABEL_HOSTNAME= "{{ twingate_label_hostname }}"
-        container_name: "{{ twingate_container_name }}"
+        container_name: "{{ container_name }}"
         restart: restart_policy
         image: "{{ container_image }}:{{ container_version }}"
