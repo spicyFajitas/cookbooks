@@ -9,7 +9,7 @@
   tasks:
     - name: Include Task File for Host 1
       ansible.builtin.import_tasks: roles/uptime_kuma/tasks/cloud_kuma.yml
-      when: inventory_hostname == "cloud_kuma"
+      when: inventory_hostname == "68.183.137.200"
 
 # - name: Install uptime kuma on prem
 #   hosts: local_kuma
