@@ -10,6 +10,7 @@
     state: directory
     mode: '0755'
 
+<<<<<<< HEAD
 - name: template cloud docker compose files
   ansible.builtin.template:
     src: cloud-docker-compose.yml.j2
@@ -28,6 +29,15 @@
   loop:
     - cloud-docker-compose.yml
   when: inventory_hostname == "10.100.10.13"
+=======
+- name: Update configuration files
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ base_dir }}/{{ item }}"
+    mode: "0644"
+  loop:
+    - docker-compose.yml
+>>>>>>> master
   notify: Restart container(s)
 
 - name: Ensure services are running

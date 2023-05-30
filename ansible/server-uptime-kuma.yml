@@ -1,12 +1,20 @@
+<<<<<<< HEAD
 - name: Install uptime kuma in the cloud
   hosts: cloud_kuma, local_kuma
+=======
+- name: Install uptime kuma in docker
+  hosts: cloud_kuma
+>>>>>>> master
   become: true
   become_method: sudo
   roles:
     - uptime_kuma
   vars_files:
     - roles/uptime_kuma/vaults/production.yml
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 ## to do
 ## mkdir task for /opt kuma
 
