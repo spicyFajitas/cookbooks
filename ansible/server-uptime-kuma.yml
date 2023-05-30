@@ -6,23 +6,6 @@
     - uptime_kuma
   vars_files:
     - roles/uptime_kuma/vaults/production.yml
-#   tasks:
-#     - name: Include Task File for Host 1
-#       ansible.builtin.import_tasks: roles/uptime_kuma/tasks/cloud_kuma.yml
-#       when: inventory_hostname == "68.183.137.200"
-
-# - name: Install uptime kuma on prem
-#   hosts: local_kuma
-#   become: true
-#   become_method: sudo
-#   roles:
-#     - uptime_kuma
-#   vars_files:
-#     - roles/uptime_kuma/vaults/production.yml
-#   tasks:
-#     - name: include task file for on prem instance
-#       ansible.builtin.import_tasks: roles/uptime_kuma/tasks/local_kuma.yml
-#       when: inventory_hostname == "10.100.10.13"
 
 ## to do
 ## mkdir task for /opt kuma

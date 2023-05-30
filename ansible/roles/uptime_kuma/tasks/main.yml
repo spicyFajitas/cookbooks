@@ -27,7 +27,7 @@
     mode: "0644"
   loop:
     - cloud-docker-compose.yml
-  when: inventory_hostname == "610.100.10.13"
+  when: inventory_hostname == "10.100.10.13"
   notify: Restart container(s)
 
 - name: Ensure services are running
