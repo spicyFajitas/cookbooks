@@ -7,20 +7,21 @@
   vars_files:
     - roles/uptime_kuma/vaults/production.yml
   tasks:
-    - name: include task file for cloud instance
-      include: roles/uptime_kuma/tasks/cloud_kuma.yml
+    - name: Include Task File for Host 1
+      include: tasks/cloud_kuma.yml
+      when: inventory_hostname == "cloud_kuma"
 
-- name: Install uptime kuma on prem
-  hosts: local_kuma
-  become: true
-  become_method: sudo
-  roles:
-    - uptime_kuma
-  vars_files:
-    - roles/uptime_kuma/vaults/production.yml
-  tasks:
-    - name: include task file for on prem instance
-      include: roles/uptime_kuma/tasks/local_kuma.yml
+# - name: Install uptime kuma on prem
+#   hosts: local_kuma
+#   become: true
+#   become_method: sudo
+#   roles:
+#     - uptime_kuma
+#   vars_files:
+#     - roles/uptime_kuma/vaults/production.yml
+#   tasks:
+#     - name: include task file for on prem instance
+#       include: roles/uptime_kuma/tasks/local_kuma.yml
 
 ## to do
 ## mkdir task for /opt kuma
