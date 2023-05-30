@@ -1,0 +1,26 @@
+---
+
+- name: Install docker-compose
+  ansible.builtin.pip:
+    name: docker-compose
+
+- name: Create a kuma directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ base_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Update cloud kuma configuration files
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ base_dir }}/docker-compoes.yml"
+    mode: "0644"
+  loop:
+    - cloud-docker-compose.yml
+  notify: Restart container(s)
+
+- name: Ensure services are running
+  community.docker.docker_compose:
+    project_src: "{{ base_dir }}"
+    pull: True
+  notify: Restart container(s)

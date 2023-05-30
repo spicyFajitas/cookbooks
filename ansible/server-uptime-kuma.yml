@@ -1,11 +1,21 @@
-- name: Install uptime kuma in docker
-  hosts: cloud_kuma, madison_kuma
+- name: Install uptime kuma in the cloud
+  hosts: cloud_kuma, local_kuma
   become: true
   become_method: sudo
   roles:
     - uptime_kuma
   vars_files:
     - roles/uptime_kuma/vaults/production.yml
+  tasks:
+    - name: include task file for cloud instance
+      include: tasks/cloud_kuma.yml
+      when: cloud_kuma
+
+    - name: include task file for on prem instance
+      include: tasks/local_kuma.yml
+      when: local_kuma
+
+
 ## to do
 ## mkdir task for /opt kuma
 

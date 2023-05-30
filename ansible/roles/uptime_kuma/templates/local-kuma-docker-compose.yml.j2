@@ -12,4 +12,4 @@ services:
       - "{{ host_port }}:{{ container_port }}"  # <Host Port>:<Container Port>
     restart: "{{ restart_policy }}"
     environment:
-      UPTIME_KUMA_CLOUDFLARED_TOKEN: "{{ madison_uptime_kuma_cloudflare_token }}"
+      UPTIME_KUMA_CLOUDFLARED_TOKEN: "{{ local_uptime_kuma_cloudflare_token }}"
