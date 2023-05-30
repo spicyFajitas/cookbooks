@@ -1,0 +1,37 @@
+---
+
+- name: Install docker-compose
+  ansible.builtin.pip:
+    name: docker-compose
+
+- name: Create a kuma directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ base_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: template cloud docker compose files
+  ansible.builtin.template:
+    src: cloud-docker-compose.yml.j2
+    dest: "{{ base_dir }}/docker-compose.yml"
+    mode: "0644"
+  loop:
+    - cloud-docker-compose.yml
+  when: inventory_hostname == "68.183.137.200"
+  notify: Restart container(s)
+
+- name: template on prem docker compose files
+  ansible.builtin.template:
+    src: local-docker-compose.yml.j2
+    dest: "{{ base_dir }}/docker-compose.yml"
+    mode: "0644"
+  loop:
+    - cloud-docker-compose.yml
+  when: inventory_hostname == "610.100.10.13"
+  notify: Restart container(s)
+
+- name: Ensure services are running
+  community.docker.docker_compose:
+    project_src: "{{ base_dir }}"
+    pull: True
+  notify: Restart container(s)
