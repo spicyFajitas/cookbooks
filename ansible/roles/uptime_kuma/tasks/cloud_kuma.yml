@@ -12,7 +12,7 @@
 
 - name: Update cloud kuma configuration files
   ansible.builtin.template:
-    src: "templates/cloud-docker-compose.yml.j2"
+    src: cloud-docker-compose.yml.j2
     dest: "{{ base_dir }}/docker-compose.yml"
     mode: "0644"
   # loop:
