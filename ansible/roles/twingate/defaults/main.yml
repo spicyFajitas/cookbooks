@@ -2,7 +2,7 @@
 
 base_dir: /opt/twingate
 
-container_name: "twingate-madisonnetwork"
+container_name: "twingate"
 container_image: "twingate/connector"
 container_version: "latest"
 container_data_volume: "/app/data"
