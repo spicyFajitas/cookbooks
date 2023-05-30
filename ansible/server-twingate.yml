@@ -1,9 +1,0 @@
----
-- name: Install twingate in docker
-  hosts: twingate
-  become: true
-  become_method: sudo
-  roles:
-    - twingate
-  vars_files:
-    - roles/twingate/vaults/production.yml
