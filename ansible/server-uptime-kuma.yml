@@ -9,11 +9,11 @@
   tasks:
     - name: include task file for cloud instance
       include: roles/uptime_kuma/tasks/cloud_kuma.yml
-      when: cloud_kuma
+      hosts: cloud_kuma
 
     - name: include task file for on prem instance
       include: roles/uptime_kuma/tasks/local_kuma.yml
-      when: local_kuma
+      hosts: local_kuma
 
 
 ## to do
