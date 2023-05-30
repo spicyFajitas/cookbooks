@@ -25,8 +25,8 @@ This repo contains all of my homelab cookbooks, from ansible roles and docker-co
 
 ## To Do
 
-[x] mkdir task for /opt kuma
-[ ] create new role `baseline` to ensure baseline packages are installed on servers bc not having them is annoying
+- [x] mkdir task for /opt kuma
+- [ ] create new role `baseline` to ensure baseline packages are installed on servers bc not having them is annoying
 
 ## Credits
 
