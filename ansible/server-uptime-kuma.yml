@@ -8,11 +8,11 @@
     - roles/uptime_kuma/vaults/production.yml
   tasks:
     - name: include task file for cloud instance
-      include: tasks/cloud_kuma.yml
+      include: roles/uptime_kuma/tasks/cloud_kuma.yml
       when: cloud_kuma
 
     - name: include task file for on prem instance
-      include: tasks/local_kuma.yml
+      include: roles/uptime_kuma/tasks/local_kuma.yml
       when: local_kuma
 
 
