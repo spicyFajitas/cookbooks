@@ -3,30 +3,22 @@
 ## Table of contents
 
 - Overview
-- Requirements
-- Installation
-- Variables
-- Usage
 - To Do
 - Credits
+- Support
 - Current Maintainers
 
 ## Overview
 
 This repo contains all of my homelab cookbooks, from ansible roles and docker-compose files to (shitty) kubernetes manifests and personal userscripts.
 
-## Requirements
-
-## Installation
-
-## Variables
-
-## Usage
-
 ## To Do
 
 - [x] mkdir task for /opt kuma
 - [ ] create new role `baseline` to ensure baseline packages are installed on servers bc not having them is annoying
+- [ ] double check documentation for netbox and uptime kuma roles
+- [ ] create documentation for twingate role
+- [ ] convert docker compose files into ansible deployable in docker_compose folder
 
 ## Credits
 
