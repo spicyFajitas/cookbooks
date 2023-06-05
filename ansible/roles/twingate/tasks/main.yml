@@ -4,7 +4,7 @@
   ansible.builtin.pip:
     name: docker-compose
 
-- name: Create a kuma directory if it does not exist
+- name: Create a twingate directory if it does not exist
   ansible.builtin.file:
     path: "{{ base_dir }}"
     state: directory
@@ -18,15 +18,6 @@
   loop:
     - docker-compose.yml
   notify: Restart container(s)
-
-# - name: Remove outdated files
-#   ansible.builtin.file:
-#     path: "{{ base_dir }}/{{ item }}"
-#     state: absent
-#   loop:
-#     - netbox.env
-#     - configuration/configuration.py
-#     - configuration/gunicorn_config.py
 
 - name: Ensure services are running
   community.docker.docker_compose:
