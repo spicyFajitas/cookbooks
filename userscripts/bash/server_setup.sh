@@ -66,11 +66,11 @@ sudo apt update
 
 echo -e "\n\n"
 echo "################################################################################"
-echo -e "apt installing curl, git, neofetch, net-tools, python3-pip, and vim"
+echo -e "apt installing curl, docker-compose, git, neofetch, net-tools, python3-pip, and vim"
 echo "################################################################################"
 echo -e "\n\n"
 sleep 5
-sudo apt --assume-yes install curl git neofetch net-tools python3-pip vim
+sudo apt --assume-yes install curl docker-compose git neofetch net-tools python3-pip vim
 
 echo -e "\n\n"
 echo "################################################################################"
@@ -94,7 +94,6 @@ echo -e "cloning Cookbooks repo and Docker Testing repo"
 echo "################################################################################"
 echo -e "\n\n"
 git clone https://github.com/spicyFajitas/cookbooks.git
-git clone https://github.com/spicyFajitas/KinD-testing.git
 
 echo -e "\n\n"
 echo "################################################################################"
