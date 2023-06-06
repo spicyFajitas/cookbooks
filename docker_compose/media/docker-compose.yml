@@ -10,10 +10,13 @@ services:
       - UMASK=002
       - TZ=America/Chicago
     volumes:
-      - /opt/media/sonar:/config
-      - /opt/media/media-files:/data
+      - /opt/config/sonar:/config
+      - /mnt/media/tv_shows:/media/tv_shows
+      - /mnt/media/downloads:/media/downloads
     ports:
       - "8989:8989"
+    security_opt:
+      - apparmor:unconfined
     restart: unless-stopped
 
   radarr:
@@ -25,10 +28,13 @@ services:
       - UMASK=002
       - TZ=America/Chicago
     volumes:
-      - /opt/media/radarr:/config
-      - /opt/media/media-files:/data
+      - /opt/config/radarr:/config
+      - /mnt/media/movies1:/media/movies
+      - /mnt/media/downloads:/media/downloads
     ports:
       - "7878:7878"
+    security_opt:
+      - apparmor:unconfined
     restart: unless-stopped
 
   jellyseerr:
@@ -40,12 +46,15 @@ services:
     ports:
       - 5055:5055
     volumes:
-      - /opt/media/jellyseer:/app/config
+      - /opt/config/jellyseer:/app/config
+    security_opt:
+      - apparmor:unconfined
     restart: unless-stopped
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:develop
     container_name: prowlarr
+    network_mode: "service:gluetun"
     environment:
       - PUID=1001
       - PGID=13000
@@ -53,25 +62,8 @@ services:
       - TZ=America/Chicago
     volumes:
       - /opt/media/prowlarr:/config
-    network_mode: "service:gluetun"
-    restart: unless-stopped
-
-  qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:latest
-    container_name: qbittorrent
-    environment:
-      - PUID=1002
-      - PGID=13000
-      - UMASK=002
-      - TZ=America/Chicago
-      - WEBUI_PORT=8080
-    volumes:
-      - /opt/media/qbittorrent:/config
-      - /opt/media/media-files:/data/torrents
-    ports:
-      - "8080:8080"
-      - "6881:6881"
-      - "6881:6881/udp"
+    security_opt:
+      - apparmor:unconfined
     restart: unless-stopped
 
   gluetun:
@@ -79,11 +71,40 @@ services:
     cap_add:
       - NET_ADMIN
     volumes:
-      - gluetun:/gluetun
+      - /opt/config/gluetun:/gluetun
     ports:
       - "9696:9696"
+      - "8080:8080"
+      - "6881:6881"
+      - "6881:6881/udp"
     environment:
       - VPN_SERVICE_PROVIDER=private internet access
       - OPENVPN_USER=<redacted>
       - OPENVPN_PASSWORD=<redacted>
       - SERVER_REGIONS=Netherlands
+      - PRIVATE_INTERNET_ACCESS_VPN_PORT_FORWARDING=on
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    security_opt:
+      - apparmor:unconfined
+    restart: unless-stopped
+
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    network_mode: "service:gluetun"
+    environment:
+      - PUID=1002
+      - PGID=13000
+      - UMASK=002
+      - TZ=America/Chicago
+      - WEBUI_PORT=8080
+    volumes:
+      - /opt/config/qbittorrent:/config
+      - /mnt/media/downloads:/data/torrents
+    security_opt:
+      - apparmor:unconfined
+    depends_on:
+      - gluetun
+    restart: unless-stopped
+
