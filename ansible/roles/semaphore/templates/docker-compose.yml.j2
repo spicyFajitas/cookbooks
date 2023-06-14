@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  # postgres database for semaphore
+  postgres:
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    image: postgres:14
+    hostname: postgres
+    volumes: 
+     - /opt/postgres:/var/lib/postgresql/data
+    environment:
+     POSTGRES_USER: semaphore
+     POSTGRES_PASSWORD: "{{ semaphore_db_pass }}"
+     POSTGRES_DB: semaphore
+
+
+  semaphore:
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    image: semaphoreui/semaphore:latest
+    hostname: semaphore
+    environment:
+      SEMAPHORE_DB_USER: semaphore
+      SEMAPHORE_DB_PASS: "{{ semaphore_db_pass }}"
+      SEMAPHORE_DB_HOST: postgres
+      SEMAPHORE_DB_PORT: 5432
+      SEMAPHORE_DB: semaphore
+      SEMAPHORE_PLAYBOOK_PATH: /tmp/semaphore/
+      SEMAPHORE_ADMIN_PASSWORD: changeme
+      SEMAPHORE_ADMIN_NAME: admin
+      SEMAPHORE_ADMIN_EMAIL: admin@localhost
+      SEMAPHORE_ADMIN: admin
+      SEMAPHORE_ACCESS_KEY_ENCRYPTION: 
+    depends_on:
+      - postgres # for postgres, change to: postgres
+    volumes:
+      - "/opt/semaphore:" # to use postgres, switch to: semaphore-postgres
