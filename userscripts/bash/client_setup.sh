@@ -93,14 +93,6 @@ systemctl enable ssh && systemctl start ssh
 
 echo -e "\n\n"
 echo "################################################################################"
-echo -e "cloning Cookbooks repo and Docker Testing repo"
-echo "################################################################################"
-echo -e "\n\n"
-git clone https://github.com/spicyFajitas/cookbooks.git
-git clone https://github.com/spicyFajitas/KinD-testing.git
-
-echo -e "\n\n"
-echo "################################################################################"
 echo -e "running apt upgrade -y"
 echo "################################################################################"
 echo -e "\n\n"
