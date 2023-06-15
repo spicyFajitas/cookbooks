@@ -17,10 +17,9 @@
     mode: "0644"
   loop:
     - docker-compose.yml
-  notify: Restart container(s)
 
-# - name: Ensure services are running
-#   community.docker.docker_compose:
-#     project_src: "{{ base_dir }}"
-#     pull: True
-#   notify: Restart container(s)
+- name: Ensure services are running
+  community.docker.docker_compose:
+    project_src: "{{ base_dir }}"
+    pull: True
+  notify: Restart container(s)
