@@ -22,3 +22,7 @@
 10.100.10.3
 
 [media]
+10.100.10.18
+
+[semaphore]
+10.100.10.9 # this is my generic docker host
