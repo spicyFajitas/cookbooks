@@ -7,3 +7,5 @@
 
 # ignore vault files that contain vault passwords
 vault*.txt
+
+.dstore
