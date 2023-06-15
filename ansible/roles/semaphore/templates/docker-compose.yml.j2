@@ -19,7 +19,7 @@ services:
   semaphore:
     restart: unless-stopped
     ports:
-      - 3000:3000
+      - 443:3000
     image: semaphoreui/semaphore:latest
     hostname: semaphore
     environment:
@@ -33,7 +33,7 @@ services:
       SEMAPHORE_ADMIN_NAME: admin
       SEMAPHORE_ADMIN_EMAIL: admin@localhost
       SEMAPHORE_ADMIN: admin
-      SEMAPHORE_ACCESS_KEY_ENCRYPTION: 
+      SEMAPHORE_ACCESS_KEY_ENCRYPTION: "{{ semaphore_access_key_enc }}"
     depends_on:
       - postgres # for postgres, change to: postgres
     volumes:
