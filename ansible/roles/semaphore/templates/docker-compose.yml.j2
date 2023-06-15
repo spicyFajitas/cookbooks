@@ -19,7 +19,7 @@ services:
   semaphore:
     restart: unless-stopped
     ports:
-      - 443:3000
+      - 3000:3000
     image: semaphoreui/semaphore:latest
     hostname: semaphore
     environment:
@@ -30,7 +30,7 @@ services:
       SEMAPHORE_DB_PORT: 5432
       SEMAPHORE_DB: semaphore
       SEMAPHORE_PLAYBOOK_PATH: /tmp/semaphore/
-      SEMAPHORE_ADMIN_PASSWORD: changeme
+      SEMAPHORE_ADMIN_PASSWORD: "{{ admin_password }}"
       SEMAPHORE_ADMIN_NAME: adam
       SEMAPHORE_ADMIN_EMAIL: admin@localhost
       SEMAPHORE_ADMIN: adam
