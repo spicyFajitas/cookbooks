@@ -24,6 +24,7 @@ services:
     hostname: semaphore
     environment:
       SEMAPHORE_DB_USER: semaphore
+      SEMAPHORE_DB_DIALECT: postgres
       SEMAPHORE_DB_PASS: "{{ semaphore_db_pass }}"
       SEMAPHORE_DB_HOST: postgres
       SEMAPHORE_DB_PORT: 5432
@@ -37,4 +38,6 @@ services:
     depends_on:
       - postgres # for postgres, change to: postgres
     volumes:
-      - "/opt/semaphore:" # to use postgres, switch to: semaphore-postgres
+      - /opt/semaphore:/var/lib/semaphore
+volumes:
+  semaphore-postgres:
