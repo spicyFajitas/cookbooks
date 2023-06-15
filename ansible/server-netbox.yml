@@ -1,3 +1,4 @@
+---
 - name: Install netbox in docker
   hosts: netbox
   become: true

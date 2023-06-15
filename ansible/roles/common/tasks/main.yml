@@ -1,0 +1,37 @@
+---
+- name: Add SSH keys to authorized keys file
+  ansible.builtin.lineinfile:
+    path: ~/.ssh/authorized_keys
+    line: "{{ item.key }}"
+    create: yes
+  loop: "{{ ssh_keys }}"
+
+- name: Run apt update
+  apt:
+    update_cache: yes
+
+- name: Install required packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ package_list }}"
+
+- name: Install Ansible
+  pip:
+    name: ansible
+    executable: pip3
+
+- name: Enable and start SSH service
+  service:
+    name: ssh
+    state: started
+    enabled: true
+
+- name: Clone Cookbooks repo
+  git:
+    repo: https://github.com/spicyFajitas/cookbooks.git
+    dest: "/root/cookbooks"
+
+- name: Run apt upgrade
+  apt:
+    upgrade: yes
