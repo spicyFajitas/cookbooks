@@ -2,6 +2,7 @@
 
 [netbox]
 10.100.10.26
+[netbox:vars]
 ansible_user=root
 
 # [k3s]
