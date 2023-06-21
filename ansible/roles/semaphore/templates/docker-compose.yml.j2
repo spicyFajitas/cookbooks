@@ -39,6 +39,6 @@ services:
       - postgres # for postgres, change to: postgres
     volumes:
       - /opt/semaphore:/var/lib/semaphore
-			- /root/.ssh:/home/semaphore/.ssh
+      - /root/.ssh:/home/semaphore/.ssh
 volumes:
   semaphore-postgres:
