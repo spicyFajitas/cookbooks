@@ -1,5 +1,5 @@
 ---
-- name: Install uptime kuma in the cloud
+- name: Install semaphore
   hosts: semaphore
   become: true
   become_method: sudo
