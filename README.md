@@ -35,6 +35,7 @@ This repo contains all of my homelab cookbooks, from ansible roles and docker-co
 - [ ] Jenkins
 - [ ] Write K8s role for automated installation on ubuntu hosts
   - [ ] Add netdata role dependency to K8s VMs and ansible role
+- [ ] Prometheus / ELK stack / monitoring solution
 - [ ] Hashicorp vault
 - [ ] Hashicorp packer
 - [ ] Terraform to automatically provision infrastructure
