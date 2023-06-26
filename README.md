@@ -20,6 +20,25 @@ This repo contains all of my homelab cookbooks, from ansible roles and docker-co
 - [ ] create documentation for twingate role
 - [ ] convert docker compose files into ansible deployable in docker_compose folder
 
+## Project Ideas
+
+- [ ] Wireguard-based VPN ansible role (tailscale/twingate)
+- [ ] Write common role in ansible
+- [ ] Ansible Semaphore
+- [ ] Media automation
+- [ ] Refactor code (mainly readme's)
+- [ ] Install pre-commit
+  - [ ] Create github pipeline for linting
+  - [ ] Create github pipeline for tests/CI deployment
+- [ ] Gitea Actions
+- [ ] FreshRSS / Miniflux
+- [ ] Jenkins
+- [ ] Write K8s role for automated installation on ubuntu hosts
+  - [ ] Add netdata role dependency to K8s VMs and ansible role
+- [ ] Hashicorp vault
+- [ ] Hashicorp packer
+- [ ] Look into dev containers
+
 ## Credits
 
 ## Support
