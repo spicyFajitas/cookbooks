@@ -37,6 +37,7 @@ This repo contains all of my homelab cookbooks, from ansible roles and docker-co
   - [ ] Add netdata role dependency to K8s VMs and ansible role
 - [ ] Hashicorp vault
 - [ ] Hashicorp packer
+- [ ] Terraform to automatically provision infrastructure
 - [ ] Look into dev containers
 
 ## Credits
