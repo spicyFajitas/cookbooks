@@ -22,7 +22,7 @@
     - postgres.env
     - redis-cache.env
     - redis.env
-  notify: Restart netbox
+  notify: Restart container(s)
 
 - name: Update configuration files
   ansible.builtin.template:
