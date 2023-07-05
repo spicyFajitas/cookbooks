@@ -1,6 +1,7 @@
 {
     "ansible.python.interpreterPath": "/bin/python3",
     "conventionalCommits.scopes": [
-        "netbox"
+        "netbox",
+        "bash"
     ]
 }
