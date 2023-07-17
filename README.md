@@ -12,34 +12,9 @@
 
 This repo contains all of my homelab cookbooks, from ansible roles and docker-compose files to (shitty) kubernetes manifests and personal userscripts.
 
-## To Do
+## To Do / Project Ideas
 
-- [x] mkdir task for /opt kuma
-- [ ] create new role `baseline` to ensure baseline packages are installed on servers bc not having them is annoying
-- [ ] double check documentation for netbox and uptime kuma roles
-- [ ] create documentation for twingate role
-- [ ] convert docker compose files into ansible deployable in docker_compose folder
-
-## Project Ideas
-
-- [ ] Wireguard-based VPN ansible role (tailscale/twingate)
-- [ ] Write common role in ansible
-- [ ] Ansible Semaphore
-- [ ] Media automation
-- [ ] Refactor code (mainly readme's)
-- [ ] Install pre-commit
-  - [ ] Create github pipeline for linting
-  - [ ] Create github pipeline for tests/CI deployment
-- [ ] Gitea Actions
-- [ ] FreshRSS / Miniflux
-- [ ] Jenkins
-- [ ] Write K8s role for automated installation on ubuntu hosts
-  - [ ] Add netdata role dependency to K8s VMs and ansible role
-- [ ] Prometheus / ELK stack / monitoring solution
-- [ ] Hashicorp vault
-- [ ] Hashicorp packer
-- [ ] Terraform to automatically provision infrastructure
-- [ ] Look into dev containers
+To Do and Project Ideas have been moved to personal Notion Kanban board
 
 ## Credits
 
