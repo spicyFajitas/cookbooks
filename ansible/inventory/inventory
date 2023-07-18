@@ -37,3 +37,8 @@ ansible_user=root
 10.100.10.17 # this is my generic docker host
 [semaphore:vars]
 ansible_user=root
+
+[traefik]
+10.100.10.20
+[traefik:vars]
+ansible_user=root
