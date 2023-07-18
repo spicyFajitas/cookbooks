@@ -9,3 +9,4 @@
 vault*.txt
 
 .dstore
+.DS_Store
