@@ -10,3 +10,8 @@ vault*.txt
 
 .dstore
 .DS_Store
+
+# packer files
+credentials.*
+credentials.pkr.hcl
+packer/credentials.pkr.hcl
