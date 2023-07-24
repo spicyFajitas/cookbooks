@@ -12,4 +12,4 @@ vault*.txt
 .DS_Store
 
 # packer files
-#credentials.*
+credentials.*
