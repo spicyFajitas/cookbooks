@@ -13,3 +13,5 @@ vault*.txt
 
 # packer files
 credentials.*
+credentials.pkr.hcl
+packer/credentials.pkr.hcl
