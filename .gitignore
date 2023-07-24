@@ -10,3 +10,6 @@ vault*.txt
 
 .dstore
 .DS_Store
+
+# packer files
+#credentials.*
