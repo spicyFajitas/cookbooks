@@ -11,5 +11,23 @@ vault*.txt
 .dstore
 .DS_Store
 
+######################
+#### packer files ####
+######################
+# blanket plugin
+*packer-plugin*
+# blanket credentials git ignore
+*credential*
 # packer credential files
 credentials.pkr.hcl
+
+######################
+### terraform files ##
+######################
+# terraform credential files
+credentials.tfvars
+# terraform provider files
+*terraform-provider*
+*terraform.lock.hcl*
+*tfstate*
+.terraform*
