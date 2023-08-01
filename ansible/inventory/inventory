@@ -1,13 +1,25 @@
 [all]
 
-[netbox]
+[separate_hosts]
 10.100.10.20
-[netbox:vars]
+10.100.10.17
+10.100.10.3
+[separate_hosts:vars]
+ansible_user=root
+
+[semaphore]
+10.100.10.17
+[semaphore:vars]
 ansible_user=root
 
 [cloud_kuma]
 68.183.137.200
 [cloud_kuma:vars]
+ansible_user=root
+
+[netbox]
+10.100.10.20
+[netbox:vars]
 ansible_user=root
 
 [local_kuma]
@@ -23,9 +35,4 @@ ansible_user=root
 [media]
 10.100.10.20
 [media:vars]
-ansible_user=root
-
-[semaphore]
-10.100.10.17 # this is my generic docker host
-[semaphore:vars]
 ansible_user=root
