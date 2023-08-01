@@ -29,6 +29,7 @@
     - docker-compose.yml
     - extra.py
   notify: Restart container(s)
+  diff: True
 
 - name: Remove outdated files
   ansible.builtin.file:

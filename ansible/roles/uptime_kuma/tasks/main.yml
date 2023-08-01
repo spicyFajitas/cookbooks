@@ -13,6 +13,7 @@
     mode: "0644"
   loop:
     - cloud-docker-compose.yml
+  diff: True
   when: inventory_hostname == "68.183.137.200"
   notify: Restart container(s)
 
@@ -23,6 +24,7 @@
     mode: "0644"
   loop:
     - local-docker-compose.yml
+  diff: True
   when: inventory_hostname == "10.100.10.13"
   notify: Restart container(s)
 

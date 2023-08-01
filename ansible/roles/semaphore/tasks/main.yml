@@ -13,6 +13,7 @@
     mode: "0644"
   loop:
     - docker-compose.yml
+  diff: True
 
 - name: Ensure services are running
   community.docker.docker_compose:
