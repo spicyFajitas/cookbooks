@@ -4,6 +4,6 @@
   become: true
   become_method: sudo
   roles:
-    - twingate
+    - vpn
   vars_files:
     - roles/twingate/vaults/production.yml
