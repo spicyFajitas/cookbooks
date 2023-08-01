@@ -16,11 +16,21 @@
     state: present
   loop: "{{ package_list }}"
 
+- name: Install Ansible
+  pip:
+    name: ansible
+    executable: pip3
+
 - name: Enable and start SSH service
   service:
     name: ssh
     state: started
     enabled: true
+
+- name: Clone Cookbooks repo
+  git:
+    repo: https://github.com/spicyFajitas/cookbooks.git
+    dest: "/root/cookbooks"
 
 - name: Run apt upgrade
   apt:
