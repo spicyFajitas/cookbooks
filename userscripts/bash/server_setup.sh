@@ -57,7 +57,7 @@ echo "##########################################################################
 echo -e "adding Adam's Laptop-G14 SSH key to this machine"
 echo "################################################################################"
 echo -e "\n\n"
-echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICNm9sPo3Q501S4rK/H8lmx2CLGtv9/ZoOReAnvodUmB adam@laptop-g14" >> ~/.ssh/authorized_keys
+echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEVEQCsEowts+r7rnpMWRoo+Zu+dcs/TbBYJDEPGOZho adam@laptop-g14" >> ~/.ssh/authorized_keys
 
 echo "################################################################################"
 echo -e "adding Adam's iPhone SSH key to this machine"
