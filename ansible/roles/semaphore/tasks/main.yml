@@ -1,9 +1,5 @@
 ---
 
-- name: Install docker-compose
-  ansible.builtin.pip:
-    name: docker-compose
-
 - name: Create a semaphore directory if it does not exist
   ansible.builtin.file:
     path: "{{ base_dir }}"

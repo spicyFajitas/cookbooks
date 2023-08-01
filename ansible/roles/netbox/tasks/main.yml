@@ -1,9 +1,5 @@
 ---
 
-- name: Install docker-compose
-  ansible.builtin.pip:
-    name: docker-compose
-
 - name: Update netbox directories
   ansible.builtin.file:
     path: "{{ base_dir }}/{{ item }}"
