@@ -1,17 +1,9 @@
 [all]
 
 [netbox]
-10.100.10.26
+10.100.10.20
 [netbox:vars]
 ansible_user=root
-
-# [k3s]
-# 192.168.1.43
-# 192.168.1.233
-# 192.168.1.76
-
-# [single]
-# 192.168.1.144
 
 [cloud_kuma]
 68.183.137.200
@@ -19,26 +11,21 @@ ansible_user=root
 ansible_user=root
 
 [local_kuma]
-10.100.10.13
+10.100.10.20
 [local_kuma:vars]
 ansible_user=root
 
 [twingate]
-10.100.10.3
+10.100.10.20
 [twingate:vars]
 ansible_user=root
 
 [media]
-10.100.10.18
+10.100.10.20
 [media:vars]
 ansible_user=root
 
 [semaphore]
 10.100.10.17 # this is my generic docker host
 [semaphore:vars]
-ansible_user=root
-
-[traefik]
-10.100.10.20
-[traefik:vars]
 ansible_user=root
