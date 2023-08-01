@@ -54,6 +54,12 @@ echo -e "\n\n"
 echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICC4J5SgvvxMCSR0aTPldYVbI0FjyZC8mwEbzysaIV07 adam@adam-ThinkPad-P53" >> ~/.ssh/authorized_keys
 
 echo "################################################################################"
+echo -e "adding Adam's Laptop-G14 SSH key to this machine"
+echo "################################################################################"
+echo -e "\n\n"
+echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICNm9sPo3Q501S4rK/H8lmx2CLGtv9/ZoOReAnvodUmB adam@laptop-g14" >> ~/.ssh/authorized_keys
+
+echo "################################################################################"
 echo -e "adding Adam's iPhone SSH key to this machine"
 echo "################################################################################"
 echo -e "\n\n"
@@ -65,48 +71,4 @@ echo "##########################################################################
 echo -e "\n\n"
 echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBaDNqrKzVKnHd0P9GCLnQKcRDBQv1HsUaB+dxhnZ7rg root@semaphore" >> ~/.ssh/authorized_keys
 
-sleep 5
-echo "################################################################################"
-echo -e "running apt update -y"
-echo "################################################################################"
-echo -e "\n\n"
-sleep 2
-sudo apt update
-
-echo -e "\n\n"
-echo "################################################################################"
-echo -e "apt installing curl, docker-compose, git, neofetch, net-tools, python3-pip, and vim"
-echo "################################################################################"
-echo -e "\n\n"
-sleep 5
-sudo apt --assume-yes install curl docker-compose git neofetch net-tools python3-pip vim
-
-echo -e "\n\n"
-echo "################################################################################"
-echo -e "pip install ansible"
-echo "################################################################################"
-echo -e "\n\n"
-sleep 5
-pip3 install ansible
-
-echo -e "\n\n"
-echo "################################################################################"
-echo -e "enabling SSH"
-echo "################################################################################"
-echo -e "\n\n"
-
-systemctl enable ssh && systemctl start ssh
-
-echo -e "\n\n"
-echo "################################################################################"
-echo -e "cloning Cookbooks repo"
-echo "################################################################################"
-echo -e "\n\n"
-git clone https://github.com/spicyFajitas/cookbooks.git
-
-echo -e "\n\n"
-echo "################################################################################"
-echo -e "running apt upgrade -y"
-echo "################################################################################"
-echo -e "\n\n"
-sudo apt upgrade -y
+echo -e "\n\nDone!"
