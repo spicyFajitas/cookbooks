@@ -4,7 +4,7 @@
 ## Date:   2023-07-05
 ## Descr:  converts database engine from whatever engine to InnoDB
 ###############################################################################
-
+set -exuo pipefail
 # MySQL credentials
 MYSQL_USER="your_username"
 MYSQL_PASSWORD="your_password"
