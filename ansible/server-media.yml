@@ -1,6 +1,6 @@
 ---
 - name: Run media automation playbook
-  hosts: docker-host
+  hosts: docker_host
   become: true
   become_method: sudo
   roles:
