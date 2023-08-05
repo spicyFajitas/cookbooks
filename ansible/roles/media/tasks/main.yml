@@ -24,11 +24,11 @@
 
 - name: Update configuration files
   ansible.builtin.template:
-    src: "{{ item }}"
+    src: "{{ item }}.j2"
     dest: "{{ base_dir }}/{{ item }}"
     mode: "0644"
   loop:
-    - docker-compose.yml.j2
+    - docker-compose.yml
   diff: True
   notify: Restart container(s)
 
