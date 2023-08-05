@@ -74,7 +74,7 @@ services:
       - /opt/media/gluetun:/gluetun
     ports:
       - "9696:9696"
-      #- "8080:8080"
+      - "8080:8080"
       - "6881:6881"
       - "6881:6881/udp"
     environment:
@@ -99,8 +99,6 @@ services:
       - /opt/media/sabnzbd:/config
       - /opt/media/downloads:/downloads #optional
       - /opt/media/incomplete:/incomplete-downloads #optional
-    ports:
-      - 8080:8080
     restart: unless-stopped
 
   {# qbittorrent:
