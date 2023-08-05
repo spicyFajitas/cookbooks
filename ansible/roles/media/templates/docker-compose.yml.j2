@@ -56,6 +56,14 @@ services:
     volumes:
       - /opt/media/prowlarr:/config
     restart: unless-stopped
+  
+  jellyseerr-cloudflare-tunnel:
+    container_name: jellyseerr-cloudflare-tunnel
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run
+    restart: unless-stopped
+    environment:
+      TUNNEL_TOKEN: "{{ cloudflare_tunnel_token }}"
 
   gluetun:
     image: qmcgaw/gluetun
