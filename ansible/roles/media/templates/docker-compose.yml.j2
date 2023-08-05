@@ -5,7 +5,7 @@ services:
     container_name: sonarr
     environment:
       - PUID=1002
-      - PGID=13001
+      - PGID=1002
       - UMASK=002
       - TZ=America/Chicago
     volumes:
@@ -21,7 +21,7 @@ services:
     container_name: radarr
     environment:
       - PUID=1002
-      - PGID=13000
+      - PGID=1002
       - UMASK=002
       - TZ=America/Chicago
     volumes:
@@ -50,7 +50,7 @@ services:
     network_mode: "service:gluetun"
     environment:
       - PUID=1002
-      - PGID=13000
+      - PGID=1002
       - UMASK=002
       - TZ=America/Chicago
     volumes:
@@ -93,7 +93,7 @@ services:
     network_mode: "service:gluetun"
     environment:
       - PUID=1002
-      - PGID=13000
+      - PGID=1002
       - TZ=Etc/UTC
     volumes:
       - /opt/media/sabnzbd:/config
@@ -107,7 +107,7 @@ services:
     network_mode: "service:gluetun"
     environment:
       - PUID=1002
-      - PGID=13000
+      - PGID=1002
       - UMASK=002
       - TZ=America/Chicago
       - WEBUI_PORT=8080

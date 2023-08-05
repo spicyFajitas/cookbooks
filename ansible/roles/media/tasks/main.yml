@@ -11,6 +11,19 @@
     dest: "/root/.smb"
     mode: "0644"
 
+- name: Create media group
+  ansible.builtin.group:
+    name: media
+    gid: 1002
+    state: present
+
+- name: Create media user
+  ansible.builtin.user:
+    name: media
+    comment: media automation user
+    uid: 1002
+    group: media
+
 - name: Template fstab entries
   ansible.builtin.lineinfile:
     path: "/etc/fstab"
