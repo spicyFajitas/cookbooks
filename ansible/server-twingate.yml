@@ -1,5 +1,5 @@
 ---
-- name: Install twingate in docker
+- name: Run twingate playbook
   hosts: vpn
   become: true
   become_method: sudo

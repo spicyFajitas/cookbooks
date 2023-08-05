@@ -1,5 +1,5 @@
 ---
-- name: Install traefik
+- name: Run traefik playbook
   hosts: traefik
   become: true
   become_method: sudo

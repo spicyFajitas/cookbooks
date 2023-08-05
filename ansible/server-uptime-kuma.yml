@@ -1,5 +1,5 @@
 ---
-- name: Install uptime kuma in the cloud
+- name: Run uptime kuma playbook
   hosts: cloud_kuma, docker-host
   become: true
   become_method: sudo

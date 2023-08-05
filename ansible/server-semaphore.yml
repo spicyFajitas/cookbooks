@@ -1,5 +1,5 @@
 ---
-- name: Install semaphore
+- name: Run semaphore playbook
   hosts: semaphore
   become: true
   become_method: sudo

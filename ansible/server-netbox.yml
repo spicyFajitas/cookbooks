@@ -1,5 +1,5 @@
 ---
-- name: Install netbox in docker
+- name: Run netbox playbook
   hosts: docker-host
   become: true
   become_method: sudo

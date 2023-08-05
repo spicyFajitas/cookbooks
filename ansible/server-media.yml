@@ -1,5 +1,5 @@
 ---
-- name: Install twingate in docker
+- name: Run media automation playbook
   hosts: docker-host
   become: true
   become_method: sudo
