@@ -27,22 +27,12 @@ ansible_user=root
 [cloud_kuma:vars]
 ansible_user=root
 
-[netbox]
+[docker-host]
 10.100.10.20
-[netbox:vars]
-ansible_user=root
-
-[local_kuma]
-10.100.10.20
-[local_kuma:vars]
+[docekr-host:vars]
 ansible_user=root
 
 #[twingate]
 #10.100.10.20
 #[twingate:vars]
 #ansible_user=root
-
-[media]
-10.100.10.20
-[media:vars]
-ansible_user=root
