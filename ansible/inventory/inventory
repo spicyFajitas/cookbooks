@@ -1,10 +1,10 @@
 [all]
 
-[separate_hosts]
+[separate-hosts]
 10.100.10.20
 10.100.10.17
 10.100.10.3
-[separate_hosts:vars]
+[separate-hosts:vars]
 ansible_user=root
 
 [vpn]
@@ -29,7 +29,7 @@ ansible_user=root
 
 [docker-host]
 10.100.10.20
-[docekr-host:vars]
+[docker-host:vars]
 ansible_user=root
 
 #[twingate]
