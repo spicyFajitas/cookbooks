@@ -25,7 +25,7 @@ services:
       - UMASK=002
       - TZ=America/Chicago
     volumes:
-      - /opt/config/radarr:/config
+      - /opt/media/radarr:/config
       - /mnt/media/movies1:/media/movies
       - /mnt/media/downloads:/media/downloads
     ports:
@@ -41,7 +41,7 @@ services:
     ports:
       - 5055:5055
     volumes:
-      - /opt/config/jellyseer:/app/config
+      - /opt/media/jellyseer:/app/config
     restart: unless-stopped
 
   prowlarr:
@@ -63,7 +63,7 @@ services:
     cap_add:
       - NET_ADMIN
     volumes:
-      - /opt/config/gluetun:/gluetun
+      - /opt/media/gluetun:/gluetun
     ports:
       - "9696:9696"
       - "8080:8080"
@@ -90,7 +90,7 @@ services:
       - TZ=America/Chicago
       - WEBUI_PORT=8080
     volumes:
-      - /opt/config/qbittorrent:/config
+      - /opt/media/qbittorrent:/config
       - /mnt/media/downloads:/data/torrents
     depends_on:
       - gluetun
