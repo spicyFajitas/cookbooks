@@ -79,7 +79,22 @@ services:
       - /dev/net/tun:/dev/net/tun
     restart: unless-stopped
 
-  qbittorrent:
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:latest
+    container_name: sabnzbd
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - /opt/media/sabnzbd:/config
+      - /opt/media/downloads:/downloads #optional
+      - /opt/media/incomplete:/incomplete-downloads #optional
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+
+  {# qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     network_mode: "service:gluetun"
@@ -94,5 +109,5 @@ services:
       - /mnt/media/downloads:/data/torrents
     depends_on:
       - gluetun
-    restart: unless-stopped
+    restart: unless-stopped #}
 
