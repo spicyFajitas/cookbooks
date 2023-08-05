@@ -91,8 +91,8 @@ services:
     image: lscr.io/linuxserver/sabnzbd:latest
     container_name: sabnzbd
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=1002
+      - PGID=13000
       - TZ=Etc/UTC
     volumes:
       - /opt/media/sabnzbd:/config
