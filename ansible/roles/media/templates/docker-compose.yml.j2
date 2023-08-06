@@ -6,7 +6,7 @@ services:
     environment:
       - PUID=1002
       - PGID=1002
-      - UMASK=002
+      - UMASK=0022
       - TZ=America/Chicago
     volumes:
       - /opt/media/sonar:/config
@@ -22,7 +22,7 @@ services:
     environment:
       - PUID=1002
       - PGID=1002
-      - UMASK=002
+      - UMASK=0022
       - TZ=America/Chicago
     volumes:
       - /opt/media/radarr:/config
@@ -51,7 +51,7 @@ services:
     environment:
       - PUID=1002
       - PGID=1002
-      - UMASK=002
+      - UMASK=0022
       - TZ=America/Chicago
     volumes:
       - /opt/media/prowlarr:/config
@@ -108,7 +108,7 @@ services:
     environment:
       - PUID=1002
       - PGID=1002
-      - UMASK=002
+      - UMASK=0022
       - TZ=America/Chicago
       - WEBUI_PORT=8080
     volumes:
