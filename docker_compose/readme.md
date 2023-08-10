@@ -1,6 +1,6 @@
 # Docker Containers
 
-## Overview
+## Commands
 
 - bash into the container `docker exec -it <container name> /bin/bash`
 

@@ -2,11 +2,11 @@
 
 ## Table of contents
 
-- Overview
-- To Do
-- Credits
-- Support
-- Current Maintainers
+- [Overview](#overview)
+- [To Do](#to-do--project-ideas)
+- [Credits](#credits)
+- [Support](#support)
+- [Current Maintainers](#current-maintainers)
 
 ## Overview
 
