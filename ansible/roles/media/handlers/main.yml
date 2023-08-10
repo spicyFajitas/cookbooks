@@ -1,6 +1,6 @@
 ---
 
-- name: Restart container(s)
-  community.docker.docker_compose:
-    project_src: "{{ base_dir }}"
-    restarted: true
+# - name: Restart container(s)
+#   community.docker.docker_compose:
+#     project_src: "{{ base_dir }}"
+#     restarted: true

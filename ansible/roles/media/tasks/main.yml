@@ -43,10 +43,10 @@
   loop:
     - docker-compose.yml
   diff: True
-  notify: Restart container(s)
+# notify: Restart container(s)
 
-- name: Ensure services are running
-  community.docker.docker_compose:
-    project_src: "{{ base_dir }}"
-    pull: True
-  notify: Restart container(s)
+# - name: Ensure services are running
+#   community.docker.docker_compose:
+#     project_src: "{{ base_dir }}"
+#     pull: True
+#   notify: Restart container(s)
