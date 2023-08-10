@@ -25,17 +25,11 @@ Easter egg: message me on Discord if you found this (I'll know you read my readm
 
 No current known issues. Those are yet to be discovered :upside_down_face:
 
-## Software
-
-## Requirements
-
-Ansible installed on an ansible-controller. Git installed on client.
-
 ## Installation
 
 ### Prep Work
 
-As everyone's environments are different, I am not sure how you will be installing Netbox. However, you will need a Linux server - I've written this playbook using an Ubuntu LXD container, but you can use other flavors. You will need SSH access to it - your ansible playbook will be connecting via SSH.
+As everyone's environments are different, I am not sure how you will be installing Netbox. However, you will need a Linux server - I've written this playbook using a docker container on Ubuntu, but you can use other installation methods. You will need SSH access to it - your ansible playbook will be connecting via SSH.
 
 You will also need to look through the playbook and change any variables according to your needs (looking at the vault files and the inventory files in particular).
 
@@ -82,7 +76,6 @@ More information, including manual installation steps, can be found following th
 
 ## To Do
 
-- Flesh out this `readme.md` file
 - create a role that installs Netbox "bare metal" (essentially just not using a docker container and installing following the docs as close as possible)
 
 ## Resources
@@ -91,8 +84,6 @@ More information, including manual installation steps, can be found following th
 - [Netbox Docker Container Repository](https://github.com/netbox-community/netbox-docker)
 - [Netbox Repository (normal install)](https://github.com/netbox-community/netbox)
 - [Ansible Modules Documentation](https://docs.ansible.com/ansible/2.9/modules/list_of_all_modules.html)
-
-## Disaster Recovery
 
 ## Credits
 
