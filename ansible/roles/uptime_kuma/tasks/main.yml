@@ -25,7 +25,7 @@
   loop:
     - local-docker-compose.yml
   diff: True
-  when: inventory_hostname == "10.100.10.13"
+  when: inventory_hostname == "10.100.10.20"
   notify: Restart container(s)
 
 - name: Ensure services are running
