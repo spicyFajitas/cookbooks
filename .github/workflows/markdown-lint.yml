@@ -12,4 +12,4 @@ jobs:
           - name: Lint
             uses: ibiqlik/action-yamllint@v3
             with:
-                config_file: cookbooks/.github/.yamllint
+                config_file: .yamllint
