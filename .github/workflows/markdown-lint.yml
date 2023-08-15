@@ -1,0 +1,21 @@
+name: Markdown Lint
+
+on:
+    push:
+      branches:
+        - main # Modify if you use a different main branch name, such as the legacy "master" name.
+    pull_request:
+      branches:
+        - main # Modify if you use a different main branch name, such as the legacy "master" name.
+
+jobs:
+    linting:
+        name: "Markdown Linting"
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v2
+            name: Check out code
+          - name: Lint Code
+            uses: docker://avtodev/markdown-lint:v1
+            with:
+                args: "**/*.md"
