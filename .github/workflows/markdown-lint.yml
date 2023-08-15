@@ -1,16 +1,15 @@
 ---
 name: YAML Lint
-on:
-    push:
+on: [push]
 
 jobs:
     linting:
         name: "Lint"
         runs-on: ubuntu-latest
         steps:
-          - uses: actions/checkout@v2
+          - uses: actions/checkout@v3
             name: Check out code
-          - name: Lint Code
-            uses: docker://avtodev/markdown-lint:v1
+          - name: Lint
+            uses: ibiqlik/action-yamllint@v3
             with:
-                args: "**/*.md"
+                config_file: ../.yamllint
