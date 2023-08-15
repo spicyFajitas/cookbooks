@@ -2,8 +2,8 @@ name: Markdown Lint
 
 on:
     push:
-      branches:
-        - main # Modify if you use a different main branch name, such as the legacy "master" name.
+      paths:
+        - "**.md" # Modify if you use a different main branch name, such as the legacy "master" name.
     pull_request:
       branches:
         - main # Modify if you use a different main branch name, such as the legacy "master" name.
