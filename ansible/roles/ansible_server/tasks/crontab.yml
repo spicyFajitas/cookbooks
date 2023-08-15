@@ -1,0 +1,15 @@
+---
+
+- name: "Crontab: git pull"
+  ansible.builtin.cron:
+    name: "Git pull cookbooks"
+    minute: "55"
+    hour: "2"
+    job: "cd /root/cookbooks; git pull >> /var/log/ansible-runs/git_pull.log 2>&1"
+
+- name: "Crontab: run common playbook every night on semaphore"
+  ansible.builtin.cron:
+    name: "common-run on semaphore"
+    minute: "0"
+    hour: "3"
+    job: "cd /root/cookbooks/ansible; ansible-playbook common.yml -i inventory/inventory --vault-password-file vault-pass.txt --limit semaphore >> /var/log/ansible-runs/server-ansible.log 2>&1"

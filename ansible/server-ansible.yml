@@ -1,0 +1,7 @@
+---
+- name: Run ansible playbook
+  hosts: ansible
+  become: true
+  become_method: sudo
+  roles:
+    - ansible_server
