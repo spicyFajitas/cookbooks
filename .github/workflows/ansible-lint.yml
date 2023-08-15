@@ -13,12 +13,4 @@ jobs:
 
     - name: Lint Ansible Playbook
       # replace "master" with any valid ref
-      uses: ansible/ansible-lint-action
-      with:
-        targets: ../../ansible/
-        # [optional]
-        # Arguments to be passed to the ansible-lint
-
-        Options:
-          -c ../.ansible-lint
-        args: "-q"
+      uses: ansible/ansible-lint-action@main
