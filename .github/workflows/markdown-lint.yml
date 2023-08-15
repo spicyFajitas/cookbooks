@@ -13,4 +13,4 @@ jobs:
             uses: ibiqlik/action-yamllint@v3
             with:
                 config_file: .yamllint
-                file_or_dir: .yml .yaml .md
+                file_or_dir: '**.yml **.yaml **.md'
