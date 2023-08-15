@@ -17,7 +17,7 @@ services:
       - PROXIED=true
       - UPDATE_CRON=@every 120m
       - UPDATE_ON_START=true
-      
+
   cloudflare-ddns-subdomains:
     image: favonia/cloudflare-ddns:latest
     network_mode: host

@@ -2,7 +2,7 @@
 # OLD uptime kuma container
 
 version: "3.3"
-  
+
 services:
   uptime-kuma:
     image: louislam/uptime-kuma:latest
