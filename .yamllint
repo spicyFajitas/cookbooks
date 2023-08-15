@@ -7,7 +7,6 @@ yaml-files:
     - '*.md'
 
 rules:
-  anchors: enable
   braces: enable
   brackets: enable
   colons: enable
