@@ -36,7 +36,7 @@ rules:
   empty-values:
     forbid-in-block-mappings: True
     forbid-in-flow-mappings: True
-    ignore: |
+  #  ignore: |
 
   hyphens:
     max-spaces-after: 1
