@@ -4,7 +4,6 @@ repos:
     hooks:
     -   id: check-case-conflict
     -   id: check-json
-        exclude: keybindings.json
     -   id: check-merge-conflict
     -   id: check-symlinks
     -   id: end-of-file-fixer
