@@ -9,10 +9,8 @@ jobs:
         steps:
           - uses: actions/checkout@v3
             name: Check out code
-          - name: Lint
-            uses: ibiqlik/action-yamllint@v3
+          - name: 🚀 Run yamllint
+            uses: frenck/action-yamllint@v1.4.1
             with:
-                format: parsable
-                config_file: .yamllint
-                file_or_dir: *.yaml
+                path: '*.yml'
 
