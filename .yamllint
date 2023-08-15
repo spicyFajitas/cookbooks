@@ -1,6 +1,6 @@
 ---
-ignore:
-
+# ignore: |
+  # type file types here
 rules:
   braces:
     min-spaces-inside: 1
