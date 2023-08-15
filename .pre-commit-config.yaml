@@ -2,11 +2,10 @@ repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
-    -   id: check-yaml
-        files: '\.(yaml|yml|md)$'
-
+    -   id: check-case-conflict
+    -   id: check-json
+    -   id: check-merge-conflict
+    -   id: check-symlinks
     -   id: end-of-file-fixer
-        files: '\.(yaml|yml|md)$'
-
+    -   id: mixed-line-ending
     -   id: trailing-whitespace
-        files: '\.(yaml|yml|md)$'

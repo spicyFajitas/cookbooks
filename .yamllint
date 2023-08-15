@@ -1,0 +1,65 @@
+---
+ignore:
+
+rules:
+  braces:
+    min-spaces-inside: 1
+    max-spaces-inside: 1
+    min-spaces-inside-empty: 0
+    max-spaces-inside-empty: 0
+  brackets:
+    forbid: False
+    min-spaces-inside: 1
+    max-spaces-inside: 1
+    min-spaces-inside-empty: 0
+    max-spaces-inside-empty: 0
+  colons:
+    max-spaces-before: 0
+    max-spaces-after: 1
+  commas:
+    max-spaces-before: 0
+    min-spaces-after: 1
+    max-spaces-after: 1
+  comments:
+    require-starting-space: True
+    ignore-shebangs: True
+    min-spaces-from-content: 1
+  comments-indentation: enable
+  document-end:
+    present: False
+  document-start:
+    present: True
+  empty-lines:
+    max: 1
+    max-start: 1
+    max-end: 0
+  empty-values:
+    forbid-in-block-mappings: True
+    forbid-in-flow-mappings: True
+    ignore: |
+
+  hyphens:
+    max-spaces-after: 1
+  indentation:
+    spaces: 2
+    indent-sequences: True
+    check-multi-line-strings: True
+  key-duplicates: enable
+  key-ordering: disable
+  line-length: disable
+  new-line-at-end-of-file: enable
+  new-lines:
+    type: unix
+  octal-values:
+    forbid-implicit-octal: True
+    forbid-explicit-octal: True
+  quoted-strings:
+    quote-type: any
+    # force quotes when yaml would require it
+    required: only-when-needed
+    # but allow quotes even if it isn't required
+    extra-allowed: [.*] # yamllint disable-line rule:brackets
+  trailing-spaces: enable
+  truthy:
+    allowed-values: [ 'true', 'false', 'True', 'False', 'yes', 'no' ]
+    check-keys: False
