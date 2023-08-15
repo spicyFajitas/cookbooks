@@ -27,13 +27,13 @@ variable "proxmox_api_token_secret" {
 
 # Resource Definiation for the VM Template
 source "proxmox-iso" "ubuntu-server-focal-docker" {
- 
+
     # Proxmox Connection Settings
     proxmox_url = "${var.proxmox_api_url}"
     username = "${var.proxmox_api_token_id}"
     token = "${var.proxmox_api_token_secret}"
     insecure_skip_tls_verify = true
-    
+
     # VM General Settings
     node = "pve" # add your proxmox node
     vm_id = "901"
@@ -65,16 +65,16 @@ source "proxmox-iso" "ubuntu-server-focal-docker" {
 
     # VM CPU Settings
     cores = "1"
-    
+
     # VM Memory Settings
-    memory = "2048" 
+    memory = "2048"
 
     # VM Network Settings
     network_adapters {
         model = "virtio"
         bridge = "vmbr0"
         firewall = "false"
-    } 
+    }
 
     # VM Cloud-Init Settings
     cloud_init = true
@@ -98,7 +98,7 @@ source "proxmox-iso" "ubuntu-server-focal-docker" {
     boot_wait = "15s"
 
     # PACKER Autoinstall Settings
-    http_directory = "http" 
+    http_directory = "http"
     # (Optional) Bind IP Address and Port
     # http_bind_address = "0.0.0.0"
     # http_port_min = 8802

@@ -11,4 +11,3 @@ jobs:
             name: Check out code
           - name: 🚀 Run yamllint
             uses: frenck/action-yamllint@v1.4.1
-
