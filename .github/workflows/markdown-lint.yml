@@ -1,11 +1,11 @@
-name: Markdown Lint
-
+---
+name: YAML Lint
 on:
     push:
 
 jobs:
     linting:
-        name: "Markdown Linting"
+        name: "Lint"
         runs-on: ubuntu-latest
         steps:
           - uses: actions/checkout@v2
