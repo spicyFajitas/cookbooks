@@ -1,1 +1,5 @@
 ---
+---
+dependencies:
+  - role: { services/software }
+  - role: { services/ssh }

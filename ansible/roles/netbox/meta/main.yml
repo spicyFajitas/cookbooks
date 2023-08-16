@@ -18,3 +18,7 @@ galaxy_info:
         - all
 
   galaxy_tags: []
+
+dependencies:
+  - role: { services/software }
+  - role: { services/ssh }
