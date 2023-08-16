@@ -1,5 +1,2 @@
 ---
 ---
-dependencies:
-  - services/software
-  - services/ssh
