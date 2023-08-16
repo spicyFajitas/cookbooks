@@ -1,9 +1,0 @@
----
-- name: Add SSH keys to authorized keys file
-  ansible.builtin.lineinfile:
-    path: ~/.ssh/authorized_keys
-    line: "{{ item }}"
-    create: yes
-  loop: "{{ ssh_keys }}"
-  diff: True
-  notify: Restart SSH

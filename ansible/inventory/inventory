@@ -1,9 +1,10 @@
 [all]
 
 [separate_hosts]
-10.100.10.20
-10.100.10.17
 10.100.10.3
+10.100.10.14
+10.100.10.20
+68.183.137.200
 [separate_hosts:vars]
 ansible_user=root
 
