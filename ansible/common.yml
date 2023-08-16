@@ -1,9 +1,0 @@
----
-- name: Common Role
-  hosts: all
-  become: true
-  become_method: sudo
-  roles:
-    - common
-  # vars_files:
-  #   - roles/common/vaults/production.yml
