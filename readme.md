@@ -1,13 +1,5 @@
 # Cookbooks
 
-## Table of contents
-
-- [Overview](#overview)
-- [To Do](#to-do--project-ideas)
-- [Credits](#credits)
-- [Support](#support)
-- [Current Maintainers](#current-maintainers)
-
 ## Overview
 
 This repo contains all of my homelab cookbooks, from ansible roles and docker-compose files to (crappy) kubernetes manifests and personal userscripts.
