@@ -16,6 +16,7 @@ package_list:
   - gdu
   - git
   - htop
+  - needrestart
   - neofetch
   - net-tools
   - python3-pip
