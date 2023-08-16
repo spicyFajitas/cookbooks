@@ -4,14 +4,10 @@
 
 - [Overview](#overview)
 - [Known Issues](#known-issues)
-- [Software](#software)
-- [Requirements](#requirements)
-- [Installation](#installation)
 - [Variables](#variables)
 - [Common Tasks](#common-tasks)
 - [To Do](#to-do)
 - [Resources](#resources)
-- [Disaster Recovery](#disaster-recovery)
 - [Credits](#credits)
 - [Current Maintainers](#current-maintainers)
 

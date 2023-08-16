@@ -33,6 +33,9 @@
     repo: https://github.com/spicyFajitas/cookbooks.git
     dest: "/root/cookbooks"
 
+- name: Import crontab jobs
+  ansible.builtin.import_tasks: crontab.yml
+
 - name: Run apt upgrade
   apt:
     upgrade: yes

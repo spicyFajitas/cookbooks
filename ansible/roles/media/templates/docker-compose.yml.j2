@@ -54,7 +54,7 @@ services:
     volumes:
       - /opt/media/prowlarr:/config
     restart: unless-stopped
-  
+
   jellyseerr-cloudflare-tunnel:
     container_name: jellyseerr-cloudflare-tunnel
     image: cloudflare/cloudflared:latest
@@ -132,4 +132,3 @@ services:
     depends_on:
       - gluetun
     restart: unless-stopped #}
-

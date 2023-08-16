@@ -29,3 +29,7 @@
 - name: Run apt upgrade
   apt:
     upgrade: yes
+
+- name: Restart services if needed
+  # https://www.captainark.net/2016/01/31/debian-updates-with-ansible/
+  shell: needrestart -blra

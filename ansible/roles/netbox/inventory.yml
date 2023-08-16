@@ -1,6 +1,0 @@
-[all]
-  
-
-[netbox]
-10.100.10.26
-ansible_ssh_user=root

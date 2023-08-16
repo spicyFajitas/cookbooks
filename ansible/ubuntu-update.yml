@@ -5,7 +5,7 @@
   become_user: root
   tasks:
     - name: Update apt-get repo and cache
-      apt: 
+      apt:
         update_cache: yes
         upgrade: yes
       register: apt_output
