@@ -1,4 +1,4 @@
 ---
 dependencies:
-  - role: { services/software }
-  - role: { services/ssh }
+  - services/software
+  - services/ssh
