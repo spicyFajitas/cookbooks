@@ -1,13 +1,13 @@
 ---
 
-- name: "Crontab: git pull"
+- name: "Tempalte crontab: git pull"
   ansible.builtin.cron:
     name: "Git pull cookbooks"
     minute: "55"
     hour: "2"
     job: "cd /root/cookbooks; git pull >> /var/log/ansible-runs/git_pull.log 2>&1"
 
-- name: "Crontab: run semaphore playbook every night on semaphore"
+- name: "Template crontab: run semaphore playbook every night on semaphore"
   ansible.builtin.cron:
     name: "common-run on semaphore"
     minute: "0"
