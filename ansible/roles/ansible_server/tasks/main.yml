@@ -32,6 +32,9 @@
   git:
     repo: https://github.com/spicyFajitas/cookbooks.git
     dest: "/root/cookbooks"
+    remote: origin
+    version: HEAD
+    clone: yes
 
 - name: Import crontab jobs
   ansible.builtin.import_tasks: crontab.yml
