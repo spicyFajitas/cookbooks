@@ -10,6 +10,8 @@ To run the playbook on a remote machine, run using the command `ansible-playbook
 
 To limit the playbook run to certain hosts, use the `--limit hostname` flag. You can limit to more than one host by specifying the group name instead of hostname or by putting multiple hosts: `--limit "host1,host2,host3,host4"`
 
+To run a playbook in pretend mode, add the flag `--check`
+
 ## Future Plans
 
 - [ ] Create ansible role for templating email (postfix) on Proxmox so that I can get emails and they won't flag
