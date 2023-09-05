@@ -1,0 +1,40 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/en/configs/services
+
+- Media Streaming:
+
+    - Plex:
+        icon: plex.png
+        href: https://app.plex.tv/
+        description: Movies & TV Shows
+        widget:
+            type: plex
+            url: http://10.100.10.15:32400
+            key: {{ plex_key }}
+
+    - Jellyseerr:
+        icon: jellyseerr.png
+        href: http://requests.adfulton.com
+        description: Requests Moveis and TV Shows
+        widget:
+            type: jellyseerr
+            url: http://10.100.10.20:5055
+            key: {{ jellyseerr_key }}
+
+    - Radarr:
+        icon: radarr.png
+        href: 10.100.10.20:7878/
+
+    - Sonarr:
+        icon: sonarr.png
+        href: 10.100.10.20:8989/
+
+    - SABnzbd:
+        icon: sabnzbd.png
+        href: http://10.100.10.20:8080
+        description: download client
+        widget:
+            type: sabnzbd
+            url: http://10.100.10.20:8080
+            key: {{ sabnzbd_key }}
