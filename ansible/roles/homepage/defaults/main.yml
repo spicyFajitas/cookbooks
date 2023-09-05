@@ -1,0 +1,5 @@
+---
+
+base_dir: /opt/homepage
+
+restart_policy: "unless-stopped"

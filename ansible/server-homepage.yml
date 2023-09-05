@@ -1,0 +1,9 @@
+---
+- name: Run homepage playbook
+  hosts: docker_host
+  become: true
+  become_method: sudo
+  roles:
+    - homepage
+  vars_files:
+    - roles/homepage/vaults/production.yml
