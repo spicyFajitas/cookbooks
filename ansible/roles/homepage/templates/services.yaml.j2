@@ -7,7 +7,7 @@
     - Plex:
         icon: plex.png
         href: https://app.plex.tv/
-        description: Movies & TV Shows
+        description: Watch Movies & TV Shows
         widget:
             type: plex
             url: http://10.100.10.15:32400
@@ -16,7 +16,7 @@
     - Jellyseerr:
         icon: jellyseerr.png
         href: http://requests.adfulton.com
-        description: Requests Moveis and TV Shows
+        description: Requests Movies and TV Shows
         widget:
             type: jellyseerr
             url: http://10.100.10.20:5055
@@ -25,15 +25,27 @@
     - Radarr:
         icon: radarr.png
         href: 10.100.10.20:7878/
+        description: Movies
+        widget:
+            type: radarr
+            url: 10.100.10.20:7878/
+            key: {{ radarr_key }}
+            enableQueue: true # optional, defaults to false
 
     - Sonarr:
         icon: sonarr.png
         href: 10.100.10.20:8989/
+        description: TV Shows
+        widget:
+            type: sonarr
+            url: 10.100.10.20:8989/
+            key: {{ sonarr_key }}
+            enableQueue: true # optional, defaults to false
 
     - SABnzbd:
         icon: sabnzbd.png
         href: http://10.100.10.20:8080
-        description: download client
+        description: Download Client
         widget:
             type: sabnzbd
             url: http://10.100.10.20:8080
