@@ -23,6 +23,7 @@
     mode: "0644"
   loop:
     - services.yaml
+    - bookmarks.yaml
   diff: True
   notify: Restart container(s)
 
