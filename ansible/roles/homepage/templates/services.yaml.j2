@@ -17,7 +17,7 @@
         icon: unifi.png
         href: https://10.100.10.5:8443
         description: (currently off)
-        ping: http://10.100.10.5
+        ping: https://10.100.10.5:8443
         widget:
             type: unifi
             url: https://10.100.10.5:8443
@@ -27,7 +27,7 @@
     - Proxmox:
         icon: proxmox.png
         href: https://10.100.10.10:8006
-        ping: http://10.100.10.10
+        ping: https://10.100.10.10:8006
         widget:
             type: proxmox
             url: https://10.100.10.10:8006
@@ -42,6 +42,15 @@
             type: truenas
             url: https://10.100.10.15
             key: {{ truenas_api_key }} # not required if using username / password
+
+    - Ansible Server:
+        icon: ansible.png
+        href: http://10.100.10.14
+
+    - Semaphore:
+        icon: semaphore.png
+        href: http://10.100.10.17:3000
+        ping: http://10.100.10.17:3000
 
 - Services:
     - Plex:
@@ -109,11 +118,6 @@
             type: uptimekuma
             url: https://cloud.adfulton.com
             slug: default
-
-    - Semaphore:
-        icon: semaphore.png
-        href: http://10.100.10.17:3000
-
 
     - Netbox:
         icon: netbox.png

@@ -24,6 +24,7 @@
   loop:
     - services.yaml
     - bookmarks.yaml
+    - widgets.yaml
   diff: True
   notify: Restart container(s)
 
