@@ -1,0 +1,5 @@
+---
+
+base_dir: /opt/speedtest-tracker
+
+restart_policy: "unless-stopped"

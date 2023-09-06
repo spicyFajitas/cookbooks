@@ -1,0 +1,46 @@
+version: '3.3'
+services:
+    speedtest-tracker:
+        container_name: speedtest-tracker
+        ports:
+            - "8085:80"
+            - "8443:443"
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - DB_CONNECTION=pgsql
+            - DB_HOST=db
+            - DB_PORT=5433
+            - DB_DATABASE=speedtest_tracker
+            - DB_USERNAME=speedy
+            - DB_PASSWORD=password
+            - TZ=America/Detroit
+        volumes:
+            - '/etc/localtime:/etc/localtime:ro'
+            - '/opt/speedtest-tracker/config:/config'
+            - '/opt/speedtest-tracker/web:/etc/ssl/web'
+        image: 'ghcr.io/alexjustesen/speedtest-tracker:v0.11.15'
+        restart: unless-stopped
+        lables:
+          - homepage.group=Containers
+          - homepage.name=Speedtest Tracker
+          - homepage.icon=si-speedtest.svg-#ADD8E6
+          - homepage.href=http://10.100.10.20:8443
+        depends_on:
+            - db
+    db:
+        image: postgres:15
+        restart: always
+        expose:
+          - "5433" # Publishes 5433 to other containers but NOT to host machine
+        ports:
+          - "5433:5433"
+        environment:
+            - POSTGRES_DB=speedtest_tracker
+            - POSTGRES_USER=speedy
+            - POSTGRES_PASSWORD=password
+        volumes:
+            - /opt/speedtest-tracker/speedtest-db:/var/lib/postgresql/data
+        command: -p 5433
+volumes:
+  speedtest-db:

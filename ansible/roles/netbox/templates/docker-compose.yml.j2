@@ -28,10 +28,11 @@ services:
       - "8080"
     {% endif %}
     restart: unless-stopped
-    {% if container_labels %}
     labels:
-      {{ container_labels | to_nice_yaml | indent(6) }}
-    {% endif %}
+      - homepage.group=Containers
+      - homepage.name=Netbox
+      - homepage.icon=netbox.png
+      - homepage.href=http://10.100.10.20:8081
     networks:
       - default
     {% if proxy_network_name %}

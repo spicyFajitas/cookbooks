@@ -11,5 +11,10 @@ services:
     ports:
       - "{{ host_port }}:{{ container_port }}"  # <Host Port>:<Container Port>
     restart: "{{ restart_policy }}"
+    labels:
+      - homepage.group=Containers
+      - homepage.name=Cloud Uptime Kuma
+      - homepage.icon=uptime-kuma.png
+      - homepage.href=https://cloud.adfulton.com
     environment:
       UPTIME_KUMA_CLOUDFLARED_TOKEN: "{{ cloud_uptime_kuma_cloudflare_token }}"

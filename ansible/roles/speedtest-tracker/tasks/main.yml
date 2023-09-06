@@ -1,0 +1,22 @@
+---
+- name: Create a container directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ base_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Update configuration files
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ base_dir }}/{{ item }}"
+    mode: "0644"
+  loop:
+    - docker-compose.yml
+  diff: True
+# notify: Restart container(s)
+
+- name: Ensure services are running
+  community.docker.docker_compose:
+    project_src: "{{ base_dir }}"
+    pull: True
+  notify: Restart container(s)

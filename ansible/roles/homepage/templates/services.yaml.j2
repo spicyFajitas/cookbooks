@@ -2,12 +2,51 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/en/configs/services
 
-- Media Streaming:
+- Infrastructure:
+    - Router:
+        icon: asus-router.png
+        href: http://10.100.10.1
+        ping: http://10.100.10.1
 
+    - Switch:
+        icon: mdi-swap-horizontal-#ADD8E6
+        href: http://10.100.10.2
+        ping: http://10.100.10.2
+
+    - Unifi Controller:
+        icon: unifi.png
+        href: https://10.100.10.5:8443
+        description: (currently off)
+        ping: http://10.100.10.5
+        widget:
+            type: unifi
+            url: https://10.100.10.5:8443
+            username: afulton101222
+            password: {{ unifi_controller_password }}
+
+    - Proxmox:
+        icon: proxmox.png
+        href: https://10.100.10.10:8006
+        ping: http://10.100.10.10
+        widget:
+            type: proxmox
+            url: https://10.100.10.10:8006
+            username: {{ proxmox_api_token_id }}
+            password: {{ proxmox_api_key }}
+    
+    - TrueNAS:
+        icon: truenas-scale.png
+        href: https://10.100.10.15
+        ping: https://10.100.10.15
+        widget:
+            type: truenas
+            url: https://10.100.10.15
+            key: {{ truenas_api_key }} # not required if using username / password
+
+- Services:
     - Plex:
         icon: plex.png
         href: https://app.plex.tv/
-        ping: 10.100.10.15:32400
         widget:
             type: plex
             url: http://10.100.10.15:32400
@@ -55,43 +94,6 @@
             url: http://10.100.10.20:8080
             key: {{ sabnzbd_key }}
 
-- Infrastructure:
-    - Router:
-        icon: asus-router.png
-        href: http://10.100.10.1
-
-    - Switch:
-        icon: mdi-swap-horizontal-#ADD8E6
-        href: http://10.100.10.2
-
-    - Unifi Controller:
-        icon: unifi.png
-        href: https://10.100.10.5:8443
-        description: (currently off)
-        widget:
-            type: unifi
-            url: https://10.100.10.5:8443
-            username: afulton101222
-            password: {{ unifi_controller_password }}
-
-    - Proxmox:
-        icon: proxmox.png
-        href: https://10.100.10.10:8006
-        widget:
-            type: proxmox
-            url: https://10.100.10.10:8006
-            username: {{ proxmox_api_token_id }}
-            password: {{ proxmox_api_key }}
-    
-    - TrueNAS:
-        icon: truenas-scale.png
-        href: https://10.100.10.15
-        widget:
-            type: truenas
-            url: https://10.100.10.15
-            key: {{ truenas_api_key }} # not required if using username / password
-
-- Containers:
     - Onsite Uptime Kuma:
         icon: uptime-kuma.png
         href: https://onsite.adfulton.com
@@ -120,7 +122,7 @@
     
     - Speedtest Tracker:
         icon: si-speedtest.svg-#ADD8E6
-        href: https://10.100.10.20:3001
+        href: https://10.100.10.20:8443
         widget:
             type: speedtest
             url: https://10.100.10.20:8443

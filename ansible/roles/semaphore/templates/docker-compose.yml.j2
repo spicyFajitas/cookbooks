@@ -22,6 +22,11 @@ services:
       - 3000:3000
     image: semaphoreui/semaphore:latest
     hostname: semaphore
+    labels:
+      - homepage.group=Containers
+      - homepage.name=Semaphore
+      - homepage.icon=semaphore.png
+      - homepage.href=http://10.100.10.17:3000
     environment:
       SEMAPHORE_DB_USER: semaphore
       SEMAPHORE_DB_DIALECT: postgres

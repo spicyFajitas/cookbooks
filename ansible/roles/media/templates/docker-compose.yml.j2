@@ -13,6 +13,11 @@ services:
       - /mnt/media:/media
     ports:
       - "8989:8989"
+    labels:
+      - homepage.group=Containers
+      - homepage.name=Sonarr
+      - homepage.icon=sonarr.png
+      - homepage.href=http://10.100.10.20:8989/
     restart: unless-stopped
 
   radarr:
@@ -28,6 +33,11 @@ services:
       - /mnt/media:/media
     ports:
       - "7878:7878"
+    labels:
+      - homepage.group=Containers
+      - homepage.name=Radarr
+      - homepage.icon=radarr.png
+      - homepage.href=http://10.100.10.20:7878/
     restart: unless-stopped
 
   jellyseerr:
@@ -40,6 +50,11 @@ services:
       - 5055:5055
     volumes:
       - /opt/media/jellyseer:/app/config
+    labels:
+      - homepage.group=Containers
+      - homepage.name=Jellyseerr
+      - homepage.icon=jellyseerr.png
+      - homepage.href=http://10.100.10.20:5055/
     restart: unless-stopped
 
   prowlarr:
@@ -53,6 +68,11 @@ services:
       - TZ=America/Chicago
     volumes:
       - /opt/media/prowlarr:/config
+    labels:
+      - homepage.group=Containers
+      - homepage.name=Prowlarr
+      - homepage.icon=prowlarr.png
+      - homepage.href=http://10.100.10.20:9696/
     restart: unless-stopped
 
   jellyseerr-cloudflare-tunnel:
@@ -76,6 +96,10 @@ services:
       - "8112:8112"
       - "6881:6881"
       - "6881:6881/udp"
+    labels:
+      - homepage.group=Containers
+      - homepage.name=Gluetun
+      - homepage.icon=gluetun.png
     environment:
       - VPN_SERVICE_PROVIDER=private internet access
       - OPENVPN_USER="{{ openvpn_usename }}"
@@ -98,37 +122,12 @@ services:
     volumes:
       - /opt/media/sabnzbd:/config
       - /mnt/media/:/media #optional
+    labels:
+      - homepage.group=Containers
+      - homepage.name=SABnzbd
+      - homepage.icon=sabnzbd.png
+      - homepage.href=http://10.100.10.20:8080/
     depends_on:
       - gluetun
     restart: unless-stopped
 
-  deluge:
-    image: lscr.io/linuxserver/deluge:latest
-    container_name: deluge
-    network_mode: "service:gluetun"
-    environment:
-      - PUID=0
-      - PGID=0
-      - TZ=Etc/UTC
-      - DELUGE_LOGLEVEL=error #optional
-    volumes:
-      - /opt/media/deluge:/config
-      - /mnt/media/downloads:/downloads
-    restart: unless-stopped
-
-  {# qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:latest
-    container_name: qbittorrent
-    network_mode: "service:gluetun"
-    environment:
-      - PUID=0
-      - PGID=0
-      - UMASK=0022
-      - TZ=America/Chicago
-      - WEBUI_PORT=8080
-    volumes:
-      - /opt/media/qbittorrent:/config
-      - /mnt/media/downloads:/data/torrents
-    depends_on:
-      - gluetun
-    restart: unless-stopped #}
