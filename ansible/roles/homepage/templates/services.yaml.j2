@@ -7,7 +7,7 @@
     - Plex:
         icon: plex.png
         href: https://app.plex.tv/
-        description: 10.100.10.15:32400
+        ping: 10.100.10.15:32400
         widget:
             type: plex
             url: http://10.100.10.15:32400
@@ -16,7 +16,6 @@
     - Jellyseerr:
         icon: jellyseerr.png
         href: http://requests.adfulton.com
-        description: 10.100.10.20:5055
         widget:
             type: jellyseerr
             url: http://10.100.10.20:5055
@@ -24,8 +23,7 @@
 
     - Radarr:
         icon: radarr.png
-        href: 10.100.10.20:7878/
-        description: 10.100.10.20:7878
+        href: http://10.100.10.20:7878/
         widget:
             type: radarr
             url: http://10.100.10.20:7878
@@ -34,18 +32,24 @@
 
     - Sonarr:
         icon: sonarr.png
-        href: 10.100.10.20:8989/
-        description: 10.100.10.20:8989
+        href: http://10.100.10.20:8989/
         widget:
             type: sonarr
             url: http://10.100.10.20:8989
             key: {{ sonarr_key }}
             enableQueue: false # optional, defaults to false
-
+    
+    - Prowlarr:
+        icon: prowlarr.png
+        href: http://10.100.10.20:9696/
+        widget:
+            type: prowlarr
+            url: http://10.100.10.20:9696
+            key: {{ prowlarr_api_key }}
+    
     - SABnzbd:
         icon: sabnzbd.png
         href: http://10.100.10.20:8080
-        description: 10.100.10.20:8080
         widget:
             type: sabnzbd
             url: http://10.100.10.20:8080
@@ -55,27 +59,68 @@
     - Router:
         icon: asus-router.png
         href: http://10.100.10.1
-        description: 10.100.10.1
 
     - Switch:
         icon: mdi-swap-horizontal-#ADD8E6
         href: http://10.100.10.2
-        description: 10.100.10.2
 
     - Unifi Controller:
         icon: unifi.png
-        href: http://10.100.10.5:8443
-        description: 10.100.10.5 (currently off)
+        href: https://10.100.10.5:8443
+        description: (currently off)
+        widget:
+            type: unifi
+            url: https://10.100.10.5:8443
+            username: afulton101222
+            password: {{ unifi_controller_password }}
 
     - Proxmox:
         icon: proxmox.png
         href: https://10.100.10.10:8006
-        description: 10.100.10.10:8006
         widget:
             type: proxmox
             url: https://10.100.10.10:8006
             username: {{ proxmox_api_token_id }}
             password: {{ proxmox_api_key }}
+    
+    - TrueNAS:
+        icon: truenas-scale.png
+        href: https://10.100.10.15
+        widget:
+            type: truenas
+            url: https://10.100.10.15
+            key: {{ truenas_api_key }} # not required if using username / password
 
 - Containers:
-    - Speedtest Tracker
+    - Onsite Uptime Kuma:
+        icon: uptime-kuma.png
+        href: https://onsite.adfulton.com
+        widget:
+            type: uptimekuma
+            url: https://onsite.adfulton.com
+            slug: default
+
+    - Cloud Uptime Kuma:
+        icon: uptime-kuma.png
+        href: https://cloud.adfulton.com
+        widget:
+            type: uptimekuma
+            url: https://cloud.adfulton.com
+            slug: default
+
+    - Semaphore:
+        icon: semaphore.png
+        href: http://10.100.10.17:3000
+
+
+    - Netbox:
+        icon: netbox.png
+        href: http://10.100.10.20:8081
+
+    
+    - Speedtest Tracker:
+        icon: si-speedtest.svg-#ADD8E6
+        href: https://10.100.10.20:3001
+        widget:
+            type: speedtest
+            url: https://10.100.10.20:8443

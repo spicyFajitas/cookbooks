@@ -22,7 +22,7 @@
     name: "{{ item }}"
     state: started
     enabled: true
-  loop: 
+  loop:
     - fail2ban
     - ssh
 
