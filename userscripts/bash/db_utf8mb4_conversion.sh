@@ -1,8 +1,8 @@
 #!/bin/bash
 ###############################################################################
-## Author: Adam Fulton @spicyFajitas
-## Date:   2023-07-05
-## Descr:  converts database character set from whatever to utf8mb4
+## Author:  Adam Fulton @spicyFajitas
+## Date:    2023-07-05
+## Desc:    converts database character set from whatever to utf8mb4
 ###############################################################################
 set -exuo pipefail
 # Connect to MySQL and retrieve a list of all databases

@@ -1,8 +1,8 @@
 #!/bin/bash
 ###############################################################################
-## Author: Adam Fulton @spicyFajitas
-## Date:   2023-07-05
-## Descr:  converts database engine from whatever engine to InnoDB
+## Author:  Adam Fulton @spicyFajitas
+## Date:    2023-07-05
+## Desc:    converts database engine from whatever engine to InnoDB
 ###############################################################################
 set -exuo pipefail
 # MySQL credentials

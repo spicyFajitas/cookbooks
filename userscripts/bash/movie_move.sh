@@ -1,4 +1,12 @@
 #!/bin/bash
+###############################################################################
+## Author:  Adam Fulton @spicyFajitas
+## Date:    2023-09-14
+## Desc:    Takes raw files clumped in a folder and puts 
+## Desc:    each individual file into it's own folder.
+## Desc:    This will not change the directory of the files, only put them
+## Desc:    in a sub-directory of the same title.
+###############################################################################
 
 if [ $# -ne 1 ]; then
     echo "Usage: $0 <folder_path>"
