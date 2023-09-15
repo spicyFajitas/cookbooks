@@ -6,6 +6,7 @@
 ## Desc:    each individual file into it's own folder.
 ## Desc:    This will not change the directory of the files, only put them
 ## Desc:    in a sub-directory of the same title.
+## Usage:   `./movie_move.sh /mnt/path/to/directory`
 ###############################################################################
 
 if [ $# -ne 1 ]; then
