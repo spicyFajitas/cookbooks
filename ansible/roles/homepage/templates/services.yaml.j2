@@ -61,56 +61,6 @@
             url: http://10.100.10.15:32400
             key: {{ plex_key }}
 
-    - Jellyseerr:
-        icon: jellyseerr.png
-        href: http://requests.adfulton.com
-        widget:
-            type: jellyseerr
-            url: http://10.100.10.20:5055
-            key: {{ jellyseerr_key }}
-
-    - Radarr:
-        icon: radarr.png
-        href: http://10.100.10.20:7878/
-        widget:
-            type: radarr
-            url: http://10.100.10.20:7878
-            key: {{ radarr_key }}
-            enableQueue: false # optional, defaults to false
-
-    - Sonarr:
-        icon: sonarr.png
-        href: http://10.100.10.20:8989/
-        widget:
-            type: sonarr
-            url: http://10.100.10.20:8989
-            key: {{ sonarr_key }}
-            enableQueue: false # optional, defaults to false
-    
-    - Prowlarr:
-        icon: prowlarr.png
-        href: http://10.100.10.20:9696/
-        widget:
-            type: prowlarr
-            url: http://10.100.10.20:9696
-            key: {{ prowlarr_api_key }}
-    
-    - SABnzbd:
-        icon: sabnzbd.png
-        href: http://10.100.10.20:8080
-        widget:
-            type: sabnzbd
-            url: http://10.100.10.20:8080
-            key: {{ sabnzbd_key }}
-
-    - Onsite Uptime Kuma:
-        icon: uptime-kuma.png
-        href: https://onsite.adfulton.com
-        widget:
-            type: uptimekuma
-            url: https://onsite.adfulton.com
-            slug: default
-
     - Cloud Uptime Kuma:
         icon: uptime-kuma.png
         href: https://cloud.adfulton.com
