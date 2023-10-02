@@ -5,7 +5,6 @@
 10.100.10.14
 10.100.10.17
 10.100.10.20
-68.183.137.200
 [separate_hosts:vars]
 ansible_user=root
 
@@ -22,11 +21,6 @@ ansible_user=root
 [semaphore]
 10.100.10.17
 [semaphore:vars]
-ansible_user=root
-
-[cloud_kuma]
-68.183.137.200
-[cloud_kuma:vars]
 ansible_user=root
 
 [docker_host]

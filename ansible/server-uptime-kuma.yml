@@ -1,6 +1,6 @@
 ---
 - name: Run uptime kuma playbook
-  hosts: cloud_kuma, docker_host
+  hosts: docker_host
   become: true
   become_method: sudo
   roles:
