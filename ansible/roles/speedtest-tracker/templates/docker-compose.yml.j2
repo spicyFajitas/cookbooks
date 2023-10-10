@@ -19,7 +19,7 @@ services:
             - '/etc/localtime:/etc/localtime:ro'
             - '/opt/speedtest-tracker/config:/config'
             - '/opt/speedtest-tracker/web:/etc/ssl/web'
-        image: 'ghcr.io/alexjustesen/speedtest-tracker:v0.11.15'
+        image: 'ghcr.io/alexjustesen/speedtest-tracker:latest'
         restart: unless-stopped
         lables:
           - homepage.group=Containers
