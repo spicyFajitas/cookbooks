@@ -11,21 +11,19 @@ services:
             - DB_CONNECTION=pgsql
             - DB_HOST=db
             - DB_PORT=5433
-            - DB_DATABASE=speedtest_tracker
-            - DB_USERNAME=speedy
-            - DB_PASSWORD=password
+            - DB_DATABASE={{ DB_DATABASE }}
+            - DB_USERNAME={{ DB_USERNAME }}
+            - DB_PASSWORD={{ DB_PASSWORD }}
             - TZ=America/Detroit
+            - APP_DEBUG=true
+            - APP_KEY={{ APP_KEY }}
         volumes:
+            - '/etc/timezone:/etc/timezone:ro'
             - '/etc/localtime:/etc/localtime:ro'
             - '/opt/speedtest-tracker/config:/config'
             - '/opt/speedtest-tracker/web:/etc/ssl/web'
         image: 'ghcr.io/alexjustesen/speedtest-tracker:latest'
         restart: unless-stopped
-        lables:
-          - homepage.group=Containers
-          - homepage.name=Speedtest Tracker
-          - homepage.icon=si-speedtest.svg-#ADD8E6
-          - homepage.href=http://10.100.10.20:8443
         depends_on:
             - db
     db:
@@ -36,11 +34,9 @@ services:
         ports:
           - "5433:5433"
         environment:
-            - POSTGRES_DB=speedtest_tracker
-            - POSTGRES_USER=speedy
-            - POSTGRES_PASSWORD=password
+            - POSTGRES_DB={{ DB_DATABASE }}
+            - POSTGRES_USER={{ DB_USERNAME }}
+            - POSTGRES_PASSWORD={{ DB_PASSWORD }}
         volumes:
             - /opt/speedtest-tracker/speedtest-db:/var/lib/postgresql/data
         command: -p 5433
-volumes:
-  speedtest-db:

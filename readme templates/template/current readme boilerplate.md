@@ -13,6 +13,9 @@
 - [To Do](#to-do)
 - [Resources](#resources)
 - [Disaster Recovery](#disaster-recovery)
+- [Rollback Instructions](#rollback-instructions)
+- [Failover](#failover)
+- [Recreate](#recreate)
 - [Credits](#credits)
 - [Current Maintainers](#current-maintainers)
 
@@ -62,6 +65,12 @@ In the `docker-compose.yml` file, set the `CF_API_TOKEN=<PASTE_API_KEY_HERE>` va
 ## Resources
 
 ## Disaster Recovery
+
+### Rollback Instructions
+
+### Failover
+
+### Recreate
 
 ## Credits
 
