@@ -8,8 +8,6 @@ This repo contains all of my homelab cookbooks, from ansible roles and docker-co
 
 To Do and Project Ideas have been moved to personal Notion Kanban board
 
-## Credits
-
 ## Support
 
 If you are testing containers and create "development" containers with the default usernames, passwords, and configurations, you will need to completely remove the images once you are ready to create production containers with properly secure usernames, passwords, and configurations.
