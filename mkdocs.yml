@@ -2,7 +2,7 @@ site_name: Spicy Docs
 site_url: https://docs.adfulton.com
 repo_url: https://github.com/spicyFajitas/docs/
 
-docs_dir: "src"
+docs_dir: "cookbooks/docs/src"
 
 #plugins
 plugins:
