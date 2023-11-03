@@ -1,0 +1,35 @@
+###############################################################################
+## Author:  spicyFajitas
+## Date:    3/17/2023
+## File:    .github/workflows/main.yml
+## Descr:   Runs the GitHub Actions CI for building new mkdocs page
+###############################################################################
+
+name: ci
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+  
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: "contains(github.event.head_commit.message, '[CI]')"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+      - uses: actions/cache@v3
+        with:
+          key: ${{ github.ref }}
+          path: .cache
+      - run: pip install mkdocs-material 
+      - run: pip install mkdocs-mermaid2-plugin
+      - run: mkdocs gh-deploy --force
