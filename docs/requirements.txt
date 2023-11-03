@@ -1,0 +1,9 @@
+mdx_truly_sane_lists
+mkdocs-git-revision-date-localized-plugin
+mkdocs-awesome-pages-plugin
+mkdocs-material
+mkdocs-redirects
+pygments
+pymdown-extensions
+#xes-sysdocs
+mkdocs-include-markdown-plugin

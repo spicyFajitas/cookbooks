@@ -1,0 +1,29 @@
+# ignore vim swap files
+*.swp
+*.swo
+*.swn
+
+# ignore cache files
+.cache
+__pycache__
+*.pyc
+.idea
+*.egg-info/
+
+# ignore trash
+.Trash*/
+
+# ignore virtualenvs
+venv/
+.venv/
+env/
+.env/
+
+# ignore preview directory
+site/
+
+# other miscellaneous ignores
+.Obsidian/
+*:Zone.Identifier
+
+.DS_Store
