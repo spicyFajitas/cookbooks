@@ -12,6 +12,6 @@ If you are trying to start or restart containers and you receive errors like the
 
 ```
 docker compose remove semaphore
-docker compose remove postgres
+docker compose remove postgres 
 docker network rm -f semaphore_default
 ```
