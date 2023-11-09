@@ -2,12 +2,12 @@ site_name: Spicy Docs
 site_url: https://spicyfajitas.github.io/cookbooks/
 repo_url: https://github.com/spicyFajitas/cookbooks/
 
-docs_dir: ""
+docs_dir: "docs/src"
 
 #plugins
 plugins:
   - search
-  # - mermaid2
+  - mermaid2
 
 extra_css:
   - css/extra.css
