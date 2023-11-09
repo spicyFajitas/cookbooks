@@ -2,7 +2,7 @@
 
 ## Setup Tasks
 
-Most of these are based on YouTuber Techno Tim's video [Before I do anything on Proxmox, I do this first...](https://www.youtube.com/watch?v=GoZaMgEgrHw)
+Most of these are based on YouTuber Techno Tim's video [Before I do anything on Proxmox, I do this first...](https://www.youtube.com/watch?v=GoZaMgEgrHw) but there are some configurations I do outside of the video as well.
 
 ### Configure Updates
 

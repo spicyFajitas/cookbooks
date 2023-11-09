@@ -2,7 +2,7 @@
 
 ## Overview
 
-This page is dedicated to helpful commands, techniques, and packages to system administators.
+This page is dedicated to helpful commands, techniques, and packages to system administrators.
 
 ## Links
 
@@ -66,7 +66,7 @@ network:
     ethernets:
         eth0:
             addresses:
-                - 10.100.10.2/24
+                - 10.100.10.2/23
             nameservers:
                 addresses: [1.1.1.1]
             routes:
@@ -96,9 +96,9 @@ Show swappiness `cat /proc/sys/vm/swappiness`
 
 ## Zgrep
 
-Sometimes you need to search the contents of .gz files in your system. Unfortunately, grep doesn’t work on compressed files. To overcome this, people usually advise to first  uncompress the file(s), and then grep your text, after that finally re-compress your file(s)…
+Sometimes you need to search the contents of .gz files in your system. Unfortunately, grep doesn’t work on compressed files. To overcome this, people usually advise to first decompress the file(s), and then grep your text, after that finally re-compress your file(s)…
 
-You don’t need to uncompress them in the first place. You can use zgrep on compressed or gzipped files.
+You don’t need to decompress them in the first place. You can use zgrep on compressed or gzipped files.
 
 To search in compressed file, execute the command :
 

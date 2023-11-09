@@ -2,16 +2,51 @@
 
 ## Homelab Corner
 
-### Router
+Checked items are currently in use.
 
-- ASUS RT-AX1800S WiFi 6 Router | [Link](https://www.asus.com/networking-iot-servers/wifi-routers/asus-wifi-routers/rt-ax1800s/techspec/)
+### Router(s)
 
+| In Use |           Router Model           |                                                  Link                                                   |            Extra Info             |
+| :----: | :------------------------------ | :-----------------------------------------------------------------------------------------------------: | :------------------------------- |
+|  [X]   |        Unifi Dream Router        |                             [Link](https://store.ui.com/us/en/products/udr)                             |                                   |
+|  [ ]   |  ASUS RT-AX1800S WiFi 6 Router   | [Link](https://www.asus.com/networking-iot-servers/wifi-routers/asus-wifi-routers/rt-ax1800s/techspec/) |                                   |
+|  [ ]   | Netgear Nighthawk R6700v3 AC1750 |                        [Link](https://www.netgear.com/home/wifi/routers/r6700/)                         | Flashed with FreshTomato firmware |
 
-### Switch
+### Switch(es)
 
-Ruckus ICX 7150-C12P [specs](https://www.commscope.com/product-type/enterprise-networking/ethernet-switches/itemicx7150-c12p/)
+| In Use | Router Model         |
+| :----: | :------------------- |
+|  [X]   | Ruckus ICX 7150-C12P |
+|  [ ]   | TP-Link TL-SG        |
 
-Documentation on commands [linked here](https://docs.ruckuswireless.com/fastiron/08.0.50/fastiron-08050-commandref/GUID-0FCE99FF-A5E5-4A6F-88D6-60740D7965D6-homepage.html)
+### Access Point(s)
+
+| In Use | Router Model    |
+| :----: | :-------------- |
+|  [ ]   | Unifi AP Lite 6 |
+
+### Compute
+
+| In Use | Host               | Future Plans    |
+| :----: | :----------------- | --------------- |
+|  [X]   | Dell OptiPlex 3050 |                 |
+|  [ ]   | Thinkcentre M93p   | Kubernetes Host |
+|  [ ]   | Thinkcentre M93p   | Kubernetes Host |
+
+### Specs/Configs
+
+#### Ruckus Switch
+
+Console connection settings:
+| Parameter             | Value |
+| --------------------- | ----- |
+| Baud: Bits per second | 9600  |
+| Data bits             | 8     |
+| Parity                | None  |
+| Stop bits             | 1     |
+| Flow control          | None  |
+
+Documentation on commands [commands](https://docs.ruckuswireless.com/fastiron/08.0.50/fastiron-08050-commandref/GUID-0FCE99FF-A5E5-4A6F-88D6-60740D7965D6-homepage.html)
 
 Lost password - [forum](https://community.ruckuswireless.com/t5/RUCKUS-Support-for-Lennar-Homes/ICX-7150-Login-Issue-after-Factory-Reset-and-quot-no-password/m-p/52814)
 
@@ -36,25 +71,22 @@ device(config)# exit
 device#
 ```
 
-Console connection settings:
-| Parameter             | Value |
-| --------------------- | ----- |
-| Baud: Bits per second | 9600  |
-| Data bits             | 8     |
-| Parity                | None  |
-| Stop bits             | 1     |
-| Flow control          | None  |
-
-### Virtualization Host
+#### Virtualization Host
 
 Dell OptiPlex 3050
 
 - Intel Core i5-7500 4 core 4 thread
-- 16GB DDR4 2400Mhz Ram
+- 32GB DDR4 2400Mhz Ram
 - 1TB TeamGroup SSD
 - ~about 150 W PSU
 
-### TrueNAS
+Two of ThinkCentre M93p 
+
+- Core(TM) i7-4785T CPU
+- 2x8 GB SODIMM DDR3 1600 MHz
+- 256GB Samsung SSD 860
+
+#### TrueNAS
 
 Use top ethernet port. Top 4 disks in disk tray are disks to be used. Bottom 5th is cold spare.
 
@@ -66,24 +98,17 @@ NAS:
 | CPU         | Intel Xeon E5-2690 v1                        | ?           | ?                  |
 | CPU Fan     | be quiet! Pure Rock 2 (BK006)                | ?           | ?                  |
 | RAM         | *Hynix hmt41gr7bf4c-rd                       | ?           | ?                  |
-| Case        | ?                                            | ?           | ?                  |
+| Case        | ? Bought from a friend                       | ?           | ?                  |
 | PCIe Card   | *LSI 9211-8i 6G SAS HBA FW:P20 IT Mode       | ?           | ?                  |
 | SAS Disks   | *HGST Ultrastar He10 10TB 7200RPM SAS 12Gbps | ?           | ?                  |
 
 *RAM (model number): Hynix hmt41gr7bf4c-rd (88 GB 1600 MHz) mix of 16 GB + 8 GB sticks
- 
-2x SFF-8087 SAS cables
 
 *HGST Ultrastar drives: HUH721010AL4200/42C0
 
-## Not In Use
+2x SFF-8087 SAS cables
 
-- Netgear Nighthawk R6700v3 AC1750 | [Link](https://www.netgear.com/home/wifi/routers/r6700/)
-- TP-Link TL-SG1005P V2
-- Unifi AP Lite 6
-- Thinkcentre M93p Core(TM) i7-4785T CPU | 2x8 GB SODIMM DDR3 1600 MHz | 256GB Samsung SSD 860
-
-## Kyle's PC
+#### Kyle's PC
 
 PC:
 

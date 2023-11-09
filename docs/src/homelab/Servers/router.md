@@ -1,5 +1,9 @@
 # Router
 
+## Overview
+
+This page is currently not very useful as I've switched to a Unifi router.
+
 ## Asus Router Config
 
 ### Time Zone

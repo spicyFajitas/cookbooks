@@ -2,7 +2,7 @@
 
 ## Overview
 
-I set up this container to monitor my WAN connection with Spectrum because it's pretty bad. There's frequent drops and I wanted to gather good data in case they question the internet drops we're having when I reach out for support.
+I set up this container to monitor my WAN connection with Spectrum because it's pretty bad. There's frequent drops and I wanted to gather good data in case I need it when I reach out for support.
 
 ## Web Configuration
 
