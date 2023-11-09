@@ -21,7 +21,7 @@ services:
     restart: unless-stopped
 
   radarr:
-    image: lscr.io/linuxserver/radarr:latest
+    image: lscr.io/linuxserver/radarr:4.7.5
     container_name: radarr
     environment:
       - PUID=0
@@ -41,8 +41,7 @@ services:
     restart: unless-stopped
 
   jellyseerr:
-    #image: fallenbagel/jellyseerr:latest
-    image: fallenbagel/jellyseerr:v1.6.0
+    image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
     environment:
       - LOG_LEVEL=debug
