@@ -1,16 +1,5 @@
 # Cloudflare DDNS
 
-## Table of contents
-
-[Summary](#summary)
-[Requirements](#requirements)
-[Installation](#installation)
-[Variables](#variables)
-[Usage](#usage)
-[To Do](#to-do)
-[Credits](#credits)
-[Current Maintainers](#current-maintainers)
-
 ## Summary
 
 This container dynamically updates DNS records in your cloudflare account using an API key. You can update at different intervals and add/remove subdomains and domains as needed. The DDNS API will update the DNS record with the IP address it is located at.
@@ -42,14 +31,8 @@ The steps were copied from oznu/cloudflare's [docker hub page](https://hub.docke
 
 In the `docker-compose.yml` file, set the `CF_API_TOKEN=<PASTE_API_KEY_HERE>` variable as the API key you just created. Then, you will want to configure your domains and subdomains through the two services `DOMAINS=subdomain.domain.com` variables.
 
-## To Do
-
 ## Credits
 
 Big thanks to [favonia](https://github.com/favonia/cloudflare-ddns) and [oznu (github)](https://github.com/oznu/docker-cloudflare-ddns) / [oznu (docker hub)](https://hub.docker.com/r/oznu/cloudflare-ddns/)
 
-Much of the docker compose files is drawn directly from these sources.
-
-## Current Maintainers
-
-- [spicyFajitas](https://github.com/spicyFajitas)
+Much of the docker compose file is drawn directly from these sources.
