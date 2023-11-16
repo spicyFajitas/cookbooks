@@ -2,6 +2,14 @@
 
 ## Overview
 
+## Prune Images
+
+`docker system prune -a -f`
+
+## Remove Dangling Volumes
+
+`docker volume rm $(docker volume ls -qf dangling=true)`
+
 ## Bind Port Errors
 
 ```
