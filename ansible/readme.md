@@ -1,5 +1,11 @@
 # README.md
 
+## Installation
+
+```bash
+sudo apt install ansible
+```
+
 ## Ansible Playbooks
 
 To run playbooks, `cd` into the `/cookbooks/ansible` directory of the repo.
