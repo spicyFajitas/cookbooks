@@ -15,3 +15,4 @@ This page is a compilation of other peoples' blogs that I've found neat.
 - [Stéphane Graber](https://stgraber.org/)
 - [Wesley Aptekar-Cassels](https://blog.wesleyac.com/)
 - [Eighty-Twenty](https://eighty-twenty.org/)
+- [Victor Fernandez III](https://cyberphor.com/)
