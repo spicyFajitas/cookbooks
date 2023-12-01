@@ -23,6 +23,10 @@ There are many helpful packages to sysadmins when managing Linux servers. Here i
   - better top/htop application
 - gdu
   - graphical `du` command that is really fast
+  - `gdu -x /` ignores filysystem boundaries (only scans filesystem command was executed in (only scan local disk, no network paths))
+- ncdu
+  - graphical `du` command that is really fast
+  - `ncdu -x /` ignores filysystem boundaries (only scans filesystem command was executed in (only scan local disk, no network paths))
 
 ## Common Tasks
 
