@@ -1,4 +1,4 @@
-# Commands and Their Usage
+# Commands
 
 Commands based on useful packages
 
