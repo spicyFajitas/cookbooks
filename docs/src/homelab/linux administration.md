@@ -8,41 +8,11 @@ This page is dedicated to helpful commands, techniques, and packages to system a
 
 [Ubuntu Cloud Images](https://cloud-images.ubuntu.com/jammy/)
 
-## Helpful Commands
-
-- lsof
-  - lists open files
-- nproc
-  - number of processors
-
-## Helpful Packages
-
-There are many helpful packages to sysadmins when managing Linux servers. Here is the start of a list to show some of the ones I like to use.
-
-- btop
-  - better top/htop application
-- gdu
-  - graphical `du` command that is really fast
-  - `gdu -x /` ignores filysystem boundaries (only scans filesystem command was executed in (only scan local disk, no network paths))
-- ncdu
-  - graphical `du` command that is really fast
-  - `ncdu -x /` ignores filysystem boundaries (only scans filesystem command was executed in (only scan local disk, no network paths))
-
 ## Common Tasks
 
 ### Mounting SMB Share
 
 mount -t cifs -o username={{username}},password={{password}} //{{server}}/{{share}} //mnt/{{directory}}
-
-### SSH Keys
-
-To generate an SSH key, use 
-
-```bash
-# -t for type
-# -C for comment
-ssh-keygen -t ed25519 -C "username@machine-name"
-```
 
 ## File Permissions
 
