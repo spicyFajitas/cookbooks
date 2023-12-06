@@ -37,8 +37,6 @@ ansible_user=root
 10.100.10.51
 10.100.10.52
 10.100.10.53
-10.100.10.54
-10.100.10.55
 10.100.10.56
 [kubernetes:vars]
-ansible_user=root
+ansible_user=ubuntu
