@@ -1,0 +1,32 @@
+machine:
+  certSANs:
+    - 10.100.10.31
+
+  network:
+    hostname: talos-01
+    interfaces:
+      - interface: enx0a1570c0bab2
+        addresses:
+          - 10.100.10.31/23
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.100.10.1
+        dhcp: false
+
+    nameservers:
+      - 10.100.10.1
+      - 1.1.1.1
+      - 8.8.8.8
+
+    extraHostEntries:
+      - ip: 10.100.10.31
+        aliases:
+          - talos-01
+      - ip: 10.100.10.32
+        aliases:
+          - talos-02
+
+cluster:
+    apiServer: 
+        certSANs:
+            - 10.100.10.31
