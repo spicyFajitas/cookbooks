@@ -8,7 +8,6 @@ Information regarding XCP-NG hypervisor.
 
 This section covers basics of Xen Orchestra, the web management interface for XCP-NG. 
 
-
 ### Installation
 
 This is a process to follow to install Xen Orchestra Community Edition (xo-ce) on an existing XCP-NG installation. You need to be on a local or SSH shell session.
