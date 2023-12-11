@@ -1,14 +1,21 @@
-# Xen Orchestra
+# XCP-NG
 
 ## Overview
 
-This is a process to follow to install Xen Orchestra Community Edition (xo-ce) on an existing XCP-NG installation. You need to be on a local or SSH shell session.
+Information regarding XCP-NG hypervisor.
 
-## Installation
+## Xen Orchestra
+
+This section covers basics of Xen Orchestra, the web management interface for XCP-NG. 
+
+
+### Installation
+
+This is a process to follow to install Xen Orchestra Community Edition (xo-ce) on an existing XCP-NG installation. You need to be on a local or SSH shell session.
 
 ```bash
 # install git
-yum install git
+yum install git vim
 
 # clone Xen Orchestar Installer Updater Tool
 git clone https://github.com/ronivay/XenOrchestraInstallerUpdater.git
@@ -34,7 +41,7 @@ xe vm-memory-limits-set vm=xo-ce static-min=512MiB dynamic-min=512MiB dynamic-ma
 xe vm-start vm=xo-ce
 ```
 
-## Updates
+### Updates
 
 In order to install, we follow a similar process by SSH'ing into the XCP-ng server.
 
