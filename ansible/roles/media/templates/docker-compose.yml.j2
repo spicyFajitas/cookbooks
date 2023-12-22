@@ -40,6 +40,24 @@ services:
       - homepage.href=http://10.100.10.20:7878/
     restart: unless-stopped
 
+  readarr:
+    image: lscr.io/linuxserver/readarr:develop
+    container_name: readarr
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=America/Detroit
+    volumes:
+      - /opt/media/readarr:/config
+      - /mnt/media:/media
+    ports:
+    - "8787:8787"
+    labels:
+      - homepage.group=Containers
+      - homepage.name=Readarr
+      - homepage.icon=readarr.png
+      - homepage.href=http://10.100.10.20:8787
+
   jellyseerr:
     image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
