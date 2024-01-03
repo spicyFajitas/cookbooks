@@ -28,6 +28,11 @@ ansible_user=root
 [docker_host:vars]
 ansible_user=root
 
+[minecraft]
+10.100.10.20
+[minecraft:vars]
+ansuble_user=root
+
 #[twingate]
 #10.100.10.20
 #[twingate:vars]
