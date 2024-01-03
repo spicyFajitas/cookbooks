@@ -1,16 +1,17 @@
 version: "3.8"
-
+# Note: the dynmap plugin needs to be manually downloaded and moved to the world_data/plugins folder
 services:
   mc:
     image: itzg/minecraft-server
     tty: true
     stdin_open: true
     ports:
+      - "8123:8123"
       - "25565:25565"
       - "19132:19132/udp"
     environment:
       EULA: "TRUE"
-      MEMORY: "2G"
+      MEMORY: "4G"
       TYPE: "PAPER"
       VIEW_DISTANCE: 15
       LEVEL: "Spicy Craft"
@@ -18,10 +19,10 @@ services:
       PLUGINS: |
         https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
         https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
-      SPIGET_RESOURCES: |
-        39965
+      SPIGET_RESOURCES: 39965,74429
       FORCE_REDOWNLOAD: true
-      MOTD: "The spiciest minecraft server on this side of the Mississippi"
+      MOTD: "A Paper Minecraft server hosted in Docker!"
+    restart: always
     volumes:
       - /opt/minecraft/world_data:/data
 
@@ -50,7 +51,7 @@ services:
       - PGID=1000
       - PUID=1000
       - CF_API_TOKEN=
-      - DOMAINS=minecraft.adfulton.com
+      - DOMAINS=minecraft.adfulton.com, map.adfulton.com
       - PROXIED=false
       - UPDATE_CRON=@every 60m
       - UPDATE_ON_START=true
