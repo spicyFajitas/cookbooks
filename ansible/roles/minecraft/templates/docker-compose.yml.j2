@@ -15,12 +15,12 @@ services:
       MEMORY: "4G"
       TYPE: "PAPER"
       VIEW_DISTANCE: 15
+      SPIGET_RESOURCES: 39965,74429,60623
+      FORCE_REDOWNLOAD: 'true'
+      MOTD: "A Paper Minecraft server hosted in Docker!"
       PLUGINS: |
         https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
         https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
-      SPIGET_RESOURCES: 39965,74429,60623
-      FORCE_REDOWNLOAD: 1
-      MOTD: "A Paper Minecraft server hosted in Docker!"
     restart: always
     volumes:
       - /opt/minecraft/world_data:/data
