@@ -34,7 +34,7 @@ services:
       PRE_BACKUP_SCRIPT: |
         echo "Before backup!"
         echo "Also before backup from $$RCON_HOST to $$DEST_DIR"
-      PRUNE_BACKUPS_DAYS: 7
+      PRUNE_BACKUPS_DAYS: 30
     depends_on:
       mc:
         condition: service_healthy
