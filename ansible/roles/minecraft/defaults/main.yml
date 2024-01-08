@@ -1,0 +1,5 @@
+---
+
+base_dir: /opt/minecraft
+
+restart_policy: "unless-stopped"
