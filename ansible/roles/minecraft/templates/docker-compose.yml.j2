@@ -43,6 +43,17 @@ services:
       # use a host attached directory so that it in turn can be backed up
       - /opt/minecraft/world_data:/data 
       - /opt/minecraft/backups:/backups
+  
+  discord-notifier:
+    container_name: minecraft-discord-webhook
+    image: 'saadbruno/minecraft-discord-webhook:latest'
+    volumes:
+      - './world_data/logs:/app/logs:ro'
+    environment:
+      - 'WEBHOOK_URL={{ discord_webhook }}'
+      - 'FOOTER=Optional Footer Text'
+      - 'LANGUAGE=en-US'
+    restart: unless-stopped
 
   cloudflare-ddns-root:
     image: favonia/cloudflare-ddns:latest
