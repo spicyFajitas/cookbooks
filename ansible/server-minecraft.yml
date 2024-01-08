@@ -1,0 +1,9 @@
+---
+- name: Run minecraft playbook
+  hosts: minecraft
+  become: true
+  become_method: sudo
+  roles:
+    - minecraft
+  vars_files:
+    - roles/minecraft/vaults/production.yml
