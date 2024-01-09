@@ -46,7 +46,7 @@ services:
   
   discord-notifier:
     container_name: minecraft-discord-webhook
-    image: 'saadbruno/minecraft-discord-webhook:latest'
+    image: 'ghcr.io/spicyfajitas/minecraft-discord-webhook:main'
     volumes:
       - './world_data/logs:/app/logs:ro'
     environment:
