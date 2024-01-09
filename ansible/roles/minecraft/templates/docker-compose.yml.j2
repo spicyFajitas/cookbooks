@@ -51,7 +51,7 @@ services:
       - './world_data/logs:/app/logs:ro'
     environment:
       - 'WEBHOOK_URL={{ discord_webhook }}'
-      - 'FOOTER=Optional Footer Text'
+#      - 'FOOTER=Optional Footer Text'
       - 'LANGUAGE=en-US'
     restart: unless-stopped
 
