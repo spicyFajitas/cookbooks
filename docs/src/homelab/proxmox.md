@@ -150,55 +150,31 @@ Be sure when deploying from clones to change the IP address in Cloud Init option
 ### Growing Disks (VMs)
 
 !!! warning
-    This documentation is wrong!!! Follow these docs instead: https://pve.proxmox.com/wiki/Resize_disks
+    This documentation is wrong!!! Follow the ["Example with EFI" docs](https://pve.proxmox.com/wiki/Resize_disks#Online_for_Linux_Guests)
 
 Note: ubuntu says virtual machine disks are `vda` devices. My ubuntu docker VM had vda1 and vda2, with vda2 being the data partition.
 
-Grow partition
-
 ```bash
-# lisk block devices and search for new disk
-sudo lsblk -d | grep disk 
+# list system messages about disk size changing
+dmesg | grep vda
 
-# unmount partition, might get an error
-sudo umount /dev/vda2
+# list disks in fdisk
+fdisk -l /dev/vda | grep ^/dev
 
-# open partition software
-sudo parted
+# enter the partitioning tool
+parted /dev/vda
 
-# select device
-select /dev/vda2
+# print partitions in parted
+(parted) print
 
-# print drive information
-# if you've already grown the disk in proxmox, it will prompt you to grow the partition with all of the available free space. Accept the default that it suggests.
-print
+# resize specific partition with percentage of free space
+# NOTE: be sure to check the partition number on the host. On my docker host,
+# it just so happens to be partition 2.
+(parted) resizepart 2 100%
+
+# view new partition sizes
+(parted) print
+
+# resize file system to fill disk space
+resize2fs /dev/vda2
 ```
-
-Grow filesystem to match partition
-
-!!! note
-    These steps can be scary, but don’t worry, you shouldn’t lose your data as we don’t format the disk content (make sure to have a backup anyway!). All we do is delete the existing partition and create a new larger partition. When it prompts if you'd like to overwrite existing data, say "no".
-
-```bash
-# open file disk management software
-sudo fdisk /dev/vda
-
-# delete partition
-d # if prompted for partition number select 2
-
-# create new partition (accept default options)
-n
-
-# check the partition table is as desired
-p
-
-# write changes to disk
-w
-
-# exit fdisk
-exit
-
-# resize filesystem
-sudo resize2fs /dev/vda2
-```
-
