@@ -178,4 +178,3 @@ parted /dev/vda
 # resize file system to fill disk space
 resize2fs /dev/vda2
 ```
-
