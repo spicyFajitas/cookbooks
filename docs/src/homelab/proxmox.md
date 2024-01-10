@@ -149,8 +149,8 @@ Be sure when deploying from clones to change the IP address in Cloud Init option
 
 ### Growing Disks (VMs)
 
-!!! warning
-    This documentation is wrong!!! Follow the ["Example with EFI" docs](https://pve.proxmox.com/wiki/Resize_disks#Online_for_Linux_Guests)
+!!! note
+    This documentation is based on the ["Example with EFI" docs](https://pve.proxmox.com/wiki/Resize_disks#Online_for_Linux_Guests)
 
 Note: ubuntu says virtual machine disks are `vda` devices. My ubuntu docker VM had vda1 and vda2, with vda2 being the data partition.
 
