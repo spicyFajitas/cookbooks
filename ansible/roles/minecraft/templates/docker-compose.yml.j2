@@ -28,13 +28,13 @@ services:
   backups:
     image: itzg/mc-backup
     environment:
-      BACKUP_INTERVAL: "2h"
+      BACKUP_INTERVAL: "1d"
       RCON_HOST: mc
       INITIAL_DELAY: 0
       PRE_BACKUP_SCRIPT: |
         echo "Before backup!"
         echo "Also before backup from $$RCON_HOST to $$DEST_DIR"
-      PRUNE_BACKUPS_DAYS: 30
+      PRUNE_BACKUPS_DAYS: 7
     depends_on:
       mc:
         condition: service_healthy
