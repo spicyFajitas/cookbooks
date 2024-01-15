@@ -34,7 +34,7 @@ services:
       PRE_BACKUP_SCRIPT: |
         echo "Before backup!"
         echo "Also before backup from $$RCON_HOST to $$DEST_DIR"
-      PRUNE_BACKUPS_DAYS: 7
+      PRUNE_BACKUPS_DAYS: 2
     depends_on:
       mc:
         condition: service_healthy
@@ -42,7 +42,7 @@ services:
       # mount the same volume used by server, but read-only
       # use a host attached directory so that it in turn can be backed up
       - /opt/minecraft/world_data:/data 
-      - /opt/minecraft/backups:/backups
+      - /mnt/smbbackup/minecraft:/backups
   
   discord-notifier:
     container_name: minecraft-discord-webhook
