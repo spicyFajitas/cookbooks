@@ -10,10 +10,10 @@
 #     dest: "/root/.smb"
 #     mode: "0644"
 
-- name: Mount media SMB share
+- name: Mount smbbackup SMB share
   ansible.posix.mount:
-    src: //10.100.10.15/Media
-    path: /mnt/media
+    src: //10.100.10.15/smbbackup
+    path: /mnt/smbbackup
     opts: "rw,vers=3,file_mode=0600,dir_mode=0700,dom=domain.local,username={{ smb_username }},password={{ smb_password }}"
     fstype: cifs
     state: mounted
