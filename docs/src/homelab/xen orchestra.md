@@ -1,5 +1,7 @@
 # XCP-NG
 
+Also known as Xen Orchestra Appliance. Think of XO/XOA as the Vcenter for XCP-NG.
+
 ## Overview
 
 Information regarding XCP-NG hypervisor.
