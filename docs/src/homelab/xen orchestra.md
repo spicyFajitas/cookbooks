@@ -4,7 +4,7 @@ Also known as Xen Orchestra Appliance. Think of XO/XOA as the Vcenter for XCP-NG
 
 ## Overview
 
-Information regarding XCP-NG hypervisor.
+Information regarding Xen Orchestra Appliance for the [Vates](https://vates.tech/) XCP-NG hypervisor.
 
 ## Xen Orchestra
 
