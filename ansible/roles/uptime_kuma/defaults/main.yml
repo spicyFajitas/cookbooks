@@ -2,7 +2,7 @@
 
 base_dir: /opt/uptime_kuma
 
-container_name: "uptime-kuma"
+container_name: "uptime_kuma"
 container_image: "louislam/uptime-kuma"
 container_version: "latest"
 container_data_volume: "/app/data"
