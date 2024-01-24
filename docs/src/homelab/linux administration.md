@@ -14,6 +14,10 @@ This page is dedicated to helpful commands, techniques, and packages to system a
 
 mount -t cifs -o username={{username}},password={{password}} //{{server}}/{{share}} //mnt/{{directory}}
 
+## Mounting NFS Share
+
+ mount -t nfs 10.10.0.10:/path/to/share /path/to/mount
+
 ## File Permissions
 
 Change ownership `chown <username> </path/to/file>`
