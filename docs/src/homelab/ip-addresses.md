@@ -11,6 +11,7 @@ Active Table
 | vpn                  | x...3      | vpn server                        |
 | upstairs             | x...4      | AP                                |
 | unifi WAP controller | x...5:8443 | software unifi controller         |
+| website              | x...6      | nginx redirection for website     |
 | promxmox             | x...10     | proxmox                           |
 | ansible-server       | x...14     | ubuntu container - ansible server |
 | spicyNAS             | x...15     | truenas storage server            |
