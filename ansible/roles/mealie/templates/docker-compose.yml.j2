@@ -21,6 +21,11 @@ services:
       - MAX_WORKERS=1
       - WEB_CONCURRENCY=1
       - BASE_URL={{ base_domain }}
+    labels:
+      - homepage.group=Containers
+      - homepage.name=Mealie
+      - homepage.icon=mealie.png
+      - homepage.href=https://mealie.adfulton.com/
     restart: always
   
   cloudflare_tunnel_mealie:
