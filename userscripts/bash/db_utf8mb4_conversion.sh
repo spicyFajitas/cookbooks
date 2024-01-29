@@ -1,6 +1,6 @@
 #!/bin/bash
 ###############################################################################
-## Author:  Adam Fulton @spicyFajitas
+## Author:  @spicyFajitas
 ## Date:    2023-07-05
 ## Desc:    converts database character set from whatever to utf8mb4
 ###############################################################################

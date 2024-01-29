@@ -1,6 +1,6 @@
 #!/bin/bash
 ###############################################################################
-## Author:  Adam Fulton @spicyFajitas
+## Author:  @spicyFajitas
 ## Date:    2023-09-14
 ## Desc:    Takes raw files clumped in a folder and puts 
 ## Desc:    each individual file into it's own folder.

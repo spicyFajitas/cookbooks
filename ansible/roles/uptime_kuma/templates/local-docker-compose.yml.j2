@@ -15,6 +15,6 @@ services:
       - homepage.group=Containers
       - homepage.name=Onsite Uptime Kuma
       - homepage.icon=uptime-kuma.png
-      - homepage.href=https://onsite.adfulton.com
+      - homepage.href={{ kuma_domain }}
     environment:
       UPTIME_KUMA_CLOUDFLARED_TOKEN: "{{ local_uptime_kuma_cloudflare_token }}"
