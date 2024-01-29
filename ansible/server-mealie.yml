@@ -1,0 +1,9 @@
+---
+- name: Run mealie playbook
+  hosts: docker_host
+  become: true
+  become_method: sudo
+  roles:
+    - mealie
+  vars_files:
+    - roles/mealie/vaults/production.yml
