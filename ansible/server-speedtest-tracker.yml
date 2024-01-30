@@ -1,6 +1,6 @@
 ---
 - name: Run speedtest-tracker playbook
-  hosts: speedtest_tracker
+  hosts: docker_host
   become: true
   become_method: sudo
   roles:
