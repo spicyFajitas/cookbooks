@@ -1,6 +1,6 @@
 version: '3.3'
 services:
-    speedtest-tracker:
+    speedtest_tracker:
         container_name: speedtest_tracker
         ports:
             - "8085:80"
@@ -20,8 +20,8 @@ services:
         volumes:
             - '/etc/timezone:/etc/timezone:ro'
             - '/etc/localtime:/etc/localtime:ro'
-            - '/opt/speedtest-tracker/config:/config'
-            - '/opt/speedtest-tracker/web:/etc/ssl/web'
+            - '/opt/speedtest_tracker/config:/config'
+            - '/opt/speedtest_tracker/web:/etc/ssl/web'
         image: 'ghcr.io/alexjustesen/speedtest-tracker:latest'
         restart: unless-stopped
         depends_on:
