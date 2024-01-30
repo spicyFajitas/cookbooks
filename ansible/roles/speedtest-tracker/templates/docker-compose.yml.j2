@@ -38,5 +38,5 @@ services:
             - POSTGRES_USER={{ DB_USERNAME }}
             - POSTGRES_PASSWORD={{ DB_PASSWORD }}
         volumes:
-            - /opt/speedtest-tracker/speedtest-db:/var/lib/postgresql/data
+            - /opt/speedtest_tracker/speedtest-db:/var/lib/postgresql/data
         command: -p 5433
