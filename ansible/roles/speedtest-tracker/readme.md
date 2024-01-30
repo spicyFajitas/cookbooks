@@ -13,7 +13,3 @@ Display time zone: `America/Anchorage`
 Time format: `M j, Y h:i:s:a`
 
 Speedtest schedule (cron): `*/10 * * * *` (every 10 minutes)
-
-## To Do
-
-ansible-ize this deployment
