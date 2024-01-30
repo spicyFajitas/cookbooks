@@ -22,6 +22,11 @@ services:
         https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
         https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
     restart: always
+    labels:
+      - homepage.group=Minecraft Server
+      - homepage.name=Minecraft
+      - homepage.icon=minecraft.png
+      - homepage.href={{ map_domain }}/
     volumes:
       - /opt/minecraft/world_data:/data
 
@@ -38,6 +43,11 @@ services:
     depends_on:
       mc:
         condition: service_healthy
+    labels:
+      - homepage.group=Minecraft Server
+      - homepage.name=Backups
+      - homepage.icon=minecraft.png
+      - homepage.href={{ map_domain }}/
     volumes:
       # mount the same volume used by server, but read-only
       # use a host attached directory so that it in turn can be backed up
