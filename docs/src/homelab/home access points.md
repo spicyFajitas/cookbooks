@@ -2,9 +2,9 @@
 
 Status lights for router/access points:
 
-![](../../img/tp_link_deco_status_LEDs.png)
+![](../../file/tp_link_deco_status_LEDs.png)
 
-![](../../img/tp_link_deco_status_LEDs_2.png)
+![](../../file/tp_link_deco_status_LEDs_2.png)
 
 Manual pages:
 

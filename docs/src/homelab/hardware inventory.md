@@ -80,7 +80,12 @@ Dell OptiPlex 3050
 - 1TB TeamGroup SSD
 - ~about 150 W PSU
 
-Two of ThinkCentre M93p 
+??? example "Specs"
+    [lshw](../file/optiplex_3050_lshw.txt)
+    
+    [lshw-short](../file/optiplex_3050_lshw_short.txt)
+
+Two of ThinkCentre M93p
 
 - Core(TM) i7-4785T CPU
 - 2x8 GB SODIMM DDR3 1600 MHz
@@ -122,3 +127,12 @@ PC:
 | Boot Drive  | Samsung SSD 960 EVO 250GB                 | ?           | ?                  |
 
 *Teamgroup T-Force Vulcan Z 16 GB (2 x 8 GB) DDR4-3000 CL16 Memory
+
+### Misc Hardware
+
+Wyze Cam v3
+
+??? example "X-ES Firesale PC"
+    [lshw](../file/xes_firesale_pc_lshw.txt)
+
+    [lshw-short](../file/xes_firesale_pc_lshw_short.txt)

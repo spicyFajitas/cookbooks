@@ -271,11 +271,11 @@ First you want to copy the image you want to have hosted into /it-docs/src/files
 
 Example:
 
-```![](../img/demodoge.png)```
+```![](../file/demodoge.png)```
 
 Result:
 
-![](../img/demodoge.png)
+![](../file/demodoge.png)
 
 ## Referencing Another Page
 
