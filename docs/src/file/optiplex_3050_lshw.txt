@@ -26,27 +26,27 @@ pve
           description: System Memory
           physical id: 9
           slot: System board or motherboard
-          size: 16GiB
+          size: 32GiB
         *-bank:0
-             description: DIMM DDR4 Synchronous Unbuffered (Unregistered) 2400 MHz (0.4 ns)
-             product: 8ATF1G64AZ-2G3H1
-             vendor: Micron Technology
+             description: DIMM DDR4 Synchronous Unbuffered (Unregistered) 2133 MHz (0.5 ns)
+             product: CMK32GX4M2D3600C18
+             vendor: AMI
              physical id: 0
-             serial: 1960B039
+             serial: 00000000
              slot: DIMM1
-             size: 8GiB
+             size: 16GiB
              width: 64 bits
-             clock: 2400MHz (0.4ns)
+             clock: 2133MHz (0.5ns)
         *-bank:1
-             description: DIMM DDR4 Synchronous Unbuffered (Unregistered) 2400 MHz (0.4 ns)
-             product: 8ATF1G64AZ-2G3H1
-             vendor: Micron Technology
+             description: DIMM DDR4 Synchronous Unbuffered (Unregistered) 2133 MHz (0.5 ns)
+             product: CMK32GX4M2D3600C18
+             vendor: AMI
              physical id: 1
-             serial: 1960D367
+             serial: 00000000
              slot: DIMM2
-             size: 8GiB
+             size: 16GiB
              width: 64 bits
-             clock: 2400MHz (0.4ns)
+             clock: 2133MHz (0.5ns)
      *-cache:0
           description: L1 cache
           physical id: d
@@ -80,11 +80,11 @@ pve
           version: 6.158.9
           serial: To Be Filled By O.E.M.
           slot: U3E1
-          size: 3645MHz
+          size: 3638MHz
           capacity: 4200MHz
           width: 64 bits
           clock: 100MHz
-          capabilities: lm fpu fpu_exception wp vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp x86-64 constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single pti tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp cpufreq
+          capabilities: lm fpu fpu_exception wp vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp x86-64 constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single pti tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp vnmi cpufreq
           configuration: cores=4 enabledcores=4 microcode=94 threads=4
      *-pci
           description: Host bridge
@@ -146,8 +146,8 @@ pve
                       width: 32 bits
                       clock: 33MHz
                       capabilities: pm msi pciexpress bus_master cap_list rom ethernet physical tp 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation
-                      configuration: autonegotiation=on broadcast=yes driver=e1000e driverversion=6.2.16-3-pve firmware=5.10-2 latency=0 link=no multicast=yes port=twisted pair
-                      resources: irq:125 memory:f71a0000-f71bffff memory:f7180000-f719ffff ioport:d020(size=32) memory:f7160000-f717ffff
+                      configuration: autonegotiation=on broadcast=yes driver=e1000e driverversion=6.5.11-7-pve firmware=5.10-2 latency=0 link=no multicast=yes port=twisted pair
+                      resources: irq:126 memory:f71a0000-f71bffff memory:f7180000-f719ffff ioport:d020(size=32) memory:f7160000-f717ffff
                  *-network:1 DISABLED
                       description: Ethernet interface
                       product: 82571EB/82571GB Gigabit Ethernet Controller (Copper)
@@ -161,8 +161,8 @@ pve
                       width: 32 bits
                       clock: 33MHz
                       capabilities: pm msi pciexpress bus_master cap_list rom ethernet physical tp 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation
-                      configuration: autonegotiation=on broadcast=yes driver=e1000e driverversion=6.2.16-3-pve firmware=5.10-2 latency=0 link=no multicast=yes port=twisted pair
-                      resources: irq:134 memory:f7140000-f715ffff memory:f7120000-f713ffff ioport:d000(size=32) memory:f7100000-f711ffff
+                      configuration: autonegotiation=on broadcast=yes driver=e1000e driverversion=6.5.11-7-pve firmware=5.10-2 latency=0 link=no multicast=yes port=twisted pair
+                      resources: irq:133 memory:f7140000-f715ffff memory:f7120000-f713ffff ioport:d000(size=32) memory:f7100000-f711ffff
               *-pci:1
                    description: PCI bridge
                    product: PES12N3A 12-lane 3-Port PCI Express Switch
@@ -188,8 +188,8 @@ pve
                       width: 32 bits
                       clock: 33MHz
                       capabilities: pm msi pciexpress bus_master cap_list rom ethernet physical tp 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation
-                      configuration: autonegotiation=on broadcast=yes driver=e1000e driverversion=6.2.16-3-pve firmware=5.10-2 latency=0 link=no multicast=yes port=twisted pair
-                      resources: irq:135 memory:f70a0000-f70bffff memory:f7080000-f709ffff ioport:c020(size=32) memory:f7060000-f707ffff
+                      configuration: autonegotiation=on broadcast=yes driver=e1000e driverversion=6.5.11-7-pve firmware=5.10-2 latency=0 link=no multicast=yes port=twisted pair
+                      resources: irq:134 memory:f70a0000-f70bffff memory:f7080000-f709ffff ioport:c020(size=32) memory:f7060000-f707ffff
                  *-network:1 DISABLED
                       description: Ethernet interface
                       product: 82571EB/82571GB Gigabit Ethernet Controller (Copper)
@@ -203,20 +203,19 @@ pve
                       width: 32 bits
                       clock: 33MHz
                       capabilities: pm msi pciexpress bus_master cap_list rom ethernet physical tp 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation
-                      configuration: autonegotiation=on broadcast=yes driver=e1000e driverversion=6.2.16-3-pve firmware=5.10-2 latency=0 link=no multicast=yes port=twisted pair
-                      resources: irq:136 memory:f7040000-f705ffff memory:f7020000-f703ffff ioport:c000(size=32) memory:f7000000-f701ffff
+                      configuration: autonegotiation=on broadcast=yes driver=e1000e driverversion=6.5.11-7-pve firmware=5.10-2 latency=0 link=no multicast=yes port=twisted pair
+                      resources: irq:135 memory:f7040000-f705ffff memory:f7020000-f703ffff ioport:c000(size=32) memory:f7000000-f701ffff
         *-display
              description: VGA compatible controller
              product: HD Graphics 630
              vendor: Intel Corporation
              physical id: 2
              bus info: pci@0000:00:02.0
-             logical name: /dev/fb0
              version: 04
              width: 64 bits
              clock: 33MHz
-             capabilities: pciexpress msi pm vga_controller bus_master cap_list rom fb
-             configuration: depth=32 driver=i915 latency=0 resolution=1024,768
+             capabilities: pciexpress msi pm vga_controller bus_master cap_list rom
+             configuration: driver=i915 latency=0
              resources: irq:138 memory:f6000000-f6ffffff memory:e0000000-efffffff ioport:f000(size=64) memory:c0000-dffff
         *-usb
              description: USB controller
@@ -229,23 +228,35 @@ pve
              clock: 33MHz
              capabilities: pm msi xhci bus_master cap_list
              configuration: driver=xhci_hcd latency=0
-             resources: irq:126 memory:f7410000-f741ffff
+             resources: irq:127 memory:f7410000-f741ffff
            *-usbhost:0
                 product: xHCI Host Controller
-                vendor: Linux 6.2.16-3-pve xhci-hcd
+                vendor: Linux 6.5.11-7-pve xhci-hcd
                 physical id: 0
                 bus info: usb@1
                 logical name: usb1
-                version: 6.02
+                version: 6.05
                 capabilities: usb-2.00
                 configuration: driver=hub slots=12 speed=480Mbit/s
+              *-usb
+                   description: Video
+                   product: Lihappe8 Webcam L0485A2SP
+                   vendor: SunplusIT Inc
+                   physical id: 9
+                   bus info: usb@1:9
+                   logical name: card1
+                   logical name: /dev/snd/controlC1
+                   logical name: /dev/snd/pcmC1D0c
+                   version: 12.01
+                   capabilities: usb-2.00
+                   configuration: driver=snd-usb-audio maxpower=500mA speed=480Mbit/s
            *-usbhost:1
                 product: xHCI Host Controller
-                vendor: Linux 6.2.16-3-pve xhci-hcd
+                vendor: Linux 6.5.11-7-pve xhci-hcd
                 physical id: 1
                 bus info: usb@2
                 logical name: usb2
-                version: 6.02
+                version: 6.05
                 capabilities: usb-3.00
                 configuration: driver=hub slots=6 speed=5000Mbit/s
         *-generic UNCLAIMED
@@ -285,7 +296,7 @@ pve
              clock: 66MHz
              capabilities: sata msi pm ahci_1.0 bus_master cap_list emulated
              configuration: driver=ahci latency=0
-             resources: irq:127 memory:f7428000-f7429fff memory:f742c000-f742c0ff ioport:f090(size=8) ioport:f080(size=4) ioport:f060(size=32) memory:f742b000-f742b7ff
+             resources: irq:125 memory:f7428000-f7429fff memory:f742c000-f742c0ff ioport:f090(size=8) ioport:f080(size=4) ioport:f060(size=32) memory:f742b000-f742b7ff
            *-disk
                 description: ATA Disk
                 product: T-FORCE 1TB
@@ -408,7 +419,7 @@ pve
                 width: 64 bits
                 clock: 33MHz
                 capabilities: pm msi pciexpress msix bus_master cap_list ethernet physical tp mii 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation
-                configuration: autonegotiation=on broadcast=yes driver=r8169 driverversion=6.2.16-3-pve duplex=full firmware=rtl8168h-2_0.0.2 02/26/15 latency=0 link=yes multicast=yes port=twisted pair speed=1Gbit/s
+                configuration: autonegotiation=on broadcast=yes driver=r8169 driverversion=6.5.11-7-pve duplex=full firmware=rtl8168h-2_0.0.2 02/26/15 latency=0 link=yes multicast=yes port=twisted pair speed=1Gbit/s
                 resources: irq:16 ioport:e000(size=256) memory:f7204000-f7204fff memory:f7200000-f7203fff
         *-isa
              description: ISA bridge

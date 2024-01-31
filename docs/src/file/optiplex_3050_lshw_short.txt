@@ -3,9 +3,9 @@ H/W path          Device          Class          Description
                                   system         OptiPlex 3050 (07A3)
 /0                                bus            08NPPY
 /0/0                              memory         64KiB BIOS
-/0/9                              memory         16GiB System Memory
-/0/9/0                            memory         8GiB DIMM DDR4 Synchronous Unbuffered (Unregistered) 2400 MHz (0.4 ns)
-/0/9/1                            memory         8GiB DIMM DDR4 Synchronous Unbuffered (Unregistered) 2400 MHz (0.4 ns)
+/0/9                              memory         32GiB System Memory
+/0/9/0                            memory         16GiB DIMM DDR4 Synchronous Unbuffered (Unregistered) 2133 MHz (0.5 ns)
+/0/9/1                            memory         16GiB DIMM DDR4 Synchronous Unbuffered (Unregistered) 2133 MHz (0.5 ns)
 /0/d                              memory         256KiB L1 cache
 /0/e                              memory         1MiB L2 cache
 /0/f                              memory         6MiB L3 cache
@@ -19,9 +19,10 @@ H/W path          Device          Class          Description
 /0/100/1/0/4                      bridge         PES12N3A 12-lane 3-Port PCI Express Switch
 /0/100/1/0/4/0    enp4s0f0        network        82571EB/82571GB Gigabit Ethernet Controller (Copper)
 /0/100/1/0/4/0.1  enp4s0f1        network        82571EB/82571GB Gigabit Ethernet Controller (Copper)
-/0/100/2          /dev/fb0        display        HD Graphics 630
+/0/100/2                          display        HD Graphics 630
 /0/100/14                         bus            200 Series/Z370 Chipset Family USB 3.0 xHCI Controller
 /0/100/14/0       usb1            bus            xHCI Host Controller
+/0/100/14/0/9     card1           multimedia     Lihappe8 Webcam L0485A2SP
 /0/100/14/1       usb2            bus            xHCI Host Controller
 /0/100/14.2                       generic        200 Series PCH Thermal Subsystem
 /0/100/16                         communication  200 Series PCH CSME HECI #1
