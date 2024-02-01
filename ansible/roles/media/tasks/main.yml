@@ -5,12 +5,6 @@
     name: cifs-utils
     state: present
 
-- name: Create smb credentials file
-  ansible.builtin.template:
-    src: "smb.j2"
-    dest: "/root/.smb"
-    mode: "0644"
-
 - name: Create media group
   ansible.builtin.group:
     name: media
