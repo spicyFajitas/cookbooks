@@ -1,0 +1,9 @@
+---
+- name: Run frigate playbook
+  hosts: docker_host
+  become: true
+  become_method: sudo
+  roles:
+    - frigate
+  vars_files:
+    - roles/frigate/vaults/production.yml

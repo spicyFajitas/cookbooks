@@ -1,0 +1,27 @@
+version: '2.4'
+services:
+  wyze-bridge:
+    container_name: wyze-bridge
+    restart: unless-stopped
+    image: mrlt8/wyze-bridge:latest
+    ports:
+      - 1935:1935 # RTMP
+      - 8554:8554 # RTSP
+      - 8888:8888 # HLS
+      - 8889:8889 #WebRTC
+      - 8189:8189/udp # WebRTC/ICE
+      - 5000:5000 # WEB-UI
+    labels:
+      - homepage.group=Containers
+      - homepage.name=Wyze Bridge
+      - homepage.icon=https://asset.brandfetch.io/id1Kycn0Dv/id91uyMnTy.png
+      - homepage.href={{ base_domain }}/
+    environment:
+      # [OPTIONAL] (Can be set in the WebUI):
+      - WYZE_EMAIL={{ wyze_email }}
+      - WYZE_PASSWORD={{ wyze_password }}
+      # [OPTIONAL] IP Address of the host to enable WebRTC e.g.,:
+      # - WB_IP=192.168.1.122
+      # [OPTIONAL] Wyze API credentials:
+      - API_ID={{ key_id }}
+      - API_KEY={{ api_key }}

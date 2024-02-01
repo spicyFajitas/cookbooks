@@ -1,0 +1,9 @@
+---
+- name: Run wyze bridge playbook
+  hosts: docker_host
+  become: true
+  become_method: sudo
+  roles:
+    - wyze
+  vars_files:
+    - roles/wyze/vaults/production.yml
