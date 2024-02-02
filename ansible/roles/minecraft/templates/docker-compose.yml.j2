@@ -94,3 +94,10 @@ services:
       - PROXIED=false
       - UPDATE_CRON=@every 60m
       - UPDATE_ON_START=true
+
+  cloudflare_tunnel_dynmap:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run
+    restart: unless-stopped
+    environment:
+      TUNNEL_TOKEN: {{ cf_tunnel_api }}
