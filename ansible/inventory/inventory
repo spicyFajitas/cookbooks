@@ -13,6 +13,11 @@ ansible_user=root
 [vpn:vars]
 ansible_user=root
 
+[linux_server]
+10.100.10.7
+[linux_server:vars]
+ansible_user=root
+
 [ansible]
 10.100.10.14
 [ansible:vars]
