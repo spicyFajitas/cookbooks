@@ -12,11 +12,11 @@ This page is dedicated to helpful commands, techniques, and packages to system a
 
 ### Mounting SMB Share
 
-mount -t cifs -o username={{username}},password={{password}} //{{server}}/{{share}} //mnt/{{directory}}
+mount -t cifs -o username={{username}},password={{password}},domain={{domain}} //{{server}}/{{share}} //mnt/{{directory}}
 
 ### Mounting NFS Share
 
- mount -t nfs 10.10.0.10:/path/to/share /path/to/mount
+mount -t nfs 10.10.0.10:/path/to/share /path/to/mount
 
 ## File Permissions
 
