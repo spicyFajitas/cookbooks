@@ -6,6 +6,8 @@ This is for my ... DVD's...
 
 ## Known Issues
 
+### Radarr not connecting
+
 [https://github.com/linuxserver/docker-radarr/issues/204](https://github.com/linuxserver/docker-radarr/issues/204)
 
 ```
@@ -44,6 +46,23 @@ Close
 
 ~ SBerg1980 - GitHub
 
-## Solution
+#### Solution
 
 Turn off Unifi ad blocker.
+
+### Gluetun Health Checks Failing
+
+Gluetun fails health checks [GitHub Wiki](https://github.com/qdm12/gluetun-wiki/blob/main/faq/healthcheck.md)
+
+```shell
+# example
+root@docker-host:/opt/media# docker logs gluetun | grep health
+2024-02-05T21:13:26Z INFO [healthcheck] listening on 127.0.0.1:9999
+2024-02-05T21:13:30Z INFO [healthcheck] healthy!
+2024-02-05T21:13:53Z INFO [healthcheck] unhealthy: dialing: dial tcp4: lookup cloudflare.com: i/o timeout
+2024-02-05T21:13:54Z INFO [healthcheck] healthy!
+```
+
+#### Solution
+
+I've configured health check options that differ from the defaults. Options are [here](https://github.com/qdm12/gluetun-wiki/blob/main/setup/options/healthcheck.md)
