@@ -51,7 +51,7 @@ services:
     volumes:
       # mount the same volume used by server, but read-only
       # use a host attached directory so that it in turn can be backed up
-      - /opt/minecraft/world_data:/data 
+      - /opt/minecraft/world_data:/data:ro
       - /mnt/smbbackup/minecraft:/backups
   
   discord-notifier:
