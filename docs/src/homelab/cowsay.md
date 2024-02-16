@@ -16,5 +16,5 @@ echo "$QUOTE"
 
 ```bash
 # uncomment line below to run motd every login
-# run-parts /etc/update-motd.d/
+# run-parts /etc/update-motd.d/ 
 ```
