@@ -1,0 +1,20 @@
+---
+- name: template postfix configuration file
+  ansible.builtin.template:
+    src: "{{ item.src }}" 
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: 0600
+  loop:
+    - { src: 'main.cf.j2', dest: '/etc/postfix/main.cf' }
+    - { src: 'sasl_passwd.j2', dest: '/etc/postfix/sasl_passwd' }
+  diff: True
+  register: changed_files
+
+- name: Hash files in /etc/postfix
+  ansible.builtin.shell: postmap {{ item }}
+  loop:
+    - /etc/postfix/sasl_passwd
+    
+  when: changed_files.changed
