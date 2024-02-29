@@ -1,0 +1,9 @@
+---
+- name: Run proxmox playbook
+  hosts: proxmox
+  become: true
+  become_method: sudo
+  roles:
+    - proxmox
+  vars_files:
+    - roles/proxmox/vaults/production.yml

@@ -1,0 +1,33 @@
+---
+- name: Template postfix files
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ postfix_dir }}/{{ item }}"
+    mode: "0600"
+  loop: "{{ postfix_files }}"
+  diff: true
+  notify: Reload Postfix
+
+- name: Configure SMTP header checks
+  ansible.builtin.lineinfile:
+    path: /etc/postfix/smtp_header_checks
+    line: "/^From:.*/ REPLACE From: Linux Server <linux-server@adfulton.com>"
+    owner: root
+    group: root
+    mode: '0600'
+    create: true
+
+- name: Enable SMTP header checks in main.cf
+  ansible.builtin.lineinfile:
+    path: /etc/postfix/main.cf
+    line: "smtp_header_checks = pcre:/etc/postfix/smtp_header_checks"
+
+# - name: Hash sasl_passwd.db
+#   ansible.builtin.command:: postmap hash:/etc/postfix/sasl_passwd
+#   when: not sasl_passwd_db.stat.exists or sasl_passwd.stat.changed
+#   notify: Reload Postfix
+
+# - name: Hash smtp_header_checks.db
+#   ansible.builtin.command: postmap hash:/etc/postfix/smtp_header_checks
+#   when: not smtp_header_checks.db.stat.exists or smtp_header_checks.stat.changed
+#   notify: Reload Postfix
