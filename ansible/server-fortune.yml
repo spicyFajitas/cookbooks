@@ -1,0 +1,9 @@
+---
+- name: Run fortune bot playbook
+  hosts: linux_server
+  become: true
+  become_method: sudo
+  roles:
+    - fortune
+  vars_files:
+    - roles/fortune/vaults/production.yml
