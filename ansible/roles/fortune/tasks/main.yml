@@ -13,9 +13,10 @@
   ansible.builtin.template:
     src: "{{ item }}.j2"
     dest: "{{ postfix_dir }}/{{ item }}"
-    mode: "0644"
+    mode: "0600"
   loop: "{{ postfix_files }}"
   notify: Reload Postfix
+  diff: true
 
 - name: Configure SMTP header checks
   ansible.builtin.lineinfile:
