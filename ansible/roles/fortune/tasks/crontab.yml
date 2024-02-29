@@ -3,7 +3,7 @@
 - name: "Tempalte crontab: daily fortune email"
   ansible.builtin.cron:
     name: "Ansible: daily fortune email"
-    minute: "00"
+    minute: "0"
     hour: "6"
     job: "fortune -o -c | cowsay | mail -s \"Moo-sery Loves Company: Today's Inappropriate Fortune\" {{ email_list }}"
   diff: true
