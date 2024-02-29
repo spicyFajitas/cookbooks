@@ -23,13 +23,16 @@
     state: started
     enabled: true
   loop:
-    - fail2ban
     - ssh
 
+- name: Set timezone to America/Detroit
+  community.general.timezone:
+    name: America/Detroit
+
 - name: Run apt upgrade
+  when: not apt_upgrade_override | default(false)
   apt:
     upgrade: yes
 
 - name: Restart services if needed
-  # https://www.captainark.net/2016/01/31/debian-updates-with-ansible/
-  shell: needrestart -blra
+  shell: needrestart -r a

@@ -12,15 +12,37 @@ To run playbooks, `cd` into the `/cookbooks/ansible` directory of the repo.
 
 To run a playbook against a local machine, run the command `ansible-playbook --connection=local server-playbook.yml -i 127.0.0.1`
 
-To run the playbook on a remote machine, run using the command `ansible-playbook server-xyxplay.yml -i inventory/inventory --vault-password-file location/of/your/vault-password-file.txt`
+To run the playbook on a remote machine, run using the command `ansible-playbook server-xyxplay.yml -i inventory/inventory --vault-password-file vault-pass.txt`
+
+<!-- or other location of your vault password file -->
 
 To limit the playbook run to certain hosts, use the `--limit hostname` flag. You can limit to more than one host by specifying the group name instead of hostname or by putting multiple hosts: `--limit "host1,host2,host3,host4"`
 
 To run a playbook in pretend mode, add the flag `--check`
 
-## Future Plans
+## Group/Host Variable Precedence
 
-- [ ] Create ansible role for templating email (postfix) on Proxmox so that I can get emails and they won't flag
+In a basic ansible inventory file with the below syntax example, each bracket-ed line defined a group. If you want to apply specific variable overrides to a certain group, you can create `group_vars/vpn.yml` and it will override the default `group_vars/all.yml`. Since my environment does not have DNS, each host is defined as an IP address. If you wanted to override with a host_var file, you will need to name the file using the IP address that defines the host.
+
+```ini
+[all]
+
+[separate_hosts]
+192.168.10.2
+192.168.10.3
+[separate_hosts:vars]
+ansible_user=root
+
+[vpn]
+192.168.10.4
+[vpn:vars]
+ansible_user=root
+
+[linux_server]
+192.168.10.5
+[linux_server:vars]
+ansible_user=root
+```
 
 ## Common Tasks
 

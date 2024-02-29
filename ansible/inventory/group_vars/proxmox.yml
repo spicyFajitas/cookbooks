@@ -1,0 +1,11 @@
+---
+package_list:
+  - libsasl2-modules 
+  - mailutils
+  - needrestart
+  - postfix-pcre
+  - vim
+
+apt_upgrade_override: true
+
+upgrade: false

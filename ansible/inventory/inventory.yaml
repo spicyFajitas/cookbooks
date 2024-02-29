@@ -1,0 +1,55 @@
+# runs `server-hosts.yml` playbook on the common hosts
+common:
+  hosts:
+    10.100.10.3:
+    10.100.10.7:
+    10.100.10.14:
+    10.100.10.17:
+    10.100.10.20:
+  vars:
+    ansible_user: root
+
+separate_hosts:
+  hosts:
+    10.100.10.3:
+    10.100.10.14:
+    10.100.10.17:
+    10.100.10.20:
+  vars:
+    ansible_user: root
+
+vpn:
+  hosts:
+    10.100.10.3:
+  vars:
+    ansible_user: root
+
+linux_server:
+  hosts:
+    10.100.10.7:
+  vars:
+    ansible_user: root
+
+proxmox:
+  hosts:
+    10.100.10.10:
+  vars:
+    ansible_user: root
+
+ansible:
+  hosts:
+    10.100.10.14:
+  vars:
+    ansible_user: root
+
+semaphore:
+  hosts:
+    10.100.10.17:
+  vars:
+    ansible_user: root
+
+docker_host:
+  hosts:
+    10.100.10.20:
+  vars:
+    ansible_user: root

@@ -1,6 +1,6 @@
 ---
 - name: Common role
-  hosts: all
+  hosts: common
   become: true
   become_method: sudo
   roles:
