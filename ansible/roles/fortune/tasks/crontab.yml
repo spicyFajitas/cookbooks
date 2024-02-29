@@ -4,6 +4,6 @@
   ansible.builtin.cron:
     name: "Ansible: daily fortune email"
     minute: "00"
-    hour: "7"
+    hour: "6"
     job: "fortune -o -c | cowsay | mail -s 'Moo-sery Loves Company: Today's Inappropriate Fortune' {{ email_list }}"
   diff: true
