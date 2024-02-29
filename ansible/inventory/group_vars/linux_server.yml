@@ -1,0 +1,11 @@
+---
+extra_packages:
+  - cowsay
+  - fortune
+  - fortune-mod
+  - fortunes
+  - fortunes-off
+  - fortunes-min
+  - libsasl2-modules 
+  - mailutils
+  - postfix-pcre
