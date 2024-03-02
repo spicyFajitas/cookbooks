@@ -5,7 +5,6 @@
     name: CRON_TZ
     env: yes
     job: America/Detroit
-    insertafter: PATH
 
 - name: "Tempalte crontab: daily fortune email"
   ansible.builtin.cron:
