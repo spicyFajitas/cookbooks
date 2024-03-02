@@ -24,7 +24,7 @@ Change ownership `chown <username> </path/to/file>`
 
 Change ownership recursively with the `-r` flag `chown -r <username> </path/to/file>`
 
-### Networking
+## Networking
 
 `etc/network/interfaces` will contain information related to the interfaces
 
@@ -36,7 +36,7 @@ DHCP verbose `dhclient -v`
 
 Manually set IP addresses `ip addr add 192.168.1.100/24 dev eth0`
 
-#### Netplan Configuration
+### Netplan Configuration
 
 ```yaml
 network:
@@ -50,6 +50,25 @@ network:
             routes:
                 - to: default
                   via: 10.100.10.1
+```
+
+## Cron
+
+Cron is a great way to schedule tasks on a linux system. Cron format looks like 
+
+```cron
+# minute hour day week month
+0 6 * * * /path/of/script
+
+# you can also call commands
+0 6 * * * uname -r >> /var/log/uname
+```
+
+It is good practice to set the time zone in the crontab file so your crons will run at the proper time
+
+```cron
+# setting timezone for cron timers
+CRON_TZ=America/Detroit
 ```
 
 ## Swap
