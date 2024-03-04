@@ -40,7 +40,7 @@
     - configuration/configuration.py
     - configuration/gunicorn_config.py
 
-- name: Ensure services are running
+- name: Pull container updates
   community.docker.docker_compose:
     project_src: "{{ base_dir }}"
     pull: True
