@@ -31,9 +31,17 @@
     mode: "0644"
   loop:
     - docker-compose.yml
-    - whitelist.json
   diff: True
 # notify: Restart container(s)
+- name: Update configuration files
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ base_dir }}/world_data/{{ item }}"
+    mode: "0644"
+  loop:
+    - whitelist.json
+  diff: True
+  notify: Restart container(s)
 
 - name: Pull container updates
   community.docker.docker_compose:
