@@ -57,7 +57,7 @@ network:
 Cron is a great way to schedule tasks on a linux system. Cron format looks like 
 
 ```cron
-# minute hour day week month
+# minute hour day_of_month month day_of_week
 0 6 * * * /path/of/script
 
 # you can also call commands
