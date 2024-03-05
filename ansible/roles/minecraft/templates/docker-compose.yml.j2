@@ -18,6 +18,7 @@ services:
       SPIGET_RESOURCES: 39965,74429,60623,101066
       MOTD: "A Paper Minecraft server hosted in Docker!"
       FORCE_REDOWNLOAD: 'true'
+      WHITELIST_FILE: whitelist.json
       PLUGINS: |
         https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
         https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
@@ -29,6 +30,20 @@ services:
       - homepage.href={{ map_domain }}/
     volumes:
       - /opt/minecraft/world_data:/data
+#    depends_on:
+#      - restore-backup
+#          condition: service_completed_successfully
+
+#  restore-backup:
+#    # Same image as mc, but any base image with bash and tar will work
+#    image: itzg/mc-backup
+#    restart: "no"
+#    entrypoint: restore-tar-backup
+#    volumes:
+#      # Must be same mount as mc service, needs to be writable
+#      - /opt/minecraft/restored_data:/data
+#      # Must be same mount as backups service, but can be read-only
+#      - /mnt/smbbackup/minecraft:/backups:ro
 
   backups:
     image: itzg/mc-backup
