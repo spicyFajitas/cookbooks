@@ -31,7 +31,6 @@
     mode: "0644"
   loop:
     - docker-compose.yml
-    - whitelist.json
   diff: True
 # notify: Restart container(s)
 
