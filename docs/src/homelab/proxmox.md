@@ -1,5 +1,13 @@
 # Proxmox
 
+## Known Issues
+
+### Attached Devices Changing Device Number
+
+I had added a PCIe 4 port gigabit network adapter to my primary Proxmox host because I didn't want to store it loosely in my tech tote. I removed it as I have plans to add a PCIe bifurcation card to run disks in mirrored mode and improve VM performance. However, Proxmox networking was screwed up because `/etc/network/interfaces` changed with the device rename of the primary ethernet adapter I was using (the one attached to the motherboard).
+
+The fix is running `journalctl -b 0 | grep renamed` - this will show you the old name of the network adapter and what it was changed to. You just need to edit `/etc/network/interfaces` and revert the automatic name change if removing devices.
+
 ## Setup Tasks
 
 Most of these are based on YouTuber Techno Tim's video [Before I do anything on Proxmox, I do this first...](https://www.youtube.com/watch?v=GoZaMgEgrHw) but there are some configurations I do outside of the video as well.
@@ -30,7 +38,11 @@ To remove the popup message “You do not have a valid subscription for this ser
 
 #### Local Storage
 
-Navigate via the GUI to Disks > `option` for whatever option you want to configure with local disks.
+Navigate via the GUI to Server > Disks > `/disk/name` for whatever option you want to configure with local disks.
+
+If a local disk fails, you need to remove it by navigating to the disk type, destroying the disk. Navigate to the Disks menu and `Initialize Disk with GPT`. Then, you can navigate to the storage type and create the storage type you want.
+
+For example, when `storageSSD` failed, I had to delete the disk in the `LVM-Thin` menu, Re-Initialize the Disk with GPT, then navigate to LVM-Thin and `Create: Thinpool` on the unused disk - `/dev/sda`.
 
 ##### SMART
 
@@ -38,7 +50,7 @@ SMART is usually enabled by default but if it is not, `smartctl -a /dev/sdX` Tur
 
 #### Networked Storage
 
-Dataventer -> Storage -> Add ->  {{ storage type }}
+Datacenter -> Storage -> Add ->  {{ storage type }}
 
 Configure SMB with the following settings:
 

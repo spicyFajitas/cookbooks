@@ -1,3 +1,9 @@
 {
-    "ansible.python.interpreterPath": "/bin/python3"
+    "ansible.python.interpreterPath": "/bin/python3",
+    "cSpell.words": [
+        "Datacenter",
+        "journalctl",
+        "smartctl",
+        "Thinpool"
+    ]
 }
