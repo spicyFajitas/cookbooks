@@ -1,4 +1,4 @@
-# SAT 4411 Lab 5 - Terraform and VM Automation
+# Lab 5 - Terraform and VM Automation
 
 This is the documentation for this lab
 
