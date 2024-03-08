@@ -12,4 +12,4 @@ Cross reference is KN-177 K&N, Fram PH 4967, or others in [this link](https://ba
 
 ## Service Manual
 
-(Service manual)[http://www.buellmods.com/content/downloads/manuals/blast/2005_blast_manual.pdf]
+[Service manual](http://www.buellmods.com/content/downloads/manuals/blast/2005_blast_manual.pdf)
