@@ -37,7 +37,7 @@ services:
         https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
     restart: always
     labels:
-      - homepage.group=Minecraft Server
+      - homepage.group=Containers
       - homepage.name=Minecraft
       - homepage.icon=minecraft.png
       - homepage.href={{ map_domain }}/
@@ -72,7 +72,7 @@ services:
       mc:
         condition: service_healthy
     labels:
-      - homepage.group=Minecraft Server
+      - homepage.group=Containers
       - homepage.name=Backups
       - homepage.icon=minecraft.png
       - homepage.href={{ map_domain }}/
