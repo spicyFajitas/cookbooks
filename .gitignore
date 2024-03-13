@@ -31,3 +31,4 @@ credentials.tfvars
 *terraform.lock.hcl*
 *tfstate*
 .terraform*
+*.tfvars
