@@ -45,3 +45,40 @@ tclark
 1. `hydra -L /home/playerone/Desktop/users.txt -P /usr/share/wordlists/rockyou.txt 172.16.30.55 smb`
 1. Mark bad accounts in AD
 1. Active Directory Users and Computers > Right Click Properties > Check User must change password at next login
+
+## Commands on MSFconsole
+
+Contents of `users.txt`:
+
+```txt
+asteele
+fileshare
+Guest
+jsmith
+jraffin
+jcortes
+krbtgt
+manderson
+nkeefe
+playerone
+rcortes
+sec-desk
+skeefe
+sshd
+sshd_server
+tclark
+```
+
+```bash
+cd Desktop
+vim users.txt
+msfconsole
+```
+
+```bash
+# once metasploit has been entered
+msf> spool /home/playerone/Desktop/msfout.txt
+msf> use auxiliary/scanner/http/joomla_bruteforce_login
+msf> set RHOSTS 172.16.10.100
+run
+```
