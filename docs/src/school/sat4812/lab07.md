@@ -1,5 +1,7 @@
 # Lab7
 
+All documentation is written in markdown format
+
 ## Add `niceuser` account to Mail server
 
 ```bash
