@@ -1,5 +1,11 @@
 # Netdata
 
+## Overview
+
+Commands for test notification:
+
+`/usr/libexec/netdata/plugins.d/alarm-notify.sh test`
+
 ## Config for Discord
 
 ```bash
