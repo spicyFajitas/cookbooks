@@ -117,3 +117,21 @@ root@docker-host:~# docker inspect ff53ff8ed9987187ff062009b006719024a4c749b9ab4
                 "Name": "netbox_netbox-redis-data",
                 "Source": "/var/lib/docker/volumes/netbox_netbox-redis-data/_data",
 ```
+
+## Dockerfile example:
+
+```Dockerfile
+FROM alpine:3.7
+RUN apk add --no-cache bash curl
+
+WORKDIR /app
+
+COPY minecraft-discord-webhook.sh .
+COPY ./lang ./lang
+
+CMD ["bash", "-c", "WEBHOOK_URL=$WEBHOOK_URL SERVERLOG=./logs LANGUAGE=$LANGUAGE FOOTER=$FOOTER ./minecraft-discord-webhook.sh $WEBHOOK_URL"]
+```
+
+The image builds upon the default alpine version 3.7 container. It adds two packages: bash and curl to the container image. The working directory is set as /app and then it copies a script minecraft-discord-webhook.sh into the container. It also copies a directory lang into the container. Then the container start command is defined, which is calling the script copied into the container and giving that script flags for the variables in the script.
+
+To build this container you would run docker build . -f Dockerfile -t minecraft-discord-webhook-container. This command builds the container given the current directory “.” and using file “Dockerfile.” The output, or “target” for the built container is defined as “minecraft-discord-webhook-container”. In order to run this new container, you would run docker run minecraft-discord-webhook-container. Of course, you’ll need to set some environment variables in the docker run command, or your container will error out when trying to start.
