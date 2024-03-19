@@ -1,5 +1,7 @@
 # Lab9
 
+All documentation is written in markdown format
+
 ## Firewall Rules Implemented and Dropped Traffic Being Logged on Prod-Joomla
 
 Ran commands on `Prod-Joomla`:
