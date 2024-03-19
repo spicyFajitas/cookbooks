@@ -102,7 +102,7 @@ services:
       TUNNEL_TOKEN: "{{ cloudflare_tunnel_token }}"
 
   gluetun:
-    image: qmcgaw/gluetun
+    image: qmcgaw/gluetun:v3
     container_name: gluetun
     cap_add:
       - NET_ADMIN
