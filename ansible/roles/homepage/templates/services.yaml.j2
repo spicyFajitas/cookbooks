@@ -43,6 +43,15 @@
             url: https://10.100.10.15
             key: {{ truenas_api_key }} # not required if using username / password
 
+    - TrueNAS 2:
+        icon: truenas-scale.png
+        href: https://10.100.10.16
+        ping: https://10.100.10.16
+        widget:
+            type: truenas
+            url: https://10.100.10.16
+            key: {{ truenas2_api_key }} # not required if using username / password
+
     - Ansible Server:
         icon: ansible.png
         href: http://10.100.10.14
