@@ -1,11 +1,17 @@
 {
     "ansible.python.interpreterPath": "/bin/python3",
     "cSpell.words": [
+        "BIGTREETECH",
+        "Bowden",
+        "Creality",
         "Datacenter",
+        "GCODE",
+        "Hotend",
         "journalctl",
         "niceuser",
         "playerone",
         "smartctl",
-        "Thinpool"
+        "Thinpool",
+        "Ultimaker"
     ]
 }
