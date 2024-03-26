@@ -283,17 +283,17 @@ You can link/reference another page in the docs by relative file path.
 
 Example:
 
-```[My proxmox documentation page](../documentation/proxmox.md)```
+```[My proxmox documentation page](../homelab/proxmox.md)```
 
-[My proxmox documentation page](../documentation/proxmox.md)
+[My proxmox documentation page](../homelab/proxmox.md)
 
 You can also link/refernece a specific header on the page.
 
 Example:
 
-```[my cloud init ubuntu template - proxmox documentation](../documentation/proxmox.md#cloud-init-ubuntu-template)```
+```[my cloud init ubuntu template - proxmox documentation](../homelab/proxmox.md#cloud-init-ubuntu-template)```
 
-[my cloud init ubuntu template - proxmox documentation](../documentation/proxmox.md#cloud-init-ubuntu-template)
+[my cloud init ubuntu template - proxmox documentation](../homelab/proxmox.md#cloud-init-ubuntu-template)
 
 ## Check Lists
 

@@ -12,8 +12,10 @@ plugins:
 extra_css:
   - css/extra.css
 
-# enable features
-features:
+# colors
+theme:
+  name: material
+  features:
   - announce.dismiss
   - content.action.edit
   - content.action.view
@@ -28,10 +30,6 @@ features:
   - navigation.tracking
   - toc.follow
   - toc.integrate
-
-# colors
-theme:
-  name: material
   icon:
     repo: fontawesome/brands/github
   palette:
