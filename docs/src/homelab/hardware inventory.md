@@ -27,17 +27,18 @@ Checked items are currently in use.
 
 ### Compute
 
-| In Use | Host               | Future Plans    |
-| :----: | :----------------- | --------------- |
-|  [X]   | Dell OptiPlex 3050 |                 |
-|  [ ]   | Thinkcentre M93p   | Kubernetes Host |
-|  [ ]   | Thinkcentre M93p   | Kubernetes Host |
+| In Use | Host               | Use / Future Plans    |
+| :----: | :----------------- | --------------------- |
+|  [X]   | Dell OptiPlex 3050 | Virtualization Host   |
+|  [ ]   | Thinkcentre M93p   | Proxmox Backup Server |
+|  [X]   | Thinkcentre M93p   | Desktop               |
 
 ### Specs/Configs
 
 #### Ruckus Switch
 
 Console connection settings:
+
 | Parameter             | Value |
 | --------------------- | ----- |
 | Baud: Bits per second | 9600  |

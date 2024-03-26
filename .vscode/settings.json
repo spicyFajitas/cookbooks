@@ -8,10 +8,15 @@
         "GCODE",
         "Hotend",
         "journalctl",
+        "libsasl",
+        "mailutils",
         "niceuser",
+        "pcre",
         "playerone",
+        "postmap",
         "smartctl",
         "Thinpool",
+        "TLDR",
         "Ultimaker"
     ]
 }

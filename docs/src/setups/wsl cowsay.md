@@ -1,4 +1,4 @@
-# Cowsay
+# WSL Cowsay
 
 ## Overview
 
