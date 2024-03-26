@@ -32,7 +32,36 @@ Reboot
 
 ### Turn off No-Subscription Notice
 
-To remove the popup message “You do not have a valid subscription for this server”, follow the instructions on [this GitHub repo](https://github.com/foundObjects/pve-nag-buster/). This is also known as the pve-nag-buster.
+To remove the popup message “You do not have a valid subscription for this server”, follow the instructions below or on [this GitHub repo](https://github.com/foundObjects/pve-nag-buster/). This is also known as the pve-nag-buster.
+
+Installation with wget
+
+```bash
+wget https://raw.githubusercontent.com/foundObjects/pve-nag-buster/master/install.sh
+
+# Always read scripts downloaded from the internet before running them with sudo
+sudo bash install.sh
+
+# or ..
+chmod +x install.sh && sudo ./install.sh
+```
+
+Installation with git
+
+```bash
+git clone https://github.com/foundObjects/pve-nag-buster.git
+
+# Always read scripts downloaded from the internet before running them with sudo
+cd pve-nag-buster && sudo ./install.sh
+```
+
+Uninstall
+
+```
+sudo ./install.sh --uninstall
+# remove /etc/apt/sources.list.d/pve-no-subscription.list if desired
+
+```
 
 ### Storage
 
@@ -190,3 +219,85 @@ parted /dev/vda
 # resize file system to fill disk space
 resize2fs /dev/vda2
 ```
+
+## Email Alerts
+
+This section is based on YouTuber Techno Tim's guide [Set up alerts in Proxmox before it's too late!](https://technotim.live/posts/proxmox-alerts/)
+
+### TLDR: Alert Config
+
+???+ note "Required Config"
+
+    You'll need a Google app password for the Google account you want to use to send emails. Follow [Google's guide](https://support.google.com/accounts/answer/185833?hl=en) on how to make [app passwords](https://myaccount.google.com/apppasswords).
+
+    ```bash
+    # commands to be run in proxmox shell
+    apt update
+    apt install -y libsasl2-modules mailutils
+
+    # configure postfix
+    echo "smtp.gmail.com your-email@gmail.com:YourAppPassword" > /etc/postfix/sasl_passwd
+    # update permissions
+    chmod 600 /etc/postfix/sasl_passwd
+    # hash the file
+    postmap hash:/etc/postfix/sasl_passwd
+    # ensure hashed db file was created 
+    cat /etc/postfix/sasl_passwd.db
+    ```
+    
+    Edit postfix config `vim /etc/postfix/main.cf`
+
+    ```conf
+    # /etc/postfix/main.cf
+    # google mail configuration
+    relayhost = smtp.gmail.com:587
+    smtp_use_tls = yes
+    smtp_sasl_auth_enable = yes
+    smtp_sasl_security_options =
+    smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+    smtp_tls_CAfile = /etc/ssl/certs/Entrust_Root_Certification_Authority.pem
+    smtp_tls_session_cache_database = btree:/var/lib/postfix/smtp_tls_session_cache
+    smtp_tls_session_cache_timeout = 3600s
+    ```
+
+    ```bash
+    # reload post fix
+    systemctl postfix reload
+
+    echo "This is a test message sent from postfix on my Proxmox Server" | mail -s "Test Email from Proxmox" your-email@gmail.com
+    ```
+
+???+ note "Optional Config"
+
+    ```bash
+    apt update
+    apt install postfix-pcre
+
+    vim /etc/postfix/smtp_header_checks
+    ```
+
+    Add the following text:
+
+    ```conf
+    # /etc/postfix/smtp_header_checks
+    /^From:.*/ REPLACE From: pve1-alert <pve1-alert@something.com>
+    ```
+
+    ```bash
+    # hash the file
+    postmap hash:/etc/postfix/smtp_header_checks
+    # check the contents of the file
+    cat /etc/postfix/smtp_header_checks.db
+    ```
+
+    Edit postfix config again `vim /etc/postfix/main.cf`:
+
+    ```conf
+    smtp_header_checks = pcre:/etc/postfix/smtp_header_checks
+    ```
+
+    Reload postfix `systemctl postfix reload`
+
+### Alert Config Explained
+
+Setting up alerts depends on `mailutils`, `libsasl2-modules`, and `postfix-pcre`. According to [their website](https://mailutils.org/), `mailutils` is "Mailutils is a swiss army knife of electronic mail handling. It offers a rich set of utilities and daemons for processing e-mail." `libsasl2-modules` provides authentication with Google's servers using the app password, and `postfix-pcre` allows Perl Compatible Regular Expression for modifying the headers of the emails that are sent. Basically, you're setting up the email server config to reach out to Google's mail servers and authenticate using the app password.
