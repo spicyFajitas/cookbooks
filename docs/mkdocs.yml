@@ -13,42 +13,24 @@ extra_css:
   - css/extra.css
 
 # enable features
-features:
-  - content.code.copy
-  - navigation.indexes
-  - navigation.instant
-  - navigation.path
-  - navigation.sections
-  - navigation.tabs
-  - navigation.tabs.sticky
-  - navigation.tracking
-  - toc.follow
-  - toc.integrate 
 
-# page tree
-# nav:
-#   - Home: index.md
-#   - Documentation: 
-#     - Proxmox: documentation/Proxmox.md
-#     - Router: documentation/Router.md
-#     - Hardware Inventory: documentation/Hardware Inventory.md
-#     - Networking: documentation/Networking.md
-#     - Subnetting: documentation/Subnetting Plans.md
-#     - Linux: documentation/Linux.md
-#     - Netbox: documentation/Netbox.md
-#   - Projects:
-#     - Projects: projects/Projects.md
-#   - Work Experience: 
-#     - Work Experience: work experience/Work Experience.md
-#   - Classes:
-#     - Linux Admin: classes/sat2711/info.md
-#   - Reference: Reference.md
 
 # colors
 theme:
   name: 'material'
   icon:
     repo: fontawesome/brands/github
+  features:
+    - content.code.copy
+    - navigation.indexes
+    - navigation.instant
+    - navigation.path
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.tracking
+    - toc.follow
+    - toc.integrate
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
