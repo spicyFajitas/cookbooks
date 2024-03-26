@@ -18,8 +18,6 @@ extra_css:
 # colors
 theme:
   name: material
-  icon:
-    repo: fontawesome/brands/github
   features:
     - content.code.copy
     - navigation.indexes
@@ -31,6 +29,8 @@ theme:
     - navigation.tracking
     - toc.follow
     - toc.integrate
+  icon:
+    repo: fontawesome/brands/github
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
