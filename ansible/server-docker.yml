@@ -5,8 +5,3 @@
   become_method: sudo
   roles:
     - docker
-    
-- name: Install Ansible Galaxy role community.docker
-  ansible.builtin.community.general.collection:
-    name: community.general
-    state: present
