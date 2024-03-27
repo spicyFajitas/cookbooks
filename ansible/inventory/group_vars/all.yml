@@ -1,4 +1,7 @@
 ---
+ansible_roles_list:
+  - community.docker
+
 ssh_keys:
   - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAqz7vI3Iur9UmtKiXpH6zNkieG65xjETZuwdUHDTArw root@ansible-server"
   - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBaDNqrKzVKnHd0P9GCLnQKcRDBQv1HsUaB+dxhnZ7rg root@semaphore"
