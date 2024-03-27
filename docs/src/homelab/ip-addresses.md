@@ -8,7 +8,7 @@ Active Table
 | -------------------- | ---------- | ------------------------------------- |
 | router               | x...1      | router                                |
 | switch               | x...2      | switch                                |
-| vpn                  | x...3      | vpn server                            |
+| vpn                  | x...3      | twingate vpn server                   |
 | upstairs             | x...4      | AP                                    |
 | unifi WAP controller | x...5:8443 | software unifi controller             |
 | website              | x...6      | nginx redirection for website         |
@@ -17,7 +17,9 @@ Active Table
 | pbs                  | x...11     | proxmox backup server                 |
 | ansible-server       | x...14     | ubuntu container - ansible server     |
 | spicyNAS             | x...15     | truenas storage server                |
+| blandNAS             | x...16     | truenas2 storage server               |
 | semaphore            | x...17     | semaphore ansible controller          |
+| spicyNAS-ipmi        | x...18     | truenas IPMI port                     |
 | docker-host          | x...20     | VM for docker containers              |
 | win11-dev            | x...22     | dev machine hosted                    |
 | win11-jump           | x...23     | windows RDP jump box                  |
