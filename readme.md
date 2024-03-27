@@ -6,7 +6,8 @@ This repo contains all of my homelab cookbooks and documentation, from ansible r
 
 ## To Do / Project Ideas
 
-To Do and Project Ideas have been moved to personal Notion Kanban board
+- [ ] Separate `hosts` playbook into separate playbooks (packages, SSH, etc)
+- [ ] Take separate playbooks and add as imports into other playbooks or dependencies in meta
 
 ## Support
 

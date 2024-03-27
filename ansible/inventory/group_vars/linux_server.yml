@@ -1,4 +1,3 @@
----
 extra_packages:
   - cowsay
   - fortune

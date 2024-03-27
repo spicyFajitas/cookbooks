@@ -1,4 +1,3 @@
----
 package_list:
   - libsasl2-modules 
   - mailutils

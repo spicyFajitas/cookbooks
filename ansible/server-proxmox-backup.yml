@@ -1,0 +1,9 @@
+---
+- name: Run proxmox backup server playbook
+  hosts: proxmox_backup_server
+  become: true
+  become_method: sudo
+  roles:
+    - proxmox_backup
+  vars_files:
+    - roles/proxmox_backup/vaults/production.yml

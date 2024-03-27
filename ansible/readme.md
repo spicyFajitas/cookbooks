@@ -12,7 +12,7 @@ To run playbooks, `cd` into the `/cookbooks/ansible` directory of the repo.
 
 To run a playbook against a local machine, run the command `ansible-playbook --connection=local server-playbook.yml -i 127.0.0.1`
 
-To run the playbook on a remote machine, run using the command `ansible-playbook server-xyxplay.yml -i inventory/inventory --vault-password-file vault-pass.txt`
+To run the playbook on a remote machine, run using the command `ansible-playbook server-xyxplay.yml -i inventory/inventory.yml --vault-password-file vault-pass.txt`
 
 <!-- or other location of your vault password file -->
 
