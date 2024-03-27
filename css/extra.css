@@ -1,0 +1,10 @@
+/* proper case menu items */
+.md-nav__list>li {
+    text-transform: capitalize;
+  }
+  
+  /* slightly decrease left/right margin on pages */
+  .md-grid {
+    max-width: 70rem;
+  }
+  
