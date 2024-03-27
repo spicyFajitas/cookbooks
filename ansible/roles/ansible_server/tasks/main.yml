@@ -22,10 +22,10 @@
     name: ansible
     executable: pip3
 
-- name: Install roles from Ansible Galaxy
-  command: ansible-galaxy install {{ item.item }}
-  with_items:
-    - "{{ ansible_roles_list }}"
+# - name: Install roles from Ansible Galaxy
+#   command: ansible-galaxy install {{ item.item }}
+#   with_items:
+#     - "{{ ansible_roles_list }}"
 
 - name: Enable and start SSH service
   service:
