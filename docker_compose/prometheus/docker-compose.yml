@@ -18,6 +18,8 @@ services:
     ports:
       - '9090:9090'
     restart: always
+    environment:
+      - TZ=America/Detroit
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - ./prometheus_data:/prometheus
@@ -36,6 +38,8 @@ services:
     user: "0:0"
     ports:
       - '3000:3000'
+    environment:
+      - TZ=America/Detroit
     restart: unless-stopped
     volumes:
       - ./grafana_data:/var/lib/grafana

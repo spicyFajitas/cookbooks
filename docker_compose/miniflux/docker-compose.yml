@@ -13,6 +13,7 @@ services:
       - CREATE_ADMIN=1
       - ADMIN_USERNAME=admin
       - ADMIN_PASSWORD=test123
+      - TZ=America/Detroit
     networks:
       - miniflux_network
     labels:
