@@ -1,5 +1,5 @@
 ---
 dependencies:
-  - role: ssh
-  - role: packages
-  - role: timezone
+  - role: helper/ssh
+  - role: helper/packages
+  - role: helper/timezone
