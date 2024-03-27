@@ -1,9 +1,8 @@
-version: "3.3"
 services:
   twingate_connector:
     container_name: twingate
     restart: always
-    image: 'twingate/connector:latest'
+    image: twingate/connector:latest
     labels:
       - homepage.group=Containers
       - homepage.name=Twingate

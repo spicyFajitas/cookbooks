@@ -14,4 +14,6 @@ postmap hash:/etc/postfix/smtp_header_checks
 
 ##  Dependencies
 
-This task has dependency on the `hosts` role (common role) because the hosts role does not run on this machine.
+- ssh
+- packages
+- timezone

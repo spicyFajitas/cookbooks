@@ -1,10 +1,8 @@
-# Hosts Role
-
-Also known as the common role.
+# SSH
 
 ## Overview
 
-The `server-hosts.yaml` file has changed to run on the "common" group of hosts, so as to exclude runs on the proxmox hosts. I prefer doing this as I don't want CI run on proxmox every night in case of a bad package update.
+Templates SSH keys on hosts.
 
 ```txt
 SSH Keys for copy pasting:

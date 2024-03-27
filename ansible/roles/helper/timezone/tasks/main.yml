@@ -1,0 +1,3 @@
+- name: Set timezone to America/Detroit
+  community.general.timezone:
+    name: America/Detroit

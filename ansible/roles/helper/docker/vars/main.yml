@@ -1,9 +1,8 @@
 ---
-
 package_list:
   - btop
+  - ca-certificates
   - curl
-  - docker-compose
   - fail2ban
   - gdu
   - git
