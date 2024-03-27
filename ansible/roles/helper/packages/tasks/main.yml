@@ -14,5 +14,5 @@
   apt:
     upgrade: yes
 
-- name: Restart services if needed
-  shell: needrestart -r a
+# - name: Restart services if needed
+#   shell: needrestart -r a

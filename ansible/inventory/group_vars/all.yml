@@ -10,7 +10,6 @@ ssh_keys:
 package_list:
   - btop
   - curl
-  - docker-compose
   - fail2ban
   - gdu
   - git
