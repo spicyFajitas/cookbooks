@@ -1,0 +1,18 @@
+---
+- name: Run apt update
+  apt:
+    update_cache: yes
+
+- name: Install required packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ package_list }}"
+
+- name: Run apt upgrade
+  when: not apt_upgrade_override | default(false)
+  apt:
+    upgrade: yes
+
+- name: Restart services if needed
+  shell: needrestart -r a

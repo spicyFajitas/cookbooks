@@ -1,0 +1,23 @@
+---
+# - name: Add SSH keys to authorized keys file
+#   ansible.builtin.lineinfile:
+#     path: ~/.ssh/authorized_keys
+#     line: "{{ item }}"
+#     create: yes
+#   loop: "{{ ssh_keys }}"
+#   diff: True
+
+- name: Template ~/.ssh/authorized_keys file
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "~/.ssh/authorized_keys"
+    mode: "0600"
+  loop:
+    - authorized_keys
+  diff: True
+
+- name: Enable and start SSH service
+  service:
+    name: "ssh"
+    state: started
+    enabled: true
