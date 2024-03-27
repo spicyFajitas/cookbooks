@@ -31,6 +31,15 @@ services:
       - homepage.name=Prometheus
       - homepage.icon=prometheus.png
       - homepage.href=http://10.100.10.20:9090/
+    
+  pve-exporter:
+    image: prompve/prometheus-pve-exporter
+    container_name: pve-exporter
+    ports:
+      - '9221:9221'
+    restart: unless-stopped
+    volumes:
+      - ./pve.yml:/etc/prometheus/pve.yml
 
   grafana:
     image: grafana/grafana:latest
