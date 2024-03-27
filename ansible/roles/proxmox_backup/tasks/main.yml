@@ -1,0 +1,13 @@
+---
+- name: Apt install cifs-utils
+  ansible.builtin.apt:
+    name: cifs-utils
+    state: present
+
+- name: Mount Proxmox SMB share
+  ansible.posix.mount:
+    src: //10.100.10.15/proxmox
+    path: /mnt/proxmox
+    opts: "rw,vers=3,file_mode=0600,dir_mode=0700,dom=domain.local,username={{ smb_username }},password={{ smb_password }}"
+    fstype: cifs
+    state: mounted

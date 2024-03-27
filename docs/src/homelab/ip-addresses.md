@@ -13,7 +13,8 @@ Active Table
 | unifi WAP controller | x...5:8443 | software unifi controller             |
 | website              | x...6      | nginx redirection for website         |
 | adam-linux-server    | x...7      | jump box general purpose linux server |
-| promxmox             | x...10     | proxmox                               |
+| pve                  | x...10     | proxmox virtual environment           |
+| pbs                  | x...11     | proxmox backup server                 |
 | ansible-server       | x...14     | ubuntu container - ansible server     |
 | spicyNAS             | x...15     | truenas storage server                |
 | semaphore            | x...17     | semaphore ansible controller          |
