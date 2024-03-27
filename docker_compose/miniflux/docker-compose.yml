@@ -1,0 +1,40 @@
+version: "3"
+services:
+  miniflux:
+    image: miniflux/miniflux:latest
+    ports:
+      - "8084:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgres://miniflux:secret@db/miniflux?sslmode=disable
+      - RUN_MIGRATIONS=1
+      - CREATE_ADMIN=1
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=test123
+    networks:
+      - miniflux_network
+    labels:
+      - homepage.group=Containers
+      - homepage.name=Miniflux RSS
+      - homepage.icon=miniflux.png
+      - homepage.href=http://10.100.10.20:8084/
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=miniflux
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=miniflux
+    volumes:
+      - ./miniflux-db:/var/lib/postgresql/data
+    networks:
+      - miniflux_network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "miniflux"]
+      interval: 10s
+      start_period: 30s
+
+networks:
+  miniflux_network:
