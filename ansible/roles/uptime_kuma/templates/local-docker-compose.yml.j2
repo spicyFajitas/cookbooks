@@ -17,4 +17,4 @@ services:
       - homepage.icon=uptime-kuma.png
       - homepage.href={{ kuma_domain }}
     environment:
-      UPTIME_KUMA_CLOUDFLARED_TOKEN: "{{ local_uptime_kuma_cloudflare_token }}"
+      UPTIME_KUMA_CLOUDFLARED_TOKEN: "{{ kuma_cloudflare_token }}"
