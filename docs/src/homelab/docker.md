@@ -78,6 +78,8 @@ Source:
 
 ### Troubleshooting
 
+#### Storage
+
 Run the commands below to get the shown output. The `find` command shows the largest files, and the `du` command shows which directories/files are using the most storage. Using the results, you can use the `docker inspect` command and grep for keywords to find what containers those directories/files are associated with.
 
 Sources:
@@ -117,6 +119,13 @@ root@docker-host:~# docker inspect ff53ff8ed9987187ff062009b006719024a4c749b9ab4
                 "Name": "netbox_netbox-redis-data",
                 "Source": "/var/lib/docker/volumes/netbox_netbox-redis-data/_data",
 ```
+
+#### Networking
+
+TO DO: flesh out this section more:
+
+TLDR is that docker containers going on default bridge network are creating the bridge network of 192.168.0.1/20 - this directly conflicts with traffic from my Guest network, which used to be 192.168.1.1/24. I found this [reddit thread](https://www.reddit.com/r/docker/comments/154bsz7/comment/jssyw27/?context=8&depth=9) that explained a similar issue, which led me to the [Docker docs](https://docs.docker.com/network/drivers/bridge/#use-the-default-bridge-network) and I figured out the issue. Upon running `ip addr` on my Docker host (which showed so many networks), I saw the bridge interface with the network of 192.168.0.1/20. I figured this is why my traffic was not being routed properly, and I figured a really easy fix would be to change the IP address scheme of my guest network. My final test was to run `ip link delete {{ name of link }}` and I tested my minecraft server, which finally connected. However, when checking my Uptime Kuma instance, I noticed that several containers were reporting as down. I went back onto my Docker host and restarted the docker service with `systemctl restart docker`, which successfully recreated the bridge network.
+
 
 ## Dockerfile example:
 
