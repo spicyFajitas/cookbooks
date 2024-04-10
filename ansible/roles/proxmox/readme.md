@@ -12,8 +12,12 @@ postmap hash:/etc/postfix/sasl_passwd
 postmap hash:/etc/postfix/smtp_header_checks
 ```
 
+## Known Issues
+
+The [](../fortune/tasks/main.yml) `Configure SMTP header checks` task uses the ansible `lineinfile` module instead of the `template` module, so if changes are made they are appended to `/etc/postfix/smtp_header_checks` instead of overwriting the existing changes.
+
 ##  Dependencies
 
-- ssh
-- packages
-- timezone
+- helper/ssh
+- helper/packages
+- helper/timezone
