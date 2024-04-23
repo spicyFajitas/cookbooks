@@ -107,6 +107,7 @@ NAS:
 | Case        | ? Bought from a friend                       | ?           | ?                  |
 | PCIe Card   | *LSI 9211-8i 6G SAS HBA FW:P20 IT Mode       | ?           | ?                  |
 | SAS Disks   | *HGST Ultrastar He10 10TB 7200RPM SAS 12Gbps | ?           | ?                  |
+| GPU         | Gigabyte GTX 1050 OC Low Profile 2 GB        | ?           | ?                  |
 
 *RAM (model number): Hynix hmt41gr7bf4c-rd (88 GB 1600 MHz) mix of 16 GB + 8 GB sticks
 
