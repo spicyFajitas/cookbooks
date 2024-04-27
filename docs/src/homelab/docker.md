@@ -78,7 +78,7 @@ Source:
 
 ### Troubleshooting
 
-#### Storage
+#### Log Storage
 
 Run the commands below to get the shown output. The `find` command shows the largest files, and the `du` command shows which directories/files are using the most storage. Using the results, you can use the `docker inspect` command and grep for keywords to find what containers those directories/files are associated with.
 
@@ -118,6 +118,20 @@ root@docker-host:~# docker inspect ff53ff8ed9987187ff062009b006719024a4c749b9ab4
             "Name": "overlay2"
                 "Name": "netbox_netbox-redis-data",
                 "Source": "/var/lib/docker/volumes/netbox_netbox-redis-data/_data",
+```
+
+#### Overlay Networking
+
+TBH Docker networking is still a myatery to me, but I do know it creates files at `/var/lib/docker/overlay2` and those can bloat up the system storage. You can fix this by running 
+
+```bash
+docker system prune -af
+untagged: postgres@sha256:b08e74401dd0838898ebafac9efc3dec1090d0882277e485b7edb73730327607
+deleted: sha256:5fbd2ea0d85b48a9858e9f0dbd63ef8e4db715eeefc7b6f2e051ac80f2680d4c
+...
+...
+...
+Total reclaimed space: 13.98GB
 ```
 
 ## Dockerfile example:
