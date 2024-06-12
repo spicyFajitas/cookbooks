@@ -122,7 +122,7 @@ root@docker-host:~# docker inspect ff53ff8ed9987187ff062009b006719024a4c749b9ab4
 
 #### Overlay Networking
 
-TBH Docker networking is still a myatery to me, but I do know it creates files at `/var/lib/docker/overlay2` and those can bloat up the system storage. You can fix this by running 
+TBH Docker networking is still a mystery to me, but I do know it creates files at `/var/lib/docker/overlay2` and those can bloat up the system storage. You can fix this by running 
 
 ```bash
 docker system prune -af
