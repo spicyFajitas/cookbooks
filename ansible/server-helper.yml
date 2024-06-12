@@ -1,6 +1,6 @@
 ---
 - name: Helper role
-  hosts: common
+  hosts: common, proxmox
   become: true
   become_method: sudo
   roles:
