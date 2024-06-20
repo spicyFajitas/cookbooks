@@ -1,7 +1,7 @@
 # ~/docker_compose/cloudflare_ddns/docker-compose.yml
 # cloudflare ddns container
 
-version: "3"
+
 services:
   cloudflare-ddns-root:
     image: favonia/cloudflare-ddns:latest

@@ -1,7 +1,7 @@
 # ~/docker_compose/uptime_kuma/docker-compose.yml
 # uptime kuma container
 
-version: "3"
+
 
 services:
   uptime-kuma:

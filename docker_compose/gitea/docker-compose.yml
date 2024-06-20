@@ -1,7 +1,7 @@
 # ~/docker_compose/gitea/docker-compose.yml
 # gitea container
 
-version: "3"
+
 
 networks:
   gitea:

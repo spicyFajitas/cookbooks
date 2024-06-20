@@ -1,7 +1,6 @@
 # ~/cookbooks/docker_compose/nginx/docker-compose.yml
 # nginx container
 
-version: '3'
 services:
 
   # nginx container

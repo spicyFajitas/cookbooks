@@ -16,7 +16,7 @@
 # notify: Restart container(s)
 
 - name: Pull container updates
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ base_dir }}"
-    pull: True
+    pull: always
   notify: Restart container(s)
