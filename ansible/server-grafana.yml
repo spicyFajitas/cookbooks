@@ -1,0 +1,9 @@
+---
+- name: Run grafana playbook
+  hosts: docker_host
+  become: true
+  become_method: sudo
+  roles:
+    - grafana
+  vars_files:
+    - roles/grafana/vaults/production.yml
