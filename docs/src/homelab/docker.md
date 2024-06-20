@@ -30,11 +30,13 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 
 - if that does not work try `/bin/sh` instead of `/bin/bash`
 
-## Prune Images
+- to mass-stop containers, use `for i in /opt/*; do echo "Processing $i"; cd $i && docker compose down; done`
+
+**Prune Images**
 
 `docker system prune -a -f`
 
-## Remove Dangling Volumes
+**Remove Dangling Volumes**
 
 `docker volume rm $(docker volume ls -qf dangling=true)`
 
@@ -76,9 +78,9 @@ Source:
 
 - [Log Rotation Configuration Guide](https://tech-bloggers.in/rotate-the-docker-container-log/)
 
-### Troubleshooting
+## Troubleshooting
 
-#### Log Storage
+### Log Storage
 
 Run the commands below to get the shown output. The `find` command shows the largest files, and the `du` command shows which directories/files are using the most storage. Using the results, you can use the `docker inspect` command and grep for keywords to find what containers those directories/files are associated with.
 
@@ -120,7 +122,7 @@ root@docker-host:~# docker inspect ff53ff8ed9987187ff062009b006719024a4c749b9ab4
                 "Source": "/var/lib/docker/volumes/netbox_netbox-redis-data/_data",
 ```
 
-#### Overlay Networking
+### Overlay Networking
 
 TBH Docker networking is still a mystery to me, but I do know it creates files at `/var/lib/docker/overlay2` and those can bloat up the system storage. You can fix this by running 
 
