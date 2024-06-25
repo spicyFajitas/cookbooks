@@ -1,4 +1,3 @@
-
 services:
     speedtest_tracker:
         container_name: speedtest_tracker
@@ -14,15 +13,16 @@ services:
             - DB_DATABASE={{ DB_DATABASE }}
             - DB_USERNAME={{ DB_USERNAME }}
             - DB_PASSWORD={{ DB_PASSWORD }}
-            - TZ=America/Detroit
+            - DISPLAY_TIMEZONE=America/Detroit
             - APP_DEBUG=true
             - APP_KEY={{ APP_KEY }}
+            - SPEEDTEST_SCHEDULE='*/10 * * * *'
+            - SPEEDTEST_SERVERS="34660"
         volumes:
-            - '/etc/timezone:/etc/timezone:ro'
             - '/etc/localtime:/etc/localtime:ro'
             - '/opt/speedtest_tracker/config:/config'
             - '/opt/speedtest_tracker/web:/etc/ssl/web'
-        image: 'ghcr.io/alexjustesen/speedtest-tracker:latest'
+        image: lscr.io/linuxserver/speedtest-tracker:latest
         restart: unless-stopped
         depends_on:
             - db
@@ -34,6 +34,8 @@ services:
         ports:
           - "5433:5433"
         environment:
+            - APP_TIMEZONE=America/Detroit
+            - DISPLAY_TIMEZONE=America/Detroit
             - POSTGRES_DB={{ DB_DATABASE }}
             - POSTGRES_USER={{ DB_USERNAME }}
             - POSTGRES_PASSWORD={{ DB_PASSWORD }}
