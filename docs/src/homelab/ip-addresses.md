@@ -13,6 +13,7 @@ Active Table
 | unifi WAP controller | x...5:8443 | software unifi controller             |
 | website              | x...6      | nginx redirection for website         |
 | adam-linux-server    | x...7      | jump box general purpose linux server |
+| opsft                | x...8      | openshift single node                 |
 | pve                  | x...10     | proxmox virtual environment           |
 | pbs                  | x...11     | proxmox backup server                 |
 | ansible-server       | x...14     | ubuntu container - ansible server     |
