@@ -1,0 +1,17 @@
+services:
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=Etc/UTC
+      - VERSION=public
+        #  - PLEX_CLAIM=
+    ports:
+      - '32400:32400'
+    volumes:
+      - ./config:/config
+      - /mnt/media/tv_shows:/tv
+      - /mnt/media/movies1:/movies
+    restart: unless-stopped
