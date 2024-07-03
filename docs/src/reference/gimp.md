@@ -53,4 +53,4 @@ Now go to export the image
 You should now have a cropped Gif! 
 
 !!! warning "File too big warning"
-    If you receive errors about the file being too big, you may need to compress the image, resize it, or remove frames. I personally like [Ezgif](https://ezgif.com/resize) for small edits
+    If you receive errors about the file being too big, you may need to compress the image, resize it, or remove frames. I personally like [Ezgif](https://ezgif.com/resize) for small edits. Here's some results for ["slack gif max size"](https://www.google.com/search?q=slack+gif+max+size&rlz=1C1GCEA_enUS1113US1113&oq=slack+gif+&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7MgcIARAAGIAEMgYIAhBFGDkyBwgDEAAYgAQyBwgEEAAYgAQyBwgFEAAYgAQyBwgGEAAYgAQyBwgHEAAYgAQyBwgIEAAYgAQyBwgJEAAYgATSAQgxNzgyajBqN6gCALACAA&sourceid=chrome&ie=UTF-8)
