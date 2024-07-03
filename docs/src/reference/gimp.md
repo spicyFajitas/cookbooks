@@ -51,3 +51,6 @@ Now go to export the image
 ![export options](../file/gimp9.png)
 
 You should now have a cropped Gif! 
+
+!!! warning "File too big warning"
+    If you receive errors about the file being too big, you may need to compress the image, resize it, or remove frames. I personally like [Ezgif](https://ezgif.com/resize) for small edits
