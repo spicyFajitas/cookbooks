@@ -67,20 +67,20 @@
         href: https://app.plex.tv/
         widget:
             type: plex
-            url: http://10.100.10.15:32400
+            url: http://10.100.10.20:32400
             key: {{ plex_key }}
 
     - Immich:
         icon: immich.png
         href: http://10.100.10.15:30041
     
-    - Miniflux Rss:
+    {# - Miniflux Rss:
         icon: miniflux.png
         href: http://10.100.10.20:8084/
 
     - FreshRSS:
         icon: freshrss.png
-        href: http://10.100.10.20:9009/
+        href: http://10.100.10.20:9009/ #}
 
     - Onsite Uptime Kuma:
         icon: uptime-kuma.png
@@ -90,9 +90,9 @@
             url: {{ kuma_domain }}
             slug: default
 
-    - Netbox:
+    {# - Netbox:
         icon: netbox.png
-        href: http://10.100.10.20:8081
+        href: http://10.100.10.20:8081 #}
 
     
     - Speedtest Tracker:
@@ -102,14 +102,14 @@
             type: speedtest
             url: https://10.100.10.20:8443
 
-    - Syncthing:
+    {# - Syncthing:
         icon: syncthing.png
-        href: http://10.100.10.15:20910
+        href: http://10.100.10.15:20910 #}
     
     - TrueNAS Netdata:
         icon: netdata.png
         href: http://10.100.10.15:20489
 
-    - Docker Host Netdata:
+    {# - Docker Host Netdata:
         icon: netdata.png
-        href: http://10.100.10.20:19999
+        href: http://10.100.10.20:19999 #}
