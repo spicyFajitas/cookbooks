@@ -1,23 +1,93 @@
-
 services:
-  sonarr:
-    image: lscr.io/linuxserver/sonarr:latest
-    container_name: sonarr
+  gluetun:
+    image: qmcgaw/gluetun:v3
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - /opt/media/gluetun:/gluetun
+    ports:
+      - "9696:9696"
+      - "8080:8080"
+      - "8112:8112"
+      - "6881:6881"
+      - "6881:6881/udp"
+    labels:
+      - homepage.group=Containers
+      - homepage.name=Gluetun
+      - homepage.icon=gluetun.png
+    environment:
+      - VPN_SERVICE_PROVIDER=private internet access
+      - OPENVPN_USER="{{ openvpn_usename }}"
+      - OPENVPN_PASSWORD="{{ openvpn_password }}"
+      - SERVER_REGIONS=Netherlands
+      - PRIVATE_INTERNET_ACCESS_VPN_PORT_FORWARDING=on
+      - FIREWALL_OUTBOUND_SUBNETS=10.100.10.0/24
+      # - HEALTH_VPN_DURATION_INITIAL=6s # Initial duration to wait for the VPN to be ready before restarting it
+      # - HEALTH_VPN_DURATION_ADDITION=10s # Additional duration to add to the wait time for each consecutive failure of the VPN
+      # - HEALTH_SUCCESS_WAIT_DURATION=10s # Duration to wait after a success check to perform another check
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    restart: unless-stopped
+
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=America/Chicago
+    ports:
+      - 5055:5055
+    volumes:
+      - /opt/media/jellyseer:/app/config
+    labels:
+      - homepage.group=Containers
+      - homepage.name=Jellyseerr
+      - homepage.icon=jellyseerr.png
+      - homepage.href={{ base_domain }}/
+    restart: unless-stopped
+
+  jellyseerr-cloudflare-tunnel:
+    container_name: jellyseerr-cloudflare-tunnel
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run
+    restart: unless-stopped
+    environment:
+      TUNNEL_TOKEN: "{{ cloudflare_tunnel_token }}"
+  
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=Etc/UTC
+      - VERSION=public
+        #  - PLEX_CLAIM=<claim_token>
+    ports:
+      - '32400:32400'
+    volumes:
+      - /opt/media/plex/config:/config
+      - /mnt/media/tv_shows:/tv
+      - /mnt/media/movies1:/movies
+    restart: unless-stopped
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:develop
+    container_name: prowlarr
+    network_mode: "service:gluetun"
     environment:
       - PUID=0
       - PGID=0
       - UMASK=0022
       - TZ=America/Chicago
     volumes:
-      - /opt/media/sonar:/config
-      - /mnt/media:/media
-    ports:
-      - "8989:8989"
+      - /opt/media/prowlarr:/config
     labels:
       - homepage.group=Containers
-      - homepage.name=Sonarr
-      - homepage.icon=sonarr.png
-      - homepage.href=http://10.100.10.20:8989/
+      - homepage.name=Prowlarr
+      - homepage.icon=prowlarr.png
+      - homepage.href=http://10.100.10.20:9696/
     restart: unless-stopped
 
   radarr:
@@ -58,80 +128,6 @@ services:
       - homepage.icon=readarr.png
       - homepage.href=http://10.100.10.20:8787
 
-  jellyseerr:
-    image: fallenbagel/jellyseerr:latest
-    container_name: jellyseerr
-    environment:
-      - LOG_LEVEL=debug
-      - TZ=America/Chicago
-    ports:
-      - 5055:5055
-    volumes:
-      - /opt/media/jellyseer:/app/config
-    labels:
-      - homepage.group=Containers
-      - homepage.name=Jellyseerr
-      - homepage.icon=jellyseerr.png
-      - homepage.href={{ base_domain }}/
-    restart: unless-stopped
-
-  prowlarr:
-    image: lscr.io/linuxserver/prowlarr:develop
-    container_name: prowlarr
-    network_mode: "service:gluetun"
-    environment:
-      - PUID=0
-      - PGID=0
-      - UMASK=0022
-      - TZ=America/Chicago
-    volumes:
-      - /opt/media/prowlarr:/config
-    labels:
-      - homepage.group=Containers
-      - homepage.name=Prowlarr
-      - homepage.icon=prowlarr.png
-      - homepage.href=http://10.100.10.20:9696/
-    restart: unless-stopped
-
-  jellyseerr-cloudflare-tunnel:
-    container_name: jellyseerr-cloudflare-tunnel
-    image: cloudflare/cloudflared:latest
-    command: tunnel --no-autoupdate run
-    restart: unless-stopped
-    environment:
-      TUNNEL_TOKEN: "{{ cloudflare_tunnel_token }}"
-
-  gluetun:
-    image: qmcgaw/gluetun:v3
-    container_name: gluetun
-    cap_add:
-      - NET_ADMIN
-    volumes:
-      - /opt/media/gluetun:/gluetun
-    ports:
-      - "9696:9696"
-      - "8080:8080"
-      - "8112:8112"
-      - "6881:6881"
-      - "6881:6881/udp"
-    labels:
-      - homepage.group=Containers
-      - homepage.name=Gluetun
-      - homepage.icon=gluetun.png
-    environment:
-      - VPN_SERVICE_PROVIDER=private internet access
-      - OPENVPN_USER="{{ openvpn_usename }}"
-      - OPENVPN_PASSWORD="{{ openvpn_password }}"
-      - SERVER_REGIONS=Netherlands
-      - PRIVATE_INTERNET_ACCESS_VPN_PORT_FORWARDING=on
-      - FIREWALL_OUTBOUND_SUBNETS=10.100.10.0/24
-      # - HEALTH_VPN_DURATION_INITIAL=6s # Initial duration to wait for the VPN to be ready before restarting it
-      # - HEALTH_VPN_DURATION_ADDITION=10s # Additional duration to add to the wait time for each consecutive failure of the VPN
-      # - HEALTH_SUCCESS_WAIT_DURATION=10s # Duration to wait after a success check to perform another check
-    devices:
-      - /dev/net/tun:/dev/net/tun
-    restart: unless-stopped
-
   sabnzbd:
     image: lscr.io/linuxserver/sabnzbd:latest
     container_name: sabnzbd
@@ -152,3 +148,22 @@ services:
       - gluetun
     restart: unless-stopped
 
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=0
+      - PGID=0
+      - UMASK=0022
+      - TZ=America/Chicago
+    volumes:
+      - /opt/media/sonar:/config
+      - /mnt/media:/media
+    ports:
+      - "8989:8989"
+    labels:
+      - homepage.group=Containers
+      - homepage.name=Sonarr
+      - homepage.icon=sonarr.png
+      - homepage.href=http://10.100.10.20:8989/
+    restart: unless-stopped
