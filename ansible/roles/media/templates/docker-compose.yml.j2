@@ -70,6 +70,11 @@ services:
       - /opt/media/plex/config:/config
       - /mnt/media/tv_shows:/tv
       - /mnt/media/movies1:/movies
+    labels:
+      - homepage.group=Containers
+      - homepage.name=Plex
+      - homepage.icon=plex.png
+      - homepage.href=https://app.plex.tv/
     restart: unless-stopped
 
   prowlarr:
