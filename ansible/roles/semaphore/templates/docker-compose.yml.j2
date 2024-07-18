@@ -22,6 +22,7 @@ services:
       - 3000:3000
     image: semaphoreui/semaphore:latest
     hostname: semaphore
+    # the labels do not work on semaphore to show in homepage because semaphore is on a different host than the rest of the docker containers
     labels:
       - homepage.group=Containers
       - homepage.name=Semaphore
