@@ -45,5 +45,10 @@ services:
     volumes:
       - /opt/semaphore:/var/lib/semaphore
       - /root/.ssh:/home/semaphore/.ssh
+    labels:
+      - homepage.group=Containers
+      - homepage.name=Semaphore
+      - homepage.icon=semaphore.png
+      - homepage.href=http://10.100.10.17:3000/
 volumes:
   semaphore-postgres:
