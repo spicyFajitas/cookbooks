@@ -19,3 +19,12 @@ reg.exe add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\
 ```powershell
 powercfg /batteryreport /output "C:\battery-report. html"
 ```
+
+## Git Autocomplete PowerShell
+
+```powershell
+PowerShellGet\Install-Module posh-git -Scope CurrentUser -Force
+Import-Module posh-git
+Add-PoshGitToProfile
+Add-PoshGitToProfile -AllHosts
+```
