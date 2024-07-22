@@ -14,3 +14,7 @@ Name=unmount-mount
 Icon=/home/adam/Pictures/steam.png
 Exec=/usr/games/steam/steam.sh
 ```
+
+## Rotating Desktop Wallpaper (ubuntu)
+
+Shotwell > import photos > select all photos to rotate > File > Set as Desktop Background
