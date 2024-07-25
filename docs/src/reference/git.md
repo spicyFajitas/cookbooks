@@ -22,6 +22,8 @@ Page dedicated to making git easier to use for myself and hopefully others.
 
 `git remote set-url origin <url>` Set remote url for origin
 
+`git config --global push.autoSetupRemote true` Set up automatic branch creation on remote when creating a new branch
+
 ## Rebasing
 
 If you want to rebase a branch based on remote master branch, `git rebase origin/master` is not enough, it will not get new commits directly from origin/master. You need to `git fetch` before `git rebase origin/master`.
