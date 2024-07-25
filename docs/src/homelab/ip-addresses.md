@@ -15,7 +15,7 @@ Active Table
 | adam-linux-server    | x...7      | jump box general purpose linux server |
 | opsft                | x...8      | openshift single node                 |
 | pve                  | x...10     | proxmox virtual environment           |
-| pbs                  | x...11     | proxmox backup server                 |
+| minecraft            | x...11     | minecraft VM                          |
 | ansible-server       | x...14     | ubuntu container - ansible server     |
 | spicyNAS             | x...15     | truenas storage server                |
 | blandNAS             | x...16     | truenas2 storage server               |
