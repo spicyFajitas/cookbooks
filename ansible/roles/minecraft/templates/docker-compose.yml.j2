@@ -2,7 +2,7 @@
 
 services:
   mc:
-    image: itzg/minecraft-server
+    image: itzg/minecraft-server:2024.7.0
     tty: true
     stdin_open: true
     ports:
@@ -37,7 +37,7 @@ services:
         car0sunshine
         tangytacos38
         bvissch0902
-    restart: always
+    restart: unless-stopped
     labels:
       - homepage.group=Containers
       - homepage.name=Minecraft
