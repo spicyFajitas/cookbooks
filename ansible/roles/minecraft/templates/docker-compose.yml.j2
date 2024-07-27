@@ -98,11 +98,10 @@ services:
     image: favonia/cloudflare-ddns:latest
     network_mode: host
     restart: always
+    user: "1000:1000"
     security_opt:
       - no-new-privileges:true
     environment:
-      - PGID=1000
-      - PUID=1000
       - CF_API_TOKEN={{ cloudflare_api_token_dns }}
       - DOMAINS={{ base_domain }}
       - PROXIED=true
