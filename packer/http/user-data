@@ -7,7 +7,7 @@ autoinstall:
   ssh:
     install-server: true
     allow-pw: true
-    disable_root: true
+    disable_root: false
     ssh_quiet_keygen: true
     allow_public_ssh_keys: true
   packages:
@@ -20,7 +20,7 @@ autoinstall:
       size: 0
   user-data:
     package_upgrade: false
-    timezone: America/Chicago
+    timezone: America/Detroit
     users:
       - name: adam # add your username here
         groups: [adm, sudo]
