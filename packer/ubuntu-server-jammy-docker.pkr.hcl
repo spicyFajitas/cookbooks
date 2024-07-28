@@ -1,6 +1,6 @@
-# Ubuntu Server Focal Docker
+# Ubuntu Server Jammy Docker
 # ---
-# Packer Template to create an Ubuntu Server (Focal) with Docker on Proxmox
+# Packer Template to create an Ubuntu Server (Jammy) with Docker on Proxmox
 
 packer {
   required_plugins {
@@ -26,7 +26,7 @@ variable "proxmox_api_token_secret" {
 }
 
 # Resource Definiation for the VM Template
-source "proxmox-iso" "ubuntu-server-focal-docker" {
+source "proxmox-iso" "ubuntu-server-jammy-docker" {
 
     # Proxmox Connection Settings
     proxmox_url = "${var.proxmox_api_url}"
@@ -37,8 +37,8 @@ source "proxmox-iso" "ubuntu-server-focal-docker" {
     # VM General Settings
     node = "pve" # add your proxmox node
     vm_id = "901"
-    vm_name = "ubuntu-server-focal-docker"
-    template_description = "Ubuntu Server Focal Image with Docker pre-installed"
+    vm_name = "ubuntu-server-jammy-docker"
+    template_description = "Ubuntu Server Jammy Image with Docker pre-installed"
 
     # VM OS Settings
     # (Option 1) Local ISO File - Download Ubuntu ISO and Upload To Proxmox Server
@@ -91,6 +91,7 @@ source "proxmox-iso" "ubuntu-server-focal-docker" {
         "<wait>",
         "linux /casper/vmlinuz --- autoinstall ds='nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/' ",
         "<enter><wait>",
+        "<wait>",
         "initrd /casper/initrd<enter><wait>",
         "boot<enter>"
     ]
@@ -119,8 +120,8 @@ source "proxmox-iso" "ubuntu-server-focal-docker" {
 # Build Definition to create the VM Template
 build {
 
-    name = "ubuntu-server-focal-docker"
-    sources = ["source.proxmox-iso.ubuntu-server-focal-docker"]
+    name = "ubuntu-server-jammy-docker"
+    sources = ["source.proxmox-iso.ubuntu-server-jammy-docker"]
 
     # Provisioning the VM Template for Cloud-Init Integration in Proxmox #1
     provisioner "shell" {
