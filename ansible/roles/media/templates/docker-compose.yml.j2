@@ -63,6 +63,7 @@ services:
       - PGID=0
       - TZ=Etc/UTC
       - VERSION=public
+      - device=/dev/dri:/dev/dri
         #  - PLEX_CLAIM=<claim_token>
     ports:
       - '32400:32400'
