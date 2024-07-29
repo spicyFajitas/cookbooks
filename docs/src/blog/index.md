@@ -8,6 +8,7 @@ This page is a compilation of other peoples' blogs that I've found neat.
 
 - [Avid Andrew](https://avidandrew.com/blog)
 - [Adam Brodack](https://adambrodack.com/)
+- [Baeldung](https://www.baeldung.com/linux/)
 - [Carl Schelin](http://carl.schelin.org/)
 - [idumea](https://blog.idumea.net/)
 - [Louwrentius](https://louwrentius.com/)
