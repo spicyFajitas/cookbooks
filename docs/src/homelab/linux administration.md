@@ -71,6 +71,39 @@ It is good practice to set the time zone in the crontab file so your crons will 
 CRON_TZ=America/Detroit
 ```
 
+## Command/Package Mappings and Locations
+
+When looking for the files a command maps to, you can use the `which` command. This shows the location of a command
+
+```bash
+# ls -l $(which vi)
+-rwxr-xr-x. 1 root root 1180368 Jun 14  2022 /bin/vi
+```
+
+You can also look for alternatives if a command might map to two packages
+
+```bash
+# ls -l /etc/alternatives/java
+lrwxrwxrwx. 1 root root 62 Jul 29 08:51 /etc/alternatives/java -> /usr/lib/jvm/java-11-openjdk-11.0.23.0.9-3.el8.x86_64/bin/java
+```
+
+More command/file troubleshooting
+
+```
+# rpm -qf /usr/lib/jvm/java-11-openjdk-11.0.23.0.9-3.el8.x86_64/bin/java
+java-11-openjdk-headless-11.0.23.0.9-3.el8.x86_64
+
+# alternatives --config java
+
+There are 2 programs which provide 'java'.
+  Selection    Command
+-----------------------------------------------
+*+ 1           java-11-openjdk.x86_64 (/usr/lib/jvm/java-11-openjdk-11.0.23.0.9-3.el9.x86_64/bin/java)
+   2           java-1.8.0-openjdk.x86_64 (/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.412.b08-2.el9.x86_64/jre/bin/java)
+Enter to keep the current selection[+], or type selection number: 1
+# 
+```
+
 ## Swap
 
 Remove swap `swapoff -a`
