@@ -35,3 +35,7 @@ switch back to your own branch `git checkout <your branch>`
 then, your branch is updated to newest commits.
 
 [Reference](https://stackoverflow.com/questions/29164321/git-difference-git-rebase-origin-branch-vs-git-rebase-origin-branch)
+
+## Git Cleanup Alias
+
+[This link](https://stackoverflow.com/questions/37664226/git-fetch-origin-prune-doesnt-delete-local-branches) has aliases for Windows and Linux
