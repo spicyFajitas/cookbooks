@@ -21,6 +21,7 @@ Active Table
 | blandNAS             | x...16     | truenas2 storage server               |
 | semaphore            | x...17     | semaphore ansible controller          |
 | spicyNAS-ipmi        | x...18     | truenas IPMI port                     |
+| altserver            | x...19     | altserver on linux                    |
 | docker-host          | x...20     | VM for docker containers              |
 | win11-dev            | x...22     | dev machine hosted                    |
 | win11-jump           | x...23     | windows RDP jump box                  |
