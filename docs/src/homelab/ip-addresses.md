@@ -14,12 +14,12 @@ Active Table
 | website              | x...6      | nginx redirection for website         |
 | adam-linux-server    | x...7      | jump box general purpose linux server |
 | pve                  | x...10     | proxmox virtual environment           |
+| altserver            | x...11     | altserver on linux                    |
 | k3s                  | x...12     | k3s control 1                         |
 | ansible-server       | x...14     | ubuntu container - ansible server     |
 | spicyNAS             | x...15     | truenas storage server                |
 | blandNAS             | x...16     | truenas2 storage server               |
 | semaphore            | x...17     | semaphore ansible controller          |
 | spicyNAS-ipmi        | x...18     | truenas IPMI port                     |
-| altserver            | x...19     | altserver on linux                    |
 | docker-host          | x...20     | VM for docker containers              |
 | gitlab-runner        | x...21     | gitlab-runner self hosted             |
