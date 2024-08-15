@@ -35,7 +35,7 @@ services:
     container_name: jellyseerr
     environment:
       - LOG_LEVEL=debug
-      - TZ=America/Chicago
+      - TZ=America/Detroit
     ports:
       - 5055:5055
     volumes:
@@ -55,6 +55,18 @@ services:
     environment:
       TUNNEL_TOKEN: "{{ cloudflare_tunnel_token }}"
   
+  maintainerr:
+    image: ghcr.io/jorenn92/maintainerr:latest 
+    container_name: maintainerr
+    user: 0:0
+    volumes:
+      - /opt/media/maintainerr:/opt/data
+    environment:
+      - TZ=America/Detroit
+    ports:
+      - 6246:6246 
+    restart: unless-stopped
+
   plex:
     image: lscr.io/linuxserver/plex:latest
     container_name: plex
@@ -86,7 +98,7 @@ services:
       - PUID=0
       - PGID=0
       - UMASK=0022
-      - TZ=America/Chicago
+      - TZ=America/Detroit
     volumes:
       - /opt/media/prowlarr:/config
     labels:
@@ -103,7 +115,7 @@ services:
       - PUID=0
       - PGID=0
       - UMASK=0022
-      - TZ=America/Chicago
+      - TZ=America/Detroit
     volumes:
       - /opt/media/radarr:/config
       - /mnt/media:/media
@@ -161,7 +173,7 @@ services:
       - PUID=0
       - PGID=0
       - UMASK=0022
-      - TZ=America/Chicago
+      - TZ=America/Detroit
     volumes:
       - /opt/media/sonar:/config
       - /mnt/media:/media

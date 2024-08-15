@@ -5,9 +5,12 @@
         "Bowden",
         "Creality",
         "Datacenter",
+        "Diskpart",
+        "Ethernets",
         "GCODE",
         "Hotend",
         "journalctl",
+        "keygen",
         "libsasl",
         "mailutils",
         "niceuser",
@@ -17,8 +20,6 @@
         "smartctl",
         "Thinpool",
         "TLDR",
-        "Ultimaker",
-        "Ethernets",
-        "keygen"
+        "Ultimaker"
     ]
 }
