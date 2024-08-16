@@ -13,6 +13,7 @@ Active Table
 | unifi WAP controller | x...5:8443 | software unifi controller             |
 | website              | x...6      | nginx redirection for website         |
 | adam-linux-server    | x...7      | jump box general purpose linux server |
+| openshift            | x...8      | openshift                             |
 | pve                  | x...10     | proxmox virtual environment           |
 | altserver            | x...11     | altserver on linux                    |
 | k3s                  | x...12     | k3s control 1                         |
