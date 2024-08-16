@@ -38,4 +38,12 @@ then, your branch is updated to newest commits.
 
 ## Git Cleanup Alias
 
+### Windows
+
+`git fetch prune`
+
+`git remote prune origin`
+
+`git branch | Select-String -NotMatch -Pattern "master|main" | %{ git branch -D $_.ToString().Trim() }`
+
 [This link](https://stackoverflow.com/questions/37664226/git-fetch-origin-prune-doesnt-delete-local-branches) has aliases for Windows and Linux
