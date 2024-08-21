@@ -6,6 +6,7 @@ common:
     10.100.10.14:
     10.100.10.17:
     10.100.10.20:
+    10.100.10.21:
   vars:
     ansible_user: root
 
@@ -15,6 +16,7 @@ separate_hosts:
     10.100.10.14:
     10.100.10.17:
     10.100.10.20:
+    10.100.10.21:
   vars:
     ansible_user: root
 
@@ -63,5 +65,11 @@ semaphore:
 docker_host:
   hosts:
     10.100.10.20:
+  vars:
+    ansible_user: root
+
+runner:
+  hosts:
+    10.100.10.21:
   vars:
     ansible_user: root
