@@ -24,7 +24,7 @@
             username: {{ unifi_controller_username }}
             password: {{ unifi_controller_password }} #}
 
-    - Proxmox:
+    - Proxmox 2:
         icon: proxmox.png
         href: https://10.100.10.10:8006
         ping: https://10.100.10.10:8006
@@ -34,6 +34,11 @@
             username: {{ proxmox_api_token_id }}
             password: {{ proxmox_api_key }}
     
+    - Proxmox:
+        icon: proxmox.png
+        href: https://10.100.10.9:8006
+        ping: https://10.100.10.19:8006
+
     - TrueNAS:
         icon: truenas-scale.png
         href: https://10.100.10.15
