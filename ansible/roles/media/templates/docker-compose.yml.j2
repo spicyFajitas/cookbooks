@@ -80,6 +80,7 @@ services:
     ports:
       - '32400:32400'
     volumes:
+      - /opt/media/plex/transcode:/transcode
       - /opt/media/plex/config:/config
       - /mnt/media/tv_shows:/tv
       - /mnt/media/movies1:/movies
