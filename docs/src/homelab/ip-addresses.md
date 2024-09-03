@@ -28,4 +28,3 @@ Active Table
 | talos helper container | x...30     | talosctl node                         |
 | talos-control          | x...31     | talos Linux control node              |
 | talos-worker           | x...32     | talos linux worker node               |
-|                        |            |                                       |
