@@ -67,7 +67,8 @@ services:
       - 6246:6246 
     restart: unless-stopped
 
-  plex:
+ # plex is deployed manually on fedora server so as to use hardware transcoding
+  {# plex:
     image: lscr.io/linuxserver/plex:latest
     container_name: plex
     environment:
@@ -89,7 +90,7 @@ services:
       - homepage.name=Plex
       - homepage.icon=plex.png
       - homepage.href=https://app.plex.tv/
-    restart: unless-stopped
+    restart: unless-stopped #}
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:develop
