@@ -65,6 +65,11 @@ services:
       - TZ=America/Detroit
     ports:
       - 6246:6246 
+    labels:
+      - homepage.group=Containers
+      - homepage.name=Maintainerr
+      - homepage.icon=maintainerr.png
+      - homepage.href=http://10.100.10.20:6246/
     restart: unless-stopped
 
   # plex is deployed manually on fedora server so as to use hardware transcoding
