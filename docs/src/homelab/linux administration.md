@@ -71,6 +71,21 @@ It is good practice to set the time zone in the crontab file so your crons will 
 CRON_TZ=America/Detroit
 ```
 
+## Systemd Timers
+
+Use `systemctl edit service_name.timer` to edit a service or timer with overrides. The `OnCalendar` directive is _additive_ and does not override the existing value. You need to set a blank value before setting the "override" value. 
+
+```shell
+[Timer]
+OnCalendar=
+OnCalendar=Mon *-*-* 03:00:00
+```
+
+Reference:
+
+- <https://unix.stackexchange.com/questions/479702/cannot-override-systemd-timer-with-specific-time>
+- <https://www.freedesktop.org/software/systemd/man/latest/systemd.timer.html#OnActiveSec=>
+
 ## Command/Package Mappings and Locations
 
 When looking for the files a command maps to, you can use the `which` command. This shows the location of a command
