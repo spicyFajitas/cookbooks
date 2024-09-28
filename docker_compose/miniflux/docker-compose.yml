@@ -23,7 +23,7 @@ services:
       - homepage.href=http://10.100.10.20:8084/
 
   db:
-    image: postgres:15
+    image: postgres:17
     environment:
       - POSTGRES_USER=miniflux
       - POSTGRES_PASSWORD=secret
