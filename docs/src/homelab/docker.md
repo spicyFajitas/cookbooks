@@ -2,6 +2,19 @@
 
 ## Overview
 
+The docker host has cockpit installed but running on a different port. Config:
+
+```shell
+root@docker-host:~# vim /etc/systemd/system/cockpit.socket.d/listen.conf
+
+
+[Socket]
+ListenStream=
+ListenStream=9000
+```
+
+Reference: <https://cockpit-project.org/guide/latest/listen>
+
 ## Installation
 
 ```bash
