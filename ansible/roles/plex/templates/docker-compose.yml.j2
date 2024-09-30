@@ -1,0 +1,19 @@
+services:
+  # plex is deployed manually on fedora server so as to use hardware transcoding
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=Etc/UTC
+      - VERSION=public
+      - device=/dev/dri:/dev/dri
+    ports:
+      - '32400:32400'
+    volumes:
+      - /opt/media/plex/transcode:/transcode
+      - /opt/media/plex/config:/config
+      - /mnt/media/tv_shows:/tv
+      - /mnt/media/movies1:/movies
+    restart: unless-stopped

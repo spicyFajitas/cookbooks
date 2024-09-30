@@ -1,6 +1,6 @@
 ---
-- name: Apt install cifs-utils
-  ansible.builtin.apt:
+- name: Package install cifs-utils
+  ansible.builtin.package:
     name: cifs-utils
     state: present
 

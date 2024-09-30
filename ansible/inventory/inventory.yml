@@ -30,6 +30,12 @@ linux_server:
   vars:
     ansible_user: root
 
+fedora:
+  hosts:
+    10.100.10.9:
+  vars:
+    ansible_user: root
+
 proxmox:
   hosts:
     10.100.10.10:

@@ -1,0 +1,9 @@
+---
+- name: Run media automation playbook
+  hosts: fedora
+  become: true
+  become_method: sudo
+  roles:
+    - plex
+  vars_files:
+    - roles/plex/vaults/production.yml
