@@ -1,17 +1,17 @@
 ---
 - name: Run apt update
-  apt:
+  ansible.builtin.package:
     update_cache: yes
 
 - name: Install required packages
-  apt:
+  ansible.builtin.package:
     name: "{{ item }}"
     state: present
   loop: "{{ package_list }}"
 
 - name: Run apt upgrade
   when: not apt_upgrade_override | default(false)
-  apt:
+  ansible.builtin.package:
     upgrade: yes
 
 # - name: Restart services if needed
