@@ -192,3 +192,16 @@ services:
       - homepage.icon=sonarr.png
       - homepage.href=http://10.100.10.20:8989/
     restart: unless-stopped
+  
+  tautulli:
+    image: ghcr.io/tautulli/tautulli
+    container_name: tautulli
+    volumes:
+      - /opt/media/tautulli:/config
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=<timezone>
+    ports:
+      - 8181:8181
+    restart: unless-stopped
