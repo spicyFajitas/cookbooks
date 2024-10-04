@@ -28,11 +28,11 @@ Currently, I manually download the ISOs to Proxmox and then direct packer to loo
 
 ### Variables to Update
 
-`source/vm_name`
-`source/template_description`
-`source/iso_file`
-`build/name`
-`build/sources`
+- `source/vm_name`
+- `source/template_description`
+- `source/iso_file`
+- `build/name`
+- `build/sources`
 
 ## Resources
 
