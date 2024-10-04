@@ -93,6 +93,7 @@ source "proxmox-iso" "ubuntu-server-jammy-docker" {
         "<enter><wait>",
         "<wait>",
         "initrd /casper/initrd<enter><wait>",
+        "<wait>",
         "boot<enter>"
     ]
     // boot = "c"

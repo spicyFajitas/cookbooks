@@ -1,0 +1,10 @@
+######################
+#### packer files ####
+######################
+# blanket plugin
+*packer-plugin*
+# blanket credentials git ignore
+# *credential*
+# # packer credential files
+# credentials.pkr.hcl
+*isaac*

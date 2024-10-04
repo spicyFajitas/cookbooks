@@ -31,3 +31,4 @@ autoinstall:
         # - or -
         ssh_authorized_keys:
           - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICKlWUHi61l2BmJKJTSU/uC+fa2H1a73VdmDxmcwCZRo adam@Fajita-MacBook.lan"
+          - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFJfSmSZgDzHF/JESMgNBtFMSFZn8luKQd3qQKu5g3v+ adam@wee-pc"

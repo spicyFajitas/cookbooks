@@ -1,0 +1,73 @@
+image:
+  name: hashicorp/packer:latest
+  entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
+variables:
+    PROXMOX_API_URL: $PROXMOX_API_URL
+    PROXMOX_API_TOKEN_ID: $PROXMOX_API_TOKEN_ID
+    PROXMOX_API_TOKEN_SECRET: $PROXMOX_API_TOKEN_SECRET
+
+
+stages:
+  - test
+  - init
+  - validate
+  - build
+
+test:
+  stage: test
+  tags:
+    - homelab
+  script:
+    - echo "proxmox_api_url = \"https://10.100.10.10:8006/api2/json\"" >> credentials1.pkr.hcl
+    - echo "proxmox_api_token_id = \"$PROXMOX_API_TOKEN_ID\"" >> credentials1.pkr.hcl
+    - echo "proxmox_api_token_secret = \"$PROXMOX_API_TOKEN_SECRET\"" >> credentials1.pkr.hcl
+    - cat credentials1.pkr.hcl
+  artifacts:
+    paths:
+      - credentials1.pkr.hcl
+
+init:
+  stage: init
+  tags:
+    - homelab
+  script:
+    - mkdir -p .packer.d/plugins
+    - packer init ubuntu-server-24.04.pkr.hcl
+  artifacts:
+    paths:
+      - .packer.d/plugins
+    expire_in: 1 week
+
+
+validate:
+  stage: validate
+  tags:
+    - homelab
+  needs:
+    - job: test
+      artifacts: true
+    - job: init
+      artifacts: true
+  # dependencies:
+  #   - credentials1.pkr.hcl
+  script:
+    - packer validate -var-file=credentials1.pkr.hcl ubuntu-server-24.04.pkr.hcl
+
+build ubuntu-server:
+  stage: build
+  tags:
+    - homelab
+  needs:    
+    - job: test
+      artifacts: true
+    - job: init
+      artifacts: true
+    - job: validate
+      artifacts: false
+  when: manual
+  script:
+    # - RUNNER_IP_ADDRESS=$(hostname -I | awk '{print $1}')
+    - packer build -force -var-file=credentials1.pkr.hcl ubuntu-server-24.04.pkr.hcl
