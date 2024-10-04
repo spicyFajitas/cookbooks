@@ -1,0 +1,13 @@
+name: packer
+
+on:
+  push:
+    branches:
+      - "master"
+      - "main"
+  workflow_dispatch:
+
+env:
+  PROXMOX_API_TOKEN_ID: ${{ secrets.PKR_VAR_PROXMOX_API_TOKEN_ID }}
+  PROXMOX_API_TOKEN_SECRET: ${{ secrets.PKR_VAR_PROXMOX_API_TOKEN_SECRET }}
+  PROXMOX_API_URL: ${{ secrets.PKR_VAR_PROXMOX_API_URL }}
