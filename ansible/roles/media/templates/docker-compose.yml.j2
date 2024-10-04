@@ -204,4 +204,9 @@ services:
       - TZ=<timezone>
     ports:
       - 8181:8181
+    labels:
+      - homepage.group=Containers
+      - homepage.name=Tautulli
+      - homepage.icon=Tautulli.png
+      - homepage.href=http://10.100.10.20:8181/
     restart: unless-stopped
