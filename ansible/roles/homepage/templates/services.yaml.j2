@@ -33,10 +33,10 @@
             username: {{ proxmox_api_token_id }}
             password: {{ proxmox_api_key }}
     
-    - Proxmox 2 (OpenShift Host):
+    - Fedora Server Cockpit:
         icon: proxmox.png
-        href: https://10.100.10.9:8006
-        ping: https://10.100.10.9:8006
+        href: https://10.100.10.9:9090
+        ping: https://10.100.10.9:9090
 
     - TrueNAS:
         icon: truenas-scale.png
@@ -57,9 +57,9 @@
             url: https://10.100.10.16
             key: {{ truenas2_api_key }} # not required if using username / password #}
 
-    - Ansible Server:
+    {# - Ansible Server:
         icon: ansible.png
-        href: http://10.100.10.14
+        href: http://10.100.10.14 #}
 
     # the labels do not work on semaphore to show in homepage because semaphore is on a different host than the rest of the docker containers
     - Semaphore:
