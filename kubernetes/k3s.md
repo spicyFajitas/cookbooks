@@ -6,12 +6,15 @@
 curl -sfL https://get.k3s.io | sh -
 ```
 
+## **I DID NOT USE THESE DOCS**
 
 ```shell
+# this is following Jim's Garage implementation
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml 
 
 wget https://get.k3s.io > k3s_install.sh
 
-./k3s_install.sh --disable traefik --disable servicelb --flannel-iface=eno1
+./k3s_install.sh --disable traefik --disable servicelb --flannel-iface=eno1 #eth0
 
 kubectl apply -f https://kube-vip.io/manifests/rbac.yaml
 
