@@ -18,3 +18,7 @@ Exec=/usr/games/steam/steam.sh
 ## Rotating Desktop Wallpaper (ubuntu)
 
 Shotwell > import photos > select all photos to rotate > File > Set as Desktop Background
+
+## Microphone Turning Down Automatically
+
+<https://askubuntu.com/questions/279407/how-to-disable-microphone-from-auto-adjusting-its-input-volume>
