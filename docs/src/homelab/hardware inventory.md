@@ -6,11 +6,9 @@ Checked items are currently in use.
 
 ### Router(s)
 
-| In Use |           Router Model           |                                                  Link                                                   |            Extra Info             |
-| :----: | :------------------------------ | :-----------------------------------------------------------------------------------------------------: | :------------------------------- |
-|  [X]   |        Unifi Dream Router        |                             [Link](https://store.ui.com/us/en/products/udr)                             |                                   |
-|  [ ]   |  ASUS RT-AX1800S WiFi 6 Router   | [Link](https://www.asus.com/networking-iot-servers/wifi-routers/asus-wifi-routers/rt-ax1800s/techspec/) |                                   |
-|  [ ]   | Netgear Nighthawk R6700v3 AC1750 |                        [Link](https://www.netgear.com/home/wifi/routers/r6700/)                         | Flashed with FreshTomato firmware |
+| In Use | Router Model       |                      Link                       |
+| :----: | :----------------- | :---------------------------------------------: |
+|  [X]   | Unifi Dream Router | [Link](https://store.ui.com/us/en/products/udr) |
 
 ### Switch(es)
 
@@ -27,11 +25,11 @@ Checked items are currently in use.
 
 ### Compute
 
-| In Use | Host               | Use / Future Plans    |
-| :----: | :----------------- | --------------------- |
-|  [X]   | Dell OptiPlex 3050 | Virtualization Host   |
-|  [ ]   | Thinkcentre M93p   | Proxmox Backup Server |
-|  [X]   | Thinkcentre M93p   | Desktop               |
+| In Use | Host              | Use / Future Plans            |
+| :----: | :---------------- | ----------------------------- |
+|  [ ]   | Thinkcentre M93p  | Proxmox Backup Server         |
+|  [X]   | Thinkcentre M93p  | Plex Server (intel graphics)  |
+|  [X]   | Beelink SER5 Mini | Proxmox Virtualization Server |
 
 ### Specs/Configs
 
@@ -72,19 +70,17 @@ device(config)# exit
 device#
 ```
 
-#### Virtualization Host
+#### Virtualization Hosts
 
-Dell OptiPlex 3050
+Beelink Mini PC
 
-- Intel Core i5-7500 4 core 4 thread
-- 32GB DDR4 2400Mhz Ram
-- 1TB TeamGroup SSD
-- ~about 150 W PSU
+- Ryzen 7 5800H
+- 2x16GB 3200MHz DDR4 Ram
 
 ??? example "Specs"
-    [lshw](../file/optiplex_3050_lshw.txt)
-    
-    [lshw-short](../file/optiplex_3050_lshw_short.txt)
+    [lshw](../file/lshw_beelink.txt)
+
+    [lshw-short](../file/lshw_short_beelink.txt)
 
 Two of ThinkCentre M93p
 
@@ -94,26 +90,26 @@ Two of ThinkCentre M93p
 
 #### TrueNAS
 
-Use top ethernet port. Top 4 disks in disk tray are disks to be used. Bottom 5th is cold spare.
+Using network port enp4s0. enp1s0 is inactive
 
-NAS:
+New NAS:
 
-| Component   | Part                                         | Specs Sheet | Documentation Link |
-| ----------- | -------------------------------------------- | ----------- | ------------------ |
-| Motherboard | SuperMicro X9SRI-f                           | ?           | ?                  |
-| CPU         | Intel Xeon E5-2690 v1                        | ?           | ?                  |
-| CPU Fan     | be quiet! Pure Rock 2 (BK006)                | ?           | ?                  |
-| RAM         | *Hynix hmt41gr7bf4c-rd                       | ?           | ?                  |
-| Case        | ? Bought from a friend                       | ?           | ?                  |
-| PCIe Card   | *LSI 9211-8i 6G SAS HBA FW:P20 IT Mode       | ?           | ?                  |
-| SAS Disks   | *HGST Ultrastar He10 10TB 7200RPM SAS 12Gbps | ?           | ?                  |
-| GPU         | Gigabyte GTX 1050 OC Low Profile 2 GB        | ?           | ?                  |
- 
-*RAM (model number): Hynix hmt41gr7bf4c-rd (88 GB 1600 MHz) mix of 16 GB + 8 GB sticks
+Ugreen NASync DX4800 Plus
 
-*HGST Ultrastar drives: HUH721010AL4200/42C0
+- Intel Pentium Gold 8505
+- 32GB Ram
+- 4x12TB SATA HDD HGST Ultrastar DC HC 520 HUH721212ALE601
 
-2x SFF-8087 SAS cables
+Old NAS:
+
+| Component | Part                                         |
+| --------- | -------------------------------------------- |
+| PCIe Card | *LSI 9211-8i 6G SAS HBA FW:P20 IT Mode       |
+| SAS Disks | *HGST Ultrastar He10 10TB 7200RPM SAS 12Gbps |
+| GPU       | Gigabyte GTX 1050 OC Low Profile 2 GB        |
+
+- *RAM (model number): Hynix hmt41gr7bf4c-rd (88 GB 1600 MHz) mix of 16 GB + 8 GB sticks
+- 2x SFF-8087 SAS cables
 
 #### Kyle's PC
 
