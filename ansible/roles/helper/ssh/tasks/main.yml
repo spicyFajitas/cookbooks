@@ -17,7 +17,7 @@
   diff: True
 
 - name: Enable and start SSH service
-  service:
-    name: "sshd"
+  ansible.builtin.service:
+    name: "ssh"
     state: started
     enabled: true
