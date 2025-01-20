@@ -135,7 +135,7 @@ services:
       - homepage.href=http://10.100.10.20:7878/
     restart: unless-stopped
 
-  readarr:
+  {# readarr:
     image: lscr.io/linuxserver/readarr:develop
     container_name: readarr
     environment:
@@ -151,7 +151,7 @@ services:
       - homepage.group=Containers
       - homepage.name=Readarr
       - homepage.icon=readarr.png
-      - homepage.href=http://10.100.10.20:8787
+      - homepage.href=http://10.100.10.20:8787 #}
 
   sabnzbd:
     image: lscr.io/linuxserver/sabnzbd:latest
