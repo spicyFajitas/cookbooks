@@ -27,7 +27,6 @@
 - name: Install Ansible
   ansible.builtin.pip:
     name: ansible
-    executable: pip3
     virtualenv: /root/venv
 
 # - name: Install roles from Ansible Galaxy
