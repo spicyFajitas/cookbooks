@@ -1,26 +1,34 @@
 ---
 - name: Add SSH keys to authorized keys file
   ansible.builtin.lineinfile:
-    path: ~/.ssh/authorized_keys
+    path: /root/.ssh/authorized_keys
     line: "{{ item }}"
     create: yes
   loop: "{{ ssh_keys }}"
   diff: True
 
+- name: Set permissions for authorized_keys file
+  ansible.builtin.file:
+    path: /root/.ssh/authorized_keys
+    owner: root
+    group: root
+    mode: '0600'
+
 - name: Run apt update
-  apt:
+  ansible.builtin.apt:
     update_cache: yes
 
 - name: Install required packages
-  apt:
+  ansible.builtin.apt:
     name: "{{ item }}"
     state: present
   loop: "{{ package_list }}"
 
 - name: Install Ansible
-  pip:
+  ansible.builtin.pip:
     name: ansible
     executable: pip3
+    virtualenv: /root/venv
 
 # - name: Install roles from Ansible Galaxy
 #   command: ansible-galaxy install {{ item.item }}
@@ -28,13 +36,13 @@
 #     - "{{ ansible_roles_list }}"
 
 - name: Enable and start SSH service
-  service:
+  ansible.builtin.service:
     name: ssh
     state: started
     enabled: true
 
 - name: Clone Cookbooks repo
-  git:
+  ansible.builtin.git:
     repo: https://github.com/spicyFajitas/cookbooks.git
     dest: "/root/cookbooks"
     remote: origin
@@ -45,5 +53,5 @@
   ansible.builtin.import_tasks: crontab.yml
 
 - name: Run apt upgrade
-  apt:
+  ansible.builtin.apt:
     upgrade: yes
