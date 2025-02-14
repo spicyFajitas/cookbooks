@@ -1,0 +1,73 @@
+H/W path              Device          Class          Description
+================================================================
+                                      system         SER (Default string)
+/0                                    bus            SER
+/0/0                                  memory         64KiB BIOS
+/0/b                                  memory         32GiB System Memory
+/0/b/0                                memory         16GiB SODIMM DDR4 Synchronous Unbuffered (Unregistered) 3200 MHz (0.3 ns)
+/0/b/1                                memory         16GiB SODIMM DDR4 Synchronous Unbuffered (Unregistered) 3200 MHz (0.3 ns)
+/0/d                                  memory         512KiB L1 cache
+/0/e                                  memory         4MiB L2 cache
+/0/f                                  memory         16MiB L3 cache
+/0/10                                 processor      AMD Ryzen 7 5800H with Radeon Graphics
+/0/100                                bridge         Renoir/Cezanne Root Complex
+/0/100/0.2                            generic        Renoir/Cezanne IOMMU
+/0/100/1.2                            bridge         Renoir/Cezanne PCIe GPP Bridge
+/0/100/1.2/0          enp1s0          network        RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller
+/0/100/1.3                            bridge         Renoir/Cezanne PCIe GPP Bridge
+/0/100/1.3/0          wlo1            network        Wi-Fi 6 AX200
+/0/100/2.1                            bridge         Renoir/Cezanne PCIe GPP Bridge
+/0/100/2.1/0          /dev/nvme0      storage        TEAM TM8FP4512G
+/0/100/2.1/0/0        hwmon0          disk           NVMe disk
+/0/100/2.1/0/2        /dev/ng0n1      disk           NVMe disk
+/0/100/2.1/0/1        /dev/nvme0n1    disk           512GB NVMe disk
+/0/100/2.1/0/1/1      /dev/nvme0n1p1  volume         1006KiB BIOS Boot partition
+/0/100/2.1/0/1/2      /dev/nvme0n1p2  volume         511MiB Windows FAT volume
+/0/100/2.1/0/1/3      /dev/nvme0n1p3  volume         476GiB LVM Physical Volume
+/0/100/8.1                            bridge         Renoir Internal PCIe GPP Bridge to Bus
+/0/100/8.1/0                          display        Cezanne [Radeon Vega Series / Radeon Vega Mobile Series]
+/0/100/8.1/0.1        card0           multimedia     Renoir Radeon High Definition Audio Controller
+/0/100/8.1/0.1/0      input6          input          HD-Audio Generic HDMI/DP,pcm=3
+/0/100/8.1/0.1/1      input7          input          HD-Audio Generic HDMI/DP,pcm=7
+/0/100/8.1/0.1/2      input8          input          HD-Audio Generic HDMI/DP,pcm=8
+/0/100/8.1/0.1/3      input9          input          HD-Audio Generic HDMI/DP,pcm=9
+/0/100/8.1/0.2                        generic        Family 17h (Models 10h-1fh) Platform Security Processor
+/0/100/8.1/0.3                        bus            Renoir/Cezanne USB 3.1
+/0/100/8.1/0.3/0      usb1            bus            xHCI Host Controller
+/0/100/8.1/0.3/1      usb2            bus            xHCI Host Controller
+/0/100/8.1/0.4                        bus            Renoir/Cezanne USB 3.1
+/0/100/8.1/0.4/0      usb3            bus            xHCI Host Controller
+/0/100/8.1/0.4/0/3                    communication  AX200 Bluetooth
+/0/100/8.1/0.4/1      usb4            bus            xHCI Host Controller
+/0/100/8.1/0.5        card2           multimedia     ACP/ACP3X/ACP6x Audio Coprocessor
+/0/100/8.1/0.6        card1           multimedia     Family 17h/19h HD Audio Controller
+/0/100/8.1/0.6/0      input10         input          HD-Audio Generic Front Mic
+/0/100/8.1/0.6/1      input11         input          HD-Audio Generic Rear Mic
+/0/100/8.1/0.6/2      input12         input          HD-Audio Generic Line
+/0/100/8.1/0.6/3      input13         input          HD-Audio Generic Line Out
+/0/100/8.1/0.6/4      input14         input          HD-Audio Generic Front Headphone
+/0/100/8.2                            bridge         Renoir Internal PCIe GPP Bridge to Bus
+/0/100/8.2/0                          generic        Zeppelin/Raven/Raven2 PCIe Dummy Function
+/0/100/8.2/0.1        scsi0           storage        FCH SATA Controller [AHCI mode]
+/0/100/8.2/0.1/0.0.0  /dev/sda        volume         953GiB T-FORCE 1TB
+/0/100/14                             bus            FCH SMBus Controller
+/0/100/14.3                           bridge         FCH LPC Bridge
+/0/100/14.3/0                         system         PnP device PNP0c01
+/0/100/14.3/1                         system         PnP device PNP0b00
+/0/100/14.3/2                         system         PnP device PNP0c02
+/0/100/14.3/3                         system         PnP device PNP0c02
+/0/101                                bridge         Renoir PCIe Dummy Host Bridge
+/0/102                                bridge         Renoir PCIe Dummy Host Bridge
+/0/103                                bridge         Renoir PCIe Dummy Host Bridge
+/0/104                                bridge         Cezanne Data Fabric; Function 0
+/0/105                                bridge         Cezanne Data Fabric; Function 1
+/0/106                                bridge         Cezanne Data Fabric; Function 2
+/0/107                                bridge         Cezanne Data Fabric; Function 3
+/0/108                                bridge         Cezanne Data Fabric; Function 4
+/0/109                                bridge         Cezanne Data Fabric; Function 5
+/0/10a                                bridge         Cezanne Data Fabric; Function 6
+/0/10b                                bridge         Cezanne Data Fabric; Function 7
+/1                    input0          input          Power Button
+/2                    input1          input          Power Button
+/3                    input3          input          Video Bus
+/4                    input5          input          PC Speaker
