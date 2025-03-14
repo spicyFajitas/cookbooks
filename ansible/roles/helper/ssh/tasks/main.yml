@@ -18,6 +18,6 @@
 
 - name: Enable and start SSH service
   ansible.builtin.service:
-    name: "ssh"
+    name: "sshd"
     state: started
     enabled: true

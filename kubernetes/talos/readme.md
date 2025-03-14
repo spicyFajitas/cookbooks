@@ -8,6 +8,8 @@
   - [Export Kubeconfig](#export-kubeconfig)
   - [Add QEMU Guest Agent](#add-qemu-guest-agent)
   - [Install CNI](#install-cni)
+  - [Cleanup](#cleanup)
+    - [Delete Node After Rename](#delete-node-after-rename)
 
 ## Prereqs
 
@@ -128,4 +130,12 @@ helm install \
     --set securityContext.capabilities.cleanCiliumState="{NET_ADMIN,SYS_ADMIN,SYS_RESOURCE}" \
     --set cgroup.autoMount.enabled=false \
     --set cgroup.hostRoot=/sys/fs/cgroup
+```
+
+## Cleanup
+
+### Delete Node After Rename
+
+```shell
+kubectl delete node <node-name>
 ```
