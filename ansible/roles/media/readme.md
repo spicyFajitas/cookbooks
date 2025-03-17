@@ -1,8 +1,15 @@
 # Media
 
-## Overview
+## Gluetun
 
-This is for my ... DVD's...
+Helpful commands:
+
+```shell
+root@docker-host:/opt/media# docker compose exec -it gluetun "/bin/sh"
+/ # apk add curl
+/ # curl ifconfig.me
+193.32.249.160/ #
+```
 
 ## Known Issues
 
@@ -10,7 +17,7 @@ This is for my ... DVD's...
 
 [https://github.com/linuxserver/docker-radarr/issues/204](https://github.com/linuxserver/docker-radarr/issues/204)
 
-```
+```txt
 System.Net.Http.HttpRequestException: Connection refused (api.radarr.video:443): Connection refused (api.radarr.video:443)
 
 
@@ -46,7 +53,7 @@ Close
 
 ~ SBerg1980 - GitHub
 
-#### Solution
+Solution:
 
 Turn off Unifi ad blocker.
 
@@ -63,6 +70,6 @@ root@docker-host:/opt/media# docker logs gluetun | grep health
 2024-02-05T21:13:54Z INFO [healthcheck] healthy!
 ```
 
-#### Solution
+Solution:
 
 I've configured health check options that differ from the defaults. Options are [here](https://github.com/qdm12/gluetun-wiki/blob/main/setup/options/healthcheck.md)
