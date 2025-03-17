@@ -3,6 +3,7 @@
 ## Gluetun
 
 <https://github.com/qdm12/gluetun-wiki/blob/main/setup/providers/mullvad.md>
+<https://github.com/qdm12/gluetun/discussions/805#discussioncomment-2026642>
 
 Helpful commands:
 
