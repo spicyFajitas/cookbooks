@@ -2,6 +2,8 @@
 
 ## Gluetun
 
+<https://github.com/qdm12/gluetun-wiki/blob/main/setup/providers/mullvad.md>
+
 Helpful commands:
 
 ```shell
