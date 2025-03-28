@@ -22,7 +22,7 @@ services:
       - VPN_SERVICE_PROVIDER=mullvad
       - VPN_TYPE=wireguard
       - WIREGUARD_PRIVATE_KEY={{ wireguard_private_key }}
-      - WIREGUARD_ADDRESSES=10.64.222.21/32
+      - WIREGUARD_ADDRESSES={{ wireguard_addresses }}
       - SERVER_CITIES=Amsterdam
       - FIREWALL_OUTBOUND_SUBNETS=10.100.10.0/24
     devices:
