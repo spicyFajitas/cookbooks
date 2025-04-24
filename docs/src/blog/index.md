@@ -10,6 +10,7 @@ This page is a compilation of other peoples' blogs that I've found neat.
 - [Adam Brodack](https://adambrodack.com/)
 - [Baeldung](https://www.baeldung.com/linux/)
 - [Carl Schelin](http://carl.schelin.org/)
+- [Felix Wong](https://felixwong.com/2012/07/buell-blast-tire-replacement/)
 - [idumea](https://blog.idumea.net/)
 - [Louwrentius](https://louwrentius.com/)
 - [Techno Tim](https://docs.technotim.live/)
