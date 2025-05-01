@@ -26,7 +26,8 @@ Active Table
 | docker-host            | x...20     | VM for docker containers              |
 | gitlab-runner          | x...21     | gitlab-runner self hosted             |
 | adam-wee-pc            | x...25     | desktop                               |
-| coolify                | x...27     | coolify server                               |
+| coolify                | x...27     | coolify server                        |
+| minecraft              | x...28     | minecraft server                      |
 | talos helper container | x...30     | talosctl node                         |
 | talos-control          | x...31     | talos Linux control node              |
 | talos-worker           | x...32     | talos linux worker node               |
