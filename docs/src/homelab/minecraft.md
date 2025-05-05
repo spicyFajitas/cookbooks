@@ -8,7 +8,9 @@
 ## Find world version
 
 ```shell
-adam@adam-wee-pc:~/Downloads/The Empty-20250501T141004Z-001/the-empty$ jq .DataVersion advancements/*.json
+$ cd ~/.minecraft/saves/"New World"
+$ grep DataVersion advancements/*.json
+  "DataVersion": 1976
 adam@adam-wee-pc:~/Downloads/The Empty-20250501T141004Z-001/the-empty$ jq .DataVersion advancements/*.json
 
 #match with this website:
@@ -16,6 +18,8 @@ adam@adam-wee-pc:~/Downloads/The Empty-20250501T141004Z-001/the-empty$ jq .DataV
 ```
 
 ## Server Install
+
+Followed these docs: <https://www.linuxnorth.org/minecraft/modded_linux.html>
 
 ```shell
 
@@ -49,3 +53,5 @@ CTRL+B > D
 tmux ls
 tmux attach -t 0
 ```
+
+root@minecraft:/opt/minecraft# sudo apt remove openjdk-21-jre-headless:amd64
