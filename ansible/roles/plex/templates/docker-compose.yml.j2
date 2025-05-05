@@ -3,12 +3,20 @@ services:
   plex:
     image: lscr.io/linuxserver/plex:latest
     container_name: plex
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
     environment:
       - PUID=0
       - PGID=0
       - TZ=Etc/UTC
       - VERSION=public
-      - device=/dev/dri:/dev/dri
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
     ports:
       - '32400:32400'
     volumes:
@@ -16,7 +24,8 @@ services:
       - /opt/media/plex/config:/config
       - /mnt/media/tv_shows:/tv
       - /mnt/media/movies1:/movies
-    restart: unless-stopped
+    restart: unless-g
+    # runtime: nvidia
 
   emby:
     image: lscr.io/linuxserver/emby:latest
@@ -34,4 +43,4 @@ services:
       - 8920:8920 #optional
     devices:
       - /dev/dri:/dev/dri #optional
-    restart: unless-stopped
+    restart: unless-g
