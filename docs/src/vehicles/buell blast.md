@@ -12,9 +12,11 @@ Takes 2 Quarts including what is dumped in the oil filter.
 
 Cross reference is KN-177 K&N, Fram PH 4967, or others in [this link](https://badweatherbikers.com/buell/messages/32777/177968.html?1140884722).
 
-| Oil Changed at Mileage |
-| :--------------------: |
-|          4857          |
+|  Oil Changed at Mileage   |
+| :-----------------------: |
+|           4857            |
+| around 5100-5400  :shrug: |
+|                           |
 
 ## Brake Fluid
 
