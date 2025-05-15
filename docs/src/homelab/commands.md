@@ -2,6 +2,17 @@
 
 Commands based on useful packages
 
+## adduser
+
+```shell
+# debian - sudo group
+# rhel/fedora - wheel group
+useradd -m -s /bin/bash -G sudo newUserName
+    # -m make home directory at /home/newUserName
+    # -s set default shell
+    # -G set group
+```
+
 ## btop
 
 similar to htop
