@@ -1,6 +1,6 @@
-# Linx MC with Spigot Plugins
+# Linux MC with Spigot Plugins
 
-- [Linx MC with Spigot Plugins](#linx-mc-with-spigot-plugins)
+- [Linux MC with Spigot Plugins](#linux-mc-with-spigot-plugins)
   - [Spigot](#spigot)
     - [To Do](#to-do)
     - [Favorite Plugins](#favorite-plugins)
