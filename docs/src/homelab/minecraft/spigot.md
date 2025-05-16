@@ -32,6 +32,7 @@ root@minecraft:/opt/minecraft# java -jar BuildTools.jar
 | 74429  | fast chunk pregenerator |
 | 60623  |       sleep most        |
 | 101066 |       death chest       |
+| 19510  |     classic combat      |
 
 [Allow bedrock on Java](https://geysermc.org/)
 [Vane plugin](https://oddlama.github.io/vane/)
