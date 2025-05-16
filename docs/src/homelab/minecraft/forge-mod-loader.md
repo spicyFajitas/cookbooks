@@ -1,12 +1,9 @@
-# Minecraft Server on Linux VM
+# Linux MC with Forge Mods
 
-- [Minecraft Server on Linux VM](#minecraft-server-on-linux-vm)
+- [Linux MC with Forge Mods](#linux-mc-with-forge-mods)
   - [Modded Minecraft](#modded-minecraft)
     - [Find world version](#find-world-version)
     - [Server Install](#server-install)
-  - [Spigot](#spigot)
-    - [To Do](#to-do)
-    - [Favorite Plugins](#favorite-plugins)
   - [Tmux](#tmux)
 
 ## Modded Minecraft
@@ -48,36 +45,6 @@ adam@adam-wee-pc:~/Documents/curseforge/minecraft/Instances/Solo April212025/mod
 # sftp mods from local gaming PC to server
 
 ```
-
-## Spigot
-
-```shell
-root@minecraft:/opt/minecraft# sudo apt install openjdk-21-jdk
-root@minecraft:/opt/minecraft# java -jar BuildTools.jar
-```
-
-### To Do
-
-- Orefinder plugin
-- restart server for no chest timer
-- drop heads plugin
-- classic combat plugin
-- fast leaf decay
-- [iron farm](https://www.youtube.com/watch?v=-oYyJ6jfSPU)
-
-### Favorite Plugins
-
-|   ID   |       Description       |
-| :----: | :---------------------: |
-| 83581  |     fast leaf decay     |
-| 111907 |      ore detector       |
-| 39965  |      smooth timber      |
-| 74429  | fast chunk pregenerator |
-| 60623  |       sleep most        |
-| 101066 |       death chest       |
-
-[Allow bedrock on Java](https://geysermc.org/)
-[Vane plugin](https://oddlama.github.io/vane/)
 
 ## Tmux
 
