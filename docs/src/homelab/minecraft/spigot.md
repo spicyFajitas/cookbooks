@@ -24,6 +24,8 @@ root@minecraft:/opt/minecraft# java -jar BuildTools.jar
 
 ### Favorite Plugins
 
+Search for plugin info and download by searching "spigot [plugin ID from table]"
+
 |   ID   |       Description       |
 | :----: | :---------------------: |
 | 83581  |     fast leaf decay     |
