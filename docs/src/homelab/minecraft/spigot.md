@@ -1,6 +1,6 @@
-# Linux MC with Spigot Plugins
+# Linux MC running on Spigot
 
-- [Linux MC with Spigot Plugins](#linux-mc-with-spigot-plugins)
+- [Linux MC running on Spigot](#linux-mc-running-on-spigot)
   - [To Do](#to-do)
   - [Spigot](#spigot)
   - [Dynmap](#dynmap)
