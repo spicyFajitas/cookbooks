@@ -1,9 +1,13 @@
 # Linux MC Running on Paper
 
 - [Linux MC Running on Paper](#linux-mc-running-on-paper)
+  - [To Do](#to-do)
   - [Paper](#paper)
   - [Dynmap](#dynmap)
   - [Favorite Plugins](#favorite-plugins)
+  - [Tmux](#tmux)
+
+## To Do
 
 ## Paper
 
@@ -50,3 +54,17 @@ Search for plugin info and download by searching "spigot [plugin ID from table]"
 - [DynMap](https://github.com/webbukkit/dynmap)
 - [BlueMap](https://github.com/BlueMap-Minecraft/BlueMap)
 - [ViaVersion](https://hangar.papermc.io/ViaVersion/ViaVersion)
+
+## Tmux
+
+```txt
+# detach
+CTRL+B > D
+
+# re-attach
+tmux ls
+tmux attach -t 0
+
+# scroll
+Ctrl + b, then [
+```

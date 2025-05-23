@@ -43,7 +43,6 @@ adam@adam-wee-pc:~/Documents/curseforge/minecraft/Instances/Solo April212025/mod
 /home/adam/Documents/curseforge/minecraft/Instances/Solo April212025/mods
 
 # sftp mods from local gaming PC to server
-
 ```
 
 ## Tmux
