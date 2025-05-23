@@ -29,6 +29,7 @@ graphical du command that is really fast
 ```bash
 gdu 
     -x / # do not cross filesystem boundaries, i.e. only count files and directories on the same filesystem as the directory being scanned.
+    --exclude=/<directory>
 ```
 
 ## lsof
@@ -45,6 +46,7 @@ graphical du command that is really fast
 ```bash
 ncdu 
     -x / # do not cross filesystem boundaries, i.e. only count files and directories on the same filesystem as the directory being scanned.
+    --exclude=<directory>
 ```
 
 ## nproc
@@ -52,6 +54,15 @@ ncdu
 ```bash
 nproc
     # number of processors
+```
+
+## ps
+
+report a snapshot of current processes
+
+```shell
+    ps aux # list all running processes
+    ps -e # same as ps aux but different format
 ```
 
 ## ssh-keygen
