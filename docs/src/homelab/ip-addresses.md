@@ -23,6 +23,7 @@ Active Table
 | adam-wee-pc            | x...25     | desktop                               |
 | coolify                | x...27     | coolify server                        |
 | minecraft              | x...28     | minecraft server                      |
+| minecraft-gg           | x...29     | grass gang minecraft server           |
 | talos helper container | x...30     | talosctl node                         |
 | talos-control          | x...31     | talos Linux control node              |
 | talos-worker           | x...32     | talos linux worker node               |
