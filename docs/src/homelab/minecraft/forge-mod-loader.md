@@ -2,23 +2,9 @@
 
 - [Linux MC with Forge Mods](#linux-mc-with-forge-mods)
   - [Modded Minecraft](#modded-minecraft)
-    - [Find world version](#find-world-version)
     - [Server Install](#server-install)
-  - [Tmux](#tmux)
 
 ## Modded Minecraft
-
-### Find world version
-
-```shell
-$ cd ~/.minecraft/saves/"New World"
-$ grep DataVersion advancements/*.json
-  "DataVersion": 1976
-adam@adam-wee-pc:~/Downloads/The Empty-20250501T141004Z-001/the-empty$ jq .DataVersion advancements/*.json
-
-#match with this website:
-# https://minecraft.wiki/w/Data_version
-```
 
 ### Server Install
 
@@ -34,7 +20,7 @@ sudo apt install default-jre
 update-alternatives --config java
 sudo apt install screen
 wget https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.0/forge-1.20.1-47.4.0-installer.jar
-java -jar forge-1.20.1-47.4.0-installer.jar --installServer
+java -jar forge-1.20.1-47.4.0-installer.jar --installServer 
 rm forge-1.20.1-47.4.0-installer.jar
 sudo apt install tree
 
@@ -43,20 +29,6 @@ adam@adam-wee-pc:~/Documents/curseforge/minecraft/Instances/Solo April212025/mod
 /home/adam/Documents/curseforge/minecraft/Instances/Solo April212025/mods
 
 # sftp mods from local gaming PC to server
-```
-
-## Tmux
-
-```txt
-# detach
-CTRL+B > D
-
-# re-attach
-tmux ls
-tmux attach -t 0
-
-# scroll
-Ctrl + b, then [
 ```
 
 root@minecraft:/opt/minecraft# sudo apt remove openjdk-21-jre-headless:amd64

@@ -6,7 +6,6 @@
   - [Dynmap](#dynmap)
   - [Commands](#commands)
   - [Favorite Plugins](#favorite-plugins)
-  - [Tmux](#tmux)
 
 ## To Do
 
@@ -20,25 +19,29 @@
 root@minecraft:/opt/minecraft/1.21.5-spigot-mason-adam/plugins/DeathChest# vim /opt/minecraft/1.21.5-spigot-mason-adam/plugins/DeathChest/config.yml
 # chest:
 #   expiration: -1
+#   blast-protection: true
 #   thief-protection:
 #     enabled: true
+# player-notification:
+#   message: |-
+#     &7You died. Your items were put into a chest. ${x} ${y} ${z}
+
 ```
 
 ## Dynmap
 
 Make sure the tunnel is running somewhere in the network
 
+## Commands
+
 ```terminal
 /chunkgen start 1000
+
 # /dynmap radiusrender <world> <x> <z> <block radius>
 /dynmap radiusrender world 171 -353 2500
 /dynmap cancelrender
 /dynmap fullrender
-```
 
-## Commands
-
-```terminal
 /kill @e[type=zombie]
 ```
 
@@ -66,17 +69,3 @@ Search for plugin info and download by searching "spigot [plugin ID from table]"
 - [BlueMap](https://github.com/BlueMap-Minecraft/BlueMap)
 - [Head Drop](https://modrinth.com/plugin/headdrop?version=1.21.5&loader=paper)
 - [ViaVersion](https://hangar.papermc.io/ViaVersion/ViaVersion)
-
-## Tmux
-
-```txt
-# detach
-CTRL+B > D
-
-# re-attach
-tmux ls
-tmux attach -t 0
-
-# scroll
-Ctrl + b, then [
-```
