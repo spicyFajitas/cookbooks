@@ -4,12 +4,11 @@
   - [To Do](#to-do)
   - [Paper](#paper)
   - [Dynmap](#dynmap)
+  - [Commands](#commands)
   - [Favorite Plugins](#favorite-plugins)
   - [Tmux](#tmux)
 
 ## To Do
-
-- change death chest message for time countdown
 
 ## Paper
 
@@ -37,6 +36,12 @@ Make sure the tunnel is running somewhere in the network
 /dynmap fullrender
 ```
 
+## Commands
+
+```terminal
+/kill @e[type=zombie]
+```
+
 ## Favorite Plugins
 
 Search for plugin info and download by searching "spigot [plugin ID from table]"
@@ -50,11 +55,16 @@ Search for plugin info and download by searching "spigot [plugin ID from table]"
 | 60623  |       sleep most        |
 | 101066 |       death chest       |
 | 19510  |     classic combat      |
+| 12038  |       vein miner        |
+| 67436  |       Tree Assist       |
+|  1997  |       ProtocolLib       |
+| 19286  |        Backpacks        |
 
 - [Allow bedrock on Java](https://geysermc.org/)
-- [Vane plugin](https://oddlama.github.io/vane/)
+- [Vane](https://oddlama.github.io/vane/)
 - [DynMap](https://github.com/webbukkit/dynmap)
 - [BlueMap](https://github.com/BlueMap-Minecraft/BlueMap)
+- [Head Drop](https://modrinth.com/plugin/headdrop?version=1.21.5&loader=paper)
 - [ViaVersion](https://hangar.papermc.io/ViaVersion/ViaVersion)
 
 ## Tmux
