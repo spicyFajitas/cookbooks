@@ -61,8 +61,10 @@ nproc
 report a snapshot of current processes
 
 ```shell
-    ps aux # list all running processes
-    ps -e # same as ps aux but different format
+    aux # list all running processes
+    -e # same as ps aux but different format
+    -f # full format output
+    -p 12345 # show process number 12345
 ```
 
 ## ssh-keygen
