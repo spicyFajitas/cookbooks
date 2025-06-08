@@ -69,3 +69,5 @@ Search for plugin info and download by searching "spigot [plugin ID from table]"
 - [BlueMap](https://github.com/BlueMap-Minecraft/BlueMap)
 - [Head Drop](https://modrinth.com/plugin/headdrop?version=1.21.5&loader=paper)
 - [ViaVersion](https://hangar.papermc.io/ViaVersion/ViaVersion)
+- [WorldEdit](https://dev.bukkit.org/projects/worldedit/)
+- 
