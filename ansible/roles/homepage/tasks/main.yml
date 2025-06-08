@@ -22,7 +22,7 @@
     dest: "{{ base_dir }}/config/{{ item }}"
     mode: "0644"
   loop:
-    - services.yaml
+    - infrastructure-services.yaml
     - bookmarks.yaml
     - widgets.yaml
   diff: True
