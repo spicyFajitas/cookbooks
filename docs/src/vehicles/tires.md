@@ -15,4 +15,3 @@ Prices as of 2025-06-16
 | Walmart Auto Center | $2                     |
 | BJ's Wholesale Club |                        |
 | Belle Tire          | $7                     |
-g
