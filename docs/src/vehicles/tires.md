@@ -10,7 +10,7 @@ Prices as of 2025-06-16
 
 | Location            | Disposal Cost per Tire |
 | :------------------ | :--------------------- |
-| Firestone           | $12                    |
+| Firestone           | $6                     |
 | Discount Tire       | $3.50                  |
 | Walmart Auto Center | $2                     |
 | BJ's Wholesale Club |                        |
