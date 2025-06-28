@@ -1,0 +1,66 @@
+H/W path                 Device     Class          Description
+==============================================================
+                                    system         System Product Name (SKU)
+/0                                  bus            Z170M-PLUS
+/0/0                                memory         64KiB BIOS
+/0/40                               memory         8GiB System Memory
+/0/40/0                             memory         [empty]
+/0/40/1                             memory         8GiB DIMM DDR4 Synchronous 2133 MHz (0.5 ns)
+/0/40/2                             memory         [empty]
+/0/40/3                             memory         [empty]
+/0/46                               memory         256KiB L1 cache
+/0/47                               memory         1MiB L2 cache
+/0/48                               memory         6MiB L3 cache
+/0/49                               processor      Intel(R) Core(TM) i5-6500 CPU @ 3.20GHz
+/0/100                              bridge         Xeon E3-1200 v5/E3-1500 v5/6th Gen Core Processor Host Bridge/DRAM Registers
+/0/100/1                            bridge         6th-10th Gen Core Processor PCIe Controller (x16)
+/0/100/1/0               /dev/fb0   display        GP107 [GeForce GTX 1050]
+/0/100/1/0.1             card1      multimedia     GP107GL High Definition Audio Controller
+/0/100/1/0.1/0           input15    input          HDA NVidia HDMI/DP,pcm=3
+/0/100/1/0.1/1           input16    input          HDA NVidia HDMI/DP,pcm=7
+/0/100/1/0.1/2           input17    input          HDA NVidia HDMI/DP,pcm=8
+/0/100/1/0.1/3           input18    input          HDA NVidia HDMI/DP,pcm=9
+/0/100/1/0.1/4           input19    input          HDA NVidia HDMI/DP,pcm=10
+/0/100/1/0.1/5           input20    input          HDA NVidia HDMI/DP,pcm=11
+/0/100/1/0.1/6           input21    input          HDA NVidia HDMI/DP,pcm=12
+/0/100/14                           bus            100 Series/C230 Series Chipset Family USB 3.0 xHCI Controller
+/0/100/14/0              usb1       bus            xHCI Host Controller
+/0/100/14/0/9                       input          USB Receiver
+/0/100/14/0/9/0          input13    input          Logitech K400 Plus
+/0/100/14/1              usb2       bus            xHCI Host Controller
+/0/100/14/1/2            scsi6      storage        SanDisk 3.2Gen1
+/0/100/14/1/2/0.0.0      /dev/sda   disk           250GB SanDisk 3.2Gen1
+/0/100/14/1/2/0.0.0/0    /dev/sda   disk           250GB 
+/0/100/14/1/2/0.0.0/0/1  /dev/sda1  volume         232GiB data partition
+/0/100/14/1/2/0.0.0/0/2             volume         31MiB Windows FAT volume
+/0/100/16                           communication  100 Series/C230 Series Chipset Family MEI Controller #1
+/0/100/17                           storage        Q170/Q150/B150/H170/H110/Z170/CM236 Chipset SATA Controller [AHCI Mode]
+/0/100/1b                           bridge         100 Series/C230 Series Chipset Family PCI Express Root Port #17
+/0/100/1c                           bridge         100 Series/C230 Series Chipset Family PCI Express Root Port #1
+/0/100/1d                           bridge         100 Series/C230 Series Chipset Family PCI Express Root Port #9
+/0/100/1f                           bridge         Z170 Chipset LPC/eSPI Controller
+/0/100/1f/0                         system         PnP device PNP0c02
+/0/100/1f/1                         printer        PnP device PNP0400
+/0/100/1f/2                         communication  PnP device PNP0501
+/0/100/1f/3                         system         PnP device PNP0c02
+/0/100/1f/4                         system         PnP device PNP0c02
+/0/100/1f/5                         system         PnP device PNP0b00
+/0/100/1f/6                         generic        PnP device INT3f0d
+/0/100/1f/7                         system         PnP device PNP0c02
+/0/100/1f/8                         system         PnP device PNP0c02
+/0/100/1f/9                         system         PnP device PNP0c02
+/0/100/1f/a                         system         PnP device PNP0c02
+/0/100/1f.2                         memory         Memory controller
+/0/100/1f.3              card0      multimedia     100 Series/C230 Series Chipset Family HD Audio Controller
+/0/100/1f.3/0            input22    input          HDA Intel PCH Front Mic
+/0/100/1f.3/1            input23    input          HDA Intel PCH Rear Mic
+/0/100/1f.3/2            input24    input          HDA Intel PCH Line
+/0/100/1f.3/3            input25    input          HDA Intel PCH Line Out
+/0/100/1f.3/4            input26    input          HDA Intel PCH Front Headphone
+/0/100/1f.4                         bus            100 Series/C230 Series Chipset Family SMBus
+/0/100/1f.6              enp0s31f6  network        Ethernet Connection (2) I219-V
+/1                                  power          To Be Filled By O.E.M.
+/2                       input0     input          Sleep Button
+/3                       input1     input          Power Button
+/4                       input14    input          Eee PC WMI hotkeys
+/5                       input2     input          Power Button
