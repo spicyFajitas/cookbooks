@@ -25,3 +25,5 @@ DOT 4 fluid
 ## Service Manual
 
 [Service manual](http://www.buellmods.com/content/downloads/manuals/blast/2005_blast_manual.pdf)
+
+[Craigerson Service Manual](https://www.craigerson.com/buell-blast-service-manual/)
