@@ -52,7 +52,7 @@
   diff: True
 # notify: Restart container(s)
 
-- name: Ensure containers are up-to-date with podman-compose
+- name: Pull container updates
   ansible.builtin.command:
     cmd: podman-compose -f {{ base_dir }}/docker-compose.yml up -d
     chdir: "{{ base_dir }}"
