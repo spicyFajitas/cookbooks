@@ -5,6 +5,16 @@
     name: cifs-utils
     state: present
 
+- name: Package install epel-release
+  ansible.builtin.package:
+    name: epel-release
+    state: present
+
+- name: Package install podman-compose
+  ansible.builtin.package:
+    name: podman-compose
+    state: present
+
 - name: Create media group
   ansible.builtin.group:
     name: media
