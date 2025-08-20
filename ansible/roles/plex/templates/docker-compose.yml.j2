@@ -4,31 +4,31 @@ services:
     image: lscr.io/linuxserver/plex:latest
     container_name: plex
     environment:
-      - PUID=0
-      - PGID=0
+      - PUID=1002
+      - PGID=1002
       - TZ=Etc/UTC
       - VERSION=public
       - device=/dev/dri:/dev/dri
     ports:
       - '32400:32400'
     volumes:
-      - /opt/media/plex/transcode:/transcode
-      - /opt/media/plex/config:/config
-      - /mnt/media/tv_shows:/tv
-      - /mnt/media/movies1:/movies
+      - /opt/media/plex/transcode:/transcode:Z
+      - /opt/media/plex/config:/config:Z
+      - /mnt/media/tv_shows:/tv:Z
+      - /mnt/media/movies1:/movies:Z
     restart: unless-stopped
 
   emby:
     image: lscr.io/linuxserver/emby:latest
     container_name: emby
     environment:
-      - PUID=0
-      - PGID=0
+      - PUID=1002
+      - PGID=1002
       - TZ=Etc/UTC
     volumes:
-      - /opt/media/emby:/config
-      - /mnt/media/tv_shows:/tv
-      - /mnt/media/movies1:/movies
+      - /opt/media/emby:/config:Z
+      - /mnt/media/tv_shows:/tv:Z
+      - /mnt/media/movies1:/movies:Z
     ports:
       - 8096:8096
       - 8920:8920 #optional
