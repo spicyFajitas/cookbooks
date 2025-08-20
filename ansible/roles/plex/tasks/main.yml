@@ -52,8 +52,10 @@
   diff: True
 # notify: Restart container(s)
 
-- name: Pull container updates
-  community.docker.docker_compose_v2:
-    project_src: "{{ base_dir }}"
-    pull: always
+- name: Ensure containers are up-to-date with podman-compose
+  ansible.builtin.command:
+    cmd: podman-compose -f {{ base_dir }}/docker-compose.yml up -d
+    chdir: "{{ base_dir }}"
+  register: podman_compose_result
+  changed_when: "'Creating' in podman_compose_result.stdout or 'Recreating' in podman_compose_result.stdout or 'Pulling' in podman_compose_result.stdout"
   notify: Restart container(s)
