@@ -1,7 +1,13 @@
 ---
-- name: Run apt update
+- name: Package cache update
   ansible.builtin.package:
     update_cache: yes
+
+- name: Install epel repo on dnf hosts
+  when: ansible_facts['pkg_mgr'] in ["yum", "dnf"]
+  ansible.builtin.package:
+    name: "epel-release"
+    state: present
 
 - name: Install required packages
   ansible.builtin.package:
@@ -9,10 +15,23 @@
     state: present
   loop: "{{ package_list }}"
 
+# Debian/Ubuntu upgrade
 - name: Run apt upgrade
-  when: not apt_upgrade_override | default(false)
-  ansible.builtin.package:
-    upgrade: yes
+  when: ansible_facts['pkg_mgr'] == "apt" and not apt_upgrade_override | default(false)
+  ansible.builtin.apt:
+    upgrade: dist
+
+# RHEL/Alma/CentOS upgrade
+- name: Run yum/dnf upgrade
+  when: ansible_facts['pkg_mgr'] in ["yum", "dnf"] and not apt_upgrade_override | default(false)
+  ansible.builtin.yum:
+    name: "*"
+    state: latest
+
+# Example: restart services if "needrestart" exists (Debian-like only)
+- name: Restart services if needed
+  when: ansible_facts['pkg_mgr'] == "apt"
+  shell: needrestart -r a
 
 # - name: Restart services if needed
 #   shell: needrestart -r a

@@ -1,0 +1,17 @@
+---
+
+package_list:
+  - btop
+  - curl
+  - epel-release
+  - fail2ban
+  - gdu
+  - git
+  - htop
+  - needrestart
+  - neofetch
+  - net-tools
+  - python3
+  - python3-packaging
+  - python3-pip
+  - vim

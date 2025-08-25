@@ -1,0 +1,9 @@
+---
+- name: Package cache update
+  ansible.builtin.package:
+    update_cache: yes
+
+- name: Install required packages
+  ansible.builtin.package:
+    name: "epel-release"
+    state: present

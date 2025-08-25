@@ -14,29 +14,27 @@
     group: root
     mode: '0600'
 
-- name: Run apt update
-  ansible.builtin.apt:
+- name: Run yum makecache (update cache)
+  ansible.builtin.yum:
     update_cache: yes
 
-- name: Install required packages
-  ansible.builtin.apt:
-    name: "{{ item }}"
-    state: present
-  loop: "{{ package_list }}"
+# - name: Install required packages
+#   ansible.builtin.yum:
+#     name: ansible
+#     state: present
 
 - name: Install Ansible
   ansible.builtin.pip:
     name: ansible
     virtualenv: /root/venv
 
-# - name: Install roles from Ansible Galaxy
-#   command: ansible-galaxy install {{ item.item }}
-#   with_items:
-#     - "{{ ansible_roles_list }}"
+- name: Install collections from Ansible Galaxy
+  ansible.builtin.command: ansible-galaxy collection install {{ item }}
+  loop: "{{ collections }}"
 
 - name: Enable and start SSH service
   ansible.builtin.service:
-    name: ssh
+    name: sshd
     state: started
     enabled: true
 
@@ -51,6 +49,7 @@
 - name: Import crontab jobs
   ansible.builtin.import_tasks: crontab.yml
 
-- name: Run apt upgrade
-  ansible.builtin.apt:
-    upgrade: yes
+- name: Run yum upgrade
+  ansible.builtin.yum:
+    name: "*"
+    state: latest
