@@ -12,4 +12,4 @@
     name: "common-run on semaphore"
     minute: "0"
     hour: "4" # cannot run this at the same as the semaphore nightly runs
-    job: "source /root/venv/bin/activate; cd /root/cookbooks/ansible; ansible-playbook server-semaphore.yml -i inventory/inventory.yml --vault-password-file vault-pass.txt >> /var/log/ansible-runs/server-ansible.log 2>&1"
+    job: "cd /root/cookbooks/ansible; ansible-playbook server-semaphore.yml -i inventory/inventory.yml --vault-password-file vault-pass.txt >> /var/log/ansible-runs/server-ansible.log 2>&1"
