@@ -1,5 +1,5 @@
 ---
-# - name: Restart container(s)
-#   community.docker.docker_compose_v2:
-#     project_src: "{{ base_dir }}"
-#     recreate: auto
+- name: Restart container(s)
+  community.docker.docker_compose_v2:
+    project_src: "{{ base_dir }}"
+    recreate: auto

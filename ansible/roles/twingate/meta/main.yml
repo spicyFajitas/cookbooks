@@ -1,6 +1,7 @@
 ---
 dependencies:
-  - role: helper/docker
+  - role: helper/epel
   - role: helper/packages
   - role: helper/ssh
   - role: helper/timezone
+  - role: helper/docker
