@@ -26,11 +26,11 @@
 - name: Install Ansible
   ansible.builtin.pip:
     name: ansible
-    virtualenv: /root/venv
+    # virtualenv: /root/venv
 
 - name: Install collections from Ansible Galaxy
   ansible.builtin.command: ansible-galaxy collection install {{ item }}
-  loop: "{{ collections }}"
+  loop: "{{ galaxy_collections }}"
 
 - name: Enable and start SSH service
   ansible.builtin.service:

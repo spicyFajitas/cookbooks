@@ -1,4 +1,4 @@
 ---
 
-collections:
+galaxy_collections:
   - community.docker
