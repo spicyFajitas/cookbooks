@@ -11,5 +11,5 @@
     name: "Ansible: daily fortune email"
     minute: "0"
     hour: "6"
-    job: "fortune -o -c -e | cowsay | mail -s \"Moo-sery Loves Company: Today's Inappropriate Fortune\" {{ email_list }}"
+    job: "fortune -c -e | cowsay | mail -s \"Moo-sery Loves Company: Today's Inappropriate Fortune\" {{ email_list }}"
   diff: true
