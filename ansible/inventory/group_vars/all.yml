@@ -15,6 +15,7 @@ package_list:
   - fail2ban
   - gdu
   - git
+  - glances
   - htop
   - needrestart
   - neofetch
