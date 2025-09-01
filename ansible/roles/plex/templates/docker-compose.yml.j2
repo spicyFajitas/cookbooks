@@ -18,7 +18,7 @@ services:
       - /mnt/media/movies1:/movies:Z
     restart: unless-stopped
 
-  emby:
+  {# emby:
     image: lscr.io/linuxserver/emby:latest
     container_name: emby
     environment:
@@ -34,4 +34,4 @@ services:
       - 8920:8920 #optional
     devices:
       - /dev/dri:/dev/dri #optional
-    restart: unless-stopped
+    restart: unless-stopped #}
