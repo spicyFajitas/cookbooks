@@ -32,7 +32,7 @@ linux_server:
   vars:
     ansible_user: root
 
-fedora:
+plex:
   hosts:
     10.100.10.9:
   vars:
