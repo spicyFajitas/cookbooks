@@ -16,7 +16,7 @@ services:
       - /opt/media/plex/config:/config:Z
       - /mnt/media/tv_shows:/tv:Z
       - /mnt/media/movies1:/movies:Z
-    restart: unless-stopped
+    restart: always
 
   {# emby:
     image: lscr.io/linuxserver/emby:latest
@@ -34,4 +34,4 @@ services:
       - 8920:8920 #optional
     devices:
       - /dev/dri:/dev/dri #optional
-    restart: unless-stopped #}
+    restart: always #}
