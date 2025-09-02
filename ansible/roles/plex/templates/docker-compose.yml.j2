@@ -12,10 +12,10 @@ services:
     ports:
       - '32400:32400'
     volumes:
-      - /opt/media/plex/transcode:/transcode:Z
-      - /opt/media/plex/config:/config:Z
-      - /mnt/media/tv_shows:/tv:Z
-      - /mnt/media/movies1:/movies:Z
+      - /opt/media/plex/transcode:/transcode:z
+      - /opt/media/plex/config:/config:z
+      - /mnt/media/tv_shows:/tv:z
+      - /mnt/media/movies1:/movies:z
     restart: always
 
   {# emby:
@@ -26,9 +26,9 @@ services:
       - PGID=1002
       - TZ=Etc/UTC
     volumes:
-      - /opt/media/emby:/config:Z
-      - /mnt/media/tv_shows:/tv:Z
-      - /mnt/media/movies1:/movies:Z
+      - /opt/media/emby:/config:z
+      - /mnt/media/tv_shows:/tv:z
+      - /mnt/media/movies1:/movies:z
     ports:
       - 8096:8096
       - 8920:8920 #optional
