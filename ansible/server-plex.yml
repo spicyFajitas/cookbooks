@@ -2,6 +2,7 @@
 - name: Run media automation playbook
   hosts: fedora
   become: true
+  become_user: root
   become_method: sudo
   roles:
     - plex
