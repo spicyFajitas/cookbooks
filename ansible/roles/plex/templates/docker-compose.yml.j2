@@ -12,8 +12,8 @@ services:
     ports:
       - '32400:32400'
     volumes:
-      - /opt/media/plex/transcode:/transcode:ro
-      - /opt/media/plex/config:/config:ro
+      - /opt/media/plex/transcode:/transcode
+      - /opt/media/plex/config:/config
       - /mnt/media/tv_shows:/tv:ro
       - /mnt/media/movies1:/movies:ro
     restart: always
