@@ -12,10 +12,10 @@ services:
     ports:
       - '32400:32400'
     volumes:
-      - /opt/media/plex/transcode:/transcode:O
-      - /opt/media/plex/config:/config:O
-      - /mnt/media/tv_shows:/tv:O
-      - /mnt/media/movies1:/movies:O
+      - /opt/media/plex/transcode:/transcode:ro
+      - /opt/media/plex/config:/config:ro
+      - /mnt/media/tv_shows:/tv:ro
+      - /mnt/media/movies1:/movies:ro
     restart: always
     privileged: true
 
