@@ -1,0 +1,4 @@
+- name: Set system hostname if defined
+  ansible.builtin.hostname:
+    name: "{{ hostname }}"
+  when: hostname is defined
