@@ -12,11 +12,12 @@ services:
     ports:
       - '32400:32400'
     volumes:
-      - /opt/media/plex/transcode:/transcode:z
-      - /opt/media/plex/config:/config:z
-      - /mnt/media/tv_shows:/tv:z
-      - /mnt/media/movies1:/movies:z
+      - /opt/media/plex/transcode:/transcode:O
+      - /opt/media/plex/config:/config:O
+      - /mnt/media/tv_shows:/tv:O
+      - /mnt/media/movies1:/movies:O
     restart: always
+    privileged: true
 
   {# emby:
     image: lscr.io/linuxserver/emby:latest
