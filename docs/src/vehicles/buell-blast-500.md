@@ -16,7 +16,6 @@ Cross reference is Wix # 51394, KN-177 K&N, or others in [this link](https://bad
 | :-----------------------: |
 |           4857            |
 | around 5100-5400  :shrug: |
-|                           |
 
 ## Brake Fluid
 
