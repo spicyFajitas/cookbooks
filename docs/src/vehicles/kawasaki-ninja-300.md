@@ -1,5 +1,7 @@
 # Ninja 300
 
+[Kawasaki Ninja 300 Forums](https://www.kawasakininja300.com/)
+
 ## Specs
 
 [Spec page](https://www.motorcyclespecs.co.za/model/kawasaki/kawasaki_ninja_300_16.htm)
