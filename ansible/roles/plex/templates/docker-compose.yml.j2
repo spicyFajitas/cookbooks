@@ -14,10 +14,9 @@ services:
     volumes:
       - /opt/media/plex/transcode:/transcode
       - /opt/media/plex/config:/config
-      - /mnt/media/tv_shows:/tv:ro
-      - /mnt/media/movies1:/movies:ro
+      - /mnt/media/tv_shows:/tv
+      - /mnt/media/movies1:/movies
     restart: always
-    privileged: true
 
   {# emby:
     image: lscr.io/linuxserver/emby:latest
