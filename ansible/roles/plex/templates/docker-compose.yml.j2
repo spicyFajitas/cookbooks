@@ -8,7 +8,9 @@ services:
       - PGID=1002
       - TZ=Etc/UTC
       - VERSION=public
-      - device=/dev/dri:/dev/dri
+      - PLEX_CLAIM=claim-f9f5j5CueeaznAysKY4P
+    devices:
+      - /dev/dri:/dev/dri
     ports:
       - '32400:32400'
     volumes:
