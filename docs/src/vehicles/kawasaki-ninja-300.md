@@ -18,3 +18,11 @@ Front stock tire specs: `110/70-17 M/C 54S
 Read stock tire specs: `140/70-17 M/C 66S dia 24.72" rpm@60 815.98`
 
 [Tire Size thread](https://www.kawasakininja300.com/threads/ninja-300-tire-size-question.135447/)
+
+## Oil
+
+10w-40 stock oil
+
+2.2L with filter removed
+
+Oil level in window with bike standing straight up on both tires (not on stand)
