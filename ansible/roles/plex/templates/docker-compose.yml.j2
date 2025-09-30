@@ -10,7 +10,7 @@ services:
       - VERSION=public
     devices:
       - /dev/dri:/dev/dri
-    network_mode: host
+    network_mode: bridge
     ports:
       - '32400:32400'
     volumes:
