@@ -3,6 +3,8 @@
 - [Linux MC Running on Paper](#linux-mc-running-on-paper)
   - [To Do](#to-do)
   - [Paper](#paper)
+    - [Setup](#setup)
+  - [Updating](#updating)
   - [Dynmap](#dynmap)
   - [Commands](#commands)
   - [Favorite Plugins](#favorite-plugins)
@@ -12,6 +14,12 @@
 ## Paper
 
 "Paper is a fork of Spigot, meaning it builds upon Spigot's code and adds its own features and optimizations. Essentially, Paper is an enhanced version of Spigot, designed for better performance and stability, especially on servers with a higher player count. Spigot, on the other hand, is the standard, more established Minecraft server software." ~ Google AI overview
+
+### Setup
+
+```shell
+sudo apt install openjdk-21-jdk-headless
+```
 
 <https://papermc.io/downloads/paper>
 
@@ -27,6 +35,20 @@ root@minecraft:/opt/minecraft/1.21.5-spigot-mason-adam/plugins/DeathChest# vim /
 #     &7You died. Your items were put into a chest. ${x} ${y} ${z}
 
 ```
+
+## Updating
+
+1. Stop server
+2. Backup Server
+3. Update Plugins
+   1. Create folder called `update` in plugins folder
+   2. Download plugins to update and place in `update` folder
+   3. Restart server
+4. Update Paper
+   1. Stop server
+   2. Download new JAR from [Paper downloads page](https://papermc.io/downloads)
+   3. Ensure new JAR filename is being called in `start.sh` file
+   4. Start server and watch logs
 
 ## Dynmap
 
@@ -47,15 +69,15 @@ Make sure the tunnel is running somewhere in the network
 
 ## Favorite Plugins
 
-Search for plugin info and download by searching "spigot [plugin ID from table]"
+Search for plugin info and download by searching "spigot [plugin ID from table]" or just go to website <https://www.spigotmc.org/resources/>
 
 |   ID   |       Description       |
 | :----: | :---------------------: |
-| 83581  |     fast leaf decay     |
-| 111907 |      ore detector       |
 | 39965  |      smooth timber      |
 | 74429  | fast chunk pregenerator |
 | 60623  |       sleep most        |
+| 83581  |     fast leaf decay     |
+| 111907 |      ore detector       |
 | 101066 |       death chest       |
 | 19510  |     classic combat      |
 | 12038  |       vein miner        |
