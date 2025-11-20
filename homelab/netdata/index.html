@@ -1,0 +1,2537 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="https://spicyfajitas.github.io/cookbooks/homelab/netdata/" rel="canonical"/>
+<link href="../linux%20administration/" rel="prev"/>
+<link href="../networkmap/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.0" name="generator"/>
+<title>Netdata - Spicy Docs</title>
+<link href="../../assets/stylesheets/main.618322db.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../../css/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="indigo" data-md-color-primary="indigo" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#netdata">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="Spicy Docs" class="md-header__button md-logo" data-md-component="logo" href="../.." title="Spicy Docs">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Spicy Docs
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Netdata
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="indigo" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="indigo" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/spicyFajitas/cookbooks/" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Spicy Docs" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="Spicy Docs">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Spicy Docs
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/spicyFajitas/cookbooks/" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    
+  
+    Intro
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../current%20readme%20boilerplate/">
+<span class="md-ellipsis">
+    
+  
+    Cookbooks Readme Boilerplate
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../markdown%20syntax/">
+<span class="md-ellipsis">
+    
+  
+    Markdown Syntax
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../spicydocs%20page%20boilerplate/">
+<span class="md-ellipsis">
+    
+  
+    SpicyDocs Pages Boilerplate
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    3D printing
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    3D printing
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../3D%20printing/">
+<span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../blog/">
+<span class="md-ellipsis">
+    
+  
+    Public Blogs
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../blog/2023-11-08/">
+<span class="md-ellipsis">
+    
+  
+    2023-11-08 State of the Homelab (working document)
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../blog/2024-01-16/">
+<span class="md-ellipsis">
+    
+  
+    2024-01-16 Minecraft Server Rabbit Hole
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../blog/2024-04-01/">
+<span class="md-ellipsis">
+    
+  
+    2024-04-01 No Minecraft for the Guest Network
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Hobbies
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Hobbies
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../hobbies/magic/">
+<span class="md-ellipsis">
+    
+  
+    Magic
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../hobbies/track-days/">
+<span class="md-ellipsis">
+    
+  
+    Motorcycle Track Days
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Homelab
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Homelab
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../bash/">
+<span class="md-ellipsis">
+    
+  
+    Bash
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../commands/">
+<span class="md-ellipsis">
+    
+  
+    Commands
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../docker/">
+<span class="md-ellipsis">
+    
+  
+    Docker
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../fail2ban/">
+<span class="md-ellipsis">
+    
+  
+    Fail2Ban
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../fedora/">
+<span class="md-ellipsis">
+    
+  
+    Fedora Linux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../grafana/">
+<span class="md-ellipsis">
+    
+  
+    Grafana / Prometheus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../hardware%20inventory/">
+<span class="md-ellipsis">
+    
+  
+    Hardware Inventory
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../ip-addresses/">
+<span class="md-ellipsis">
+    
+  
+    IP Addresses
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../linux%20administration/">
+<span class="md-ellipsis">
+    
+  
+    Linux Administration
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    Netdata
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    Netdata
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#overview">
+<span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#config-for-discord">
+<span class="md-ellipsis">
+      
+        Config for Discord
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../networkmap/">
+<span class="md-ellipsis">
+    
+  
+    Network Map
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../proxmox/">
+<span class="md-ellipsis">
+    
+  
+    Proxmox
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../router/">
+<span class="md-ellipsis">
+    
+  
+    Router
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../syncthing/">
+<span class="md-ellipsis">
+    
+  
+    Syncthing
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../tools/">
+<span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../truenas/">
+<span class="md-ellipsis">
+    
+  
+    TrueNAS
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../xen%20orchestra/">
+<span class="md-ellipsis">
+    
+  
+    XCP-NG
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_8_18" type="checkbox"/>
+<label class="md-nav__link" for="__nav_8_18" id="__nav_8_18_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Minecraft
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_8_18_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_8_18">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Minecraft
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../minecraft/forge-mod-loader/">
+<span class="md-ellipsis">
+    
+  
+    Linux MC with Forge Mods
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../minecraft/minecraft/">
+<span class="md-ellipsis">
+    
+  
+    Minecraft Server on Linux VM
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../minecraft/paper/">
+<span class="md-ellipsis">
+    
+  
+    Linux MC Running on Paper
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../minecraft/spigot/">
+<span class="md-ellipsis">
+    
+  
+    Linux MC running on Spigot
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_9" type="checkbox"/>
+<label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Parents
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_9_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_9">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Parents
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../parents/dads-desktop/">
+<span class="md-ellipsis">
+    
+  
+    Dad's Desktop
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../parents/dads-phone/">
+<span class="md-ellipsis">
+    
+  
+    Dad's Phone
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../parents/home%20access%20points/">
+<span class="md-ellipsis">
+    
+  
+    Home Access Points
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../parents/moms-laptop/">
+<span class="md-ellipsis">
+    
+  
+    Mom's Laptop
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_10" type="checkbox"/>
+<label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_10_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_10">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../reference/gimp/">
+<span class="md-ellipsis">
+    
+  
+    GIMP
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../reference/git/">
+<span class="md-ellipsis">
+    
+  
+    Git
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../reference/linux%20desktop/">
+<span class="md-ellipsis">
+    
+  
+    Linux Desktop
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../reference/windows/">
+<span class="md-ellipsis">
+    
+  
+    Windows
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_11" type="checkbox"/>
+<label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    School
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_11_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_11">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    School
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../school/shell_lug/">
+<span class="md-ellipsis">
+    
+  
+    Linux Users Group Shell
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_11_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_11_2" id="__nav_11_2_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Sat4411
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_11_2_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_11_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Sat4411
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_11_2_1" type="checkbox"/>
+<label class="md-nav__link" for="__nav_11_2_1" id="__nav_11_2_1_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Lab05
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_11_2_1_label" class="md-nav" data-md-level="3">
+<label class="md-nav__title" for="__nav_11_2_1">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Lab05
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../school/sat4411/lab05/readme/">
+<span class="md-ellipsis">
+    
+  
+    Lab 5 - Terraform and VM Automation
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_11_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_11_3" id="__nav_11_3_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Sat4812
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_11_3_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_11_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Sat4812
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../school/sat4812/lab07/">
+<span class="md-ellipsis">
+    
+  
+    Lab7
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../school/sat4812/lab08/">
+<span class="md-ellipsis">
+    
+  
+    Lab8
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../school/sat4812/lab09/">
+<span class="md-ellipsis">
+    
+  
+    Lab9
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../school/sat4812/lab10/">
+<span class="md-ellipsis">
+    
+  
+    Lab 10
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../school/sat4812/lab11/">
+<span class="md-ellipsis">
+    
+  
+    Lab 11
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../school/sat4812/lab12/">
+<span class="md-ellipsis">
+    
+  
+    Lengthy Logs: Attack Analysis
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_12" type="checkbox"/>
+<label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Setups
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_12_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_12">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Setups
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../setups/google_chrome/">
+<span class="md-ellipsis">
+    
+  
+    Google Chrome
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../setups/uyouplus%20youtube/">
+<span class="md-ellipsis">
+    
+  
+    uYouPlus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../setups/vscode/">
+<span class="md-ellipsis">
+    
+  
+    VSCode
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../setups/windows/">
+<span class="md-ellipsis">
+    
+  
+    Windows
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../setups/wsl%20cowsay/">
+<span class="md-ellipsis">
+    
+  
+    WSL Cowsay
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_13" type="checkbox"/>
+<label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Vehicles
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_13_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_13">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Vehicles
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../vehicles/buell-blast-500/">
+<span class="md-ellipsis">
+    
+  
+    Buell Blast
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../vehicles/honda/">
+<span class="md-ellipsis">
+    
+  
+    Honda
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../vehicles/kawasaki-ninja-300/">
+<span class="md-ellipsis">
+    
+  
+    Ninja 300
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../vehicles/tires/">
+<span class="md-ellipsis">
+    
+  
+    Tires
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#overview">
+<span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#config-for-discord">
+<span class="md-ellipsis">
+      
+        Config for Discord
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="netdata">Netdata<a class="headerlink" href="#netdata" title="Permanent link">¶</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">¶</a></h2>
+<p>Commands for test notification:</p>
+<p><code>/usr/libexec/netdata/plugins.d/alarm-notify.sh test</code></p>
+<h2 id="config-for-discord">Config for Discord<a class="headerlink" href="#config-for-discord" title="Permanent link">¶</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># Configuration for alarm notifications</span>
+<span class="c1">#</span>
+<span class="c1"># This configuration is used by: alarm-notify.sh</span>
+<span class="c1"># changes take effect immediately (the next alarm will use them).</span>
+<span class="c1">#</span>
+<span class="c1"># alarm-notify.sh can send:</span>
+<span class="c1"># - e-mails (using the sendmail command),</span>
+<span class="c1"># - push notifications to your mobile phone (pushover.net),</span>
+<span class="c1"># - messages to your slack team (slack.com),</span>
+<span class="c1"># - messages to your alerta server (alerta.io),</span>
+<span class="c1"># - messages to your flock team (flock.com),</span>
+<span class="c1"># - messages to your discord guild (discord.com),</span>
+<span class="c1"># - messages to your telegram chat / group chat (telegram.org)</span>
+<span class="c1"># - sms messages to your cell phone or any sms enabled device (twilio.com)</span>
+<span class="c1"># - sms messages to your cell phone or any sms enabled device (messagebird.com)</span>
+<span class="c1"># - sms messages to your cell phone or any sms enabled device (smstools3)</span>
+<span class="c1"># - notifications to users on pagerduty.com</span>
+<span class="c1"># - push notifications to iOS devices (via prowlapp.com)</span>
+<span class="c1"># - notifications to Amazon SNS topics (aws.amazon.com)</span>
+<span class="c1"># - messages to your irc channel on your selected network</span>
+<span class="c1"># - messages to a local or remote syslog daemon</span>
+<span class="c1"># - message to Microsoft Teams (through webhook)</span>
+<span class="c1"># - message to Rocket.Chat (through webhook)</span>
+<span class="c1"># - push notifications to your mobile phone or desktop (ntfy.sh)</span>
+<span class="c1">#</span>
+<span class="c1"># The 'to' line given at netdata alarms defines a *role*, so that many</span>
+<span class="c1"># people can be notified for each role.</span>
+<span class="c1">#</span>
+<span class="c1"># This file is a BASH script itself.</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># proxy configuration</span>
+<span class="c1">#</span>
+<span class="c1"># If you need to send curl based notifications (pushover, pushbullet, slack, alerta,</span>
+<span class="c1"># flock, discord, telegram) via a proxy, set these to your proxy address:</span>
+<span class="c1">#export http_proxy="http://10.0.0.1:3128/"</span>
+<span class="c1">#export https_proxy="http://10.0.0.1:3128/"</span>
+
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># notifications images</span>
+<span class="c1">#</span>
+<span class="c1"># Images in notifications need to be downloaded from an Internet facing site.</span>
+<span class="c1"># To allow notification providers fetch the icons/images, by default we set</span>
+<span class="c1"># the URL of the global public netdata registry.</span>
+<span class="c1"># If you have an Internet facing netdata (or you have copied the images/ folder</span>
+<span class="c1"># of netdata to your web server), set its URL here, to fetch the notification</span>
+<span class="c1"># images from it.</span>
+<span class="c1">#images_base_url="http://my.public.netdata.server:19999"</span>
+
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># date handling</span>
+<span class="c1">#</span>
+<span class="c1"># You can configure netdata alerts to send dates in any format you want.</span>
+<span class="c1"># This uses standard `date` command format strings.  See `man date` for</span>
+<span class="c1"># more info on what you can put in here.  Note that this has to start with a '+', otherwise it won't work.</span>
+<span class="c1">#</span>
+<span class="c1"># For ISO 8601 dates, use '+%FT%T%z'</span>
+<span class="c1"># For RFC 5322 dates, use '+%a, %d %b %Y %H:%M:%S %z'</span>
+<span class="c1"># For RFC 3339 dates, use '+%F %T%:z'</span>
+<span class="c1"># For RFC 1123 dates, use '+%a, %d %b %Y %H:%M:%S %Z'</span>
+<span class="c1"># For RFC 1036 dates, use '+%A, %d-%b-%y %H:%M:%S %Z'</span>
+<span class="c1"># For a reasonably local date and time (in that order), use '+%x %X'</span>
+<span class="c1"># For the old default behavior (compatible with ANSI C's asctime() function), leave this empty.</span>
+<span class="nv">date_format</span><span class="o">=</span><span class="s1">''</span>
+
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># hostname handling</span>
+<span class="c1">#</span>
+<span class="c1"># By default, Netdata will use the simple hostname for the system (the</span>
+<span class="c1"># hostname with everything after the first `.` removed) when displaying</span>
+<span class="c1"># the hostname in alert notifications.  If you prefer, you can uncomment</span>
+<span class="c1"># the line below to have Netdata instead use the host's fully qualified</span>
+<span class="c1"># domain name.</span>
+<span class="c1">#</span>
+<span class="c1"># This does not report correct FQDN's for child systems for which this</span>
+<span class="c1"># system is a parent.</span>
+<span class="c1">#</span>
+<span class="c1"># Additionally, if the system host name is overridden in /etc/netdata.conf</span>
+<span class="c1"># with the `hostname` option, that name will be used unconditionally</span>
+<span class="c1"># instead of this.</span>
+<span class="c1">#use_fqdn='YES'</span>
+
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># external commands</span>
+
+<span class="c1"># The full path to the sendmail command.</span>
+<span class="c1"># If empty, the system $PATH will be searched for it.</span>
+<span class="c1"># If not found, email notifications will be disabled (silently).</span>
+<span class="nv">sendmail</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># The full path of the curl command.</span>
+<span class="c1"># If empty, the system $PATH will be searched for it.</span>
+<span class="c1"># If not found, most notifications will be silently disabled.</span>
+<span class="nv">curl</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># The full path of the nc command.</span>
+<span class="c1"># If empty, the system $PATH will be searched for it.</span>
+<span class="c1"># If not found, irc notifications will be silently disabled.</span>
+<span class="nv">nc</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># The full path of the logger command.</span>
+<span class="c1"># If empty, the system $PATH will be searched for it.</span>
+<span class="c1"># If not found, syslog notifications will be silently disabled.</span>
+<span class="nv">logger</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># The full path of the aws command.</span>
+<span class="c1"># If empty, the system $PATH will be searched for it.</span>
+<span class="c1"># If not found, Amazon SNS notifications will be silently disabled.</span>
+<span class="nv">aws</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># The full path of the sendsms command (smstools3).</span>
+<span class="c1"># If empty, the system $PATH will be searched for it.</span>
+<span class="c1"># If not found, SMS notifications will be silently disabled.</span>
+<span class="nv">sendsms</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># extra options for external commands</span>
+<span class="c1">#</span>
+<span class="c1"># In some cases, you may need to change what options get passed to an</span>
+<span class="c1"># external command.  Such cases are covered here.</span>
+
+<span class="c1"># Extra options to pass to curl.  In most cases, you shouldn't need to add anything</span>
+<span class="c1"># to this.  If you're having issues with HTTPS connections, you might try adding</span>
+<span class="c1"># '--insecure' here, but be warned that it will make it much easier for</span>
+<span class="c1"># third-parties to block notification delivery, and may allow disclosure</span>
+<span class="c1"># of potentially sensitive information.</span>
+<span class="c1">#curl_options="--insecure"</span>
+
+<span class="c1"># Extra options to pass to logger.  You shouldn't have to specify anything</span>
+<span class="c1"># here in most cases.</span>
+<span class="c1">#logger_options=""</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># extra options</span>
+
+<span class="c1"># By default don't do anything if this is CLEAR, but it was not WARNING or CRITICAL.</span>
+<span class="c1"># You can send it always if your system makes deduplication for alarms.</span>
+<span class="c1">#clear_alarm_always='YES'</span>
+
+<span class="c1">#</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># NOTE ABOUT RECIPIENTS</span>
+<span class="c1">#</span>
+<span class="c1"># When you define recipients (all types):</span>
+<span class="c1">#</span>
+<span class="c1">#  - emails addresses</span>
+<span class="c1">#  - pushover user tokens</span>
+<span class="c1">#  - telegram chat ids</span>
+<span class="c1">#  - slack channels</span>
+<span class="c1">#  - alerta environment</span>
+<span class="c1">#  - flock rooms</span>
+<span class="c1">#  - discord channels</span>
+<span class="c1">#  - hipchat rooms</span>
+<span class="c1">#  - sms phone numbers</span>
+<span class="c1">#  - pagerduty.com (pd) services</span>
+<span class="c1">#  - irc channels</span>
+<span class="c1">#</span>
+<span class="c1"># You can append modifiers to limit the notifications to be sent:</span>
+<span class="c1"># |critical - Send critical notifications and following status changes until</span>
+<span class="c1">#             the alarm is cleared.</span>
+<span class="c1"># |nowarn   - Do not send warning notifications.</span>
+<span class="c1"># |noclear  - Do not send clear notifications.</span>
+<span class="c1">#</span>
+<span class="c1"># In these examples, the first recipient receives all the alarms</span>
+<span class="c1"># while the second one receives only notifications for alarms that </span>
+<span class="c1"># have at some point become critical. The second user may still receive</span>
+<span class="c1"># warning and clear notifications, but only for the event that previously </span>
+<span class="c1"># caused a critical alarm.</span>
+<span class="c1">#</span>
+<span class="c1">#  email      : "user1@example.com user2@example.com|critical"</span>
+<span class="c1">#  pushover   : "2987343...9437837 8756278...2362736|critical"</span>
+<span class="c1">#  telegram   : "111827421 112746832|critical"</span>
+<span class="c1">#  slack      : "alarms disasters|critical"</span>
+<span class="c1">#  alerta     : "alarms disasters|critical"</span>
+<span class="c1">#  flock      : "alarms disasters|critical"</span>
+<span class="c1">#  discord    : "alarms disasters|critical"</span>
+<span class="c1">#  twilio     : "+15555555555 +17777777777|critical"</span>
+<span class="c1">#  messagebird: "+15555555555 +17777777777|critical"</span>
+<span class="c1">#  kavenegar  : "09155555555 09177777777|critical"</span>
+<span class="c1">#  pd         : "&lt;pd_service_key_1&gt; &lt;pd_service_key_2&gt;|critical"</span>
+<span class="c1">#  irc        : "&lt;irc_channel_1&gt; &lt;irc_channel_2&gt;|critical"</span>
+<span class="c1">#</span>
+<span class="c1"># You can append multiple modifiers. In this example, recipient receives</span>
+<span class="c1"># notifications for critical alarms and following status changes except clear</span>
+<span class="c1"># notifications.</span>
+<span class="c1">#  email      : "user1@example.com|critical|noclear"</span>
+<span class="c1">#</span>
+<span class="c1"># If a recipient is set to empty string, the default recipient of the given</span>
+<span class="c1"># notification method (email, pushover, telegram, slack, alerta, etc) will be used.</span>
+<span class="c1"># To disable a notification, use the recipient called: disabled</span>
+<span class="c1"># This works for all notification methods (including the default recipients).</span>
+
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># email global notification options</span>
+
+<span class="c1"># multiple recipients can be given like this:</span>
+<span class="c1">#              "admin1@example.com admin2@example.com ..."</span>
+
+<span class="c1"># the email address sending email notifications</span>
+<span class="c1"># the default is the system user netdata runs as (usually: netdata)</span>
+<span class="c1"># The following formats are supported:</span>
+<span class="c1"># EMAIL_SENDER="user@domain"</span>
+<span class="c1"># EMAIL_SENDER="User Name &lt;user@domain&gt;"</span>
+<span class="c1"># EMAIL_SENDER="'User Name' &lt;user@domain&gt;"</span>
+<span class="c1"># EMAIL_SENDER="\"User Name\" &lt;user@domain&gt;"</span>
+<span class="nv">EMAIL_SENDER</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># enable/disable sending emails, set this YES, or NO, AUTO to enable/disable based on sendmail availability</span>
+<span class="nv">SEND_EMAIL</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># if a role recipient is not configured, an email will be send to:</span>
+<span class="nv">DEFAULT_RECIPIENT_EMAIL</span><span class="o">=</span><span class="s2">"root"</span>
+<span class="c1"># to receive only critical alarms, set it to "root|critical"</span>
+
+<span class="c1"># Optionally specify the encoding to list in the Content-Type header.</span>
+<span class="c1"># This doesn't change what encoding the e-mail is sent with, just what</span>
+<span class="c1"># the headers say it was encoded as.</span>
+<span class="c1"># This shouldn't need to be changed as it will almost always be</span>
+<span class="c1"># autodetected from the environment.</span>
+<span class="c1">#EMAIL_CHARSET="UTF-8"</span>
+
+<span class="c1"># You can also have netdata add headers to the message that will</span>
+<span class="c1"># cause most e-mail clients to treat all notifications for a given</span>
+<span class="c1"># chart+alarm+host combination as a single thread.  This can help</span>
+<span class="c1"># simplify tracking of alarms, as it provides an easy way for scripts</span>
+<span class="c1"># to correlate messages and also will cause most clients to group all the</span>
+<span class="c1"># messages together.  This is enabled by default, uncomment the line</span>
+<span class="c1"># below if you want to disable it.</span>
+<span class="c1">#EMAIL_THREADING="NO"</span>
+
+<span class="c1"># By default, netdata sends HTML and Plain Text emails, some clients</span>
+<span class="c1"># do not parse HTML emails such as command line clients.</span>
+<span class="c1"># To make emails readable in these clients, you can configure netdata</span>
+<span class="c1"># to not send HTML but Plain Text only emails.</span>
+<span class="c1">#EMAIL_PLAINTEXT_ONLY="YES"</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Dynatrace global notification options</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># enable/disable sending Dynatrace notifications</span>
+<span class="nv">SEND_DYNATRACE</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># The Dynatrace server with protocol prefix (http:// or https://), example https://monitor.illumineit.com</span>
+<span class="c1"># Required</span>
+<span class="nv">DYNATRACE_SERVER</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># Generate a Dynatrace API authentication token</span>
+<span class="c1"># Read https://www.dynatrace.com/support/help/extend-dynatrace/dynatrace-api/basics/dynatrace-api-authentication/ </span>
+<span class="c1"># On Dynatrace server goto Settings --&gt; Integration --&gt; Dynatrace API --&gt; Generate token</span>
+<span class="c1"># Required</span>
+<span class="nv">DYNATRACE_TOKEN</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># Beware: Space is taken from dynatrace URL from browser when you create the TOKEN</span>
+<span class="c1"># Required</span>
+<span class="nv">DYNATRACE_SPACE</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># Generate a Server Tag. On the Dynatrace Server go to Settings --&gt; Tags --&gt; Manually applied tags create the Tag</span>
+<span class="c1"># The Netdata alarm will be sent as a Dynatrace Event to be correlated with all those hosts tagged with this Tag</span>
+<span class="c1"># you created.</span>
+<span class="c1"># Required</span>
+<span class="nv">DYNATRACE_TAG_VALUE</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># Change this to what you want</span>
+<span class="nv">DYNATRACE_ANNOTATION_TYPE</span><span class="o">=</span><span class="s2">"Netdata Alarm"</span>
+
+<span class="c1"># This can be CUSTOM_INFO, CUSTOM_ANNOTATION, CUSTOM_CONFIGURATION, CUSTOM_DEPLOYMENT</span>
+<span class="c1"># Applying default value</span>
+<span class="c1"># Required</span>
+<span class="nv">DYNATRACE_EVENT</span><span class="o">=</span><span class="s2">"CUSTOM_INFO"</span>
+
+
+<span class="nv">DEFAULT_RECIPIENT_DYNATRACE</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># gotify global notification options</span>
+<span class="nv">SEND_GOTIFY</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># App token and url</span>
+<span class="nv">GOTIFY_APP_TOKEN</span><span class="o">=</span><span class="s2">""</span>
+<span class="nv">GOTIFY_APP_URL</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="nv">DEFAULT_RECIPIENT_GOTIFY</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># opsgenie global notification options</span>
+<span class="nv">SEND_OPSGENIE</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># Api key</span>
+<span class="nv">OPSGENIE_API_KEY</span><span class="o">=</span><span class="s2">""</span>
+<span class="nv">OPSGENIE_API_URL</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="nv">DEFAULT_RECIPIENT_OPSGENIE</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># pushover (pushover.net) global notification options</span>
+
+<span class="c1"># multiple recipients can be given like this:</span>
+<span class="c1">#                  "USERTOKEN1 USERTOKEN2 ..."</span>
+
+<span class="c1"># enable/disable sending pushover notifications</span>
+<span class="nv">SEND_PUSHOVER</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># Login to pushover.net to get your pushover app token.</span>
+<span class="c1"># You need only one for all your netdata servers (or you can have one for</span>
+<span class="c1"># each of your netdata - your call).</span>
+<span class="c1"># Without an app token, netdata cannot send pushover notifications.</span>
+<span class="nv">PUSHOVER_APP_TOKEN</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># if a role's recipients are not configured, a notification will be send to</span>
+<span class="c1"># this pushover user token (empty = do not send a notification for unconfigured</span>
+<span class="c1"># roles):</span>
+<span class="nv">DEFAULT_RECIPIENT_PUSHOVER</span><span class="o">=</span><span class="s2">""</span>
+
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># pushbullet (pushbullet.com) push notification options</span>
+
+<span class="c1"># multiple recipients can be given like this:</span>
+<span class="c1">#                  "user1@email.com user2@mail.com"</span>
+
+<span class="c1"># enable/disable sending pushbullet notifications</span>
+<span class="nv">SEND_PUSHBULLET</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># Signup and Login to pushbullet.com</span>
+<span class="c1"># To get your Access Token, go to https://www.pushbullet.com/#settings/account</span>
+<span class="c1"># Create a new access token and paste it below.</span>
+<span class="c1"># Then just set the recipients' emails.</span>
+<span class="c1"># Please note that the if the email in the DEFAULT_RECIPIENT_PUSHBULLET does</span>
+<span class="c1"># not have a pushbullet account, the pushbullet service will send an email</span>
+<span class="c1"># to that address instead.</span>
+
+<span class="c1"># Without an access token, netdata cannot send pushbullet notifications.</span>
+<span class="nv">PUSHBULLET_ACCESS_TOKEN</span><span class="o">=</span><span class="s2">""</span>
+<span class="nv">DEFAULT_RECIPIENT_PUSHBULLET</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># Device iden of the sending device. Optional.</span>
+<span class="nv">PUSHBULLET_SOURCE_DEVICE</span><span class="o">=</span><span class="s2">""</span>
+
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Twilio (twilio.com) SMS options</span>
+
+<span class="c1"># multiple recipients can be given like this:</span>
+<span class="c1">#                  "+15555555555 +17777777777"</span>
+
+<span class="c1"># enable/disable sending twilio SMS</span>
+<span class="nv">SEND_TWILIO</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># Signup for free trial and select a SMS capable Twilio Number</span>
+<span class="c1"># To get your Account SID and Token, go to https://www.twilio.com/console</span>
+<span class="c1"># Place your sid, token and number below.</span>
+<span class="c1"># Then just set the recipients' phone numbers.</span>
+<span class="c1"># The trial account is only allowed to use the number specified when set up.</span>
+
+<span class="c1"># Without an account sid and token, netdata cannot send Twilio text messages.</span>
+<span class="nv">TWILIO_ACCOUNT_SID</span><span class="o">=</span><span class="s2">""</span>
+<span class="nv">TWILIO_ACCOUNT_TOKEN</span><span class="o">=</span><span class="s2">""</span>
+<span class="nv">TWILIO_NUMBER</span><span class="o">=</span><span class="s2">""</span>
+<span class="nv">DEFAULT_RECIPIENT_TWILIO</span><span class="o">=</span><span class="s2">""</span>
+
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Messagebird (messagebird.com) SMS options</span>
+
+<span class="c1"># multiple recipients can be given like this:</span>
+<span class="c1">#                  "+15555555555 +17777777777"</span>
+
+<span class="c1"># enable/disable sending messagebird SMS</span>
+<span class="nv">SEND_MESSAGEBIRD</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># to get an access key, create a free account at https://www.messagebird.com</span>
+<span class="c1"># verify and activate the account (no CC info needed)</span>
+<span class="c1"># login to your account and enter your phonenumber to get some free credits</span>
+<span class="c1"># to get the API key, click on 'API' in the sidebar, then 'API Access (REST)'</span>
+<span class="c1"># click 'Add access key' and fill in data (you want a live key to send SMS)</span>
+
+<span class="c1"># Without an access key, netdata cannot send Messagebird text messages.</span>
+<span class="nv">MESSAGEBIRD_ACCESS_KEY</span><span class="o">=</span><span class="s2">""</span>
+<span class="nv">MESSAGEBIRD_NUMBER</span><span class="o">=</span><span class="s2">""</span>
+<span class="nv">DEFAULT_RECIPIENT_MESSAGEBIRD</span><span class="o">=</span><span class="s2">""</span>
+
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Kavenegar (Kavenegar.com) SMS options</span>
+
+<span class="c1"># multiple recipients can be given like this:</span>
+<span class="c1">#                  "09155555555 09177777777"</span>
+
+<span class="c1"># enable/disable sending kavenegar SMS</span>
+<span class="nv">SEND_KAVENEGAR</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># to get an access key, after selecting and purchasing your desired service</span>
+<span class="c1"># at http://kavenegar.com/pricing.html</span>
+<span class="c1"># login to your account, go to your dashboard and my account are</span>
+<span class="c1"># https://panel.kavenegar.com/Client/setting/account from API Key</span>
+<span class="c1"># copy your api key. You can generate new API Key too.</span>
+<span class="c1"># You can find and select kevenegar sender number from this place.</span>
+
+<span class="c1"># Without an API key, netdata cannot send KAVENEGAR text messages.</span>
+<span class="nv">KAVENEGAR_API_KEY</span><span class="o">=</span><span class="s2">""</span>
+<span class="nv">KAVENEGAR_SENDER</span><span class="o">=</span><span class="s2">""</span>
+<span class="nv">DEFAULT_RECIPIENT_KAVENEGAR</span><span class="o">=</span><span class="s2">""</span>
+
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># telegram (telegram.org) global notification options</span>
+
+<span class="c1"># multiple recipients can be given like this:</span>
+<span class="c1">#                  "CHAT_ID_1 CHAT_ID_2 ..."</span>
+
+<span class="c1"># enable/disable sending telegram messages</span>
+<span class="nv">SEND_TELEGRAM</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># Contact the bot @BotFather to create a new bot and receive a bot token.</span>
+<span class="c1"># Without it, netdata cannot send telegram messages.</span>
+<span class="nv">TELEGRAM_BOT_TOKEN</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># If an API limit error is returned on sending a message, Netdata will retry this number of times before giving up.</span>
+<span class="c1"># Setting the number to 0 makes Netdata do no retries (which is the default).</span>
+<span class="c1"># See https://core.telegram.org/bots/faq#my-bot-is-hitting-limits-how-do-i-avoid-this</span>
+<span class="nv">TELEGRAM_RETRIES_ON_LIMIT</span><span class="o">=</span><span class="s2">"0"</span>
+
+<span class="c1"># To get your chat ID send the command /getid to telegram bot @myidbot</span>
+<span class="c1"># (https://t.me/myidbot). Each user also needs to open a conversation with the</span>
+<span class="c1"># bot that will be sending notifications.</span>
+<span class="c1"># If a role's recipients are not configured, a message will be sent to</span>
+<span class="c1"># this chat id (empty = do not send a notification for unconfigured roles):</span>
+<span class="nv">DEFAULT_RECIPIENT_TELEGRAM</span><span class="o">=</span><span class="s2">""</span>
+
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># slack (slack.com) global notification options</span>
+
+<span class="c1"># multiple recipients can be given like this:</span>
+<span class="c1">#                  "RECIPIENT1 RECIPIENT2 ..."</span>
+
+<span class="c1"># enable/disable sending slack notifications</span>
+<span class="nv">SEND_SLACK</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># Login to your slack.com workspace and create an incoming webhook, using the "Incoming Webhooks" App: https://slack.com/apps/A0F7XDUAZ-incoming-webhooks</span>
+<span class="c1"># Do not use the instructions in https://api.slack.com/incoming-webhooks#enable_webhooks, as those webhooks work only for a single channel.</span>
+<span class="c1"># You need only one for all your netdata servers (or you can have one for each of your netdata).</span>
+<span class="c1"># Without the app and a webhook, netdata cannot send slack notifications.</span>
+<span class="nv">SLACK_WEBHOOK_URL</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># if a role's recipients are not configured, a notification will be send to:</span>
+<span class="c1"># - A slack channel (syntax: '#channel' or 'channel')</span>
+<span class="c1"># - A slack user (syntax: '@user')</span>
+<span class="c1"># - The channel or user defined in slack for the webhook (syntax: '#')</span>
+<span class="c1"># empty = do not send a notification for unconfigured roles</span>
+<span class="nv">DEFAULT_RECIPIENT_SLACK</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Microsoft Teams (office.com) global notification options</span>
+<span class="c1"># More details are available here regarding the payload syntax options:</span>
+<span class="c1"># https://docs.microsoft.com/en-us/outlook/actionable-messages/message-card-reference</span>
+<span class="c1"># Online designer : https://adaptivecards.io/designer/</span>
+<span class="c1"># multiple recipients can be given like this:</span>
+<span class="c1">#                  "CHANNEL1 CHANNEL2 ..."</span>
+
+<span class="c1"># enable/disable sending teams notifications</span>
+<span class="nv">SEND_MSTEAMS</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># In Microsoft Teams the channel name is encoded in the URI after </span>
+<span class="c1"># .../IncomingWebhook/...</span>
+<span class="c1"># You have to replace the encoded channel name by the placeholder `CHANNEL`</span>
+<span class="c1"># in `MSTEAMS_WEBHOOK_URL`. The placeholder `CHANNEL` will be replaced by the</span>
+<span class="c1"># actual encoded channel name before sending the notification.</span>
+<span class="nv">MSTEAMS_WEBHOOK_URL</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># if a role's recipients are not configured, a notification will be send to</span>
+<span class="c1"># this Teams channel (empty = do not send a notification for unconfigured</span>
+<span class="c1"># roles):</span>
+<span class="c1"># Put the different encoded channel names here like : "CHANNEL1 CHANNEL2 ..."</span>
+<span class="c1"># AT LEAST ONE CHANNEL IS MANDATORY</span>
+<span class="nv">DEFAULT_RECIPIENT_MSTEAMS</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># Define the default color scheme for alert to MS Teams - icon and color</span>
+<span class="c1"># Icons - go to https://emojipedia.org/bomb/</span>
+<span class="nv">MSTEAMS_ICON_DEFAULT</span><span class="o">=</span><span class="s2">"♡"</span>
+<span class="nv">MSTEAMS_ICON_CLEAR</span><span class="o">=</span><span class="s2">"💚"</span>
+<span class="nv">MSTEAMS_ICON_WARNING</span><span class="o">=</span><span class="s2">"⚠️"</span>
+<span class="nv">MSTEAMS_ICON_CRITICAL</span><span class="o">=</span><span class="s2">"🔥"</span>
+
+<span class="c1"># Colors</span>
+<span class="nv">MSTEAMS_COLOR_DEFAULT</span><span class="o">=</span><span class="s2">"0076D7"</span>
+<span class="nv">MSTEAMS_COLOR_CLEAR</span><span class="o">=</span><span class="s2">"65A677"</span>
+<span class="nv">MSTEAMS_COLOR_WARNING</span><span class="o">=</span><span class="s2">"FFA500"</span>
+<span class="nv">MSTEAMS_COLOR_CRITICAL</span><span class="o">=</span><span class="s2">"D93F3C"</span>
+
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># rocketchat (rocket.chat) global notification options</span>
+
+<span class="c1"># multiple recipients can be given like this:</span>
+<span class="c1">#                  "CHANNEL1 CHANNEL2 ..."</span>
+
+<span class="c1"># enable/disable sending rocketchat notifications</span>
+<span class="nv">SEND_ROCKETCHAT</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># Login to rocket.chat and create an incoming webhook. You need only one for all</span>
+<span class="c1"># your netdata servers (or you can have one for each of your netdata).</span>
+<span class="c1"># Without it, netdata cannot send rocketchat notifications.</span>
+<span class="nv">ROCKETCHAT_WEBHOOK_URL</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># if a role's recipients are not configured, a notification will be send to</span>
+<span class="c1"># this rocketchat channel (empty = do not send a notification for unconfigured</span>
+<span class="c1"># roles):</span>
+<span class="nv">DEFAULT_RECIPIENT_ROCKETCHAT</span><span class="o">=</span><span class="s2">""</span>
+
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># alerta (alerta.io) global notification options</span>
+
+<span class="c1"># multiple recipients (Environments) can be given like this:</span>
+<span class="c1">#                  "Production Development ..."</span>
+
+<span class="c1"># enable/disable sending alerta notifications</span>
+<span class="nv">SEND_ALERTA</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># here set your alerta server API url</span>
+<span class="c1"># this is the API url you defined when installed Alerta server,</span>
+<span class="c1"># it is the same for all users. Do not include last slash.</span>
+<span class="c1"># ALERTA_WEBHOOK_URL="https://&lt;server&gt;/alerta/api"</span>
+<span class="nv">ALERTA_WEBHOOK_URL</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># Login with an administrative user to you Alerta server and create an API KEY</span>
+<span class="c1"># with write permissions.</span>
+<span class="nv">ALERTA_API_KEY</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># you can define environments in /etc/alertad.conf option ALLOWED_ENVIRONMENTS</span>
+<span class="c1"># standard environments are Production and Development</span>
+<span class="c1"># if a role's recipients are not configured, a notification will be send to</span>
+<span class="c1"># this Environment (empty = do not send a notification for unconfigured roles):</span>
+<span class="nv">DEFAULT_RECIPIENT_ALERTA</span><span class="o">=</span><span class="s2">""</span>
+
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># flock (flock.com) global notification options</span>
+
+<span class="c1"># enable/disable sending flock notifications</span>
+<span class="nv">SEND_FLOCK</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># Login to flock.com and create an incoming webhook. You need only one for all</span>
+<span class="c1"># your netdata servers (or you can have one for each of your netdata).</span>
+<span class="c1"># Without it, netdata cannot send flock notifications.</span>
+<span class="nv">FLOCK_WEBHOOK_URL</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># if a role recipient is not configured, no notification will be sent</span>
+<span class="nv">DEFAULT_RECIPIENT_FLOCK</span><span class="o">=</span><span class="s2">""</span>
+
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># discord (discord.com) global notification options</span>
+
+<span class="c1"># multiple recipients can be given like this:</span>
+<span class="c1">#                  "CHANNEL1 CHANNEL2 ..."</span>
+
+<span class="c1"># enable/disable sending discord notifications</span>
+<span class="nv">SEND_DISCORD</span><span class="o">=</span><span class="s2">"YES"</span>
+
+<span class="c1"># Create a webhook by following the official documentation -</span>
+<span class="c1"># https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks</span>
+<span class="nv">DISCORD_WEBHOOK_URL</span><span class="o">=</span><span class="s2">"&lt;&lt;paste discord webhook here&gt;&gt;"</span>
+
+<span class="c1"># if a role's recipients are not configured, a notification will be send to</span>
+<span class="c1"># this discord channel (empty = do not send a notification for unconfigured</span>
+<span class="c1"># roles):</span>
+<span class="nv">DEFAULT_RECIPIENT_DISCORD</span><span class="o">=</span><span class="s2">"netdata"</span>
+
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># hipchat global notification options</span>
+
+<span class="c1"># multiple recipients can be given like this:</span>
+<span class="c1">#                  "ROOM1 ROOM2 ..."</span>
+
+<span class="c1"># enable/disable sending hipchat notifications</span>
+<span class="nv">SEND_HIPCHAT</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># define hipchat server</span>
+<span class="nv">HIPCHAT_SERVER</span><span class="o">=</span><span class="s2">"api.hipchat.com"</span>
+
+<span class="c1"># api.hipchat.com authorization token</span>
+<span class="c1"># Without this, netdata cannot send hipchat notifications.</span>
+<span class="nv">HIPCHAT_AUTH_TOKEN</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># if a role's recipients are not configured, a notification will be send to</span>
+<span class="c1"># this hipchat room (empty = do not send a notification for unconfigured</span>
+<span class="c1"># roles):</span>
+<span class="nv">DEFAULT_RECIPIENT_HIPCHAT</span><span class="o">=</span><span class="s2">""</span>
+
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># kafka notification options</span>
+
+<span class="c1"># enable/disable sending kafka notifications</span>
+<span class="nv">SEND_KAFKA</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># The URL to POST kafka alarm data to. It should be the full URL.</span>
+<span class="nv">KAFKA_URL</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># The IP to be used in the kafka message as the sender.</span>
+<span class="nv">KAFKA_SENDER_IP</span><span class="o">=</span><span class="s2">""</span>
+
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># pagerduty.com notification options</span>
+<span class="c1">#</span>
+<span class="c1"># pagerduty.com notifications require a "Generic API" (Events v1)</span>
+<span class="c1"># pagerduty service.</span>
+<span class="c1"># https://support.pagerduty.com/docs/services-and-integrations</span>
+
+<span class="c1"># multiple recipients can be given like this:</span>
+<span class="c1">#              "&lt;pd_service_key_1&gt; &lt;pd_service_key_2&gt; ..."</span>
+
+<span class="c1"># enable/disable sending pagerduty notifications</span>
+<span class="nv">SEND_PD</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># if a role's recipients are not configured, a notification will be sent to</span>
+<span class="c1"># the "General API" pagerduty.com service that uses this service key.</span>
+<span class="c1"># (empty = do not send a notification for unconfigured roles):</span>
+<span class="nv">DEFAULT_RECIPIENT_PD</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># Which PD API are we going to use? For version 2 or newer, it is necessary to do a request for Pagerduty</span>
+<span class="c1"># before to set the version(https://developer.pagerduty.com/docs/events-api-v2/overview/).</span>
+<span class="nv">USE_PD_VERSION</span><span class="o">=</span><span class="s2">"1"</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># fleep notification options</span>
+<span class="c1">#</span>
+<span class="c1"># To send fleep.io notifications, you will need a webhook for the</span>
+<span class="c1"># conversation you want to send to.</span>
+
+<span class="c1"># Fleep recipients are specified as the last part of the webhook URL.</span>
+<span class="c1"># So, for a webhook URL of: https://fleep.io/hook/IJONmBuuSlWlkb_ttqyXJg, the</span>
+<span class="c1"># recipient name would be: 'IJONmBuuSlWlkb_ttqyXJg'.</span>
+
+<span class="c1"># enable/disable sending fleep notifications</span>
+<span class="nv">SEND_FLEEP</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># if a role's recipients are not configured, a notification will not be sent.</span>
+<span class="c1"># (empty = do not send a notification for unconfigured roles):</span>
+<span class="nv">DEFAULT_RECIPIENT_FLEEP</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># The user name to label the messages with.  If this is unset,</span>
+<span class="c1"># the hostname of the system the notification is for will be used.</span>
+<span class="nv">FLEEP_SENDER</span><span class="o">=</span><span class="s2">""</span>
+
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># irc notification options</span>
+<span class="c1">#</span>
+<span class="c1"># irc notifications require only the nc utility to be installed.</span>
+
+<span class="c1"># multiple recipients can be given like this:</span>
+<span class="c1">#              "&lt;irc_channel_1&gt; &lt;irc_channel_2&gt; ..."</span>
+
+<span class="c1"># enable/disable sending irc notifications</span>
+<span class="nv">SEND_IRC</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># if a role's recipients are not configured, a notification will not be sent.</span>
+<span class="c1"># (empty = do not send a notification for unconfigured roles):</span>
+<span class="nv">DEFAULT_RECIPIENT_IRC</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># The irc network to which the recipients belong. It must be the full network.</span>
+<span class="c1"># e.g. "irc.freenode.net"</span>
+<span class="nv">IRC_NETWORK</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># The irc port to which a connection will occur.</span>
+<span class="c1"># e.g. 6667 (the default one), 6697 (a TLS/SSL one)</span>
+<span class="nv">IRC_PORT</span><span class="o">=</span><span class="m">6667</span>
+
+<span class="c1"># The irc nickname which is required to send the notification. It must not be</span>
+<span class="c1"># an already registered name as the connection's MODE is defined as a 'guest'.</span>
+<span class="nv">IRC_NICKNAME</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># The irc realname which is required in order to make the connection and is an</span>
+<span class="c1"># extra identifier.</span>
+<span class="nv">IRC_REALNAME</span><span class="o">=</span><span class="s2">""</span>
+
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># syslog notifications</span>
+<span class="c1">#</span>
+<span class="c1"># syslog notifications only need you to have a working logger command, which</span>
+<span class="c1"># should be the case on pretty much any Linux system.</span>
+
+<span class="c1"># enable/disable sending syslog notifications</span>
+<span class="c1"># NOTE: make sure you have everything else configured the way you want</span>
+<span class="c1"># it _before_ turning this on.</span>
+<span class="nv">SEND_SYSLOG</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># A note on log levels and facilities:</span>
+<span class="c1">#</span>
+<span class="c1"># The traditional UNIX syslog mechanism has the concept of both log</span>
+<span class="c1"># levels and facilities.  A log level indicates the relative severity of</span>
+<span class="c1"># the message, while a facility specifies a generic source for the message</span>
+<span class="c1"># (for example, the `mail` facility is where sendmail and postfix log</span>
+<span class="c1"># their messages).  All major syslog daemons have the ability to filter</span>
+<span class="c1"># messages based on both log level and facility, and can often also make</span>
+<span class="c1"># routing decisions for messages based on both factors.</span>
+<span class="c1">#</span>
+<span class="c1"># On Linux, the eight log levels in decreasing order of severity are:</span>
+<span class="c1"># emerg, alert, crit, err, warning, notice, info, debug</span>
+<span class="c1">#</span>
+<span class="c1"># By default, warnings will be logged at the warning level, critical</span>
+<span class="c1"># alerts at the crit level, and clear notifications at the invo level.</span>
+<span class="c1">#</span>
+<span class="c1"># And the 19 facilities you can log to are:</span>
+<span class="c1"># auth, authpriv, cron, daemon, ftp, lpr, mail, news, syslog, user,</span>
+<span class="c1"># uucp, local0, local1, local2, local3, local4, local5, local6, and local7</span>
+<span class="c1">#</span>
+<span class="c1"># By default, netdata alerts will be logged to the local6 facility.</span>
+<span class="c1">#</span>
+<span class="c1"># Depending on your distribution, this means that either all your</span>
+<span class="c1"># netdata alerts will by default end up in the main system log (usually</span>
+<span class="c1"># /var/log/messages), or they won't be logged to a file at all.</span>
+<span class="c1"># Neither of these are likely to be what you actually want, but any</span>
+<span class="c1"># configuration to change that needs to happen in the syslog daemon</span>
+<span class="c1"># configuration, not here.</span>
+
+<span class="c1"># This controls which facility is used by default for logging.  Defaults</span>
+<span class="c1"># to local6.</span>
+<span class="nv">SYSLOG_FACILITY</span><span class="o">=</span><span class="s1">''</span>
+
+<span class="c1"># If a role's recipients are not configured, use the following.</span>
+<span class="c1"># (empty = do not send a notification for unconfigured roles)</span>
+<span class="c1">#</span>
+<span class="c1"># The recipient format for syslog uses the following format:</span>
+<span class="c1"># [[facility.level][@host[:port]]/]prefix</span>
+<span class="c1">#</span>
+<span class="c1"># `prefix` gets appended to the front of all log messages generated for</span>
+<span class="c1"># that recipient.  The prefix is mandatory.</span>
+<span class="c1"># 'host' and 'port' can be used to specify a remote syslog server to</span>
+<span class="c1"># send messages to.  Leave these out if you want messages to be delivered</span>
+<span class="c1"># locally.  'host' can be either a hostname or an IP address.</span>
+<span class="c1"># IPv6 addresses must have square around them.</span>
+<span class="c1"># 'facility' and 'level' are used to override the default logging facility</span>
+<span class="c1"># set above and the log level.  If one is specified, both must be present.</span>
+<span class="c1">#</span>
+<span class="c1"># For example, to send messages with a 'netdata' prefix to a syslog</span>
+<span class="c1"># daemon listening on port 514 on 'loghost' using the daemon facility and</span>
+<span class="c1"># notice log level:</span>
+<span class="c1"># DEFAULT_RECIPIENT_SYSLOG='daemon.notice@loghost:514/netdata'</span>
+<span class="c1">#</span>
+<span class="nv">DEFAULT_RECIPIENT_SYSLOG</span><span class="o">=</span><span class="s2">"netdata"</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># iOS Push Notifications</span>
+
+<span class="c1"># enable/disable sending iOS push notifications</span>
+<span class="nv">SEND_PROWL</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># If a role's recipients are not configured, use the following,</span>
+<span class="c1"># (empty = do not send a notification for unconfigured roles)</span>
+<span class="c1">#</span>
+<span class="c1"># Recipients for iOS push notifications are Prowl API keys.</span>
+<span class="c1">#</span>
+<span class="c1"># A recipient may also consist of multiple Prowl API keys separated by</span>
+<span class="c1"># commas, in which case notifications will be simultaneously sent for all</span>
+<span class="c1"># of those API keys.</span>
+<span class="nv">DEFAULT_RECIPIENT_PROWL</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Amazon SNS notifications</span>
+<span class="c1">#</span>
+<span class="c1"># This method requires potentially complex manual configuration.  See the</span>
+<span class="c1"># netdata wiki for information on what is needed.</span>
+
+<span class="c1"># enable/disable sending Amazon SNS notifications</span>
+<span class="nv">SEND_AWSSNS</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># Specify a template for the Amazon SNS notifications.  This supports</span>
+<span class="c1"># the same set of variables that are usable in the `custom_sender()`</span>
+<span class="c1"># function in the custom notification configuration below.</span>
+<span class="c1">#</span>
+<span class="nv">AWSSNS_MESSAGE_FORMAT</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">status</span><span class="si">}</span><span class="s2"> on </span><span class="si">${</span><span class="nv">host</span><span class="si">}</span><span class="s2"> at </span><span class="si">${</span><span class="nv">date</span><span class="si">}</span><span class="s2">: </span><span class="si">${</span><span class="nv">chart</span><span class="si">}</span><span class="s2"> </span><span class="si">${</span><span class="nv">value_string</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="c1"># If a role's recipients are not configured, use the following.</span>
+<span class="c1"># (empty = do not send a notification for unconfigured roles)</span>
+<span class="c1">#</span>
+<span class="c1"># Recipients for AWS SNS notifications are specified as topic ARN's.</span>
+<span class="c1">#</span>
+<span class="nv">DEFAULT_RECIPIENT_AWSSNS</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># SMS Server Tools 3 (smstools3) global notification options</span>
+
+<span class="c1"># enable/disable sending SMS Server Tools 3 SMS notifications</span>
+<span class="nv">SEND_SMS</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># if a role's recipients are not configured, a notification will be sent to</span>
+<span class="c1"># this SMS channel (empty = do not send a notification for unconfigured</span>
+<span class="c1"># roles). Multiple recipients can be given like this: "PHONE1 PHONE2 ..."</span>
+
+<span class="nv">DEFAULT_RECIPIENT_SMS</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># Matrix notifications</span>
+<span class="c1">#</span>
+
+<span class="c1"># enable/disable Matrix notifications</span>
+<span class="nv">SEND_MATRIX</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># The url of the Matrix homeserver</span>
+<span class="c1"># e.g https://matrix.org:8448</span>
+<span class="nv">MATRIX_HOMESERVER</span><span class="o">=</span>
+
+<span class="c1"># An access token from a valid Matrix account. Tokens usually don't expire,</span>
+<span class="c1"># can be controlled from a Matrix client.</span>
+<span class="c1"># See https://matrix.org/docs/guides/client-server.html</span>
+<span class="nv">MATRIX_ACCESSTOKEN</span><span class="o">=</span>
+
+<span class="c1"># Specify the default rooms to receive the notification if no rooms are provided</span>
+<span class="c1"># in a role's recipients.</span>
+<span class="c1"># The format is !roomid:homeservername</span>
+<span class="nv">DEFAULT_RECIPIENT_MATRIX</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># ntfy.sh global notification options</span>
+
+<span class="c1"># enable/disable sending ntfy notifications</span>
+<span class="nv">SEND_NTFY</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># optional NTFY username</span>
+<span class="nv">NTFY_USERNAME</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># optional NTFY password</span>
+<span class="nv">NTFY_PASSWORD</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># optional NTFY access token</span>
+<span class="nv">NTFY_ACCESS_TOKEN</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># if a role's recipients are not configured, a notification will be sent to</span>
+<span class="c1"># this ntfy server / topic combination (empty = do not send a notification for </span>
+<span class="c1"># unconfigured roles). </span>
+<span class="c1"># Multiple recipients can be given like this: "https://SERVER1/TOPIC1 https://SERVER2/TOPIC2 ..."</span>
+<span class="nv">DEFAULT_RECIPIENT_NTFY</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># custom notifications</span>
+<span class="c1">#</span>
+
+<span class="c1"># enable/disable sending custom notifications</span>
+<span class="nv">SEND_CUSTOM</span><span class="o">=</span><span class="s2">"NO"</span>
+
+<span class="c1"># if a role's recipients are not configured, use the following.</span>
+<span class="c1"># (empty = do not send a notification for unconfigured roles)</span>
+<span class="nv">DEFAULT_RECIPIENT_CUSTOM</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c1"># The custom_sender() is a custom function to do whatever you need to do</span>
+custom_sender<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="c1"># variables you can use:</span>
+<span class="w">    </span><span class="c1"># ${host}               the host generated this event</span>
+<span class="w">    </span><span class="c1"># ${url_host}           same as ${host} but URL encoded</span>
+<span class="w">    </span><span class="c1"># ${unique_id}          the unique id of this event</span>
+<span class="w">    </span><span class="c1"># ${alarm_id}           the unique id of the alarm that generated this event</span>
+<span class="w">    </span><span class="c1"># ${event_id}           the incremental id of the event, for this alarm id</span>
+<span class="w">    </span><span class="c1"># ${when}               the timestamp this event occurred</span>
+<span class="w">    </span><span class="c1"># ${name}               the name of the alarm, as given in netdata health.d entries</span>
+<span class="w">    </span><span class="c1"># ${url_name}           same as ${name} but URL encoded</span>
+<span class="w">    </span><span class="c1"># ${chart}              the name of the chart (type.id)</span>
+<span class="w">    </span><span class="c1"># ${url_chart}          same as ${chart} but URL encoded</span>
+<span class="w">    </span><span class="c1"># ${status}             the current status : REMOVED, UNINITIALIZED, UNDEFINED, CLEAR, WARNING, CRITICAL</span>
+<span class="w">    </span><span class="c1"># ${old_status}         the previous status: REMOVED, UNINITIALIZED, UNDEFINED, CLEAR, WARNING, CRITICAL</span>
+<span class="w">    </span><span class="c1"># ${value}              the current value of the alarm</span>
+<span class="w">    </span><span class="c1"># ${old_value}          the previous value of the alarm</span>
+<span class="w">    </span><span class="c1"># ${src}                the line number and file the alarm has been configured</span>
+<span class="w">    </span><span class="c1"># ${duration}           the duration in seconds of the previous alarm state</span>
+<span class="w">    </span><span class="c1"># ${duration_txt}       same as ${duration} for humans</span>
+<span class="w">    </span><span class="c1"># ${non_clear_duration} the total duration in seconds this is/was non-clear</span>
+<span class="w">    </span><span class="c1"># ${non_clear_duration_txt} same as ${non_clear_duration} for humans</span>
+<span class="w">    </span><span class="c1"># ${units}              the units of the value</span>
+<span class="w">    </span><span class="c1"># ${info}               a short description of the alarm</span>
+<span class="w">    </span><span class="c1"># ${value_string}       friendly value (with units)</span>
+<span class="w">    </span><span class="c1"># ${old_value_string}   friendly old value (with units)</span>
+<span class="w">    </span><span class="c1"># ${image}              the URL of an image to represent the status of the alarm</span>
+<span class="w">    </span><span class="c1"># ${color}              a color in #AABBCC format for the alarm</span>
+<span class="w">    </span><span class="c1"># ${goto_url}           the URL the user can click to see the netdata dashboard</span>
+<span class="w">    </span><span class="c1"># ${calc_expression}    the expression evaluated to provide the value for the alarm</span>
+<span class="w">    </span><span class="c1"># ${calc_param_values}  the value of the variables in the evaluated expression</span>
+<span class="w">    </span><span class="c1"># ${total_warnings}     the total number of alarms in WARNING state on the host</span>
+<span class="w">    </span><span class="c1"># ${total_critical}     the total number of alarms in CRITICAL state on the host</span>
+
+<span class="w">    </span><span class="c1"># these are more human friendly:</span>
+<span class="w">    </span><span class="c1"># ${alarm}              like "name = value units"</span>
+<span class="w">    </span><span class="c1"># ${status_message}     like "needs attention", "recovered", "is critical"</span>
+<span class="w">    </span><span class="c1"># ${severity}           like "Escalated to CRITICAL", "Recovered from WARNING"</span>
+<span class="w">    </span><span class="c1"># ${raised_for}         like "(alarm was raised for 10 minutes)"</span>
+
+<span class="w">    </span><span class="c1"># example human readable SMS</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">msg</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">host</span><span class="si">}</span><span class="s2"> </span><span class="si">${</span><span class="nv">status_message</span><span class="si">}</span><span class="s2">: </span><span class="si">${</span><span class="nv">alarm</span><span class="si">}</span><span class="s2"> </span><span class="si">${</span><span class="nv">raised_for</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="w">    </span><span class="c1"># limit it to 160 characters and encode it for use in a URL</span>
+<span class="w">    </span>urlencode<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">msg</span><span class="p">:</span><span class="nv">0</span><span class="p">:</span><span class="nv">160</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>&gt;/dev/null<span class="p">;</span><span class="w"> </span><span class="nv">msg</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">REPLY</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="w">    </span><span class="c1"># a space separated list of the recipients to send alarms to</span>
+<span class="w">    </span><span class="nv">to</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">1</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="w">    </span><span class="c1"># Sample send SMS to an imaginary SMS gateway accessible via HTTPS</span>
+<span class="w">    </span><span class="c1">#for phone in ${to}; do</span>
+<span class="w">    </span><span class="c1">#  httpcode=$(docurl -X POST \</span>
+<span class="w">        </span><span class="c1">#                           --data-urlencode "From=XXX" \</span>
+<span class="w">        </span><span class="c1">#                           --data-urlencode "To=${phone}" \</span>
+<span class="w">        </span><span class="c1">#                           --data-urlencode "Body=${msg}" \</span>
+<span class="w">        </span><span class="c1">#                           -u "${accountsid}:${accounttoken}" \</span>
+<span class="w">    </span><span class="c1">#   https://domain.website.com/)</span>
+<span class="w">    </span><span class="c1">#</span>
+<span class="w">    </span><span class="c1">#   if [ "${httpcode}" = "200" ]; then</span>
+<span class="w">    </span><span class="c1">#     info "sent custom notification ${msg} to ${phone}"</span>
+<span class="w">    </span><span class="c1">#     sent=$((sent + 1))</span>
+<span class="w">    </span><span class="c1">#   else</span>
+<span class="w">    </span><span class="c1">#     error "failed to send custom notification ${msg} to ${phone} with HTTP error code ${httpcode}."</span>
+<span class="w">    </span><span class="c1">#   fi</span>
+<span class="w">    </span><span class="c1">#done</span>
+
+<span class="w">    </span>info<span class="w"> </span><span class="s2">"not sending custom notification to </span><span class="si">${</span><span class="nv">to</span><span class="si">}</span><span class="s2">, for </span><span class="si">${</span><span class="nv">status</span><span class="si">}</span><span class="s2"> of '</span><span class="si">${</span><span class="nv">host</span><span class="si">}</span><span class="s2">.</span><span class="si">${</span><span class="nv">chart</span><span class="si">}</span><span class="s2">.</span><span class="si">${</span><span class="nv">name</span><span class="si">}</span><span class="s2">' - custom_sender() is not configured."</span>
+<span class="o">}</span>
+
+
+<span class="c1">###############################################################################</span>
+<span class="c1"># RECIPIENTS PER ROLE</span>
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># generic system alarms</span>
+<span class="c1"># CPU, disks, network interfaces, entropy, etc</span>
+
+<span class="c1"># role_recipients_email[sysadmin]="${DEFAULT_RECIPIENT_EMAIL}"</span>
+
+<span class="c1"># role_recipients_pushover[sysadmin]="${DEFAULT_RECIPIENT_PUSHOVER}"</span>
+
+<span class="c1"># role_recipients_pushbullet[sysadmin]="${DEFAULT_RECIPIENT_PUSHBULLET}"</span>
+
+<span class="c1"># role_recipients_telegram[sysadmin]="${DEFAULT_RECIPIENT_TELEGRAM}"</span>
+
+<span class="c1"># role_recipients_slack[sysadmin]="${DEFAULT_RECIPIENT_SLACK}"</span>
+
+<span class="c1"># role_recipients_alerta[sysadmin]="${DEFAULT_RECIPIENT_ALERTA}"</span>
+
+<span class="c1"># role_recipients_flock[sysadmin]="${DEFAULT_RECIPIENT_FLOCK}"</span>
+
+<span class="c1"># role_recipients_discord[sysadmin]="${DEFAULT_RECIPIENT_DISCORD}"</span>
+
+<span class="c1"># role_recipients_hipchat[sysadmin]="${DEFAULT_RECIPIENT_HIPCHAT}"</span>
+
+<span class="c1"># role_recipients_twilio[sysadmin]="${DEFAULT_RECIPIENT_TWILIO}"</span>
+
+<span class="c1"># role_recipients_messagebird[sysadmin]="${DEFAULT_RECIPIENT_MESSAGEBIRD}"</span>
+
+<span class="c1"># role_recipients_kavenegar[sysadmin]="${DEFAULT_RECIPIENT_KAVENEGAR}"</span>
+
+<span class="c1"># role_recipients_pd[sysadmin]="${DEFAULT_RECIPIENT_PD}"</span>
+
+<span class="c1"># role_recipients_fleep[sysadmin]="${DEFAULT_RECIPIENT_FLEEP}"</span>
+
+<span class="c1"># role_recipients_irc[sysadmin]="${DEFAULT_RECIPIENT_IRC}"</span>
+
+<span class="c1"># role_recipients_syslog[sysadmin]="${DEFAULT_RECIPIENT_SYSLOG}"</span>
+
+<span class="c1"># role_recipients_prowl[sysadmin]="${DEFAULT_RECIPIENT_PROWL}"</span>
+
+<span class="c1"># role_recipients_awssns[sysadmin]="${DEFAULT_RECIPIENT_AWSSNS}"</span>
+
+<span class="c1"># role_recipients_custom[sysadmin]="${DEFAULT_RECIPIENT_CUSTOM}"</span>
+
+<span class="c1"># role_recipients_msteams[sysadmin]="${DEFAULT_RECIPIENT_MSTEAMS}"</span>
+
+<span class="c1"># role_recipients_rocketchat[sysadmin]="${DEFAULT_RECIPIENT_ROCKETCHAT}"</span>
+
+<span class="c1"># role_recipients_dynatrace[sysadmin]="${DEFAULT_RECIPIENT_DYNATRACE}"</span>
+
+<span class="c1"># role_recipients_opsgenie[sysadmin]="${DEFAULT_RECIPIENT_OPSGENIE}"</span>
+
+<span class="c1"># role_recipients_matrix[sysadmin]="${DEFAULT_RECIPIENT_MATRIX}"</span>
+
+<span class="c1"># role_recipients_gotify[sysadmin]="${DEFAULT_RECIPIENT_GOTIFY}"</span>
+
+<span class="c1"># role_recipients_ntfy[sysadmin]="${DEFAULT_RECIPIENT_NTFY}"</span>
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># DNS related alarms</span>
+
+<span class="c1"># role_recipients_email[domainadmin]="${DEFAULT_RECIPIENT_EMAIL}"</span>
+
+<span class="c1"># role_recipients_pushover[domainadmin]="${DEFAULT_RECIPIENT_PUSHOVER}"</span>
+
+<span class="c1"># role_recipients_pushbullet[domainadmin]="${DEFAULT_RECIPIENT_PUSHBULLET}"</span>
+
+<span class="c1"># role_recipients_telegram[domainadmin]="${DEFAULT_RECIPIENT_TELEGRAM}"</span>
+
+<span class="c1"># role_recipients_slack[domainadmin]="${DEFAULT_RECIPIENT_SLACK}"</span>
+
+<span class="c1"># role_recipients_alerta[domainadmin]="${DEFAULT_RECIPIENT_ALERTA}"</span>
+
+<span class="c1"># role_recipients_flock[domainadmin]="${DEFAULT_RECIPIENT_FLOCK}"</span>
+
+<span class="c1"># role_recipients_discord[domainadmin]="${DEFAULT_RECIPIENT_DISCORD}"</span>
+
+<span class="c1"># role_recipients_hipchat[domainadmin]="${DEFAULT_RECIPIENT_HIPCHAT}"</span>
+
+<span class="c1"># role_recipients_twilio[domainadmin]="${DEFAULT_RECIPIENT_TWILIO}"</span>
+
+<span class="c1"># role_recipients_messagebird[domainadmin]="${DEFAULT_RECIPIENT_MESSAGEBIRD}"</span>
+
+<span class="c1"># role_recipients_kavenegar[domainadmin]="${DEFAULT_RECIPIENT_KAVENEGAR}"</span>
+
+<span class="c1"># role_recipients_pd[domainadmin]="${DEFAULT_RECIPIENT_PD}"</span>
+
+<span class="c1"># role_recipients_fleep[domainadmin]="${DEFAULT_RECIPIENT_FLEEP}"</span>
+
+<span class="c1"># role_recipients_irc[domainadmin]="${DEFAULT_RECIPIENT_IRC}"</span>
+
+<span class="c1"># role_recipients_syslog[domainadmin]="${DEFAULT_RECIPIENT_SYSLOG}"</span>
+
+<span class="c1"># role_recipients_prowl[domainadmin]="${DEFAULT_RECIPIENT_PROWL}"</span>
+
+<span class="c1"># role_recipients_awssns[domainadmin]="${DEFAULT_RECIPIENT_AWSSNS}"</span>
+
+<span class="c1"># role_recipients_custom[domainadmin]="${DEFAULT_RECIPIENT_CUSTOM}"</span>
+
+<span class="c1"># role_recipients_msteams[domainadmin]="${DEFAULT_RECIPIENT_MSTEAMS}"</span>
+
+<span class="c1"># role_recipients_rocketchat[domainadmin]="${DEFAULT_RECIPIENT_ROCKETCHAT}"</span>
+
+<span class="c1"># role_recipients_sms[domainadmin]="${DEFAULT_RECIPIENT_SMS}"</span>
+
+<span class="c1"># role_recipients_dynatrace[domainadmin]="${DEFAULT_RECIPIENT_DYNATRACE}"</span>
+
+<span class="c1"># role_recipients_opsgenie[domainadmin]="${DEFAULT_RECIPIENT_OPSGENIE}"</span>
+
+<span class="c1"># role_recipients_matrix[domainadmin]="${DEFAULT_RECIPIENT_MATRIX}"</span>
+
+<span class="c1"># role_recipients_gotify[domainadmin]="${DEFAULT_RECIPIENT_GOTIFY}"</span>
+
+<span class="c1"># role_recipients_ntfy[domainadmin]="${DEFAULT_RECIPIENT_NTFY}"</span>
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># database servers alarms</span>
+<span class="c1"># mysql, redis, memcached, postgres, etc</span>
+
+<span class="c1"># role_recipients_email[dba]="${DEFAULT_RECIPIENT_EMAIL}"</span>
+
+<span class="c1"># role_recipients_pushover[dba]="${DEFAULT_RECIPIENT_PUSHOVER}"</span>
+
+<span class="c1"># role_recipients_pushbullet[dba]="${DEFAULT_RECIPIENT_PUSHBULLET}"</span>
+
+<span class="c1"># role_recipients_telegram[dba]="${DEFAULT_RECIPIENT_TELEGRAM}"</span>
+
+<span class="c1"># role_recipients_slack[dba]="${DEFAULT_RECIPIENT_SLACK}"</span>
+
+<span class="c1"># role_recipients_alerta[dba]="${DEFAULT_RECIPIENT_ALERTA}"</span>
+
+<span class="c1"># role_recipients_flock[dba]="${DEFAULT_RECIPIENT_FLOCK}"</span>
+
+<span class="c1"># role_recipients_discord[dba]="${DEFAULT_RECIPIENT_DISCORD}"</span>
+
+<span class="c1"># role_recipients_hipchat[dba]="${DEFAULT_RECIPIENT_HIPCHAT}"</span>
+
+<span class="c1"># role_recipients_twilio[dba]="${DEFAULT_RECIPIENT_TWILIO}"</span>
+
+<span class="c1"># role_recipients_messagebird[dba]="${DEFAULT_RECIPIENT_MESSAGEBIRD}"</span>
+
+<span class="c1"># role_recipients_kavenegar[dba]="${DEFAULT_RECIPIENT_KAVENEGAR}"</span>
+
+<span class="c1"># role_recipients_pd[dba]="${DEFAULT_RECIPIENT_PD}"</span>
+
+<span class="c1"># role_recipients_fleep[dba]="${DEFAULT_RECIPIENT_FLEEP}"</span>
+
+<span class="c1"># role_recipients_irc[dba]="${DEFAULT_RECIPIENT_IRC}"</span>
+
+<span class="c1"># role_recipients_syslog[dba]="${DEFAULT_RECIPIENT_SYSLOG}"</span>
+
+<span class="c1"># role_recipients_prowl[dba]="${DEFAULT_RECIPIENT_PROWL}"</span>
+
+<span class="c1"># role_recipients_awssns[dba]="${DEFAULT_RECIPIENT_AWSSNS}"</span>
+
+<span class="c1"># role_recipients_custom[dba]="${DEFAULT_RECIPIENT_CUSTOM}"</span>
+
+<span class="c1"># role_recipients_msteams[dba]="${DEFAULT_RECIPIENT_MSTEAMS}"</span>
+
+<span class="c1"># role_recipients_rocketchat[dba]="${DEFAULT_RECIPIENT_ROCKETCHAT}"</span>
+
+<span class="c1"># role_recipients_sms[dba]="${DEFAULT_RECIPIENT_SMS}"</span>
+
+<span class="c1"># role_recipients_dynatrace[dba]="${DEFAULT_RECIPIENT_DYNATRACE}"</span>
+
+<span class="c1"># role_recipients_opsgenie[dba]="${DEFAULT_RECIPIENT_OPSGENIE}"</span>
+
+<span class="c1"># role_recipients_matrix[dba]="${DEFAULT_RECIPIENT_MATRIX}"</span>
+
+<span class="c1"># role_recipients_gotify[dba]="${DEFAULT_RECIPIENT_GOTIFY}"</span>
+
+<span class="c1"># role_recipients_ntfy[dba]="${DEFAULT_RECIPIENT_NTFY}"</span>
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># web servers alarms</span>
+<span class="c1"># apache, nginx, lighttpd, etc</span>
+
+<span class="c1"># role_recipients_email[webmaster]="${DEFAULT_RECIPIENT_EMAIL}"</span>
+
+<span class="c1"># role_recipients_pushover[webmaster]="${DEFAULT_RECIPIENT_PUSHOVER}"</span>
+
+<span class="c1"># role_recipients_pushbullet[webmaster]="${DEFAULT_RECIPIENT_PUSHBULLET}"</span>
+
+<span class="c1"># role_recipients_telegram[webmaster]="${DEFAULT_RECIPIENT_TELEGRAM}"</span>
+
+<span class="c1"># role_recipients_slack[webmaster]="${DEFAULT_RECIPIENT_SLACK}"</span>
+
+<span class="c1"># role_recipients_alerta[webmaster]="${DEFAULT_RECIPIENT_ALERTA}"</span>
+
+<span class="c1"># role_recipients_flock[webmaster]="${DEFAULT_RECIPIENT_FLOCK}"</span>
+
+<span class="c1"># role_recipients_discord[webmaster]="${DEFAULT_RECIPIENT_DISCORD}"</span>
+
+<span class="c1"># role_recipients_hipchat[webmaster]="${DEFAULT_RECIPIENT_HIPCHAT}"</span>
+
+<span class="c1"># role_recipients_twilio[webmaster]="${DEFAULT_RECIPIENT_TWILIO}"</span>
+
+<span class="c1"># role_recipients_messagebird[webmaster]="${DEFAULT_RECIPIENT_MESSAGEBIRD}"</span>
+
+<span class="c1"># role_recipients_kavenegar[webmaster]="${DEFAULT_RECIPIENT_KAVENEGAR}"</span>
+
+<span class="c1"># role_recipients_pd[webmaster]="${DEFAULT_RECIPIENT_PD}"</span>
+
+<span class="c1"># role_recipients_fleep[webmaster]="${DEFAULT_RECIPIENT_FLEEP}"</span>
+
+<span class="c1"># role_recipients_irc[webmaster]="${DEFAULT_RECIPIENT_IRC}"</span>
+
+<span class="c1"># role_recipients_syslog[webmaster]="${DEFAULT_RECIPIENT_SYSLOG}"</span>
+
+<span class="c1"># role_recipients_prowl[webmaster]="${DEFAULT_RECIPIENT_PROWL}"</span>
+
+<span class="c1"># role_recipients_awssns[webmaster]="${DEFAULT_RECIPIENT_AWSSNS}"</span>
+
+<span class="c1"># role_recipients_custom[webmaster]="${DEFAULT_RECIPIENT_CUSTOM}"</span>
+
+<span class="c1"># role_recipients_msteams[webmaster]="${DEFAULT_RECIPIENT_MSTEAMS}"</span>
+
+<span class="c1"># role_recipients_rocketchat[webmaster]="${DEFAULT_RECIPIENT_ROCKETCHAT}"</span>
+
+<span class="c1"># role_recipients_sms[webmaster]="${DEFAULT_RECIPIENT_SMS}"</span>
+
+<span class="c1"># role_recipients_dynatrace[webmaster]="${DEFAULT_RECIPIENT_DYNATRACE}"</span>
+
+<span class="c1"># role_recipients_opsgenie[webmaster]="${DEFAULT_RECIPIENT_OPSGENIE}"</span>
+
+<span class="c1"># role_recipients_matrix[webmaster]="${DEFAULT_RECIPIENT_MATRIX}"</span>
+
+<span class="c1"># role_recipients_gotify[webmaster]="${DEFAULT_RECIPIENT_GOTIFY}"</span>
+
+<span class="c1"># role_recipients_ntfy[webmaster]="${DEFAULT_RECIPIENT_NTFY}"</span>
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># proxy servers alarms</span>
+<span class="c1"># squid, etc</span>
+
+<span class="c1"># role_recipients_email[proxyadmin]="${DEFAULT_RECIPIENT_EMAIL}"</span>
+
+<span class="c1"># role_recipients_pushover[proxyadmin]="${DEFAULT_RECIPIENT_PUSHOVER}"</span>
+
+<span class="c1"># role_recipients_pushbullet[proxyadmin]="${DEFAULT_RECIPIENT_PUSHBULLET}"</span>
+
+<span class="c1"># role_recipients_telegram[proxyadmin]="${DEFAULT_RECIPIENT_TELEGRAM}"</span>
+
+<span class="c1"># role_recipients_slack[proxyadmin]="${DEFAULT_RECIPIENT_SLACK}"</span>
+
+<span class="c1"># role_recipients_alerta[proxyadmin]="${DEFAULT_RECIPIENT_ALERTA}"</span>
+
+<span class="c1"># role_recipients_flock[proxyadmin]="${DEFAULT_RECIPIENT_FLOCK}"</span>
+
+<span class="c1"># role_recipients_discord[proxyadmin]="${DEFAULT_RECIPIENT_DISCORD}"</span>
+
+<span class="c1"># role_recipients_hipchat[proxyadmin]="${DEFAULT_RECIPIENT_HIPCHAT}"</span>
+
+<span class="c1"># role_recipients_twilio[proxyadmin]="${DEFAULT_RECIPIENT_TWILIO}"</span>
+
+<span class="c1"># role_recipients_messagebird[proxyadmin]="${DEFAULT_RECIPIENT_MESSAGEBIRD}"</span>
+
+<span class="c1"># role_recipients_kavenegar[proxyadmin]="${DEFAULT_RECIPIENT_KAVENEGAR}"</span>
+
+<span class="c1"># role_recipients_pd[proxyadmin]="${DEFAULT_RECIPIENT_PD}"</span>
+
+<span class="c1"># role_recipients_fleep[proxyadmin]="${DEFAULT_RECIPIENT_FLEEP}"</span>
+
+<span class="c1"># role_recipients_irc[proxyadmin]="${DEFAULT_RECIPIENT_IRC}"</span>
+
+<span class="c1"># role_recipients_syslog[proxyadmin]="${DEFAULT_RECIPIENT_SYSLOG}"</span>
+
+<span class="c1"># role_recipients_prowl[proxyadmin]="${DEFAULT_RECIPIENT_PROWL}"</span>
+
+<span class="c1"># role_recipients_awssns[proxyadmin]="${DEFAULT_RECIPIENT_AWSSNS}"</span>
+
+<span class="c1"># role_recipients_custom[proxyadmin]="${DEFAULT_RECIPIENT_CUSTOM}"</span>
+
+<span class="c1"># role_recipients_msteams[proxyadmin]="${DEFAULT_RECIPIENT_MSTEAMS}"</span>
+
+<span class="c1"># role_recipients_rocketchat[proxyadmin]="${DEFAULT_RECIPIENT_ROCKETCHAT}"</span>
+
+<span class="c1"># role_recipients_sms[proxyadmin]="${DEFAULT_RECIPIENT_SMS}"</span>
+
+<span class="c1"># role_recipients_dynatrace[proxyadmin]="${DEFAULT_RECIPIENT_DYNATRACE}"</span>
+
+<span class="c1"># role_recipients_opsgenie[proxyadmin]="${DEFAULT_RECIPIENT_OPSGENIE}"</span>
+
+<span class="c1"># role_recipients_matrix[proxyadmin]="${DEFAULT_RECIPIENT_MATRIX}"</span>
+
+<span class="c1"># role_recipients_gotify[proxyadmin]="${DEFAULT_RECIPIENT_GOTIFY}"</span>
+
+<span class="c1"># role_recipients_ntfy[proxyadmin]="${DEFAULT_RECIPIENT_NTFY}"</span>
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># peripheral devices</span>
+<span class="c1"># UPS, photovoltaics, etc</span>
+
+<span class="c1"># role_recipients_email[sitemgr]="${DEFAULT_RECIPIENT_EMAIL}"</span>
+
+<span class="c1"># role_recipients_pushover[sitemgr]="${DEFAULT_RECIPIENT_PUSHOVER}"</span>
+
+<span class="c1"># role_recipients_pushbullet[sitemgr]="${DEFAULT_RECIPIENT_PUSHBULLET}"</span>
+
+<span class="c1"># role_recipients_telegram[sitemgr]="${DEFAULT_RECIPIENT_TELEGRAM}"</span>
+
+<span class="c1"># role_recipients_slack[sitemgr]="${DEFAULT_RECIPIENT_SLACK}"</span>
+
+<span class="c1"># role_recipients_alerta[sitemgr]="${DEFAULT_RECIPIENT_ALERTA}"</span>
+
+<span class="c1"># role_recipients_flock[sitemgr]="${DEFAULT_RECIPIENT_FLOCK}"</span>
+
+<span class="c1"># role_recipients_discord[sitemgr]="${DEFAULT_RECIPIENT_DISCORD}"</span>
+
+<span class="c1"># role_recipients_hipchat[sitemgr]="${DEFAULT_RECIPIENT_HIPCHAT}"</span>
+
+<span class="c1"># role_recipients_twilio[sitemgr]="${DEFAULT_RECIPIENT_TWILIO}"</span>
+
+<span class="c1"># role_recipients_messagebird[sitemgr]="${DEFAULT_RECIPIENT_MESSAGEBIRD}"</span>
+
+<span class="c1"># role_recipients_kavenegar[sitemgr]="${DEFAULT_RECIPIENT_KAVENEGAR}"</span>
+
+<span class="c1"># role_recipients_pd[sitemgr]="${DEFAULT_RECIPIENT_PD}"</span>
+
+<span class="c1"># role_recipients_fleep[sitemgr]="${DEFAULT_RECIPIENT_FLEEP}"</span>
+
+<span class="c1"># role_recipients_syslog[sitemgr]="${DEFAULT_RECIPIENT_SYSLOG}"</span>
+
+<span class="c1"># role_recipients_prowl[sitemgr]="${DEFAULT_RECIPIENT_PROWL}"</span>
+
+<span class="c1"># role_recipients_awssns[sitemgr]="${DEFAULT_RECIPIENT_AWSSNS}"</span>
+
+<span class="c1"># role_recipients_custom[sitemgr]="${DEFAULT_RECIPIENT_CUSTOM}"</span>
+
+<span class="c1"># role_recipients_msteams[sitemgr]="${DEFAULT_RECIPIENT_MSTEAMS}"</span>
+
+<span class="c1"># role_recipients_rocketchat[sitemgr]="${DEFAULT_RECIPIENT_ROCKETCHAT}"</span>
+
+<span class="c1"># role_recipients_sms[sitemgr]="${DEFAULT_RECIPIENT_SMS}"</span>
+
+<span class="c1"># role_recipients_dynatrace[sitemgr]="${DEFAULT_RECIPIENT_DYNATRACE}"</span>
+
+<span class="c1"># role_recipients_opsgenie[sitemgr]="${DEFAULT_RECIPIENT_OPSGENIE}"</span>
+
+<span class="c1"># role_recipients_matrix[sitemgr]="${DEFAULT_RECIPIENT_MATRIX}"</span>
+
+<span class="c1"># role_recipients_gotify[sitemgr]="${DEFAULT_RECIPIENT_GOTIFY}"</span>
+
+<span class="c1"># role_recipients_ntfy[sitemgr]="${DEFAULT_RECIPIENT_NTFY}"</span>
+</code></pre></div>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+<script src="../../javascript/mermaid.min.js"></script>
+</body>
+</html>
