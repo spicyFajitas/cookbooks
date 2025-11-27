@@ -1,0 +1,9 @@
+---
+- name: Run minecraft playbook
+  hosts: minecraft_grass_gang
+  become: true
+  become_method: sudo
+  roles:
+    - minecraft-baremetal
+  vars_files:
+    - roles/minecraft-baremetal/vaults/production.yml

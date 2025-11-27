@@ -1,0 +1,142 @@
+---
+### base setup ###
+- name: Install required packages
+  ansible.builtin.package:
+    name:
+      - cifs-utils
+      - openjdk-21-jdk-headless
+      - fail2ban
+    state: present
+    update_cache: yes
+
+- name: Enable fail2ban
+  ansible.builtin.systemd:
+    name: fail2ban
+    state: started
+    enabled: yes
+
+### directories ###
+
+- name: Create base Minecraft directory
+  ansible.builtin.file:
+    path: "{{ base_dir }}"
+    state: directory
+    owner: "{{ mc_user }}"
+    group: "{{ mc_group }}"
+    mode: "0755"
+
+- name: Create plugins directory
+  ansible.builtin.file:
+    path: "{{ plugins_dir }}"
+    state: directory
+    owner: "{{ mc_user }}"
+    group: "{{ mc_group }}"
+    mode: "0775"
+
+- name: Create plugin update directory
+  ansible.builtin.file:
+    path: "{{ update_dir }}"
+    state: directory
+    owner: "{{ mc_user }}"
+    group: "{{ mc_group }}"
+    mode: "0775"
+
+### SMB mount ###
+
+# - name: Mount smbbackup SMB share
+#   ansible.posix.mount:
+#     src: "{{ smb_share }}"
+#     path: "{{ smb_mount_path }}"
+#     opts: "rw,vers=3,file_mode=0600,dir_mode=0700,username={{ smb_username }},password={{ smb_password }}"
+#     fstype: cifs
+#     state: mounted
+
+### paper download ###
+
+- name: Download Paper JAR if not present
+  ansible.builtin.get_url:
+    url: "{{ paper_download_url }}"
+    dest: "{{ base_dir }}/{{ paper_jar_name }}"
+    owner: "{{ mc_user }}"
+    group: "{{ mc_group }}"
+    mode: "0644"
+
+### EULA ###
+
+- name: Deploy EULA file from template
+  ansible.builtin.template:
+    src: "eula.txt.j2"
+    dest: "{{ base_dir }}/eula.txt"
+    owner: "{{ mc_user }}"
+    group: "{{ mc_group }}"
+    mode: "0644"
+  diff: true
+
+### whitelist ###
+
+- name: Deploy whitelist file from template
+  ansible.builtin.template:
+    src: "whitelist.json.j2"
+    dest: "{{ base_dir }}/whitelist.json"
+    owner: "{{ mc_user }}"
+    group: "{{ mc_group }}"
+    mode: "0644"
+  diff: true
+
+### start script ###
+
+- name: Deploy start.sh
+  ansible.builtin.template:
+    src: "start.sh.j2"
+    dest: "{{ base_dir }}/start.sh"
+    owner: "{{ mc_user }}"
+    group: "{{ mc_group }}"
+    mode: "0755"
+  diff: true
+
+### death chest config ###
+
+- name: Deploy whitelist file from template
+  ansible.builtin.template:
+    src: "deathchest-config.yaml.j2"
+    dest: "{{ base_dir }}/plugins/DeathChest/config.yml"
+    owner: "{{ mc_user }}"
+    group: "{{ mc_group }}"
+    mode: "0644"
+  diff: true
+
+
+### discord webhook script + service ###
+
+- name: Template webhook script
+  ansible.builtin.template:
+    src: "minecraft-discord-webhook.sh"
+    dest: "{{ webhook_script }}"
+    owner: "{{ mc_user }}"
+    group: "{{ mc_group }}"
+    mode: "0755"
+  diff: true
+  notify: restart webhook
+
+- name: Deploy webhook systemd service
+  ansible.builtin.template:
+    src: "minecraft-discord-webhook.service.j2"
+    dest: "/etc/systemd/system/{{ webhook_service_name }}.service"
+    mode: "0644"
+  diff: true
+  notify:
+    - daemon-reload
+    - restart webhook
+
+- name: Deploy Discord webhook URL file
+  ansible.builtin.template:
+    src: "minecraft-webhook-url.txt.j2"
+    dest: "{{ webhook_url_file }}"
+    mode: "0440"
+  diff: true
+  notify: restart webhook
+
+- name: Enable webhook service
+  ansible.builtin.systemd:
+    name: "{{ webhook_service_name }}"
+    enabled: yes

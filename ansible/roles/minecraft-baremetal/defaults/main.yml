@@ -1,0 +1,49 @@
+---
+
+# Minecraft main directories
+base_dir: /opt/minecraft/grass-gang
+plugins_dir: "{{ base_dir }}/plugins"
+update_dir: "{{ plugins_dir }}/update"
+logs_dir: "{{ base_dir }}/logs"
+
+# Users
+mc_user: adam
+mc_group: adam
+
+# Paper versioning
+paper_jar_name: "paper-1.21.5-114.jar"
+paper_download_url: "https://fill-data.papermc.io/v1/objects/2ae6ae22adf417699746e0f89fc2ef6cb6ee050a5f6608cee58f0535d60b509e/paper-1.21.5-114.jar"
+
+
+# SMB
+smb_share: "//10.100.10.15/smbbackup"
+smb_mount_path: "/mnt/smbbackup"
+smb_username: "{{ vault_smb_username }}"
+smb_password: "{{ vault_smb_password }}"
+
+# Webhook script
+webhook_script: "{{ base_dir }}/minecraft-discord-webhook.sh"
+webhook_service_name: "minecraft-discord-webhook"
+webhook_url_file: "/home/adam/.minecraft-webhook-url.txt"
+
+
+# Minecraft systemd service
+minecraft_service_name: "minecraft"
+minecraft_service_unit: "/etc/systemd/system/minecraft.service"
+minecraft_tmux_session: "grassgang"
+
+whitelist:
+  - { name: "spicy_Fajitas", uuid: "83fa4fe0-0e0e-42c0-8bec-97cc58148295" }
+  - { name: "rajmonster10", uuid: "eef23291-c945-4ae4-a580-ec11e330f2c1" }
+  - { name: "MatthewHasBones", uuid: "cc585f9d-0aea-45c8-b7b4-95bdb92c95a8" }
+  - { name: "JULESVERBOOT", uuid: "def8f26e-c4fb-4737-81a2-ec051747c8f3" }
+  - { name: "Hie5", uuid: "d006aac0-8dfb-4938-b854-6118bdfe65e2" }
+  - { name: "alexprestine924", uuid: "8a9997b1-eb9e-419a-a83d-ca9329d1954d" }
+  - { name: "Uberohn", uuid: "266f26ee-3305-44df-b4c0-06b5915ffd01" }
+  - { name: "dingusTELEVISION", uuid: "6180fd8a-8c03-4c3e-85cd-4b434defa251" }
+  - { name: "JTelford64", uuid: "a4ae9bd6-90a0-44fd-93a0-b336db7cc964" }
+  - { name: "Quiwi567", uuid: "1edb14d7-9d91-470e-893a-c263c253e071" }
+  - { name: "Cdubs907", uuid: "5b502011-d014-49d0-bee2-70f7bf93e591" }
+  - { name: "car0sunshine", uuid: "f51f109a-82f1-4ea5-8bf0-37da9d11ec92" }
+  - { name: "tangytacos38", uuid: "721526ef-e8b3-4e36-bb23-951fcbc7a72b" }
+  - { name: "bvissch0902", uuid: "f9827bf9-a772-487c-ab89-235b4f0b0bd6" }

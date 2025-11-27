@@ -1,0 +1,12 @@
+// {{ ansible_managed }}
+
+[
+{% for entry in whitelist %}
+  {
+    "name": "{{ entry.name }}",
+    "uuid": "{{ entry.uuid }}"
+  }
+  {% if not loop.last %},
+  {% endif %}
+{% endfor %}
+]

@@ -1,0 +1,9 @@
+---
+- name: daemon-reload
+  ansible.builtin.systemd:
+    daemon_reload: yes
+
+- name: restart webhook
+  ansible.builtin.systemd:
+    name: "{{ webhook_service_name }}"
+    state: restarted

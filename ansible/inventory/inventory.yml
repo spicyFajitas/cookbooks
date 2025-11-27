@@ -67,3 +67,9 @@ runner:
     10.100.10.21:
   vars:
     ansible_user: root
+
+minecraft_grass_gang:
+  hosts:
+    10.100.10.29:
+  vars:
+    ansible_user: adam

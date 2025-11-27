@@ -19,20 +19,23 @@
 
 ```shell
 sudo apt install openjdk-21-jdk-headless
+sudo apt install fail2ban
+sudo systemctl start fail2ban
+sudo systemctl enable fail2ban
 ```
 
 <https://papermc.io/downloads/paper>
 
 ```shell
 root@minecraft:/opt/minecraft/1.21.5-spigot-mason-adam/plugins/DeathChest# vim /opt/minecraft/1.21.5-spigot-mason-adam/plugins/DeathChest/config.yml
-# chest:
-#   expiration: -1
-#   blast-protection: true
-#   thief-protection:
-#     enabled: true
-# player-notification:
-#   message: |-
-#     &7You died. Your items were put into a chest. ${x} ${y} ${z}
+chest:
+  expiration: -1
+  blast-protection: true
+  thief-protection:
+    enabled: true
+player-notification:
+  message: |-
+    &7You died. Your items were put into a chest. ${x} ${y} ${z}
 
 ```
 
@@ -86,10 +89,10 @@ Search for plugin info and download by searching "spigot [plugin ID from table]"
 | 19286  |        Backpacks        |
 
 - [Allow bedrock on Java](https://geysermc.org/)
-- [Vane](https://oddlama.github.io/vane/)
-- [DynMap](https://github.com/webbukkit/dynmap)
 - [BlueMap](https://github.com/BlueMap-Minecraft/BlueMap)
+- [Discord Notify](https://github.com/TrueMB/DiscordNotify/releases)
+- [DynMap](https://github.com/webbukkit/dynmap)
 - [Head Drop](https://modrinth.com/plugin/headdrop?version=1.21.5&loader=paper)
+- [Vane](https://oddlama.github.io/vane/)
 - [ViaVersion](https://hangar.papermc.io/ViaVersion/ViaVersion)
 - [WorldEdit](https://dev.bukkit.org/projects/worldedit/)
-- 

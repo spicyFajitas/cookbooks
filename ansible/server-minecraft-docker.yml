@@ -4,6 +4,6 @@
   become: true
   become_method: sudo
   roles:
-    - minecraft
+    - minecraft-docker
   vars_files:
-    - roles/minecraft/vaults/production.yml
+    - roles/minecraft-docker/vaults/production.yml

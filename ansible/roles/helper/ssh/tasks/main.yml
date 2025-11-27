@@ -16,8 +16,16 @@
     - authorized_keys
   diff: True
 
-- name: Enable and start SSH service
+- name: Restart SSH service on Debian/Ubuntu
   ansible.builtin.service:
-    name: "sshd"
+    name: ssh
     state: started
     enabled: true
+  when: ansible_facts.os_family == "Debian"
+
+- name: Restart SSH service on RHEL/CentOS/Rocky/Alma
+  ansible.builtin.service:
+    name: sshd
+    state: started
+    enabled: true
+  when: ansible_facts.os_family == "RedHat"
