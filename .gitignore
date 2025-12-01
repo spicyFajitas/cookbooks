@@ -33,3 +33,6 @@ credentials.tfvars
 *tfstate*
 .terraform*
 *.tfvars
+
+# certs folders
+certs
