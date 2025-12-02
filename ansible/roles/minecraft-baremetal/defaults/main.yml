@@ -21,10 +21,13 @@ smb_mount_path: "/mnt/smbbackup"
 smb_username: "{{ vault_smb_username }}"
 smb_password: "{{ vault_smb_password }}"
 
+# Discord Relay
+discord_relay_config: "{{ plugins_dir }}/DiscordRelay/config.yml"
+
 # Webhook script
-webhook_script: "{{ base_dir }}/minecraft-discord-webhook.sh"
-webhook_service_name: "minecraft-discord-webhook"
-webhook_url_file: "/home/adam/.minecraft-webhook-url.txt"
+# webhook_script: "{{ base_dir }}/minecraft-discord-webhook.sh"
+# webhook_service_name: "minecraft-discord-webhook"
+# webhook_url_file: "/home/adam/.minecraft-webhook-url.txt"
 
 
 # Minecraft systemd service

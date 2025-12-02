@@ -106,37 +106,48 @@
   diff: true
 
 
-### discord webhook script + service ###
+### Template Discord Relay Bridge ###
 
-- name: Template webhook script
+- name: Template discord chat bridge
   ansible.builtin.template:
-    src: "minecraft-discord-webhook.sh"
-    dest: "{{ webhook_script }}"
+    src: "discord-relay-config.yaml.j2"
+    dest: "{{ discord_relay_config }}"
     owner: "{{ mc_user }}"
     group: "{{ mc_group }}"
     mode: "0755"
   diff: true
-  notify: restart webhook
 
-- name: Deploy webhook systemd service
-  ansible.builtin.template:
-    src: "minecraft-discord-webhook.service.j2"
-    dest: "/etc/systemd/system/{{ webhook_service_name }}.service"
-    mode: "0644"
-  diff: true
-  notify:
-    - daemon-reload
-    - restart webhook
+### discord webhook script + service ###
 
-- name: Deploy Discord webhook URL file
-  ansible.builtin.template:
-    src: "minecraft-webhook-url.txt.j2"
-    dest: "{{ webhook_url_file }}"
-    mode: "0440"
-  diff: true
-  notify: restart webhook
+# - name: Template webhook script
+#   ansible.builtin.template:
+#     src: "minecraft-discord-webhook.sh"
+#     dest: "{{ webhook_script }}"
+#     owner: "{{ mc_user }}"
+#     group: "{{ mc_group }}"
+#     mode: "0755"
+#   diff: true
+#   notify: restart webhook
 
-- name: Enable webhook service
-  ansible.builtin.systemd:
-    name: "{{ webhook_service_name }}"
-    enabled: yes
+# - name: Deploy webhook systemd service
+#   ansible.builtin.template:
+#     src: "minecraft-discord-webhook.service.j2"
+#     dest: "/etc/systemd/system/{{ webhook_service_name }}.service"
+#     mode: "0644"
+#   diff: true
+#   notify:
+#     - daemon-reload
+#     - restart webhook
+
+# - name: Deploy Discord webhook URL file
+#   ansible.builtin.template:
+#     src: "minecraft-webhook-url.txt.j2"
+#     dest: "{{ webhook_url_file }}"
+#     mode: "0440"
+#   diff: true
+#   notify: restart webhook
+
+# - name: Enable webhook service
+#   ansible.builtin.systemd:
+#     name: "{{ webhook_service_name }}"
+#     enabled: yes

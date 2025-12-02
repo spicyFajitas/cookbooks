@@ -91,6 +91,7 @@ Search for plugin info and download by searching "spigot [plugin ID from table]"
 - [Allow bedrock on Java](https://geysermc.org/)
 - [BlueMap](https://github.com/BlueMap-Minecraft/BlueMap)
 - [Discord Notify](https://github.com/TrueMB/DiscordNotify/releases)
+- [Discord Relay](https://hangar.papermc.io/Jelly-Pudding/DiscordRelay)
 - [DynMap](https://github.com/webbukkit/dynmap)
 - [Head Drop](https://modrinth.com/plugin/headdrop?version=1.21.5&loader=paper)
 - [Vane](https://oddlama.github.io/vane/)
