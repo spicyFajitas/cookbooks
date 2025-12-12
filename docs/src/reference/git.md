@@ -38,6 +38,13 @@ then, your branch is updated to newest commits.
 
 [Reference](https://stackoverflow.com/questions/29164321/git-difference-git-rebase-origin-branch-vs-git-rebase-origin-branch)
 
+## Tagging
+
+```shell
+git tag v0.1.1
+git push origin v0.1.1
+```
+
 ## Git Cleanup Alias
 
 ### Windows
