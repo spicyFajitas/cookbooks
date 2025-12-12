@@ -4,6 +4,6 @@
   become: true
   become_method: sudo
   roles:
-    - minecraft-baremetal
+    - minecraft-vm
   vars_files:
-    - roles/minecraft-baremetal/vaults/production.yml
+    - roles/minecraft-vm/vaults/production.yml
