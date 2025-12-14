@@ -15,6 +15,7 @@ Active Table
 | k3s                    | x...12     |         | k3s control 1                         |
 | ansible-server         | x...14     |   .11   | ubuntu container - ansible server     |
 | spicyNAS               | x...15     |         | truenas storage server                |
+| mtg deck building tool | x...16     |         | mtg deck building tool |
 | semaphore              | x...17     |         | semaphore ansible controller          |
 | docker-host            | x...20     |         | VM for docker containers              |
 | gitlab-runner          | x...21     |         | gitlab-runner self hosted             |
