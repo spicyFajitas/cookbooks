@@ -43,16 +43,19 @@ player-notification:
 
 1. Stop server
 2. Backup Server
-3. Move `deathchest` plugin to disabled plugins folder
-4. Update Plugins
+3. Update Plugins
    1. Create folder called `update` in plugins folder
    2. Download plugins to update and place in `update` folder
    3. Restart server
-5. Update Paper
+4. Update Paper
    1. Stop server
-   2. Download new JAR from [Paper downloads page](https://papermc.io/downloads)
-   3. Ensure new JAR filename is being called in `start.sh` file
-   4. Start server and watch logs
+   2. Move plugins to `disabled` folder in `plugins` folder
+      1. This should allow for data migrations/registry negotiations to take place
+   3. Download new JAR from [Paper downloads page](https://papermc.io/downloads)
+   4. Ensure new JAR filename is being called in `start.sh` file
+   5. Start server and watch logs
+
+If datapacks/textures are broken, try deleting `world/advancements/*`
 
 ## Dynmap
 
@@ -75,17 +78,21 @@ Make sure the tunnel is running somewhere in the network
 
 Search for plugin info and download by searching "spigot [plugin ID from table]" or just go to website <https://www.spigotmc.org/resources/>
 
-|   ID   |       Description       |
-| :----: | :---------------------: |
-| 60623  |       sleep most        |
-| 19510  |     classic combat      |
-|  1997  |       ProtocolLib       |
+|  ID   |  Description   |
+| :---: | :------------: |
+| 60623 |   sleep most   |
+| 19510 | classic combat |
+| 1997  |  ProtocolLib   |
+| 8631  |  Core Protect  |
 
 - [Allow bedrock on Java](https://geysermc.org/)
 - [BlueMap](https://github.com/BlueMap-Minecraft/BlueMap)
+- [Chest Sort](https://modrinth.com/plugin/chestsort)
+- [Death Chest](https://modrinth.com/plugin/axgraves)
 - [Discord Relay](https://hangar.papermc.io/Jelly-Pudding/DiscordRelay)
 - [DynMap](https://github.com/webbukkit/dynmap)
 - [Head Drop](https://modrinth.com/plugin/headdrop?version=1.21.5&loader=paper)
+- [Tree Timber](https://modrinth.com/plugin/treetimber)
 - [Vane](https://oddlama.github.io/vane/)
 - [ViaVersion](https://hangar.papermc.io/ViaVersion/ViaVersion)
 - [WorldEdit](https://dev.bukkit.org/projects/worldedit/)
