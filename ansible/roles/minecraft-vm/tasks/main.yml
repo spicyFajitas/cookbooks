@@ -96,13 +96,13 @@
 
 ### AxGraves deathchest config ###
 
-- name: Deploy whitelist file from template
+- name: Deploy AxGrave deathchest config
   ansible.builtin.template:
     src: "axgrave-config.yaml.j2"
     dest: "{{ base_dir }}/plugins/AxGraves/config.yml"
     owner: "{{ mc_user }}"
     group: "{{ mc_group }}"
-    mode: "0644"
+    mode: "0664"
   diff: true
 
 
