@@ -94,12 +94,12 @@
     mode: "0755"
   diff: true
 
-### death chest config ###
+### AxGraves deathchest config ###
 
 - name: Deploy whitelist file from template
   ansible.builtin.template:
-    src: "deathchest-config.yaml.j2"
-    dest: "{{ base_dir }}/plugins/DeathChest/config.yml"
+    src: "axgrave-config.yaml.j2"
+    dest: "{{ base_dir }}/plugins/AxGraves/config.yml"
     owner: "{{ mc_user }}"
     group: "{{ mc_group }}"
     mode: "0644"

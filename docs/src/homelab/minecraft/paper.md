@@ -43,11 +43,12 @@ player-notification:
 
 1. Stop server
 2. Backup Server
-3. Update Plugins
+3. Move `deathchest` plugin to disabled plugins folder
+4. Update Plugins
    1. Create folder called `update` in plugins folder
    2. Download plugins to update and place in `update` folder
    3. Restart server
-4. Update Paper
+5. Update Paper
    1. Stop server
    2. Download new JAR from [Paper downloads page](https://papermc.io/downloads)
    3. Ensure new JAR filename is being called in `start.sh` file
@@ -76,21 +77,12 @@ Search for plugin info and download by searching "spigot [plugin ID from table]"
 
 |   ID   |       Description       |
 | :----: | :---------------------: |
-| 39965  |      smooth timber      |
-| 74429  | fast chunk pregenerator |
 | 60623  |       sleep most        |
-| 83581  |     fast leaf decay     |
-| 111907 |      ore detector       |
-| 101066 |       death chest       |
 | 19510  |     classic combat      |
-| 12038  |       vein miner        |
-| 67436  |       Tree Assist       |
 |  1997  |       ProtocolLib       |
-| 19286  |        Backpacks        |
 
 - [Allow bedrock on Java](https://geysermc.org/)
 - [BlueMap](https://github.com/BlueMap-Minecraft/BlueMap)
-- [Discord Notify](https://github.com/TrueMB/DiscordNotify/releases)
 - [Discord Relay](https://hangar.papermc.io/Jelly-Pudding/DiscordRelay)
 - [DynMap](https://github.com/webbukkit/dynmap)
 - [Head Drop](https://modrinth.com/plugin/headdrop?version=1.21.5&loader=paper)
