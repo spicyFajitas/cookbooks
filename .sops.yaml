@@ -1,0 +1,3 @@
+creation_rules:
+  - encrypted_regex: '^(data|stringData)$'
+    age: ["REPLACE_ME_AGE_PUBLIC_KEY"]

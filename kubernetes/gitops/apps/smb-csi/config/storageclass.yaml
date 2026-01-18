@@ -1,0 +1,12 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: smb
+provisioner: smb.csi.k8s.io
+parameters:
+  source: "//truenas.example.com/k8s"
+  csi.storage.k8s.io/node-stage-secret-name: "smb-creds"
+  csi.storage.k8s.io/node-stage-secret-namespace: "kube-system"
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+allowVolumeExpansion: true
