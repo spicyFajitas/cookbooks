@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/spicyFajitas/cookbooks.git
-    targetRevision: main
+    feat/k3s-chatgpt-codex-testing
     path: kubernetes/gitops/apps/velero/config
   destination:
     server: https://kubernetes.default.svc
