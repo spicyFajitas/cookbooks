@@ -1,0 +1,9 @@
+---
+base_dir: /opt/watchtower
+container_name: watchtower
+host_data_volume: "/opt/{{ container_name }}"
+watchtower_image: containrrr/watchtower
+watchtower_docker_api_version: "1.44"
+watchtower_command: "--cleanup --interval 3600"
+watchtower_volumes:
+  - /var/run/docker.sock:/var/run/docker.sock

@@ -1,0 +1,20 @@
+# {{ ansible_managed }}
+
+services:
+  watchtower:
+    container_name: "{{ container_name }}"
+    image: "{{ watchtower_image }}"
+    restart: unless-stopped
+    volumes:
+{% for volume in watchtower_volumes %}
+      - {{ volume }}
+{% endfor %}
+    labels:
+      - homepage.group=Containers
+      - homepage.name=Watchtower
+      - homepage.icon=watchtower.png
+    environment:
+      TZ: America/New_York
+      DOCKER_API_VERSION: "{{ watchtower_docker_api_version }}"
+      WATCHTOWER_NOTIFICATION_URL: "{{ WATCHTOWER_NOTIFICATION_URL }}"
+    command: "{{ watchtower_command }}"

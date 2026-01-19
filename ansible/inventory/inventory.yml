@@ -6,7 +6,6 @@ common:
     10.100.10.11:
     10.100.10.17:
     10.100.10.20:
-    10.100.10.28:
   vars:
     ansible_user: root
 
@@ -20,15 +19,15 @@ separate_hosts:
   vars:
     ansible_user: root
 
-vpn:
-  hosts:
-    10.100.10.4:
-  vars:
-    ansible_user: root
-
 linux_server:
   hosts:
     10.100.10.3:
+  vars:
+    ansible_user: root
+
+vpn:
+  hosts:
+    10.100.10.4:
   vars:
     ansible_user: root
 
@@ -73,3 +72,9 @@ minecraft_grass_gang:
     10.100.10.29:
   vars:
     ansible_user: adam
+
+containers:
+  hosts:
+    10.100.10.4:
+    10.100.10.17:
+    10.100.10.20:
