@@ -5,7 +5,7 @@
 - Install k3s with MetalLB and Traefik managed by GitOps (disable servicelb and Traefik in k3s):
 
 ```shell
-curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.29.6+k3s1 sh -s - --disable=servicelb --disable=traefik
+curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.34.3+k3s1 sh -s - --disable=servicelb --disable=traefik
 ```
 
 - Longhorn host dependencies (Ubuntu/Debian example):
@@ -22,7 +22,7 @@ sudo systemctl enable --now iscsid
 
 ```shell
 kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.10.7/manifests/install.yaml
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v3.2.5/manifests/install.yaml
 ```
 
 2) Point Argo CD at this repo:
@@ -30,6 +30,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2
 - Update `repoURL` in `kubernetes/gitops/bootstrap/app-of-apps.yaml`.
 - Update `repoURL` in:
   - `kubernetes/gitops/apps/metallb/config-app.yaml`
+  - `kubernetes/gitops/apps/argocd/config-app.yaml`
   - `kubernetes/gitops/apps/external-dns/config-app.yaml`
   - `kubernetes/gitops/apps/velero/config-app.yaml`
 
@@ -55,6 +56,8 @@ kubectl apply -f kubernetes/gitops/bootstrap/app-of-apps.yaml
   - Update the SMB share in `kubernetes/gitops/apps/smb-csi/config/storageclass.yaml`.
   - Put SMB creds in `kubernetes/gitops/apps/smb-csi/config/secret.sops.yaml`.
   - The driver is installed via `kubernetes/gitops/apps/smb-csi/app.yaml` and config via `kubernetes/gitops/apps/smb-csi/config-app.yaml`.
+- Argo CD UI:
+  - Set your hostname in `kubernetes/gitops/apps/argocd/config/ingress.yaml`.
 
 ## SOPS secrets
 

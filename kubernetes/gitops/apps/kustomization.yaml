@@ -5,6 +5,7 @@ resources:
   - traefik/app.yaml
   - smb-csi/app.yaml
   - smb-csi/config-app.yaml
+  - argocd/config-app.yaml
   - external-dns/config-app.yaml
   - external-dns/app.yaml
   - velero/config-app.yaml

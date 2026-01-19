@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://REPLACE_ME/cookbooks.git
+    repoURL: https://github.com/spicyFajitas/cookbooks.git
     targetRevision: main
     path: kubernetes/gitops/apps/external-dns/config
   destination:

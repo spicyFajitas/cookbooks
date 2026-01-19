@@ -20,7 +20,7 @@ spec:
           - service
           - ingress
         domainFilters:
-          - example.com
+          - spicylab.dev
         env:
           - name: CF_API_TOKEN
             valueFrom:
