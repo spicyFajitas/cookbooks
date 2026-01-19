@@ -1,0 +1,9 @@
+---
+- name: Run watchtower playbook
+  hosts: containers
+  become: true
+  become_method: sudo
+  roles:
+    - watchtower
+  vars_files:
+    - roles/watchtower/vaults/production.yml
