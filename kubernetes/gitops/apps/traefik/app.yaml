@@ -12,9 +12,7 @@ spec:
     helm:
       values: |
         ports:
-          web:
-            redirectTo:
-              port: websecure
+          web: {}
         service:
           annotations:
             metallb.universe.tf/address-pool: default-pool
