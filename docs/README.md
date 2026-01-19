@@ -2,7 +2,7 @@
 
 ## Overview
 
-This ~~is~~ used to be the repo for my documentation - now it's merged with my main cookbooks repo for a monolithic repo structure! The aim is to keep it up to date with my homelab and to allow others to learn from the publicly hosted docs and config files when they ask about my homelab.
+This is the folder for my documentation. The aim is to keep it up to date with my homelab and to allow others to learn from the publicly hosted docs and config files when they ask about my homelab.
 
 ## Installation
 

@@ -8,12 +8,12 @@ Active Table
 | ---------------------- | ---------- | ------------------------------------- |
 | router                 | x...1      | router                                |
 | switch                 | x...2      | switch                                |
-| adam-linux-server      | x...3      | jump box general purpose linux server |
-| vpn                    | x...4      | twingate vpn server                   |
+| vpn                    | x...3      | twingate vpn server                   |
+| linux-server-ubuntu    | x...7      | jump box general purpose linux server |
 | fedora                 | x...9      | fedora server for plex                |
 | pve                    | x...10     | proxmox virtual environment           |
 | k3s                    | x...12     | k3s control 1                         |
-| ansible-server         | x...11     | ubuntu container - ansible server     |
+| ansible-server         | x...14     | ubuntu container - ansible server     |
 | spicyNAS               | x...15     | truenas storage server                |
 | mtg deck building tool | x...16     | mtg deck building tool                |
 | semaphore              | x...17     | semaphore ansible controller          |

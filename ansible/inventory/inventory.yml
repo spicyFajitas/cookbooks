@@ -1,9 +1,9 @@
 # runs `server-hosts.yml` playbook on the common hosts
 common:
   hosts:
-    10.100.10.4:
     10.100.10.3:
-    10.100.10.11:
+    10.100.10.7:
+    10.100.10.14:
     10.100.10.17:
     10.100.10.20:
   vars:
@@ -11,8 +11,8 @@ common:
 
 separate_hosts:
   hosts:
-    10.100.10.4:
-    10.100.10.11:
+    10.100.10.3:
+    10.100.10.14:
     10.100.10.17:
     10.100.10.20:
     10.100.10.28:
@@ -21,13 +21,13 @@ separate_hosts:
 
 linux_server:
   hosts:
-    10.100.10.3:
+    10.100.10.7:
   vars:
     ansible_user: root
 
 vpn:
   hosts:
-    10.100.10.4:
+    10.100.10.3:
   vars:
     ansible_user: root
 
@@ -45,7 +45,7 @@ proxmox:
 
 ansible:
   hosts:
-    10.100.10.11:
+    10.100.10.14:
   vars:
     ansible_user: root
 
@@ -75,6 +75,6 @@ minecraft_grass_gang:
 
 containers:
   hosts:
-    10.100.10.4:
+    10.100.10.3:
     10.100.10.17:
     10.100.10.20:

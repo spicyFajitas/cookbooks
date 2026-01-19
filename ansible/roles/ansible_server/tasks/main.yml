@@ -14,19 +14,10 @@
     group: root
     mode: '0600'
 
-- name: Run yum makecache (update cache)
-  ansible.builtin.yum:
-    update_cache: yes
-
-# - name: Install required packages
-#   ansible.builtin.yum:
+# - name: Install Ansible
+#   ansible.builtin.pip:
 #     name: ansible
-#     state: present
-
-- name: Install Ansible
-  ansible.builtin.pip:
-    name: ansible
-    # virtualenv: /root/venv
+#     virtualenv: /root/venv
 
 - name: Install collections from Ansible Galaxy
   ansible.builtin.command: ansible-galaxy collection install {{ item }}
@@ -48,8 +39,3 @@
 
 - name: Import crontab jobs
   ansible.builtin.import_tasks: crontab.yml
-
-- name: Run yum upgrade
-  ansible.builtin.yum:
-    name: "*"
-    state: latest

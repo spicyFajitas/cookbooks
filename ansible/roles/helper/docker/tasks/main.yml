@@ -1,12 +1,8 @@
----
-# Debian/Ubuntu (apt-based)
-- block:
-    - name: Ensure old docker keyring file is absent (cleanup legacy repo)
-      ansible.builtin.file:
-        path: /etc/apt/sources.list.d/docker.list 
-        state: absent
-
-    - name: Remove conflicting Docker packages
+- name: Install Docker Engine on Debian/Ubuntu
+  when: ansible_facts['pkg_mgr'] == "apt"
+  become: true
+  block:
+    - name: Remove conflicting packages
       ansible.builtin.apt:
         name:
           - docker.io
@@ -15,32 +11,32 @@
           - docker-compose-v2
           - podman-docker
         state: absent
+        purge: true
+        autoremove: true
 
     - name: Ensure directory for apt keyrings exists
       ansible.builtin.file:
         path: /etc/apt/keyrings
         state: directory
-        mode: '0755'
+        mode: "0755"
 
-    - name: Ensure Docker GPG key is installed
+    - name: Install Docker GPG key
       ansible.builtin.get_url:
         url: https://download.docker.com/linux/ubuntu/gpg
         dest: /etc/apt/keyrings/docker.asc
-        mode: '0644'
-      register: docker_gpg_key
+        mode: "0644"
 
-    - name: Ensure Docker APT repository is configured
+    - name: Add Docker APT repository
       ansible.builtin.apt_repository:
-        repo: "deb [arch={{ ansible_architecture }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+        repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
         state: present
         filename: docker
 
-    - name: Update apt cache if repo or GPG key changed
+    - name: Update apt cache
       ansible.builtin.apt:
-        update_cache: yes
-      when: docker_gpg_key.changed
+        update_cache: true
 
-    - name: Ensure Docker packages are installed (latest)
+    - name: Install Docker Engine + Compose plugin
       ansible.builtin.apt:
         name:
           - docker-ce
@@ -48,20 +44,25 @@
           - containerd.io
           - docker-buildx-plugin
           - docker-compose-plugin
-        state: latest
+        state: present
 
-    - name: Ensure Docker service is enabled and started
+    - name: Enable and start Docker
       ansible.builtin.service:
         name: docker
         state: started
-        enabled: yes
+        enabled: true
 
-  when: ansible_facts['pkg_mgr'] == "apt"
+- name: Install Docker Engine on RHEL/Alma/CentOS
+  when: ansible_facts['pkg_mgr'] in ["yum", "dnf"]
+  become: true
+  block:
+    - name: Remove podman docker shim (prevents docker==podman)
+      ansible.builtin.package:
+        name: podman-docker
+        state: absent
 
-# RHEL / AlmaLinux / CentOS (yum/dnf-based)
-- block:
-    - name: Remove conflicting Docker packages
-      ansible.builtin.yum:
+    - name: Remove old/conflicting docker packages (distro versions)
+      ansible.builtin.package:
         name:
           - docker
           - docker-client
@@ -71,25 +72,48 @@
           - docker-latest-logrotate
           - docker-logrotate
           - docker-engine
+        state: absent
+
+    - name: Install dnf plugins
+      ansible.builtin.package:
+        name: dnf-plugins-core
+        state: present
+
+    - name: Add Docker CE repo
+      ansible.builtin.command: >
+        dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+      args:
+        creates: /etc/yum.repos.d/docker-ce.repo
+
+    - name: Install Docker Engine + Compose plugin
+      ansible.builtin.package:
+        name:
           - docker-ce
           - docker-ce-cli
           - containerd.io
-        state: absent
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: present
 
-    - name: Ensure required system packages are installed
-      ansible.builtin.yum:
-        name:
-          - podman
-          - podman-docker   # optional, provides a `docker` CLI wrapper for Podman
-        state: latest
-
-    - name: Ensure Podman service is enabled and started (for systemd-managed pods/containers)
+    - name: Enable and start Docker
       ansible.builtin.service:
-        name: podman
+        name: docker
         state: started
-        enabled: yes
-      register: podman_service
-      ignore_errors: yes  # not all distros manage podman as a service
+        enabled: true
 
-  when: ansible_facts['pkg_mgr'] in ["yum", "dnf"]
+- name: Check docker is real docker (not podman shim)
+  ansible.builtin.command: docker --version
+  register: docker_version
+  changed_when: false
+  become: true
 
+- name: Fail if docker is podman shim
+  ansible.builtin.fail:
+    msg: "docker is still podman shim on {{ inventory_hostname }}: {{ docker_version.stdout }}"
+  when: "'Emulate Docker CLI using podman' in docker_version.stdout"
+
+- name: Verify docker compose v2 is available
+  ansible.builtin.command: docker compose version
+  register: compose_version
+  changed_when: false
+  become: true
