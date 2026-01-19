@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/spicyFajitas/cookbooks.git
-    feat/k3s-chatgpt-codex-testing
+    targetRevision: feat/k3s-chatgpt-codex-testing
     path: kubernetes/gitops/apps/argocd/config
   destination:
     server: https://kubernetes.default.svc
