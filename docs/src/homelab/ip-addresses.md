@@ -1,6 +1,6 @@
 # IP Addresses
 
-## It includes all things networking
+## It includes all things networking 
 
 Active Table
 
