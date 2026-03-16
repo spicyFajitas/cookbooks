@@ -1,0 +1,23 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=Minecraft Discord Webhook Sidecar
+After=network.target
+
+[Service]
+User=adam
+Group=adam
+WorkingDirectory=/opt/minecraft/grass-gang
+
+# Run wrapper loop
+ExecStart=/opt/minecraft/grass-gang/minecraft-discord-webhook-wrapper.sh
+
+# Restart if it crashes
+Restart=always
+RestartSec=5
+
+# Allow the script to see Minecraft processes of the same user
+PrivateTmp=false
+
+[Install]
+WantedBy=multi-user.target
