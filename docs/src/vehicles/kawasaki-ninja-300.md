@@ -29,6 +29,7 @@ Oil level in window with bike standing straight up on both tires (not on stand)
 
 ## Service
 
-| Mileage | Date       | Service Item | Notes |
-| ------- | ---------- | ------------ | ----- |
-| 3900    | 2025--9-17 | Oil change   |       |
+| Mileage | Date       | Service Item      | Notes                                |
+| ------- | ---------- | ----------------- | ------------------------------------ |
+| 5008    | 2026-03-07 | New tires & chain | Full throttle motorsports Lansing MI |
+| 3900    | 2025-09-17 | Oil change        | Me, myself and I                     |
