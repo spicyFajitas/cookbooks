@@ -26,3 +26,9 @@ Read stock tire specs: `140/70-17 M/C 66S dia 24.72" rpm@60 815.98`
 2.2L with filter removed
 
 Oil level in window with bike standing straight up on both tires (not on stand)
+
+## Service
+
+| Mileage | Date       | Service Item | Notes |
+| ------- | ---------- | ------------ | ----- |
+| 3900    | 2025--9-17 | Oil change   |       |
