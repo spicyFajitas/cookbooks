@@ -27,7 +27,7 @@ linux_server:
 
 vpn:
   hosts:
-    10.100.10.4:
+    10.100.10.20:
   vars:
     ansible_user: root
 
