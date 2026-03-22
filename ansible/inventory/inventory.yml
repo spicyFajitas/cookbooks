@@ -75,7 +75,6 @@ minecraft_grass_gang:
 
 containers:
   hosts:
-    10.100.10.4:
     10.100.10.9:
     10.100.10.17:
     10.100.10.20:
