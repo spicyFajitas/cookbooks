@@ -4,7 +4,7 @@ base_dir: /opt/uptime_kuma
 
 container_name: "uptime_kuma"
 container_image: "louislam/uptime-kuma"
-container_version: "latest"
+container_version: "2"
 container_data_volume: "/app/data"
 host_data_volume: "/opt/{{ container_name }}"
 container_port: "3001"
