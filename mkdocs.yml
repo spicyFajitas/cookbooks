@@ -6,7 +6,7 @@ docs_dir: "docs/src"
 
 plugins:
   - search
-  - mermaid2
+  # remove mermaid2 entirely
 
 extra_css:
   - css/extra.css
@@ -42,9 +42,6 @@ theme:
         icon: material/toggle-switch
         name: Switch to light mode
 
-extra_javascript:
-  - https://unpkg.com/mermaid@9/dist/mermaid.min.js
-
 markdown_extensions:
   - admonition
   - attr_list
@@ -63,7 +60,7 @@ markdown_extensions:
       custom_fences:
         - name: mermaid
           class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
+          format: !!python/name:pymdownx.superfences.fence_div_format
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.tasklist:
