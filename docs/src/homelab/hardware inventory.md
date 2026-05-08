@@ -125,12 +125,3 @@ PC:
 | Boot Drive  | Samsung SSD 960 EVO 250GB                 | ?           | ?                  |
 
 *Teamgroup T-Force Vulcan Z 16 GB (2 x 8 GB) DDR4-3000 CL16 Memory
-
-### Misc Hardware
-
-Wyze Cam v3
-
-??? example "X-ES Firesale PC"
-    [lshw](../file/xes_firesale_pc_lshw.txt)
-
-    [lshw-short](../file/xes_firesale_pc_lshw_short.txt)
