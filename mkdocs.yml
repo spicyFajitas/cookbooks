@@ -2,9 +2,8 @@ site_name: Spicy Docs
 site_url: https://spicyfajitas.github.io/cookbooks/
 repo_url: https://github.com/spicyFajitas/cookbooks/
 
-docs_dir: "docs/src"
+docs_dir: "src"
 
-#plugins
 plugins:
   - search
   - mermaid2
@@ -12,41 +11,23 @@ plugins:
 extra_css:
   - css/extra.css
 
-# enable features
-features:
-  - content.code.copy
-  - navigation.indexes
-  - navigation.instant
-  - navigation.path
-  - navigation.sections
-  - navigation.tabs
-  - navigation.tabs.sticky
-  - navigation.tracking
-  - toc.follow
-  - toc.integrate 
-
-# page tree
-# nav:
-#   - Home: index.md
-#   - Documentation: 
-#     - Proxmox: documentation/Proxmox.md
-#     - Router: documentation/Router.md
-#     - Hardware Inventory: documentation/Hardware Inventory.md
-#     - Networking: documentation/Networking.md
-#     - Subnetting: documentation/Subnetting Plans.md
-#     - Linux: documentation/Linux.md
-#     - Netbox: documentation/Netbox.md
-#   - Projects:
-#     - Projects: projects/Projects.md
-#   - Work Experience: 
-#     - Work Experience: work experience/Work Experience.md
-#   - Classes:
-#     - Linux Admin: classes/sat2711/info.md
-#   - Reference: Reference.md
-
-# colors
 theme:
-  name: 'material'
+  name: material
+  features:
+    - announce.dismiss
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - navigation.indexes
+    - navigation.instant
+    - navigation.path
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.tracking
+    - toc.follow
+    - toc.integrate
   icon:
     repo: fontawesome/brands/github
   palette:
@@ -62,7 +43,7 @@ theme:
         name: Switch to light mode
 
 extra_javascript:
-  - 'javascript/mermaid.min.js'
+  - https://unpkg.com/mermaid@9/dist/mermaid.min.js
 
 markdown_extensions:
   - admonition
@@ -82,7 +63,7 @@ markdown_extensions:
       custom_fences:
         - name: mermaid
           class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_div_format
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.tasklist:
