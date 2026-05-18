@@ -10,6 +10,7 @@ This page is a compilation of other peoples' blogs that I've found neat.
 - [Avid Andrew](https://avidandrew.com/blog)
 - [Baeldung](https://www.baeldung.com/linux/)
 - [Carl Schelin](http://carl.schelin.org/)
+- [Charro Gruver Upstream Without A Paddle](https://upstreamwithoutapaddle.com/)
 - [Eighty-Twenty](https://eighty-twenty.org/)
 - [Felix Wong](https://felixwong.com/2012/07/buell-blast-tire-replacement/)
 - [idumea](https://blog.idumea.net/)
