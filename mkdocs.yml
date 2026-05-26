@@ -24,7 +24,6 @@ theme:
   - navigation.indexes
   - navigation.instant
   - navigation.path
-  - navigation.sections
   - navigation.tracking
   - toc.follow
   - toc.integrate
