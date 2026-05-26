@@ -4,30 +4,32 @@ repo_url: https://github.com/spicyFajitas/cookbooks/
 
 docs_dir: "src"
 
+#plugins
 plugins:
   - search
-  - mermaid2
+#  - mermaid2
 
 extra_css:
   - css/extra.css
 
+# colors
 theme:
   name: material
   features:
-    - announce.dismiss
-    - content.action.edit
-    - content.action.view
-    - content.code.annotate
-    - content.code.copy
-    - navigation.indexes
-    - navigation.instant
-    - navigation.path
-    - navigation.sections
-    - navigation.tabs
-    - navigation.tabs.sticky
-    - navigation.tracking
-    - toc.follow
-    - toc.integrate
+  - announce.dismiss
+  - content.action.edit
+  - content.action.view
+  - content.code.annotate
+  - content.code.copy
+  - navigation.indexes
+  - navigation.instant
+  - navigation.path
+  - navigation.sections
+  - navigation.tabs
+  - navigation.tabs.sticky
+  - navigation.tracking
+  - toc.follow
+  - toc.integrate
   icon:
     repo: fontawesome/brands/github
   palette:
@@ -43,7 +45,7 @@ theme:
         name: Switch to light mode
 
 extra_javascript:
-  - https://unpkg.com/mermaid@9/dist/mermaid.min.js
+  - 'javascript/mermaid.min.js'
 
 markdown_extensions:
   - admonition
@@ -63,7 +65,7 @@ markdown_extensions:
       custom_fences:
         - name: mermaid
           class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
+          format: !!python/name:pymdownx.superfences.fence_div_format
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.tasklist:
