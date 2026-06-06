@@ -40,6 +40,7 @@ rockauto
 - Fix car fan actuator
 - Engine oil leak
 - Transmission fluid leak
+- Dad had a starter and alternator business back in the day, says my starter sounds weak sometimes (mainly in winter)
 
 ## Service
 
