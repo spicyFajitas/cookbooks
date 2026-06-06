@@ -16,6 +16,7 @@ The printer I bought March 19, 2020 was the original Creality Ender 3
 
 ## Upgrades
 
+- Tempered Glass Build Plate - one side smooth, one side textured
 - All Metal Extruder Feeder [here](https://www.amazon.com/gp/product/B081DN6RM2/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1)
 - Capricorn Bowden Tubing
 - New Bowden Tubing Pneumatic Couplers
