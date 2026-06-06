@@ -1,6 +1,8 @@
 # Overview
 
-## Cura Setup - Ender 3
+The printer I bought March 19, 2020 was the original Creality Ender 3
+
+## Cura Slicer Setup - Ender 3
 
 1. Non Ultimaker Printer
 1. Add a non-networked printer
