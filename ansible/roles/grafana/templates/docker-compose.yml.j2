@@ -4,6 +4,7 @@ services:
     container_name: node_exporter
     command:
       - '--path.rootfs=/host'
+			- '--storage.tsdb.retention.time=30d'
     network_mode: host
     pid: host
     restart: always
