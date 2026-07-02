@@ -2,6 +2,11 @@
 
 Uses ubuntu subiquity for automated installation/setup
 
+Keywords: 
+
+- preseeds
+- debian-installer
+
 ## Overview
 
 In the packer directory a credentials file needs to be created: `credentials.pkr.hcl`. The data for this can also be found in [the terraform credentials file](../terraform/proxmox/credentials.auto.tfvars)
