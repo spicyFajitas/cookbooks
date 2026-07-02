@@ -1,0 +1,36 @@
+---
+# Dynamic inventory for Proxmox-provisioned VMs/LXCs. Filename must end in
+# `.proxmox.yml` -- that suffix is how ansible's `auto` inventory loader
+# recognizes this as a community.general.proxmox source.
+#
+# Tag a Terraform resource (terraform/proxmox/main.tf) with the exact
+# Ansible group name you want it to join -- e.g. tags = "docker_host;terraform"
+# -- and it will be auto-discovered here. No manual inventory editing when a
+# VM is destroyed and recreated.
+#
+# Auth is read from the environment by the plugin itself, no need to
+# reference it here: PROXMOX_URL, PROXMOX_USER (e.g. ansible@pve),
+# PROXMOX_TOKEN_ID (the token *name* only, not the combined
+# user@realm!tokenname form Terraform's pm_api_token_id expects),
+# PROXMOX_TOKEN_SECRET. Same Proxmox API token already used by
+# terraform/proxmox and packer/credentials.pkr.hcl -- do not commit it.
+#
+# Requires the `requests`/`proxmoxer` Python packages and the
+# community.proxmox collection (see collections/requirements.yml) --
+# community.general.proxmox is deprecated in favor of this collection and
+# will be removed from community.general in version 15.0.0.
+#
+# ansible_host is populated by the plugin from QEMU guest-agent facts when
+# want_facts is enabled. Verify this actually resolves for your Proxmox
+# version with `ansible-inventory -i inventory/pve.proxmox.yml --list` -- if
+# it doesn't, add an explicit `compose: {ansible_host: ...}` mapping to
+# whatever fact path your version reports.
+plugin: community.proxmox.proxmox
+validate_certs: false
+want_facts: true
+filters:
+  - proxmox_status == "running"
+keyed_groups:
+  - key: proxmox_tags_parsed
+    separator: ""
+    prefix: ""

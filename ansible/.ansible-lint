@@ -1,0 +1,15 @@
+---
+# `min` is the enforced CI gate: real correctness problems (unresolvable
+# modules/collections, broken schema, syntax errors) are fatal. It
+# deliberately does NOT enforce the `basic` profile's style rules yet --
+# doing so today would require touching ~40 pre-existing files across nearly
+# every role for var-naming (94 findings, e.g. base_dir/container_name
+# without a role prefix -- the established convention across every
+# docker-compose role in this repo), role-name[path] (37 findings, e.g.
+# `helper/ssh` -- how every role in roles/helper/ is referenced everywhere),
+# and yaml formatting (~60 findings), none of which this pets-to-cattle
+# overhaul touched. Ratchet this up to `basic` as those get cleaned up.
+profile: min
+
+exclude_paths:
+  - .cache/

@@ -1,9 +1,0 @@
----
-- name: Run minecraft playbook
-  hosts: docker_host
-  become: true
-  become_method: sudo
-  roles:
-    - minecraft-docker
-  vars_files:
-    - roles/minecraft-docker/vaults/production.yml

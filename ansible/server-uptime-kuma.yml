@@ -1,9 +1,0 @@
----
-- name: Run uptime kuma playbook
-  hosts: docker_host
-  become: true
-  become_method: sudo
-  roles:
-    - uptime_kuma
-  vars_files:
-    - roles/uptime_kuma/vaults/production.yml

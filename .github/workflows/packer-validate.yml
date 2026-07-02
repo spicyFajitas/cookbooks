@@ -1,0 +1,42 @@
+name: packer-validate
+
+# Read-only: packer init + packer validate for every template, on PRs that
+# touch packer/. Runs on the self-hosted runner (roles/github_actions_runner)
+# because validating a proxmox-iso source authenticates against the Proxmox
+# API on the private LAN (10.100.10.x) -- GitHub-hosted runners can't reach
+# it. Never builds an image or touches Proxmox state.
+
+on:
+  pull_request:
+    paths:
+      - "packer/**"
+      - ".github/workflows/packer-validate.yml"
+
+env:
+  PKR_VAR_proxmox_api_url: ${{ secrets.PKR_VAR_PROXMOX_API_URL }}
+  PKR_VAR_proxmox_api_token_id: ${{ secrets.PKR_VAR_PROXMOX_API_TOKEN_ID }}
+  PKR_VAR_proxmox_api_token_secret: ${{ secrets.PKR_VAR_PROXMOX_API_TOKEN_SECRET }}
+
+jobs:
+  validate:
+    runs-on: [self-hosted, homelab]
+    defaults:
+      run:
+        working-directory: packer
+    strategy:
+      fail-fast: false
+      matrix:
+        template:
+          - ubuntu-server-22.04.2.pkr.hcl
+          - ubuntu-server-24.04.pkr.hcl
+          - ubuntu-server-jammy-docker.pkr.hcl
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: hashicorp/setup-packer@v3
+
+      - name: packer init
+        run: packer init "${{ matrix.template }}"
+
+      - name: packer validate
+        run: packer validate "${{ matrix.template }}"

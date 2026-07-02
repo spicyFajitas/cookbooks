@@ -1,9 +1,0 @@
----
-- name: Run minecraft playbook
-  hosts: minecraft_grass_gang
-  become: true
-  become_method: sudo
-  roles:
-    - minecraft-vm
-  vars_files:
-    - roles/minecraft-vm/vaults/production.yml

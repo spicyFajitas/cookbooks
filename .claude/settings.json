@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/tmp/claude-1000/-home-adam-Documents-code-cookbooks/fc1607ca-f76b-4d2e-b75b-cb061bf1b432/scratchpad/lintenv/bin/ansible-lint --nocolor)",
+      "Bash(ansible-galaxy collection *)",
+      "Bash(/tmp/claude-1000/-home-adam-Documents-code-cookbooks/fc1607ca-f76b-4d2e-b75b-cb061bf1b432/scratchpad/lintenv/bin/ansible-doc -t inventory community.proxmox.proxmox)",
+      "Bash(ANSIBLE_VAULT_PASSWORD_FILE=vault-pass.txt /tmp/claude-1000/-home-adam-Documents-code-cookbooks/fc1607ca-f76b-4d2e-b75b-cb061bf1b432/scratchpad/lintenv/bin/ansible-lint --nocolor -f codeclimate)",
+      "Bash(python3 -c ' *)",
+      "Bash(ANSIBLE_VAULT_PASSWORD_FILE=vault-pass.txt /tmp/claude-1000/-home-adam-Documents-code-cookbooks/fc1607ca-f76b-4d2e-b75b-cb061bf1b432/scratchpad/lintenv/bin/ansible-lint --nocolor)",
+      "Bash(ANSIBLE_VAULT_PASSWORD_FILE=vault-pass.txt /tmp/claude-1000/-home-adam-Documents-code-cookbooks/fc1607ca-f76b-4d2e-b75b-cb061bf1b432/scratchpad/lintenv/bin/ansible-lint --nocolor --profile min)",
+      "Bash(ansible-playbook --syntax-check site.yml -i inventory --vault-password-file vault-pass.txt)",
+      "Bash(ansible-inventory -i inventory --graph)",
+      "Bash(echo \"=== EXIT: $? ===\")"
+    ]
+  }
+}

@@ -1,0 +1,237 @@
+---
+# Single entry point for configuring every host in this repo.
+#
+# Any host that lands in a group below (whether from inventory/static.yml or
+# auto-discovered by the dynamic Proxmox/DigitalOcean inventory plugins) gets
+# that group's role applied the same way -- no per-host special-casing, no
+# picking the "right" playbook file. This replaces the old one-playbook-
+# per-service structure (server-*.yml).
+#
+# Usage:
+#   ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt
+#   ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --tags plex
+#   ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --tags docker_host --limit docker-host-01
+#
+# See readme.md for the full tag list and the dynamic-inventory setup.
+
+- name: Apply baseline helper roles
+  hosts: common, proxmox
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [common, helper]
+  roles:
+    - helper/packages
+    - helper/ssh
+    - helper/timezone
+
+- name: Configure the Ansible controller
+  hosts: ansible
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [ansible]
+  roles:
+    - ansible_server
+
+- name: Configure the self-hosted GitHub Actions runner
+  hosts: runner
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [runner]
+  roles:
+    - github_actions_runner
+  vars_files:
+    - roles/github_actions_runner/vaults/production.yml
+
+- name: Configure the Docker host baseline
+  hosts: docker_host
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [docker, docker_host]
+  roles:
+    - docker_host
+
+- name: Configure Proxmox
+  hosts: proxmox
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [proxmox]
+  roles:
+    - proxmox
+  vars_files:
+    - roles/proxmox/vaults/production.yml
+
+- name: Configure Plex
+  hosts: plex
+  become: true
+  become_user: root
+  become_method: ansible.builtin.sudo
+  tags: [plex]
+  roles:
+    - plex
+  vars_files:
+    - roles/plex/vaults/production.yml
+
+- name: Configure Semaphore
+  hosts: semaphore
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [semaphore]
+  roles:
+    - semaphore
+  vars_files:
+    - roles/semaphore/vaults/production.yml
+
+- name: Configure Twingate
+  hosts: vpn
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [twingate]
+  roles:
+    - twingate
+  vars_files:
+    - roles/twingate/vaults/production.yml
+
+- name: Configure the fortune bot
+  hosts: linux_server
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [fortune]
+  roles:
+    - fortune
+  vars_files:
+    - roles/fortune/vaults/production.yml
+
+- name: Configure the Minecraft VM
+  hosts: minecraft_grass_gang
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [minecraft-vm]
+  roles:
+    - minecraft-vm
+  vars_files:
+    - roles/minecraft-vm/vaults/production.yml
+
+- name: Configure Watchtower
+  hosts: containers
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [watchtower]
+  roles:
+    - watchtower
+  vars_files:
+    - roles/watchtower/vaults/production.yml
+
+# --- docker_host-hosted services ---
+# Each of these targets the docker_host group directly so any host that
+# joins that group (today or after a future rebuild) picks up every
+# container service it's tagged for, selectable individually via --tags.
+
+- name: Configure Frigate
+  hosts: docker_host
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [frigate]
+  roles:
+    - frigate
+  vars_files:
+    - roles/frigate/vaults/production.yml
+
+- name: Configure Grafana
+  hosts: docker_host
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [grafana]
+  roles:
+    - grafana
+  vars_files:
+    - roles/grafana/vaults/production.yml
+
+- name: Configure Homepage
+  hosts: docker_host
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [homepage]
+  roles:
+    - homepage
+  vars_files:
+    - roles/homepage/vaults/production.yml
+
+- name: Configure Mealie
+  hosts: docker_host
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [mealie]
+  roles:
+    - mealie
+  vars_files:
+    - roles/mealie/vaults/production.yml
+
+- name: Configure the media automation stack
+  hosts: docker_host
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [media]
+  roles:
+    - media
+  vars_files:
+    - roles/media/vaults/production.yml
+
+- name: Configure the Dockerized Minecraft server
+  hosts: docker_host
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [minecraft-docker]
+  roles:
+    - minecraft-docker
+  vars_files:
+    - roles/minecraft-docker/vaults/production.yml
+
+- name: Configure Netbox
+  hosts: docker_host
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [netbox]
+  roles:
+    - netbox
+  vars_files:
+    - roles/netbox/vaults/production.yml
+
+- name: Configure Netdata
+  hosts: docker_host
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [netdata]
+  roles:
+    - netdata
+  vars_files:
+    - roles/netdata/vaults/production.yml
+
+- name: Configure Speedtest Tracker
+  hosts: docker_host
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [speedtest-tracker]
+  roles:
+    - speedtest-tracker
+  vars_files:
+    - roles/speedtest-tracker/vaults/production.yml
+
+- name: Configure Uptime Kuma
+  hosts: docker_host
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [uptime-kuma]
+  roles:
+    - uptime_kuma
+  vars_files:
+    - roles/uptime_kuma/vaults/production.yml
+
+- name: Configure the Wyze bridge
+  hosts: docker_host
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [wyze]
+  roles:
+    - wyze
+  vars_files:
+    - roles/wyze/vaults/production.yml

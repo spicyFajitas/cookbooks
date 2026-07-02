@@ -1,0 +1,18 @@
+---
+# Dynamic inventory for DigitalOcean droplets. Filename must end in
+# `digital_ocean.yml` (or `digitalocean.yml`/`do_hosts.yml`) -- that's how
+# ansible's `auto` inventory loader recognizes this as a
+# community.digitalocean.digitalocean source.
+#
+# Tag a droplet resource (terraform/digital_ocean/main.tf) with the exact
+# Ansible group name you want it to join -- e.g. tags = ["terraform", "uptime_kuma"]
+# -- and it will be auto-discovered here.
+#
+# Auth is read from the environment by the plugin itself: DO_API_TOKEN (same
+# token used by terraform/digital_ocean, sourced from credentials.tf -- do
+# not commit it). Requires the community.digitalocean collection (see
+# collections/requirements.yml).
+#
+# ansible_host defaults to the droplet's public IPv4 address. Verify with
+# `ansible-inventory -i inventory/digital_ocean.yml --list`.
+plugin: community.digitalocean.digitalocean

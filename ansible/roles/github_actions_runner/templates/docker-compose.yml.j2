@@ -1,0 +1,21 @@
+# {{ ansible_managed }}
+
+services:
+  github-actions-runner:
+    container_name: "{{ container_name }}"
+    image: "{{ github_actions_runner_image }}"
+    restart: unless-stopped
+    environment:
+      ACCESS_TOKEN: "{{ github_actions_runner_access_token }}"
+      RUNNER_SCOPE: "{{ github_actions_runner_scope }}"
+      REPO_URL: "{{ github_actions_runner_repo_url }}"
+      RUNNER_NAME: "{{ github_actions_runner_name }}"
+      LABELS: "{{ github_actions_runner_labels }}"
+      RUNNER_WORKDIR: /tmp/runner/work
+      EPHEMERAL: "{{ github_actions_runner_ephemeral }}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - runner-work:/tmp/runner/work
+
+volumes:
+  runner-work:

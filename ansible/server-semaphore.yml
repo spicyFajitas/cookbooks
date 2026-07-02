@@ -1,9 +1,0 @@
----
-- name: Run semaphore playbook
-  hosts: semaphore
-  become: true
-  become_method: sudo
-  roles:
-    - semaphore
-  vars_files:
-    - roles/semaphore/vaults/production.yml
