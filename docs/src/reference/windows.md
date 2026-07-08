@@ -14,14 +14,21 @@
 
 ## Chkdsk
 
+To make CHKDSK fix the problems it finds
+
+```cmd
+chkdsk /f c:
 ```
-To make CHKDSK fix the problems it finds, type chkdsk /f c: (for your C: drive).
-To scan for bad sectors as well as errors, type chkdsk /r c:.
+
+To scan for bad sectors as well as errors
+
+```cmd
+chkdsk /r c:
 ```
 
 ## Windows Terminal Themes
 
-https://windowsterminalthemes.dev/
+<https://windowsterminalthemes.dev/>
 
 ## Diskpart
 
