@@ -21,27 +21,6 @@
 partsgeek
 rockauto
 
-## To Be Serviced
-
-### Need fixed
-
-- Feels like tires need to be balanced
-- Wheels aligned. Not sure if needs to be done, it's been 4 years or so
-- Check Engine light - emissions codes. Need fixed for Cali smog testing
-
-### Prefer to have fixed
-
-- Steering wheel shakes at high speeds
-- Exhaust-like tick sound, heard from drivers side when window is cracked open. Easier to hear in far left lane on 496 because of sound reflections off barrier "took" ticking sounds. Maybe wheel bearing related? Sound increased when turning right and weight is on left wheels
-- Town and country mentioned shaft on water pump is a little loose
-
-### Nice to haves
-
-- Fix car fan actuator
-- Engine oil leak
-- Transmission fluid leak
-- Dad had a starter and alternator business back in the day, says my starter sounds weak sometimes (mainly in winter)
-
 ## Service
 
 Multiple tables for better readability when writing tables
