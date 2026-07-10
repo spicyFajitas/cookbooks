@@ -50,7 +50,7 @@ Multiple tables for better readability when writing tables
 | ------- | ---------- | ------------------------------------------------ | --------------------------------------------- |
 | 233,916 | 2026-06-12 | Replace canister purge regulator valve           | Town and Country Modern Mechanics, Lansing MI |
 | 233,916 | 2026-06-12 | Replace evap canister purge solenoid             | Town and Country Modern Mechanics, Lansing MI |
-| 233,916 | 2026-06-12 | Replace lower control arm                        | Town and Country Modern Mechanics, Lansing MI |
+| 233,916 | 2026-06-12 | Replace front left lower control arm             | Town and Country Modern Mechanics, Lansing MI |
 | 233,916 | 2026-06-12 | Wheel alignment                                  | Town and Country Modern Mechanics, Lansing MI |
 | 233,916 | 2026-06-12 | Replace valve cover gasket                       | Town and Country Modern Mechanics, Lansing MI |
 | 233,916 | 2026-06-12 | Tires balances (not convinced all were balanced) | Town and Country Modern Mechanics, Lansing MI |
