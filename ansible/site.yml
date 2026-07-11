@@ -13,6 +13,30 @@
 #   ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --tags docker_host --limit docker-host-01
 #
 # See readme.md for the full tag list and the dynamic-inventory setup.
+#
+# Trimmed (2026-07) to what's actually run, as the homelab refocuses on
+# k3s + the magic app + monitoring:
+#   - twingate, watchtower, fortune, ansible_server, github_actions_runner
+#     plays removed here. Their role directories/vaults are untouched on
+#     disk, just not called from here.
+#   - frigate/media/netbox/netdata/speedtest-tracker/uptime_kuma/wyze/
+#     minecraft-docker/mealie removed from roles/docker_services/tasks/main.yml
+#     (minecraft-docker specifically superseded by minecraft-vm, kept
+#     below; mealie because it runs on DigitalOcean -- its local containers
+#     were actually stopped and removed, not just untagged, but
+#     /opt/mealie/data on docker-host-01 was left alone). That code lives
+#     in git history (see the commit that removed roles/{frigate,media,
+#     netbox,netdata,speedtest-tracker,uptime_kuma,wyze,minecraft-docker,
+#     mealie}); their vault secrets are still intact in
+#     roles/docker_services/vaults/production.yml, untouched.
+# Bringing any of these back is a matter of re-adding a play/include_tasks
+# block, not rebuilding from scratch.
+#
+# NOTE: removing github_actions_runner here means .github/workflows/
+# deploy.yml, terraform-validate.yml, and packer-validate.yml -- which all
+# target `runs-on: [self-hosted, homelab]` -- have no runner to execute on
+# until that's reconsidered. Not fixed as part of this trim; flagging it so
+# it doesn't surprise you the next time one of those workflows runs.
 
 - name: Apply baseline helper roles
   hosts: common, proxmox
@@ -23,24 +47,6 @@
     - helper/packages
     - helper/ssh
     - helper/timezone
-
-- name: Configure the Ansible controller
-  hosts: ansible
-  become: true
-  become_method: ansible.builtin.sudo
-  tags: [ansible]
-  roles:
-    - ansible_server
-
-- name: Configure the self-hosted GitHub Actions runner
-  hosts: runner
-  become: true
-  become_method: ansible.builtin.sudo
-  tags: [runner]
-  roles:
-    - github_actions_runner
-  vars_files:
-    - roles/github_actions_runner/vaults/production.yml
 
 - name: Configure the Docker host baseline
   hosts: docker_host
@@ -60,6 +66,14 @@
   vars_files:
     - roles/proxmox/vaults/production.yml
 
+- name: Configure the k3s control plane
+  hosts: k3s_server
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [k3s-server]
+  roles:
+    - k3s_server
+
 - name: Configure Plex
   hosts: plex
   become: true
@@ -71,6 +85,14 @@
   vars_files:
     - roles/plex/vaults/production.yml
 
+- name: Configure the k3s agent on the Plex host
+  hosts: plex
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [k3s-agent]
+  roles:
+    - k3s_agent
+
 - name: Configure Semaphore
   hosts: semaphore
   become: true
@@ -80,26 +102,6 @@
     - semaphore
   vars_files:
     - roles/semaphore/vaults/production.yml
-
-- name: Configure Twingate
-  hosts: vpn
-  become: true
-  become_method: ansible.builtin.sudo
-  tags: [twingate]
-  roles:
-    - twingate
-  vars_files:
-    - roles/twingate/vaults/production.yml
-
-- name: Configure the fortune bot
-  hosts: linux_server
-  become: true
-  become_method: ansible.builtin.sudo
-  tags: [fortune]
-  roles:
-    - fortune
-  vars_files:
-    - roles/fortune/vaults/production.yml
 
 - name: Configure the Minecraft VM
   hosts: minecraft_grass_gang
@@ -111,127 +113,17 @@
   vars_files:
     - roles/minecraft-vm/vaults/production.yml
 
-- name: Configure Watchtower
-  hosts: containers
-  become: true
-  become_method: ansible.builtin.sudo
-  tags: [watchtower]
-  roles:
-    - watchtower
-  vars_files:
-    - roles/watchtower/vaults/production.yml
-
 # --- docker_host-hosted services ---
-# Each of these targets the docker_host group directly so any host that
-# joins that group (today or after a future rebuild) picks up every
-# container service it's tagged for, selectable individually via --tags.
+# All of them share one role (docker_services) -- see
+# roles/docker_services/readme.md. Each service still gets its own
+# --tags <service> (grafana, homepage): the role's tasks/main.yml applies
+# the tag per-service internally.
 
-- name: Configure Frigate
+- name: Configure docker_host services
   hosts: docker_host
   become: true
   become_method: ansible.builtin.sudo
-  tags: [frigate]
   roles:
-    - frigate
+    - docker_services
   vars_files:
-    - roles/frigate/vaults/production.yml
-
-- name: Configure Grafana
-  hosts: docker_host
-  become: true
-  become_method: ansible.builtin.sudo
-  tags: [grafana]
-  roles:
-    - grafana
-  vars_files:
-    - roles/grafana/vaults/production.yml
-
-- name: Configure Homepage
-  hosts: docker_host
-  become: true
-  become_method: ansible.builtin.sudo
-  tags: [homepage]
-  roles:
-    - homepage
-  vars_files:
-    - roles/homepage/vaults/production.yml
-
-- name: Configure Mealie
-  hosts: docker_host
-  become: true
-  become_method: ansible.builtin.sudo
-  tags: [mealie]
-  roles:
-    - mealie
-  vars_files:
-    - roles/mealie/vaults/production.yml
-
-- name: Configure the media automation stack
-  hosts: docker_host
-  become: true
-  become_method: ansible.builtin.sudo
-  tags: [media]
-  roles:
-    - media
-  vars_files:
-    - roles/media/vaults/production.yml
-
-- name: Configure the Dockerized Minecraft server
-  hosts: docker_host
-  become: true
-  become_method: ansible.builtin.sudo
-  tags: [minecraft-docker]
-  roles:
-    - minecraft-docker
-  vars_files:
-    - roles/minecraft-docker/vaults/production.yml
-
-- name: Configure Netbox
-  hosts: docker_host
-  become: true
-  become_method: ansible.builtin.sudo
-  tags: [netbox]
-  roles:
-    - netbox
-  vars_files:
-    - roles/netbox/vaults/production.yml
-
-- name: Configure Netdata
-  hosts: docker_host
-  become: true
-  become_method: ansible.builtin.sudo
-  tags: [netdata]
-  roles:
-    - netdata
-  vars_files:
-    - roles/netdata/vaults/production.yml
-
-- name: Configure Speedtest Tracker
-  hosts: docker_host
-  become: true
-  become_method: ansible.builtin.sudo
-  tags: [speedtest-tracker]
-  roles:
-    - speedtest-tracker
-  vars_files:
-    - roles/speedtest-tracker/vaults/production.yml
-
-- name: Configure Uptime Kuma
-  hosts: docker_host
-  become: true
-  become_method: ansible.builtin.sudo
-  tags: [uptime-kuma]
-  roles:
-    - uptime_kuma
-  vars_files:
-    - roles/uptime_kuma/vaults/production.yml
-
-- name: Configure the Wyze bridge
-  hosts: docker_host
-  become: true
-  become_method: ansible.builtin.sudo
-  tags: [wyze]
-  roles:
-    - wyze
-  vars_files:
-    - roles/wyze/vaults/production.yml
+    - roles/docker_services/vaults/production.yml

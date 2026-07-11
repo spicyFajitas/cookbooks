@@ -1,5 +1,0 @@
----
-
-base_dir: /opt/wyze
-
-restart_policy: "unless-stopped"

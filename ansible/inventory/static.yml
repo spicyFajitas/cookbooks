@@ -82,6 +82,20 @@ all:
         minecraft-vm-01: {}
       vars:
         ansible_user: adam
+    k3s_server:
+      # k3s control plane VM on Proxmox (Beelink) -- see .claude-plan.md.
+      # terraform/proxmox/main.tf already declares this VM tagged
+      # `k3s_server;terraform`, which the dynamic Proxmox inventory plugin
+      # should pick up on its own -- this static entry is a belt-and-braces
+      # duplicate until that's confirmed (`ansible-inventory -i
+      # inventory/pve.proxmox.yml --list`, with real Proxmox API creds in
+      # the environment). Once confirmed, remove this entry per the file
+      # header note above. ansible_user assumed root to match every other
+      # VM here -- adjust in host_vars/k3s-server-01.yml if it differs.
+      hosts:
+        k3s-server-01: {}
+      vars:
+        ansible_user: root
     containers:
       hosts:
         plex-01: {}

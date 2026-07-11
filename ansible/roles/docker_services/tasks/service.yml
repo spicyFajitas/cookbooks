@@ -1,0 +1,103 @@
+---
+# Generic per-service task list, included once per service by main.yml with
+# `docker_service` set to that service's name. All the ways services differ
+# (paths, secrets, which files get templated where, an optional SMB mount, an
+# optional dedicated user/group) are data, not code -- they live in
+# vars/{{ docker_service }}.yml and docker_services_secrets[docker_service].
+#
+# The default-loading task below matters: `include_vars` sets host facts,
+# which persist for the rest of the play -- across *every* remaining
+# service in this same run, not just this one. Without loading known
+# optional keys' defaults first, a service that doesn't set e.g.
+# docker_service_extra_dirs would silently inherit whatever the *previous*
+# service in tasks/main.yml set it to. Not hypothetical: this is exactly
+# how homepage's `docker_service_extra_dirs: [config]` leaked into mealie
+# and created a spurious /opt/mealie/config directory, found 2026-07
+# running `--tags homepage,mealie` together. Any *new* var name a future
+# vars/<service>.yml introduces that isn't in vars/_defaults.yml carries
+# the same risk -- prefix genuinely one-off config with the service name
+# instead (netbox's vars/netbox.yml does this: netbox_port, netbox_image,
+# etc.) rather than adding more to that defaults file.
+#
+# Both this and the per-service load below must use include_vars, not
+# set_fact: set_fact outranks include_vars in Ansible's variable
+# precedence, so a set_fact-based "reset" run before include_vars would
+# permanently win regardless of task order, and the per-service
+# include_vars that's supposed to override it would never take effect.
+
+- name: "Load default vars"
+  ansible.builtin.include_vars: _defaults.yml
+
+- name: "Load vars for {{ docker_service }}"
+  ansible.builtin.include_vars: "{{ docker_service }}.yml"
+
+- name: "Load secrets for {{ docker_service }}"
+  ansible.builtin.set_fact:
+    docker_service_secrets: "{{ docker_services_secrets[docker_service] | default({}) }}"
+
+- name: "Expose {{ docker_service }} secrets as plain vars"
+  ansible.builtin.set_fact:
+  args: "{{ docker_service_secrets }}"
+
+- name: "Install cifs-utils for {{ docker_service }}"
+  ansible.builtin.package:
+    name: cifs-utils
+    state: present
+  when: docker_service_smb_mount | length > 0
+
+- name: "Mount SMB share for {{ docker_service }}"
+  ansible.posix.mount:
+    src: "{{ docker_service_smb_mount.src }}"
+    path: "{{ docker_service_smb_mount.path }}"
+    opts: "{{ docker_service_smb_mount.opts }}"
+    fstype: cifs
+    state: mounted
+  when: docker_service_smb_mount | length > 0
+
+- name: "Create {{ docker_service }} group"
+  ansible.builtin.group:
+    name: "{{ docker_service_user.group }}"
+    gid: "{{ docker_service_user.gid }}"
+    state: present
+  when: docker_service_user | length > 0
+
+- name: "Create {{ docker_service }} user"
+  ansible.builtin.user:
+    name: "{{ docker_service_user.name }}"
+    comment: "{{ docker_service_user.comment | default(docker_service + ' automation user') }}"
+    uid: "{{ docker_service_user.uid }}"
+    group: "{{ docker_service_user.group }}"
+  when: docker_service_user | length > 0
+
+- name: "Create {{ docker_service }} base directory"
+  ansible.builtin.file:
+    path: "{{ base_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: "Create {{ docker_service }} extra directories"
+  ansible.builtin.file:
+    path: "{{ base_dir }}/{{ item }}"
+    state: directory
+    mode: "0755"
+  loop: "{{ docker_service_extra_dirs }}"
+
+- name: "Template {{ docker_service }} config files"
+  ansible.builtin.template:
+    src: "{{ docker_service }}/{{ item.src }}"
+    dest: "{{ base_dir }}/{{ item.dest }}"
+    mode: "{{ item.mode | default('0644') }}"
+  loop: "{{ docker_service_templates }}"
+  diff: "{{ item.diff | default(true) }}"
+
+- name: "Remove outdated {{ docker_service }} files"
+  ansible.builtin.file:
+    path: "{{ base_dir }}/{{ item }}"
+    state: absent
+  loop: "{{ docker_service_remove_files }}"
+
+- name: "Apply {{ docker_service }} compose"
+  community.docker.docker_compose_v2:
+    project_src: "{{ base_dir }}"
+    pull: always
+    recreate: auto

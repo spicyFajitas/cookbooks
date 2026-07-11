@@ -1,11 +1,17 @@
 name: terraform-validate
 
-# Read-only: fmt/validate/plan on PRs that touch terraform/. Never applies.
-# The proxmox stack's plan job runs on the self-hosted runner
-# (roles/github_actions_runner) because it authenticates against the
-# Proxmox API on the private LAN (10.100.10.x); the digital_ocean stack's
-# plan job runs on GitHub-hosted ubuntu-latest since DigitalOcean's API is
-# public.
+# Read-only: fmt/validate on PRs that touch terraform/. Never applies.
+#
+# Only `terraform plan` needs live API reachability -- `fmt`/`validate` are
+# local checks against the HCL + provider schema, so both stacks run those
+# on GitHub-hosted ubuntu-latest.
+#
+# The proxmox stack's `plan` is NOT run here: it needs the Proxmox API on
+# the private LAN (10.100.10.x), which no GitHub-hosted runner can reach
+# (this repo has no self-hosted runner as of 2026-07 -- see
+# ansible/site.yml's note on archiving roles/github_actions_runner). Run
+# `terraform plan`/`apply` for the proxmox stack manually, from a machine
+# on the LAN. digital_ocean's API is public, so its plan still runs here.
 
 on:
   pull_request:
@@ -14,15 +20,11 @@ on:
       - ".github/workflows/terraform-validate.yml"
 
 jobs:
-  proxmox:
-    runs-on: [self-hosted, homelab]
+  proxmox-fmt-validate:
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: terraform/proxmox
-    env:
-      TF_VAR_proxmox_api_url: ${{ secrets.PROXMOX_API_URL }}
-      TF_VAR_proxmox_api_token_id: ${{ secrets.PROXMOX_API_TOKEN_ID }}
-      TF_VAR_proxmox_api_token_secret: ${{ secrets.PROXMOX_API_TOKEN_SECRET }}
     steps:
       - uses: actions/checkout@v7
 
@@ -33,27 +35,6 @@ jobs:
       - run: terraform init -backend=false
 
       - run: terraform validate
-
-      - name: terraform plan
-        id: plan
-        run: |
-          set -o pipefail
-          terraform plan -no-color -input=false | tee plan.txt
-
-      - name: Comment plan on PR
-        if: always()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const plan = fs.readFileSync('terraform/proxmox/plan.txt', 'utf8');
-            const body = `#### Terraform Plan (proxmox)\n<details><summary>Show plan</summary>\n\n\`\`\`\n${plan}\n\`\`\`\n\n</details>`;
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body,
-            });
 
   digital_ocean:
     runs-on: ubuntu-latest

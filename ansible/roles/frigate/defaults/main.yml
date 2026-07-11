@@ -1,5 +1,0 @@
----
-
-base_dir: /opt/frigate
-
-restart_policy: "unless-stopped"

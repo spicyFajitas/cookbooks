@@ -72,11 +72,23 @@ To run locally: `ansible-playbook --connection=local site.yml -i 127.0.0.1`.
 
 To exclude a host: `--limit '!hostname'`. To limit to several: `--limit "host1,host2"`.
 
-Available tags: `common`, `helper`, `ansible`, `runner`, `docker`,
-`docker_host`, `proxmox`, `plex`, `semaphore`, `twingate`, `fortune`,
-`minecraft-vm`, `watchtower`, `frigate`, `grafana`, `homepage`, `mealie`,
-`media`, `minecraft-docker`, `netbox`, `netdata`, `speedtest-tracker`,
-`uptime-kuma`, `wyze`.
+Available tags: `common`, `helper`, `docker`, `docker_host`, `proxmox`,
+`k3s-server`, `plex`, `k3s-agent`, `semaphore`, `minecraft-vm`, `grafana`,
+`homepage`.
+
+Trimmed out of `site.yml` as of 2026-07, not currently run but not
+deleted -- see the note at the top of `site.yml` for how to bring one
+back: `twingate`, `watchtower`, `fortune`, `ansible`
+(`roles/ansible_server`), `runner` (`roles/github_actions_runner`), and
+from `docker_services`: `frigate`, `media`, `netbox`, `netdata`,
+`speedtest-tracker`, `uptime-kuma`, `wyze`, `minecraft-docker` (superseded
+by `minecraft-vm`), and `mealie` (runs on DigitalOcean instead -- the
+local containers were actually stopped, not just untagged).
+
+`k3s-agent` depends on `k3s-server` having already run in the same
+execution (it reads the control plane's join token via `hostvars`, not a
+vault) -- run them together (`--tags k3s-server,k3s-agent`, or a full
+untagged run), not `k3s-agent` alone.
 
 ## Dynamic inventory setup
 
@@ -119,31 +131,54 @@ checking if you bump collection versions.
 
 ## GitHub Actions CI/CD
 
+No self-hosted runner as of 2026-07 (`roles/github_actions_runner` archived
+-- see the note at the top of `site.yml`). GitHub-hosted runners are free
+and unlimited for this public repo, but they still can't route to the
+private LAN (10.100.10.x) -- that's a networking constraint, not a billing
+one, so CI is scoped to what's actually cloud-reachable:
+
 - `ansible-lint.yml` -- static lint + `--syntax-check` on every PR touching
-  `ansible/**`. Runs on GitHub-hosted runners, no infrastructure access
-  needed.
-- `terraform-validate.yml` -- `fmt`/`validate`/`plan` (posted as a PR
-  comment) on every PR touching `terraform/**`. Read-only, never applies.
-- `packer-validate.yml` -- `packer init` + `packer validate` on every PR
-  touching `packer/**`. Read-only, never builds an image.
-- `deploy.yml` -- on push to `main`/`master`, applies Terraform and runs
-  `ansible-playbook site.yml` against real infrastructure. Gated behind the
-  `production` GitHub Environment: configure a required reviewer for it in
-  repo **Settings -> Environments -> production**, or this runs unattended.
+  `ansible/**`. No infrastructure access needed.
+- `terraform-validate.yml` -- `fmt`/`validate` for both stacks (local
+  checks, no live API needed); `terraform plan` additionally runs for
+  `digital_ocean` (public API) but *not* for `proxmox` (needs the LAN).
 
-The Proxmox stack, Packer validation, and the deploy job all need to reach
-the private LAN (10.100.10.x), which GitHub-hosted runners can't route to.
-They run on a self-hosted runner instead -- `roles/github_actions_runner`,
-targeting the `runner` inventory group (`github-runner-01`,
-10.100.10.21) -- labeled `[self-hosted, homelab]`.
+Not automated at all anymore -- run these manually from a machine on the
+LAN, same as the k3s install above:
 
-**Repo secrets required** (Settings -> Secrets and variables -> Actions):
-`PROXMOX_API_URL`, `PROXMOX_API_TOKEN_ID`, `PROXMOX_API_TOKEN_SECRET`,
-`PROXMOX_USER`, `PROXMOX_TOKEN_ID`, `PKR_VAR_PROXMOX_API_URL`,
-`PKR_VAR_PROXMOX_API_TOKEN_ID`, `PKR_VAR_PROXMOX_API_TOKEN_SECRET`,
-`DO_API_TOKEN`, `ANSIBLE_VAULT_PASSWORD`. The runner's own GitHub PAT is
-*not* one of these -- it's consumed by Ansible, not a workflow, so it lives
-encrypted in `roles/github_actions_runner/vaults/production.yml` instead.
+- `terraform plan`/`apply` for `terraform/proxmox` (needs the Proxmox API).
+- `packer validate`/`build` for anything in `packer/` (the proxmox-iso
+  builder validates against the Proxmox API even for `validate`, so there's
+  no cloud-compatible subset like Terraform's fmt/validate).
+- `ansible-playbook site.yml` itself -- nearly every active host
+  (`docker-host-01`, `k3s-server-01`, `plex-01`, `semaphore-01`,
+  `proxmox-hv-01`) is LAN-only, so there's no meaningful CD to automate
+  from GitHub-hosted runners regardless of Terraform stack.
+
+**Repo secrets still relevant** (Settings -> Secrets and variables ->
+Actions): `DO_API_TOKEN` (terraform-validate's digital_ocean plan).
+`PROXMOX_API_*`/`PKR_VAR_PROXMOX_*`/`ANSIBLE_VAULT_PASSWORD` are no longer
+consumed by any workflow -- fine to leave configured or remove, your call.
+
+## docker_services: one role for every container on the docker host
+
+Docker-compose services on the single docker host share one role,
+`roles/docker_services`, instead of each having its own near-identical
+role. Currently active: `grafana`, `homepage`. See
+`roles/docker_services/readme.md` for how it's structured and how to add a
+service back. `--tags <service>` still selects just one.
+
+`roles/docker_services/vaults/production.yml` holds secrets for all 11
+services this role originally covered (not just the 2 active ones) --
+`migrate-docker-vaults.sh` merged the old per-service vaults into it,
+namespaced per service, back when the consolidation happened. The 9 no
+longer active (frigate, media, mealie, minecraft-docker, netbox, netdata,
+speedtest-tracker, uptime_kuma, wyze) still have their secrets sitting
+there, untouched, for whenever one comes back. minecraft-docker
+specifically was superseded by `minecraft-vm` (its own role/play); mealie
+specifically because it runs on DigitalOcean (its local containers were
+stopped and removed, not just untagged) -- neither dropped for lack of
+use.
 
 ## Group/Host Variable Precedence
 
@@ -156,9 +191,11 @@ alias used in `inventory/static.yml` -- not by IP.
 
 ### Updating containers
 
-All of the roles that are essentially templated docker containers update
-those containers on every `site.yml` run for their tag (`pull: always` +
-`recreate: auto` on change).
+Every docker-compose service (`roles/docker_services`, plus `plex`,
+`homepage` if run standalone, etc.) updates its containers on every
+`site.yml` run for its tag -- `community.docker.docker_compose_v2` with
+`pull: always` + `recreate: auto` is idempotent on its own, so there's no
+separate "restart on change" handler to trigger.
 
 ## Project Structure Reference
 
@@ -177,6 +214,12 @@ those containers on every `site.yml` run for their tag (`pull: always` +
       - meta
       - tasks
       - templates (jinja2 configuration)
+      - vaults
+      - readme.md
+    - docker_services       # one role, many docker-compose services --
+      - tasks                # see roles/docker_services/readme.md
+      - vars                 # per-service data instead of defaults/
+      - templates/<service>
       - vaults
       - readme.md
   - site.yml               # single entry point, tag-driven

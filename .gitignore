@@ -36,4 +36,4 @@ credentials.tfvars
 
 # certs folders
 certs
-.claude
+.claude*
