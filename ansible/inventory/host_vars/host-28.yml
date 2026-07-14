@@ -1,4 +1,0 @@
----
-# Purpose undocumented in the pre-cattle inventory -- same situation as
-# host-04.yml, only a member of separate_hosts, no dedicated service group.
-ansible_host: 10.100.10.28

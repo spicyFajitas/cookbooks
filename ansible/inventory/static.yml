@@ -14,28 +14,10 @@ all:
     common:
       # runs the "common" plays on every general-purpose host
       hosts:
-        host-04: {}
-        linux-server-01: {}
-        ansible-controller: {}
-        semaphore-01: {}
         docker-host-01: {}
       vars:
         ansible_user: root
     separate_hosts:
-      hosts:
-        host-04: {}
-        ansible-controller: {}
-        semaphore-01: {}
-        docker-host-01: {}
-        host-28: {}
-      vars:
-        ansible_user: root
-    linux_server:
-      hosts:
-        linux-server-01: {}
-      vars:
-        ansible_user: root
-    vpn:
       hosts:
         docker-host-01: {}
       vars:
@@ -61,27 +43,11 @@ all:
         ansible-controller: {}
       vars:
         ansible_user: root
-    semaphore:
-      hosts:
-        semaphore-01: {}
-      vars:
-        ansible_user: root
     docker_host:
       hosts:
         docker-host-01: {}
       vars:
         ansible_user: root
-    runner:
-      # self-hosted GitHub Actions runner, see roles/github_actions_runner
-      hosts:
-        github-runner-01: {}
-      vars:
-        ansible_user: root
-    minecraft_grass_gang:
-      hosts:
-        minecraft-vm-01: {}
-      vars:
-        ansible_user: adam
     k3s_server:
       # k3s control plane VM on Proxmox (Beelink) -- see .claude-plan.md.
       # terraform/proxmox/main.tf already declares this VM tagged
@@ -99,5 +65,4 @@ all:
     containers:
       hosts:
         plex-01: {}
-        semaphore-01: {}
         docker-host-01: {}

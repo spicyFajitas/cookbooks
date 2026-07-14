@@ -1,6 +1,0 @@
----
-# Purpose undocumented in the pre-cattle inventory -- this host isn't a
-# member of any service-specific group, only the two blanket groups
-# (common, separate_hosts). Find out what it is and either give it a proper
-# alias + role tag, or decommission this entry.
-ansible_host: 10.100.10.4

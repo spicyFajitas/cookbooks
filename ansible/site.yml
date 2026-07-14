@@ -85,23 +85,23 @@
   vars_files:
     - roles/plex/vaults/production.yml
 
-- name: Configure the k3s agent on the Plex host
-  hosts: plex
-  become: true
-  become_method: ansible.builtin.sudo
-  tags: [k3s-agent]
-  roles:
-    - k3s_agent
+# - name: Configure the k3s agent on the Plex host
+#   hosts: plex
+#   become: true
+#   become_method: ansible.builtin.sudo
+#   tags: [k3s-agent]
+#   roles:
+#     - k3s_agent
 
-- name: Configure Semaphore
-  hosts: semaphore
-  become: true
-  become_method: ansible.builtin.sudo
-  tags: [semaphore]
-  roles:
-    - semaphore
-  vars_files:
-    - roles/semaphore/vaults/production.yml
+# - name: Configure Semaphore
+#   hosts: semaphore
+#   become: true
+#   become_method: ansible.builtin.sudo
+#   tags: [semaphore]
+#   roles:
+#     - semaphore
+#   vars_files:
+#     - roles/semaphore/vaults/production.yml
 
 - name: Configure the Minecraft VM
   hosts: minecraft_grass_gang
