@@ -1,0 +1,16 @@
+# Copy this whole directory to kubernetes/apps/<name>/, then find-replace
+# APP_NAME -- see README.md.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: APP_NAME
+labels:
+  - pairs:
+      app: APP_NAME
+    includeSelectors: true
+
+resources:
+  - namespace.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml

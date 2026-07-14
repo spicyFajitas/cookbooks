@@ -32,3 +32,30 @@ KUBECONFIG=~/.kube/config:~/.kube/k3s-homelab.yaml kubectl config view --flatten
 mv /tmp/merged ~/.kube/config
 kubectl config rename-context default k3s-homelab
 ```
+
+## Layout
+
+```text
+kubernetes/
+  platform/           # cluster-wide infra, installed once, apps depend on it
+    cert-manager/
+    external-dns/
+    cloudflared/
+  apps/               # actual workloads
+    magic/
+```
+
+No Helm/ArgoCD-managed GitOps yet (that's `.claude-plan.md` step 9) --
+until then, this directory is the source of truth in the sense that "what's
+in git is what you'd run to reproduce the cluster from scratch," not in the
+sense that it's continuously reconciled. Each component's own `readme.md`
+has the exact apply commands; run them in the order the top-level
+`readme.md`/`.claude-plan.md` install order lists (platform pieces before
+the apps that depend on them). Every component that installs via Helm
+checks in a pinned chart version + `values.yaml` instead of ad hoc `--set`
+flags, specifically so the installed config isn't tribal knowledge.
+
+Anything genuinely secret (API tokens, tunnel credentials) is deliberately
+**not** in git yet -- no Sealed Secrets/SOPS in place (`.claude-plan.md`'s
+"No secrets management" gap). Each component's readme says what Secret it
+needs and how to create it by hand in the meantime.

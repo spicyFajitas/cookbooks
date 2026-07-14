@@ -1,0 +1,40 @@
+# This is THE payoff for the kubernetes/apps/_template scaffold: any
+# directory under kubernetes/apps/ (except _template itself) automatically
+# becomes an Argo CD Application, no per-app Argo CD config ever needed.
+# Copy the template, fill in the placeholders, open a PR, merge -- that's
+# the entire "deploy a new app" workflow once this is applied.
+#
+# automated sync with NO prune, NO selfHeal (see kubernetes/argocd-apps/readme.md
+# for why): merges roll out automatically, but Argo CD won't delete
+# resources removed from git on its own, and won't fight manual `kubectl`
+# changes made for live debugging.
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: apps
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/spicyFajitas/cookbooks.git
+        revision: HEAD
+        directories:
+          - path: kubernetes/apps/*
+          - path: kubernetes/apps/_template
+            exclude: true
+  template:
+    metadata:
+      name: "{{path.basename}}"
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/spicyFajitas/cookbooks.git
+        targetRevision: HEAD
+        path: "{{path}}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{path.basename}}"
+      syncPolicy:
+        automated: {}
+        syncOptions:
+          - CreateNamespace=true

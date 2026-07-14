@@ -1,0 +1,19 @@
+# Plain manifests, single git source -- no Helm chart involved.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cloudflared
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/spicyFajitas/cookbooks.git
+    targetRevision: HEAD
+    path: kubernetes/platform/cloudflared
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cloudflared
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true

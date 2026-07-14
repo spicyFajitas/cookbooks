@@ -1,0 +1,42 @@
+# commonLabels (kustomization.yaml) injects `app: APP_NAME` into
+# metadata.labels, spec.selector.matchLabels, and the pod template's
+# labels automatically -- that's why they're not repeated here.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: APP_NAME
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {}
+  template:
+    spec:
+      containers:
+        - name: APP_NAME
+          image: REPLACE_ME/image:tag
+          imagePullPolicy: Always
+          ports:
+            - name: web
+              containerPort: 8080 # REPLACE_ME: your app's actual port
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          # Uncomment once you know the app's health check path -- gates
+          # rollouts and restarts on it. Fine to leave out entirely if the
+          # app doesn't have one; Kubernetes just won't health-gate it.
+          # livenessProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: web
+          #   initialDelaySeconds: 10
+          #   periodSeconds: 10
+          # readinessProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: web
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 5

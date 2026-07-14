@@ -1,0 +1,50 @@
+# Multi-source: chart comes from jetstack's repo, values.yaml comes from
+# our own git repo (the same file kubernetes/platform/cert-manager/readme.md's
+# manual `helm install` command uses) -- one source of truth for the
+# values, not duplicated into this Application.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://charts.jetstack.io
+      chart: cert-manager
+      targetRevision: v1.21.0
+      helm:
+        valueFiles:
+          - $values/kubernetes/platform/cert-manager/values.yaml
+    - repoURL: https://github.com/spicyFajitas/cookbooks.git
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+# The ClusterIssuers (kubernetes/platform/cert-manager/*.yaml) are plain
+# manifests, separate from the Helm chart above -- own Application since
+# they're a different source type (git path vs. Helm chart).
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager-config
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/spicyFajitas/cookbooks.git
+    targetRevision: HEAD
+    path: kubernetes/platform/cert-manager
+    directory:
+      exclude: "values.yaml"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
+  syncPolicy:
+    automated: {}

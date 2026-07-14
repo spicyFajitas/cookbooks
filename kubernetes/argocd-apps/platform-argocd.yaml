@@ -1,0 +1,48 @@
+# Argo CD manages its own Helm install, same multi-source pattern as
+# everything else. self-heal here specifically (unlike apps-appset.yaml's
+# default) -- Argo CD losing track of its own config is a bigger problem
+# than it losing track of an app.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://argoproj.github.io/argo-helm
+      chart: argo-cd
+      targetRevision: 10.1.3
+      helm:
+        valueFiles:
+          - $values/kubernetes/platform/argocd/values.yaml
+    - repoURL: https://github.com/spicyFajitas/cookbooks.git
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      selfHeal: true
+---
+# The Ingress (and any future plain-manifest additions alongside the Helm
+# install) -- own Application, same split as cert-manager-config.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-config
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/spicyFajitas/cookbooks.git
+    targetRevision: HEAD
+    path: kubernetes/platform/argocd
+    directory:
+      exclude: "values.yaml"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated: {}

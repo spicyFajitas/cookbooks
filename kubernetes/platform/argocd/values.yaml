@@ -1,0 +1,13 @@
+# TLS terminates at our own Ingress (01-ingress.yaml, cert-manager) like
+# every other app here -- server.insecure tells argocd-server to speak
+# plain HTTP internally instead of also trying to do TLS itself.
+configs:
+  params:
+    server.insecure: true
+
+# Chart's built-in ingress stays off -- 01-ingress.yaml handles it,
+# consistent with every other app/platform component in this repo instead
+# of a chart-specific ingress block.
+server:
+  ingress:
+    enabled: false

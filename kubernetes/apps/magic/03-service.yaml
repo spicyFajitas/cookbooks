@@ -1,10 +1,11 @@
-# NodePort for both ports for now -- gives immediate access
-# (http://10.100.10.12:30851) and a scrape target for the existing homelab
-# Prometheus (10.100.10.12:30852) without waiting on cloudflared/Ingress.
-# Once cloudflared/cert-manager/external-dns are in place (.claude-plan.md),
-# switch `web` to a plain ClusterIP and front it with an Ingress instead --
-# `metrics` should stay reachable the same way regardless, since the
-# scraper lives outside the cluster on the docker host.
+# Split in two now that cert-manager/external-dns are live and 05-ingress.yaml
+# fronts the web port properly:
+#   - `edhrec-analyzer` (ClusterIP) -- what the Ingress routes to.
+#   - `edhrec-analyzer-metrics` (NodePort) -- unchanged, still :30852. The
+#     external homelab Prometheus scrapes the node IP:port directly (see
+#     ansible/roles/docker_services/templates/grafana/prometheus.yml.j2),
+#     not the Service by name, so this rename doesn't need a matching
+#     change there.
 apiVersion: v1
 kind: Service
 metadata:
@@ -13,14 +14,26 @@ metadata:
   labels:
     app: edhrec-analyzer
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: edhrec-analyzer
   ports:
     - name: web
       port: 8501
       targetPort: web
-      nodePort: 30851
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: edhrec-analyzer-metrics
+  namespace: magic
+  labels:
+    app: edhrec-analyzer
+spec:
+  type: NodePort
+  selector:
+    app: edhrec-analyzer
+  ports:
     - name: metrics
       port: 8502
       targetPort: metrics

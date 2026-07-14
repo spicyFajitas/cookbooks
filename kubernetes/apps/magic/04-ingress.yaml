@@ -1,0 +1,56 @@
+# Hard cutover (2026-07): magic.spicyfajitas.com now points here instead
+# of the DigitalOcean droplet. User's call -- this is a personal
+# self-hosted app, not something with real uptime requirements, so no
+# blue/green or gradual traffic shift needed. The DO-side tunnel connector
+# was turned off before this cutover; the droplet itself may still be
+# running (see kubernetes/apps/magic/readme.md for decommission status).
+#
+# magic-k3s.spicyfajitas.com kept as a secondary host on the same
+# Ingress/cert -- direct-to-cluster access for testing that doesn't depend
+# on Cloudflare's tunnel/edge being healthy.
+#
+# Both hostnames are reached through the tunnel
+# (kubernetes/platform/cloudflared/) via the *same* Cloudflare Tunnel that
+# used to have the DO droplet as a second connector -- Cloudflare Tunnels
+# load-balance across all connectors on one tunnel, which is exactly why
+# the DO connector had to be turned off before this cutover, not after.
+# This Ingress carries no `external-dns-managed: "true"` annotation, so
+# external-dns ignores it entirely (opt-in model, see
+# kubernetes/platform/external-dns/readme.md) and doesn't fight the
+# tunnel's own DNS management for these hostnames -- see this file's git
+# history for the debugging story behind why that matters.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: edhrec-analyzer
+  namespace: magic
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-dns
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - magic.spicyfajitas.com
+        - magic-k3s.spicyfajitas.com
+      secretName: edhrec-analyzer-tls
+  rules:
+    - host: magic.spicyfajitas.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: edhrec-analyzer
+                port:
+                  name: web
+    - host: magic-k3s.spicyfajitas.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: edhrec-analyzer
+                port:
+                  name: web

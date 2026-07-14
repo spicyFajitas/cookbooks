@@ -1,0 +1,31 @@
+# external-dns is intentionally NOT opted into here (no
+# `external-dns-managed: "true"` annotation) -- Cloudflare Tunnel's
+# wildcard route (*.spicyfajitas.com -> Traefik, see
+# kubernetes/platform/cloudflared/readme.md) already handles DNS for
+# anything under that domain, and cert-manager issues a cert for whatever
+# host you put below with zero extra config. Only opt into external-dns if
+# this needs its own non-wildcard record or an un-proxied/internal-only
+# one -- see kubernetes/platform/external-dns/readme.md.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: APP_NAME
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-dns
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - APP_NAME.spicyfajitas.com # REPLACE_ME if not <name>.spicyfajitas.com
+      secretName: APP_NAME-tls
+  rules:
+    - host: APP_NAME.spicyfajitas.com # REPLACE_ME if not <name>.spicyfajitas.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: APP_NAME
+                port:
+                  name: web

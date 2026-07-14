@@ -1,0 +1,26 @@
+# Multi-source, same pattern as cert-manager: chart from upstream,
+# values.yaml from our git repo.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-dns
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://kubernetes-sigs.github.io/external-dns/
+      chart: external-dns
+      targetRevision: 1.21.1
+      helm:
+        valueFiles:
+          - $values/kubernetes/platform/external-dns/values.yaml
+    - repoURL: https://github.com/spicyFajitas/cookbooks.git
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: external-dns
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
