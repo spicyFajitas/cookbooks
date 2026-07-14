@@ -1,5 +1,0 @@
-extra_packages:
-  - cowsay
-  - fortune-mod
-  - postfix
-  - s-nail

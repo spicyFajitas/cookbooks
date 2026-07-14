@@ -43,7 +43,7 @@ resource "proxmox_vm_qemu" "docker-host" {
 
     # (Optional) IP Address and Gateway
     # NOTE: this declares .59, but ansible/inventory/static.yml's docker_host
-    # entry (docker-host-01) points at .20 -- Terraform state and the
+    # entry (docker-host) points at .20 -- Terraform state and the
     # Ansible-managed reality have drifted apart. Reconcile before treating
     # this resource as authoritative: either this IP is stale, or the real
     # host was never actually created by this Terraform config.

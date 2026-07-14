@@ -20,10 +20,10 @@
 # Trimmed to the actively-run set (2026-07): frigate, media, netbox,
 # netdata, speedtest-tracker, uptime_kuma, wyze, and minecraft-docker were
 # removed from here -- minecraft-docker specifically in favor of
-# minecraft-vm (roles/minecraft-vm, its own site.yml play), the one to
+# minecraft-grass-gang (roles/minecraft-grass-gang, its own site.yml play), the one to
 # keep. mealie removed 2026-07 too -- it runs on DigitalOcean, not here;
 # the local instance was a redundant duplicate (real containers stopped and
-# removed via `docker compose down` on docker-host-01, not just untagged --
+# removed via `docker compose down` on docker-host, not just untagged --
 # its /opt/mealie/data SQLite DB was left on disk, unexamined, in case it
 # has anything the DO instance doesn't). See roles/docker_services/readme.md
 # for how to bring any of these back. Their vars/templates still exist

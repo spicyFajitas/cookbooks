@@ -1,6 +1,4 @@
 collections:
   - community.docker
   - community.general
-  - community.digitalocean
-  - community.proxmox
   - ansible.posix

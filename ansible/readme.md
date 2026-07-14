@@ -62,7 +62,7 @@ ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt
 ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --tags plex
 
 # One service, one host
-ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --tags docker_host --limit docker-host-01
+ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --tags docker_host --limit docker-host
 
 # Dry run
 ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --check
@@ -73,7 +73,7 @@ To run locally: `ansible-playbook --connection=local site.yml -i 127.0.0.1`.
 To exclude a host: `--limit '!hostname'`. To limit to several: `--limit "host1,host2"`.
 
 Available tags: `common`, `helper`, `docker`, `docker_host`, `proxmox`,
-`k3s-server`, `plex`, `k3s-agent`, `semaphore`, `minecraft-vm`, `grafana`,
+`k3s-server`, `plex`, `k3s-agent`, `semaphore`, `minecraft-grass-gang`, `grafana`,
 `homepage`.
 
 Trimmed out of `site.yml` as of 2026-07, not currently run but not
@@ -82,7 +82,7 @@ back: `twingate`, `watchtower`, `fortune`, `ansible`
 (`roles/ansible_server`), `runner` (`roles/github_actions_runner`), and
 from `docker_services`: `frigate`, `media`, `netbox`, `netdata`,
 `speedtest-tracker`, `uptime-kuma`, `wyze`, `minecraft-docker` (superseded
-by `minecraft-vm`), and `mealie` (runs on DigitalOcean instead -- the
+by `minecraft-grass-gang`), and `mealie` (runs on DigitalOcean instead -- the
 local containers were actually stopped, not just untagged).
 
 `k3s-agent` depends on `k3s-server` having already run in the same
@@ -151,8 +151,8 @@ LAN, same as the k3s install above:
   builder validates against the Proxmox API even for `validate`, so there's
   no cloud-compatible subset like Terraform's fmt/validate).
 - `ansible-playbook site.yml` itself -- nearly every active host
-  (`docker-host-01`, `k3s-server-01`, `plex-01`, `semaphore-01`,
-  `proxmox-hv-01`) is LAN-only, so there's no meaningful CD to automate
+  (`docker-host`, `k3s`, `plex`, `semaphore-01`,
+  `proxmox`) is LAN-only, so there's no meaningful CD to automate
   from GitHub-hosted runners regardless of Terraform stack.
 
 **Repo secrets still relevant** (Settings -> Secrets and variables ->
@@ -175,7 +175,7 @@ namespaced per service, back when the consolidation happened. The 9 no
 longer active (frigate, media, mealie, minecraft-docker, netbox, netdata,
 speedtest-tracker, uptime_kuma, wyze) still have their secrets sitting
 there, untouched, for whenever one comes back. minecraft-docker
-specifically was superseded by `minecraft-vm` (its own role/play); mealie
+specifically was superseded by `minecraft-grass-gang` (its own role/play); mealie
 specifically because it runs on DigitalOcean (its local containers were
 stopped and removed, not just untagged) -- neither dropped for lack of
 use.

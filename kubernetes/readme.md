@@ -2,7 +2,7 @@
 
 ## Overview
 
-The homelab cluster is k3s, single control-plane node (`k3s-server-01`,
+The homelab cluster is k3s, single control-plane node (`k3s`,
 10.100.10.12, installed via `ansible/roles/k3s_server` -- see
 `.claude-plan.md` for the full topology and buildout plan).
 

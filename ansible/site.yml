@@ -10,7 +10,7 @@
 # Usage:
 #   ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt
 #   ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --tags plex
-#   ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --tags docker_host --limit docker-host-01
+#   ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --tags docker_host --limit docker-host
 #
 # See readme.md for the full tag list and the dynamic-inventory setup.
 #
@@ -21,10 +21,10 @@
 #     disk, just not called from here.
 #   - frigate/media/netbox/netdata/speedtest-tracker/uptime_kuma/wyze/
 #     minecraft-docker/mealie removed from roles/docker_services/tasks/main.yml
-#     (minecraft-docker specifically superseded by minecraft-vm, kept
+#     (minecraft-docker specifically superseded by minecraft-grass-gang, kept
 #     below; mealie because it runs on DigitalOcean -- its local containers
 #     were actually stopped and removed, not just untagged, but
-#     /opt/mealie/data on docker-host-01 was left alone). That code lives
+#     /opt/mealie/data on docker-host was left alone). That code lives
 #     in git history (see the commit that removed roles/{frigate,media,
 #     netbox,netdata,speedtest-tracker,uptime_kuma,wyze,minecraft-docker,
 #     mealie}); their vault secrets are still intact in
@@ -107,11 +107,11 @@
   hosts: minecraft_grass_gang
   become: true
   become_method: ansible.builtin.sudo
-  tags: [minecraft-vm]
+  tags: [minecraft-grass-gang]
   roles:
-    - minecraft-vm
+    - minecraft-grass-gang
   vars_files:
-    - roles/minecraft-vm/vaults/production.yml
+    - roles/minecraft-grass-gang/vaults/production.yml
 
 # --- docker_host-hosted services ---
 # All of them share one role (docker_services) -- see

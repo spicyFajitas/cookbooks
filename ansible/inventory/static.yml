@@ -14,17 +14,17 @@ all:
     common:
       # runs the "common" plays on every general-purpose host
       hosts:
-        docker-host-01: {}
+        docker-host: {}
       vars:
         ansible_user: root
     separate_hosts:
       hosts:
-        docker-host-01: {}
+        docker-host: {}
       vars:
         ansible_user: root
     plex:
       hosts:
-        plex-01: {}
+        plex: {}
       vars:
         ansible_user: root
     proxmox:
@@ -33,19 +33,12 @@ all:
       # (that plugin enumerates guests, not the host it queries). This entry
       # is a permanent, intentional exception, not a migration TODO.
       hosts:
-        proxmox-hv-01: {}
-      vars:
-        ansible_user: root
-    ansible:
-      # the Ansible controller VM -- bootstrap exception: it must exist and
-      # be configured before it can query dynamic inventory against itself.
-      hosts:
-        ansible-controller: {}
+        proxmox: {}
       vars:
         ansible_user: root
     docker_host:
       hosts:
-        docker-host-01: {}
+        docker-host: {}
       vars:
         ansible_user: root
     k3s_server:
@@ -57,12 +50,12 @@ all:
       # inventory/pve.proxmox.yml --list`, with real Proxmox API creds in
       # the environment). Once confirmed, remove this entry per the file
       # header note above. ansible_user assumed root to match every other
-      # VM here -- adjust in host_vars/k3s-server-01.yml if it differs.
+      # VM here -- adjust in host_vars/k3s.yml if it differs.
       hosts:
-        k3s-server-01: {}
+        k3s: {}
       vars:
         ansible_user: root
     containers:
       hosts:
-        plex-01: {}
-        docker-host-01: {}
+        plex: {}
+        docker-host: {}
