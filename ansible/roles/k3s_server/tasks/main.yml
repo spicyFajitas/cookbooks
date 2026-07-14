@@ -1,0 +1,26 @@
+---
+
+- name: Check whether k3s is already installed
+  ansible.builtin.stat:
+    path: "{{ k3s_install_bin }}"
+  register: k3s_bin
+
+- name: Install k3s server
+  ansible.builtin.shell: |
+    curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server {{ k3s_server_install_args }}" sh -
+  when: not k3s_bin.stat.exists
+  changed_when: true
+
+- name: Wait for the node token to be written
+  ansible.builtin.wait_for:
+    path: "{{ k3s_node_token_path }}"
+    timeout: 60
+
+- name: Read the node token
+  ansible.builtin.slurp:
+    src: "{{ k3s_node_token_path }}"
+  register: k3s_node_token_raw
+
+- name: Expose the node token to other plays in this run
+  ansible.builtin.set_fact:
+    k3s_node_token: "{{ (k3s_node_token_raw.content | b64decode).strip() }}"

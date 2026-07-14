@@ -1,0 +1,9 @@
+---
+base_dir: /opt/github-actions-runner
+container_name: github-actions-runner
+github_actions_runner_image: myoung34/github-runner:latest
+github_actions_runner_scope: repo
+github_actions_runner_repo_url: https://github.com/spicyFajitas/cookbooks
+github_actions_runner_name: "{{ inventory_hostname }}"
+github_actions_runner_labels: "self-hosted,homelab"
+github_actions_runner_ephemeral: "false"

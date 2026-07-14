@@ -10,6 +10,11 @@ resource "proxmox_vm_qemu" "docker-host" {
     name = "docker-host"
     desc = "Description"
 
+    # Tags drive Ansible's dynamic inventory grouping (ansible/inventory/pve.proxmox.yml):
+    # each semicolon-separated tag here becomes the exact Ansible group name
+    # this VM is placed in.
+    tags = "docker_host;terraform"
+
     # VM Advanced General Settings
     onboot = true
 
@@ -37,7 +42,12 @@ resource "proxmox_vm_qemu" "docker-host" {
     os_type = "cloud-init"
 
     # (Optional) IP Address and Gateway
-    ipconfig0 = "ip=10.100.10.59/24,gw=10.100.10.1"
+    # NOTE: this declares .59, but ansible/inventory/static.yml's docker_host
+    # entry (docker-host) points at .20 -- Terraform state and the
+    # Ansible-managed reality have drifted apart. Reconcile before treating
+    # this resource as authoritative: either this IP is stale, or the real
+    # host was never actually created by this Terraform config.
+    ipconfig0 = "ip=10.100.10.20/23,gw=10.100.10.1"
 
     # (Optional) Default User
     # ciuser = "your-username"

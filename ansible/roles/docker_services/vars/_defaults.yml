@@ -1,0 +1,23 @@
+---
+# Loaded before every service's own vars/<service>.yml (see service.yml) so
+# that a service which doesn't set one of these can't silently inherit
+# whatever a *previous* service in this run left behind. base_dir/
+# restart_policy default to null deliberately -- there's no safe generic
+# value, so a service that forgets to set base_dir should fail loudly
+# (the "Create base directory" task erroring on a null path) rather than
+# silently writing into whatever directory the previous service used.
+#
+# set_fact would NOT work for this reset: set_fact outranks include_vars in
+# Ansible's variable precedence, so a set_fact-based reset run before
+# include_vars permanently wins regardless of task order, and the
+# per-service include_vars that's supposed to override it never takes
+# effect. Both this file and the per-service file must be loaded via
+# include_vars specifically so normal same-tier "last one wins" semantics
+# apply.
+base_dir: null
+restart_policy: null
+docker_service_templates: []
+docker_service_extra_dirs: []
+docker_service_remove_files: []
+docker_service_smb_mount: {}
+docker_service_user: {}

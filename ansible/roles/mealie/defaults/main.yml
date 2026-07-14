@@ -1,5 +1,0 @@
----
-
-base_dir: /opt/mealie
-
-restart_policy: "unless-stopped"

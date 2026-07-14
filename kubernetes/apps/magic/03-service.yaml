@@ -1,0 +1,40 @@
+# Split in two now that cert-manager/external-dns are live and 05-ingress.yaml
+# fronts the web port properly:
+#   - `edhrec-analyzer` (ClusterIP) -- what the Ingress routes to.
+#   - `edhrec-analyzer-metrics` (NodePort) -- unchanged, still :30852. The
+#     external homelab Prometheus scrapes the node IP:port directly (see
+#     ansible/roles/docker_services/templates/grafana/prometheus.yml.j2),
+#     not the Service by name, so this rename doesn't need a matching
+#     change there.
+apiVersion: v1
+kind: Service
+metadata:
+  name: edhrec-analyzer
+  namespace: magic
+  labels:
+    app: edhrec-analyzer
+spec:
+  type: ClusterIP
+  selector:
+    app: edhrec-analyzer
+  ports:
+    - name: web
+      port: 8501
+      targetPort: web
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: edhrec-analyzer-metrics
+  namespace: magic
+  labels:
+    app: edhrec-analyzer
+spec:
+  type: NodePort
+  selector:
+    app: edhrec-analyzer
+  ports:
+    - name: metrics
+      port: 8502
+      targetPort: metrics
+      nodePort: 30852

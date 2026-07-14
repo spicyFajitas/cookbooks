@@ -1,0 +1,61 @@
+---
+# Hosts not (yet) discoverable via the Proxmox/DigitalOcean dynamic inventory
+# plugins (inventory/proxmox.yml, inventory/digital_ocean.yml). This is
+# today's exact topology (formerly inventory/inventory.yml), carried over
+# as-is with descriptive aliases instead of bare IPs so nothing breaks on the
+# first cattle-inventory run. Real IPs live in inventory/host_vars/<alias>.yml.
+#
+# Once a Terraform resource for one of these hosts carries the matching
+# group-name tag (see terraform/*/main.tf) and `ansible-inventory --graph`
+# confirms the dynamic plugin picks it up in the same group, remove its
+# entry here -- a host listed in both places gets configured twice.
+all:
+  children:
+    common:
+      # runs the "common" plays on every general-purpose host
+      hosts:
+        docker-host: {}
+      vars:
+        ansible_user: root
+    separate_hosts:
+      hosts:
+        docker-host: {}
+      vars:
+        ansible_user: root
+    plex:
+      hosts:
+        plex: {}
+      vars:
+        ansible_user: root
+    proxmox:
+      # the Proxmox hypervisor itself -- physical hardware, not a VM, so it
+      # will never appear via the community.general.proxmox dynamic plugin
+      # (that plugin enumerates guests, not the host it queries). This entry
+      # is a permanent, intentional exception, not a migration TODO.
+      hosts:
+        proxmox: {}
+      vars:
+        ansible_user: root
+    docker_host:
+      hosts:
+        docker-host: {}
+      vars:
+        ansible_user: root
+    k3s_server:
+      # k3s control plane VM on Proxmox (Beelink) -- see .claude-plan.md.
+      # terraform/proxmox/main.tf already declares this VM tagged
+      # `k3s_server;terraform`, which the dynamic Proxmox inventory plugin
+      # should pick up on its own -- this static entry is a belt-and-braces
+      # duplicate until that's confirmed (`ansible-inventory -i
+      # inventory/pve.proxmox.yml --list`, with real Proxmox API creds in
+      # the environment). Once confirmed, remove this entry per the file
+      # header note above. ansible_user assumed root to match every other
+      # VM here -- adjust in host_vars/k3s.yml if it differs.
+      hosts:
+        k3s: {}
+      vars:
+        ansible_user: root
+    containers:
+      hosts:
+        plex: {}
+        docker-host: {}

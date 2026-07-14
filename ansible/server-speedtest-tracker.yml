@@ -1,9 +1,0 @@
----
-- name: Run speedtest-tracker playbook
-  hosts: docker_host
-  become: true
-  become_method: sudo
-  roles:
-    - speedtest-tracker
-  vars_files:
-    - roles/speedtest-tracker/vaults/production.yml

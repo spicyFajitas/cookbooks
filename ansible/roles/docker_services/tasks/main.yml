@@ -1,0 +1,51 @@
+---
+# One include_tasks block per docker-compose service on the docker host.
+# All the actual logic lives in service.yml, shared by every service --
+# this file only says *which* services exist and what their --tags name is.
+# Each block stays separate (rather than a single `loop`) specifically so
+# `ansible-playbook site.yml --tags grafana` keeps working exactly like
+# before the consolidation: a static `loop` would apply one shared tag list
+# to every iteration, losing that per-service selectivity.
+#
+# IMPORTANT: `tags:` on a dynamic `include_tasks` only tags the include
+# action itself, not the tasks inside the included file -- those need
+# `apply: tags: [...]` to actually inherit it. Without `apply`, every task
+# in service.yml is untagged and silently gets skipped (no "skipping:"
+# message, no error, nothing) under `--tags <service>`, even though the
+# "included: service.yml for <host>" line prints and looks like it worked.
+# Found 2026-07 debugging why `--tags grafana` reported changed=0 despite a
+# real config change: it had been silently no-op'ing since docker_services
+# was created. See https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_includes.html#tags-and-includes
+#
+# Trimmed to the actively-run set (2026-07): frigate, media, netbox,
+# netdata, speedtest-tracker, uptime_kuma, wyze, and minecraft-docker were
+# removed from here -- minecraft-docker specifically in favor of
+# minecraft-grass-gang (roles/minecraft-grass-gang, its own site.yml play), the one to
+# keep. mealie removed 2026-07 too -- it runs on DigitalOcean, not here;
+# the local instance was a redundant duplicate (real containers stopped and
+# removed via `docker compose down` on docker-host, not just untagged --
+# its /opt/mealie/data SQLite DB was left on disk, unexamined, in case it
+# has anything the DO instance doesn't). See roles/docker_services/readme.md
+# for how to bring any of these back. Their vars/templates still exist
+# under the old per-service roles in git history (see the commit that
+# removed roles/{frigate,media,netbox,netdata,speedtest-tracker,
+# uptime_kuma,wyze,minecraft-docker,mealie}), and their secrets are still
+# intact in vaults/production.yml, untouched.
+
+- name: Configure grafana
+  ansible.builtin.include_tasks:
+    file: service.yml
+    apply:
+      tags: [grafana]
+  vars:
+    docker_service: grafana
+  tags: [grafana]
+
+- name: Configure homepage
+  ansible.builtin.include_tasks:
+    file: service.yml
+    apply:
+      tags: [homepage]
+  vars:
+    docker_service: homepage
+  tags: [homepage]

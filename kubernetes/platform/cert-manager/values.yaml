@@ -1,0 +1,5 @@
+# Default values (nothing overridden) except CRDs, which the chart doesn't
+# install unless told to -- keeping install a single `helm install` instead
+# of a separate `kubectl apply -f crds.yaml` step.
+crds:
+  enabled: true

@@ -1,5 +1,0 @@
----
-- name: Reload Postfix
-  ansible.builtin.service:
-    name: postfix
-    state: reloaded

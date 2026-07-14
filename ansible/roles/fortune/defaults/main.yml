@@ -1,5 +1,0 @@
----
-postfix_dir: "/etc/postfix"
-postfix_files:
-  - "main.cf"
-  - "sasl_passwd"

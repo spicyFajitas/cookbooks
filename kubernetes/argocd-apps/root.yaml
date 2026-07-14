@@ -1,0 +1,27 @@
+# App of apps: this Application watches kubernetes/argocd-apps/ itself,
+# so every other file in this directory -- including future ones --
+# becomes self-managing once this is applied. Adding a new platform
+# component's Application manifest here is enough; no separate Argo CD
+# config needed, same "copy a file, open a PR" workflow as
+# kubernetes/apps/_template gives you for actual apps.
+#
+# This is the ONLY manifest that needs a one-time manual `kubectl apply`
+# (see readme.md) -- it bootstraps everything else, itself included.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/spicyFajitas/cookbooks.git
+    targetRevision: HEAD
+    path: kubernetes/argocd-apps
+    directory:
+      recurse: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated: {}

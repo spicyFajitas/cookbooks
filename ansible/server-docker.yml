@@ -1,7 +1,0 @@
----
-- name: Docker installation role
-  hosts: docker_host
-  become: true
-  become_method: sudo
-  roles:
-    - docker

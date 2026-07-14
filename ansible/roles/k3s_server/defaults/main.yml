@@ -1,0 +1,7 @@
+---
+
+k3s_install_bin: /usr/local/bin/k3s
+k3s_node_token_path: /var/lib/rancher/k3s/server/node-token
+# Schedulable by default -- k3s difference from stock k8s/OpenShift, no
+# separate worker needed at this scale (see .claude-plan.md).
+k3s_server_install_args: ""

@@ -1,9 +1,0 @@
----
-- name: Run netdata playbook
-  hosts: docker_host
-  become: true
-  become_method: sudo
-  roles:
-    - netdata
-  vars_files:
-    - roles/netdata/vaults/production.yml

@@ -1,0 +1,58 @@
+name: kubernetes-validate
+
+# Read-only: does every Kustomize dir under kubernetes/ actually render,
+# and does the result pass Kubernetes schema validation. Runs on every PR
+# touching kubernetes/** -- this is the "plan" half of the plan/apply
+# split: CI validates the shape of what would deploy, Argo CD (once
+# bootstrapped, see kubernetes/argocd-apps/readme.md) does the actual
+# apply after merge. No cluster access needed for any of this, so it runs
+# on GitHub-hosted runners.
+#
+# kubeconform runs with -ignore-missing-schemas: Argo CD's Application/
+# ApplicationSet CRDs aren't in kubeconform's default schema set, so those
+# get syntax/structure checked but not full schema validation. Good enough
+# to catch typos and malformed YAML, not a substitute for `argocd app diff`
+# against the real cluster (which would need LAN access this repo's CI
+# doesn't have -- see ansible/readme.md's GitHub Actions section for why).
+
+on:
+  pull_request:
+    paths:
+      - "kubernetes/**"
+      - ".github/workflows/kubernetes-validate.yml"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install kubeconform
+        run: |
+          curl -sSL https://github.com/yannh/kubeconform/releases/latest/download/kubeconform-linux-amd64.tar.gz \
+            | tar -xz kubeconform
+          sudo mv kubeconform /usr/local/bin/
+
+      - name: Validate Kustomize-managed app directories
+        run: |
+          set -euo pipefail
+          for dir in kubernetes/apps/*/; do
+            name=$(basename "$dir")
+            if [ "$name" = "_template" ]; then
+              tmp=$(mktemp -d)
+              cp "$dir"*.yaml "$tmp/"
+              sed -i "s/APP_NAME/citest/g" "$tmp"/*.yaml
+              echo "== validating _template (as 'citest') =="
+              kubectl kustomize "$tmp" | kubeconform -strict -summary -ignore-missing-schemas
+              rm -rf "$tmp"
+            elif [ -f "${dir}kustomization.yaml" ]; then
+              echo "== validating $dir =="
+              kubectl kustomize "$dir" | kubeconform -strict -summary -ignore-missing-schemas
+            fi
+          done
+
+      - name: Validate flat-manifest platform/argocd-apps directories
+        run: |
+          set -euo pipefail
+          find kubernetes/platform kubernetes/argocd-apps -name "*.yaml" ! -name "values.yaml" -print0 \
+            | xargs -0 kubeconform -strict -summary -ignore-missing-schemas

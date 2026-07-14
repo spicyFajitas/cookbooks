@@ -8,5 +8,7 @@ resource "digitalocean_droplet" "web_application" {
     region               = "nyc1"
     resize_disk          = true
     size                 = "s-1vcpu-512mb-10gb"
-    tags                 = ["terraform"]
+    # Each tag becomes the exact Ansible group name this droplet is placed
+    # in by the dynamic inventory (ansible/inventory/digital_ocean.yml).
+    tags                 = ["terraform", "uptime_kuma"]
 }

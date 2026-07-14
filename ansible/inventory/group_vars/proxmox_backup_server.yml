@@ -1,8 +1,0 @@
----
-package_list:
-  - cifs-utils
-  - gdu
-  - htop
-  - needrestart
-  - neofetch
-  - vim

@@ -1,9 +1,0 @@
----
-- name: Run traefik playbook
-  hosts: traefik
-  become: true
-  become_method: sudo
-  roles:
-    - traefik
-  vars_files:
-    - roles/traefik/vaults/production.yml

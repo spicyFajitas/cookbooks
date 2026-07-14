@@ -1,0 +1,21 @@
+# Let's Encrypt staging -- use this ClusterIssuer (cert-manager.io/cluster-issuer:
+# letsencrypt-dns-staging) while debugging Ingress/DNS-01 issues, so retries
+# don't count against the production endpoint's rate limits. Staging certs
+# aren't browser-trusted (self-signed root), so switch back to
+# `letsencrypt-dns` (01-clusterissuer.yaml) once things actually work.
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-dns-staging
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: afulton101222@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt-dns-staging-key
+    solvers:
+      - dns01:
+          cloudflare:
+            apiTokenSecretRef:
+              name: cloudflare-api-token
+              key: api-token

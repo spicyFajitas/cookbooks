@@ -1,0 +1,40 @@
+provider:
+  name: cloudflare
+
+env:
+  - name: CF_API_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: cloudflare-api-token
+        key: api-token
+
+sources:
+  - service
+  - ingress
+
+# Only touch zones this cluster actually uses -- the token itself is scoped
+# to "all zones" (broader than necessary, see kubernetes/platform/cert-manager/readme.md),
+# so this is the actual safety boundary. Add adfulton.com back here if/when
+# something on that domain moves onto k3s.
+domainFilters:
+  - spicyfajitas.com
+
+# Opt-in only: an Ingress/Service is only touched if it explicitly carries
+# this annotation. Found 2026-07 the hard way -- there is no reliable
+# per-resource "exclude me" annotation in this chart/version; a
+# `external-dns.alpha.kubernetes.io/exclude: "true"` annotation on one
+# Ingress did nothing, and external-dns kept recreating a record seconds
+# after it was manually deleted, which looked exactly like (and got
+# mistaken for) Cloudflare-side DNS unreliability. `annotationFilter` is
+# the real, documented mechanism -- default to nothing being managed,
+# rather than everything being managed unless excluded.
+annotationFilter: "external-dns-managed=true"
+
+# upsert-only (chart default): creates/updates records external-dns owns,
+# never deletes records it doesn't recognize as its own. `sync` would also
+# delete records for Ingress/Service objects that get removed -- more
+# correct long-term, but upsert-only is the safer default to start with on
+# a zone that already has manually-created records from the pre-k3s setup.
+policy: upsert-only
+
+txtOwnerId: k3s-homelab

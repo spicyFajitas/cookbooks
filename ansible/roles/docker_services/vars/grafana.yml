@@ -1,0 +1,13 @@
+---
+base_dir: /opt/grafana
+restart_policy: "unless-stopped"
+
+docker_service_templates:
+  - src: docker-compose.yml.j2
+    dest: docker-compose.yml
+  - src: extra.yml.j2
+    dest: extra.yml
+  - src: prometheus.yml.j2
+    dest: prometheus.yml
+  - src: pve.yml.j2
+    dest: pve.yml

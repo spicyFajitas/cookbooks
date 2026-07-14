@@ -1,0 +1,30 @@
+# Local-path (k3s's built-in default StorageClass) for now -- fine for a
+# single-replica app on a single-node cluster. Revisit once TrueNAS NFS
+# provisioning (.claude-plan.md's storage plan) is actually built out, if
+# this ever needs to survive a node rebuild or scale beyond one replica.
+#
+# Losing this data isn't a real incident either way: cache/ just avoids
+# redundant EDHRec/Scryfall API calls, output/ is regenerated on next run.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: edhrec-analyzer-cache
+  namespace: magic
+spec:
+  accessModes: ["ReadWriteOnce"]
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: edhrec-analyzer-output
+  namespace: magic
+spec:
+  accessModes: ["ReadWriteOnce"]
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 1Gi

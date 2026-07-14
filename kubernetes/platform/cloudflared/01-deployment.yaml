@@ -1,0 +1,50 @@
+# Points at Traefik's ClusterIP (kube-system/traefik:80), not at any
+# specific app's Service -- so adding a new externally-exposed app later is
+# just "add an Ingress with the right Host", zero tunnel/cloudflared
+# reconfiguration needed. Routing from hostname to backend is entirely
+# Traefik's job (via Ingress Host rules); cloudflared's only job is getting
+# traffic from Cloudflare's edge into the cluster.
+#
+# 1 replica (2026-07, scaled down from the original 2): each replica shows
+# up as its own connector in the Cloudflare Tunnel dashboard, and 2
+# connectors alongside the DO droplet's own connector was confusing enough
+# during the magic cutover that it's not worth the redundancy for a
+# personal app. Bump back to 2+ if that HA insurance becomes worth the
+# dashboard noise again -- .claude-plan.md's original recommendation.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudflared
+  namespace: cloudflared
+  labels:
+    app: cloudflared
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudflared
+  template:
+    metadata:
+      labels:
+        app: cloudflared
+    spec:
+      containers:
+        - name: cloudflared
+          image: cloudflare/cloudflared:latest
+          args:
+            - tunnel
+            - --no-autoupdate
+            - run
+          env:
+            - name: TUNNEL_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: cloudflare-tunnel-token
+                  key: token
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 128Mi

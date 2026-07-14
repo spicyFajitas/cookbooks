@@ -1,0 +1,129 @@
+---
+# Single entry point for configuring every host in this repo.
+#
+# Any host that lands in a group below (whether from inventory/static.yml or
+# auto-discovered by the dynamic Proxmox/DigitalOcean inventory plugins) gets
+# that group's role applied the same way -- no per-host special-casing, no
+# picking the "right" playbook file. This replaces the old one-playbook-
+# per-service structure (server-*.yml).
+#
+# Usage:
+#   ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt
+#   ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --tags plex
+#   ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --tags docker_host --limit docker-host
+#
+# See readme.md for the full tag list and the dynamic-inventory setup.
+#
+# Trimmed (2026-07) to what's actually run, as the homelab refocuses on
+# k3s + the magic app + monitoring:
+#   - twingate, watchtower, fortune, ansible_server, github_actions_runner
+#     plays removed here. Their role directories/vaults are untouched on
+#     disk, just not called from here.
+#   - frigate/media/netbox/netdata/speedtest-tracker/uptime_kuma/wyze/
+#     minecraft-docker/mealie removed from roles/docker_services/tasks/main.yml
+#     (minecraft-docker specifically superseded by minecraft-grass-gang, kept
+#     below; mealie because it runs on DigitalOcean -- its local containers
+#     were actually stopped and removed, not just untagged, but
+#     /opt/mealie/data on docker-host was left alone). That code lives
+#     in git history (see the commit that removed roles/{frigate,media,
+#     netbox,netdata,speedtest-tracker,uptime_kuma,wyze,minecraft-docker,
+#     mealie}); their vault secrets are still intact in
+#     roles/docker_services/vaults/production.yml, untouched.
+# Bringing any of these back is a matter of re-adding a play/include_tasks
+# block, not rebuilding from scratch.
+#
+# NOTE: removing github_actions_runner here means .github/workflows/
+# deploy.yml, terraform-validate.yml, and packer-validate.yml -- which all
+# target `runs-on: [self-hosted, homelab]` -- have no runner to execute on
+# until that's reconsidered. Not fixed as part of this trim; flagging it so
+# it doesn't surprise you the next time one of those workflows runs.
+
+- name: Apply baseline helper roles
+  hosts: common, proxmox
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [common, helper]
+  roles:
+    - helper/packages
+    - helper/ssh
+    - helper/timezone
+
+- name: Configure the Docker host baseline
+  hosts: docker_host
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [docker, docker_host]
+  roles:
+    - docker_host
+
+- name: Configure Proxmox
+  hosts: proxmox
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [proxmox]
+  roles:
+    - proxmox
+  vars_files:
+    - roles/proxmox/vaults/production.yml
+
+- name: Configure the k3s control plane
+  hosts: k3s_server
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [k3s-server]
+  roles:
+    - k3s_server
+
+- name: Configure Plex
+  hosts: plex
+  become: true
+  become_user: root
+  become_method: ansible.builtin.sudo
+  tags: [plex]
+  roles:
+    - plex
+  vars_files:
+    - roles/plex/vaults/production.yml
+
+# - name: Configure the k3s agent on the Plex host
+#   hosts: plex
+#   become: true
+#   become_method: ansible.builtin.sudo
+#   tags: [k3s-agent]
+#   roles:
+#     - k3s_agent
+
+# - name: Configure Semaphore
+#   hosts: semaphore
+#   become: true
+#   become_method: ansible.builtin.sudo
+#   tags: [semaphore]
+#   roles:
+#     - semaphore
+#   vars_files:
+#     - roles/semaphore/vaults/production.yml
+
+- name: Configure the Minecraft VM
+  hosts: minecraft_grass_gang
+  become: true
+  become_method: ansible.builtin.sudo
+  tags: [minecraft-grass-gang]
+  roles:
+    - minecraft-grass-gang
+  vars_files:
+    - roles/minecraft-grass-gang/vaults/production.yml
+
+# --- docker_host-hosted services ---
+# All of them share one role (docker_services) -- see
+# roles/docker_services/readme.md. Each service still gets its own
+# --tags <service> (grafana, homepage): the role's tasks/main.yml applies
+# the tag per-service internally.
+
+- name: Configure docker_host services
+  hosts: docker_host
+  become: true
+  become_method: ansible.builtin.sudo
+  roles:
+    - docker_services
+  vars_files:
+    - roles/docker_services/vaults/production.yml

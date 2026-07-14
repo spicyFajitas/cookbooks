@@ -1,9 +1,0 @@
----
-- name: Run netbox playbook
-  hosts: docker_host
-  become: true
-  become_method: sudo
-  roles:
-    - netbox
-  vars_files:
-    - roles/netbox/vaults/production.yml

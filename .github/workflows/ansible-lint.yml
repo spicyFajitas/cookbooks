@@ -1,0 +1,48 @@
+name: ansible-lint
+
+# Read-only static validation for the ansible/ tree. Runs on GitHub-hosted
+# runners since it never needs to reach the private LAN. Requires the
+# ANSIBLE_VAULT_PASSWORD repo secret so ansible-lint's internal syntax-check
+# can decrypt roles/*/vaults/production.yml -- without it, every play with a
+# vars_files entry fails to parse.
+
+on:
+  pull_request:
+    paths:
+      - "ansible/**"
+      - ".github/workflows/ansible-lint.yml"
+  push:
+    branches: [main, master]
+    paths:
+      - "ansible/**"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ansible
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install ansible-lint
+        run: pip install ansible-lint
+
+      - name: Install collections
+        run: ansible-galaxy collection install -r collections/requirements.yml
+
+      - name: Write vault password
+        run: echo "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > vault-pass.txt
+
+      - name: Run ansible-lint
+        env:
+          ANSIBLE_VAULT_PASSWORD_FILE: vault-pass.txt
+        run: ansible-lint
+
+      - name: Clean up vault password file
+        if: always()
+        run: rm -f vault-pass.txt

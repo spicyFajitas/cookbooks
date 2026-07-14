@@ -1,5 +1,0 @@
----
-
-base_dir: /opt/grafana
-
-restart_policy: "unless-stopped"

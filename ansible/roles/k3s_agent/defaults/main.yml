@@ -1,0 +1,14 @@
+---
+
+k3s_install_bin: /usr/local/bin/k3s
+# Name of the inventory group whose first member is the k3s control plane
+# (see ansible/roles/k3s_server) -- used to look up its ansible_host and the
+# k3s_node_token fact it sets during its own play.
+k3s_server_group: k3s_server
+k3s_server_port: 6443
+
+# Plex-specific defaults (see .claude-plan.md): tainted so only
+# Plex-related pods land here, keeping /dev/dri natively accessible for
+# QuickSync transcoding instead of going through a VM.
+k3s_node_taint: "plex-only=true:NoSchedule"
+k3s_node_label: "role=plex"

@@ -1,0 +1,71 @@
+# Single replica: the app mounts ReadWriteOnce PVCs (cache/, output/), so
+# it can't scale horizontally without shared storage anyway, and a
+# Streamlit UI + local analysis job doesn't benefit much from HA at this
+# scale.
+#
+# imagePullPolicy: Always + :latest means a fresh pod picks up whatever's
+# newest at *pod creation* time -- but unlike the old docker-compose setup
+# (Watchtower polling hourly), nothing in-cluster re-triggers a rollout
+# when a new image lands in ghcr.io. Until that's wired up (image-updater
+# controller, or a CI step that can reach the cluster), pick up a new
+# image with:
+#   kubectl -n magic rollout restart deployment/edhrec-analyzer
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: edhrec-analyzer
+  namespace: magic
+  labels:
+    app: edhrec-analyzer
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate # avoid two pods fighting over the same RWO PVCs
+  selector:
+    matchLabels:
+      app: edhrec-analyzer
+  template:
+    metadata:
+      labels:
+        app: edhrec-analyzer
+    spec:
+      containers:
+        - name: edhrec-analyzer
+          image: ghcr.io/spicyfajitas/edhrec-deck-analyzer:latest
+          imagePullPolicy: Always
+          ports:
+            - name: web
+              containerPort: 8501
+            - name: metrics
+              containerPort: 8502
+          volumeMounts:
+            - name: cache
+              mountPath: /app/cache
+            - name: output
+              mountPath: /app/output
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          livenessProbe:
+            httpGet:
+              path: /_stcore/health
+              port: web
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /_stcore/health
+              port: web
+            initialDelaySeconds: 5
+            periodSeconds: 5
+      volumes:
+        - name: cache
+          persistentVolumeClaim:
+            claimName: edhrec-analyzer-cache
+        - name: output
+          persistentVolumeClaim:
+            claimName: edhrec-analyzer-output

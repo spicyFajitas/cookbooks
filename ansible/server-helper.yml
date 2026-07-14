@@ -1,9 +1,0 @@
----
-- name: Helper role
-  hosts: common, proxmox
-  become: true
-  become_method: sudo
-  roles:
-    - helper/packages
-    - helper/ssh
-    - helper/timezone
