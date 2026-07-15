@@ -55,6 +55,11 @@ all:
         k3s: {}
       vars:
         ansible_user: root
+    minecraft_grass_gang:
+      hosts:
+        minecraft-grass-gang: {}
+      vars:
+        ansible_user: adam
     containers:
       hosts:
         plex: {}
