@@ -10,6 +10,11 @@ spec:
     repoURL: https://github.com/spicyFajitas/cookbooks.git
     targetRevision: HEAD
     path: kubernetes/platform/cloudflared
+    # No directory.recurse (defaults false): secrets/ (SopsSecret manifest)
+    # must never be auto-applied by Argo CD -- see the same note on
+    # cert-manager-config in platform-cert-manager.yaml.
+    directory:
+      recurse: false
   destination:
     server: https://kubernetes.default.svc
     namespace: cloudflared

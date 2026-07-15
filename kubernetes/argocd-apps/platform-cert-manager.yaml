@@ -43,6 +43,11 @@ spec:
     path: kubernetes/platform/cert-manager
     directory:
       exclude: "values.yaml"
+      # recurse intentionally NOT set (defaults false): secrets/ (SopsSecret
+      # manifests) must never be auto-applied by Argo CD -- populating them
+      # with real values is a deliberate manual step
+      # (kubernetes/platform/sops-secrets-operator/readme.md), not something
+      # that should happen just because a placeholder file landed in git.
   destination:
     server: https://kubernetes.default.svc
     namespace: cert-manager

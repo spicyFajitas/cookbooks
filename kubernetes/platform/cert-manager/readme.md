@@ -9,36 +9,34 @@ git:
 helm repo add jetstack https://charts.jetstack.io --force-update
 helm repo update jetstack
 
-KUBECONFIG=~/.kube/k3s-homelab.yaml kubectl apply -f 00-namespace.yaml
+kubectl apply -f 00-namespace.yaml
 
-KUBECONFIG=~/.kube/k3s-homelab.yaml helm install cert-manager jetstack/cert-manager \
+helm install cert-manager jetstack/cert-manager \
   --namespace cert-manager \
   --version v1.21.0 \
   -f values.yaml \
   --wait --timeout 180s
 ```
 
-## Secret (not in git, not codified -- created manually)
+## Secret
 
 The `ClusterIssuer` (`01-clusterissuer.yaml`) needs a Cloudflare API token
 (`Zone:Read` + `DNS:Edit`) as a Secret in the `cert-manager` namespace
-*before* it's applied:
+*before* it's applied. SOPS-encrypted and checked into git as of 2026-07
+(`secrets/cloudflare-api-token.sops.yaml`) -- see
+`kubernetes/platform/sops-secrets-operator/readme.md` for how that works.
+To (re)populate it with the real value:
 
 ```bash
-KUBECONFIG=~/.kube/k3s-homelab.yaml kubectl create secret generic cloudflare-api-token \
-  --namespace cert-manager \
-  --from-literal=api-token=<token>
+sops kubernetes/platform/cert-manager/secrets/cloudflare-api-token.sops.yaml
+# edit the api-token value, save, quit -- re-encrypts automatically
+kubectl apply -f kubernetes/platform/cert-manager/secrets/cloudflare-api-token.sops.yaml
 ```
-
-Deliberately not a manifest in this repo -- no Sealed Secrets/SOPS yet (see
-`.claude-plan.md`'s "No secrets management" gap), so there's no safe way to
-commit it. Once that's in place, this Secret should move into git as a
-SealedSecret.
 
 ## Apply
 
 ```bash
-KUBECONFIG=~/.kube/k3s-homelab.yaml kubectl apply -f 01-clusterissuer.yaml
+kubectl apply -f 01-clusterissuer.yaml
 ```
 
 Verify: `kubectl get clusterissuer letsencrypt-dns` should show `READY: True`.
@@ -47,6 +45,6 @@ Verify: `kubectl get clusterissuer letsencrypt-dns` should show `READY: True`.
 
 ```bash
 helm repo update jetstack
-KUBECONFIG=~/.kube/k3s-homelab.yaml helm upgrade cert-manager jetstack/cert-manager \
+helm upgrade cert-manager jetstack/cert-manager \
   --namespace cert-manager -f values.yaml --version <new-version>
 ```

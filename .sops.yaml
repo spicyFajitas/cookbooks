@@ -1,0 +1,8 @@
+# Encrypts anything under kubernetes/**/secrets/*.sops.yaml with this
+# repo's age public key. Private key never leaves the machine(s) it's
+# generated on -- see kubernetes/platform/sops-secrets-operator/readme.md
+# for how the cluster gets its own copy.
+creation_rules:
+  - path_regex: kubernetes/.*/secrets/.*\.sops\.ya?ml$
+    encrypted_regex: ^(data|stringData)$
+    age: age1a4v9rkhc0lmv9ju0yzsp5gmas7hu982q23jrq4y44dhuqgcsua4qe3wl9x

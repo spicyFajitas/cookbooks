@@ -21,15 +21,18 @@ very confusing debugging session happened (external-dns silently
 recreating a manually-deleted record every ~1 minute looked exactly like,
 and got mistaken for, Cloudflare-side DNS unreliability).
 
-## Secret (not in git -- create by hand, same token as cert-manager)
+## Secret
 
 Same Cloudflare API token as `kubernetes/platform/cert-manager/`, but
-Secrets are namespace-scoped, so it needs its own copy here:
+Secrets are namespace-scoped, so it needs its own copy here. SOPS-encrypted
+and checked into git as of 2026-07
+(`secrets/cloudflare-api-token.sops.yaml`) -- see
+`kubernetes/platform/sops-secrets-operator/readme.md` for how that works.
+To (re)populate it with the real value:
 
 ```bash
-KUBECONFIG=~/.kube/k3s-homelab.yaml kubectl create secret generic cloudflare-api-token \
-  --namespace external-dns \
-  --from-literal=api-token=<token>
+sops kubernetes/platform/external-dns/secrets/cloudflare-api-token.sops.yaml
+kubectl apply -f kubernetes/platform/external-dns/secrets/cloudflare-api-token.sops.yaml
 ```
 
 ## Install
@@ -38,9 +41,9 @@ KUBECONFIG=~/.kube/k3s-homelab.yaml kubectl create secret generic cloudflare-api
 helm repo add external-dns https://kubernetes-sigs.github.io/external-dns/ --force-update
 helm repo update external-dns
 
-KUBECONFIG=~/.kube/k3s-homelab.yaml kubectl apply -f 00-namespace.yaml
+kubectl apply -f 00-namespace.yaml
 
-KUBECONFIG=~/.kube/k3s-homelab.yaml helm install external-dns external-dns/external-dns \
+helm install external-dns external-dns/external-dns \
   --namespace external-dns \
   --version 1.21.1 \
   -f values.yaml \
@@ -63,7 +66,7 @@ metadata:
 ## Verify
 
 ```bash
-KUBECONFIG=~/.kube/k3s-homelab.yaml kubectl -n external-dns logs deploy/external-dns --tail=50
+kubectl -n external-dns logs deploy/external-dns --tail=50
 ```
 
 Should show it discovering the Cloudflare zone and, once something is
@@ -73,6 +76,6 @@ opted in, reconciling records for it -- and *only* for opted-in resources.
 
 ```bash
 helm repo update external-dns
-KUBECONFIG=~/.kube/k3s-homelab.yaml helm upgrade external-dns external-dns/external-dns \
+helm upgrade external-dns external-dns/external-dns \
   --namespace external-dns -f values.yaml --version <new-version>
 ```

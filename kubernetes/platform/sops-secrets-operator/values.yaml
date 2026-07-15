@@ -1,0 +1,14 @@
+# age key comes from a pre-existing Secret (sops-age-key, created once by
+# hand -- see readme.md), mounted as a file and pointed at via the same
+# SOPS_AGE_KEY_FILE env var the `sops` CLI itself uses locally. Not a
+# chart-native "age:" section (this chart only has first-class config for
+# gpg/gcp/azure) -- this is the documented way to wire age in via the
+# generic secretsAsFiles/extraEnv hooks.
+secretsAsFiles:
+  - name: sops-age-key
+    mountPath: "/etc/sops-age"
+    secretName: sops-age-key
+
+extraEnv:
+  - name: SOPS_AGE_KEY_FILE
+    value: /etc/sops-age/keys.txt
