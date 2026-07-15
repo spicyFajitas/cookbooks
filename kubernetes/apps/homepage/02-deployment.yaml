@@ -3,6 +3,16 @@
 # keeping one pattern), so after editing the ConfigMap:
 #   kubectl -n homepage rollout restart deployment/homepage
 #
+# /app/config is an emptyDir, NOT the ConfigMap directly: homepage's
+# entrypoint auto-creates settings.yaml (and other defaults) on first boot
+# if they're missing, by copying into /app/config. Mounting the ConfigMap
+# there directly makes the whole directory read-only and that copy fails
+# with EROFS, crash-looping the pod (found 2026-07 migrating this from
+# docker-compose, where /opt/homepage/config was a normal writable host
+# directory so this never came up). Our 3 managed files are layered in as
+# individual read-only subPath mounts instead, leaving the rest of the
+# directory writable for homepage's own use.
+#
 # No docker.sock mount (unlike the old docker-compose version): nothing in
 # services.yaml actually uses Docker auto-discovery (`widget: type: docker`),
 # it's all static entries -- and k3s nodes run containerd, not Docker, so
@@ -45,6 +55,15 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /app/config
+            - name: config-map
+              mountPath: /app/config/services.yaml
+              subPath: services.yaml
+            - name: config-map
+              mountPath: /app/config/bookmarks.yaml
+              subPath: bookmarks.yaml
+            - name: config-map
+              mountPath: /app/config/widgets.yaml
+              subPath: widgets.yaml
           resources:
             requests:
               cpu: 100m
@@ -76,5 +95,7 @@ spec:
             periodSeconds: 5
       volumes:
         - name: config
+          emptyDir: {}
+        - name: config-map
           configMap:
             name: homepage-config
