@@ -1,0 +1,189 @@
+# Ported from ansible/roles/docker_services/templates/homepage/*.yaml.j2.
+# Secret values (proxmox creds, plex key, kuma domain) were Jinja2 vars
+# there; here they're homepage's own {{HOMEPAGE_VAR_x}} substitution
+# syntax, resolved from env vars sourced from secrets/homepage-vars.sops.yaml
+# at container start -- see https://gethomepage.dev, "environment variables"
+# for how that substitution works in any config file.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-config
+  namespace: homepage
+data:
+  services.yaml: |
+    - Infrastructure:
+        - Router:
+            icon: asus-router.png
+            href: http://10.100.10.1
+            ping: http://10.100.10.1
+
+        - Switch:
+            icon: mdi-swap-horizontal-#ADD8E6
+            href: http://10.100.10.2
+            ping: http://10.100.10.2
+
+        # - Unifi Controller:
+        #     icon: unifi.png
+        #     href: https://10.100.10.5:8443
+        #     description: (currently off)
+        #     ping: https://10.100.10.5:8443
+        #     widget:
+        #         type: unifi
+        #         url: https://10.100.10.5:8443
+        #         username: {{HOMEPAGE_VAR_UNIFI_USERNAME}}
+        #         password: {{HOMEPAGE_VAR_UNIFI_PASSWORD}}
+
+        - Proxmox:
+            icon: proxmox.png
+            href: https://10.100.10.10:8006
+            ping: https://10.100.10.10:8006
+            widget:
+                type: proxmox
+                url: https://10.100.10.10:8006
+                username: {{HOMEPAGE_VAR_PROXMOX_API_TOKEN_ID}}
+                password: {{HOMEPAGE_VAR_PROXMOX_API_KEY}}
+
+        - Alma Server Cockpit:
+            icon: alma-linux
+            href: https://10.100.10.9:9090
+            ping: https://10.100.10.9:9090
+
+        - TrueNAS:
+            icon: truenas-scale.png
+            href: https://10.100.10.15
+            ping: https://10.100.10.15
+
+        # commented out because backup box not configured yet
+        # - TrueNAS 2:
+        #     icon: truenas-scale.png
+        #     href: https://10.100.10.16
+        #     ping: https://10.100.10.16
+        #     widget:
+        #         type: truenas
+        #         url: https://10.100.10.16
+        #         key: {{HOMEPAGE_VAR_TRUENAS2_API_KEY}} # not required if using username / password
+
+        # - Ansible Server:
+        #     icon: ansible.png
+        #     href: http://10.100.10.14
+
+        # the labels do not work on semaphore to show in homepage because semaphore is on a different host than the rest of the docker containers
+        - Semaphore:
+            icon: semaphore.png
+            href: http://10.100.10.17:3000
+            ping: http://10.100.10.17:3000
+
+        - Minecraft:
+            icon: minecraft.png
+            href: https://map.adfulton.com
+            ping: https://map.adfulton.com
+
+    - Services:
+        - Plex:
+            icon: plex.png
+            href: https://app.plex.tv/
+            ping: http://10.100.10.9:32400
+            widget:
+                type: plex
+                url: http://10.100.10.9:32400
+                key: {{HOMEPAGE_VAR_PLEX_KEY}}
+
+        # - Immich:
+        #     icon: immich.png
+        #     href: http://10.100.10.15:30041
+
+        - Syncthing:
+            icon: syncthing.png
+            href: http://10.100.10.15:20910
+
+        # - Miniflux Rss:
+        #     icon: miniflux.png
+        #     href: http://10.100.10.20:8084/
+        #
+        # - FreshRSS:
+        #     icon: freshrss.png
+        #     href: http://10.100.10.20:9009/
+
+        - Onsite Uptime Kuma:
+            icon: uptime-kuma.png
+            href: "{{HOMEPAGE_VAR_KUMA_DOMAIN}}/"
+            widget:
+                type: uptimekuma
+                url: "{{HOMEPAGE_VAR_KUMA_DOMAIN}}"
+                slug: default
+
+        # - Netbox:
+        #     icon: netbox.png
+        #     href: http://10.100.10.20:8081
+
+        - Speedtest Tracker:
+            icon: si-speedtest.svg-#ADD8E6
+            href: https://10.100.10.20:8443
+            widget:
+                type: speedtest
+                url: https://10.100.10.20:8443
+
+        - TrueNAS Netdata:
+            icon: netdata.png
+            href: http://10.100.10.15:20489
+
+        # - Docker Host Netdata:
+        #     icon: netdata.png
+        #     href: http://10.100.10.20:19999
+  bookmarks.yaml: |
+    # uncomment below to enable bookmarks
+    # - Developer:
+    #     - Github:
+    #         - abbr: GH
+    #           href: https://github.com/
+    #
+    # - Social:
+    #     - Reddit:
+    #         - abbr: RE
+    #           href: https://reddit.com/
+    #
+    # - Entertainment:
+    #     - YouTube:
+    #         - abbr: YT
+    #           href: https://youtube.com/
+    - Homelab:
+        - Documentation:
+            - abbr: Docs
+              href: https://spicyfajitas.github.io/cookbooks/
+
+        - MTU Shell Website:
+            - abbr: Shell
+              href: https://shell.lug.mtu.edu/~adam/
+
+        - Twingate:
+            - abbr: TG
+              href: https://spicynetwork.twingate.com/
+
+        - Homepage Docs:
+            - abbr: hp.dev
+              href: https://gethomepage.dev/latest/
+
+        - Homepage Icons:
+            - abbr: icons
+              href: https://gethomepage.dev/configs/services/#icons
+
+        - Dashboard Icons:
+            - abbr: icons
+              href: https://dashboardicons.com/
+  widgets.yaml: |
+    - resources:
+        cpu: true
+        memory: true
+        disk: /
+
+    - search:
+        provider: duckduckgo
+        target: _blank
+
+    - openmeteo:
+        label: Lansing # optional
+        latitude: 42.741555
+        longitude: -84.661394
+        timezone: America/Detroit # optional
+        units: imperial # metric or imperial
+        cache: 20 # Time in minutes to cache API responses, to stay within limits

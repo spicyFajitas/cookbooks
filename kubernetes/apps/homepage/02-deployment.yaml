@@ -1,0 +1,80 @@
+# Config change (01-configmap.yaml) doesn't auto-restart the pod -- this repo
+# doesn't use kustomize's configMapGenerator (no other app here does either,
+# keeping one pattern), so after editing the ConfigMap:
+#   kubectl -n homepage rollout restart deployment/homepage
+#
+# No docker.sock mount (unlike the old docker-compose version): nothing in
+# services.yaml actually uses Docker auto-discovery (`widget: type: docker`),
+# it's all static entries -- and k3s nodes run containerd, not Docker, so
+# there'd be no socket to mount anyway. Same reasoning for skipping the
+# Kubernetes-auto-discovery ServiceAccount/RBAC gethomepage's docs describe --
+# not something the current config uses, add it later if that changes.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homepage
+  namespace: homepage
+  labels:
+    app: homepage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homepage
+  template:
+    metadata:
+      labels:
+        app: homepage
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+      containers:
+        - name: homepage
+          image: ghcr.io/gethomepage/homepage:latest
+          imagePullPolicy: Always
+          ports:
+            - name: web
+              containerPort: 3000
+          env:
+            - name: HOMEPAGE_ALLOWED_HOSTS
+              value: homepage.spicyfajitas.com
+          envFrom:
+            - secretRef:
+                name: homepage-vars
+          volumeMounts:
+            - name: config
+              mountPath: /app/config
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: "1"
+              memory: 512Mi
+          # httpHeaders overrides the Host header the probe sends -- without
+          # it, kubelet connects via pod IP, which HOMEPAGE_ALLOWED_HOSTS
+          # (set to the public hostname above) rejects with a 403, and the
+          # pod would never go Ready.
+          livenessProbe:
+            httpGet:
+              path: /api/healthcheck
+              port: web
+              httpHeaders:
+                - name: Host
+                  value: homepage.spicyfajitas.com
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /api/healthcheck
+              port: web
+              httpHeaders:
+                - name: Host
+                  value: homepage.spicyfajitas.com
+            initialDelaySeconds: 5
+            periodSeconds: 5
+      volumes:
+        - name: config
+          configMap:
+            name: homepage-config

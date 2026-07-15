@@ -1,0 +1,15 @@
+# secrets/homepage-vars.sops.yaml is deliberately NOT listed here -- same
+# reasoning as the platform components' `directory.recurse: false`
+# (kubernetes/argocd-apps/platform-cert-manager.yaml): an encrypted
+# SopsSecret must only ever be applied as a deliberate manual/CI step (see
+# kubernetes/platform/sops-secrets-operator/readme.md), never picked up
+# automatically just because kustomize built this directory.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - 00-namespace.yaml
+  - 01-configmap.yaml
+  - 02-deployment.yaml
+  - 03-service.yaml
+  - 04-ingress.yaml

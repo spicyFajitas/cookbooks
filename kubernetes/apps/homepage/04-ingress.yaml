@@ -1,0 +1,32 @@
+# Public via the Cloudflare Tunnel wildcard route, same pattern as
+# kubernetes/apps/magic/ -- no external-dns-managed annotation (relies on
+# the wildcard route, see kubernetes/platform/cloudflared/readme.md), no
+# auth in front of it. That means anyone with the URL can view live
+# Proxmox/Plex/Uptime-Kuma stats rendered here; the admin UIs it links to
+# (Proxmox, TrueNAS, Cockpit) stay unreachable from outside the LAN
+# regardless, since those are plain LAN IPs. If that changes, look at
+# Cloudflare Access in front of this hostname.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: homepage
+  namespace: homepage
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-dns
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - homepage.spicyfajitas.com
+      secretName: homepage-tls
+  rules:
+    - host: homepage.spicyfajitas.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: homepage
+                port:
+                  name: web
