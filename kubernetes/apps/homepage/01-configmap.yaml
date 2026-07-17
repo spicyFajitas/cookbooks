@@ -20,11 +20,6 @@ data:
             href: http://10.100.10.1
             ping: http://10.100.10.1
 
-        - Switch:
-            icon: mdi-swap-horizontal-#ADD8E6
-            href: http://10.100.10.2
-            ping: http://10.100.10.2
-
         - Proxmox:
             icon: proxmox.png
             href: https://10.100.10.10:8006
