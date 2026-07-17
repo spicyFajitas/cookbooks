@@ -1,11 +1,21 @@
-# Public via the Cloudflare Tunnel wildcard route, same pattern as
-# kubernetes/apps/magic/ -- no external-dns-managed annotation (relies on
-# the wildcard route, see kubernetes/platform/cloudflared/readme.md), no
-# auth in front of it. That means anyone with the URL can view live
-# Proxmox/Plex/Uptime-Kuma stats rendered here; the admin UIs it links to
-# (Proxmox, TrueNAS, Cockpit) stay unreachable from outside the LAN
-# regardless, since those are plain LAN IPs. If that changes, look at
-# Cloudflare Access in front of this hostname.
+# Public via the Cloudflare Tunnel, no auth in front of it. That means
+# anyone with the URL can view live Proxmox/Plex/Uptime-Kuma stats rendered
+# here; the admin UIs it links to (Proxmox, TrueNAS, Cockpit) stay
+# unreachable from outside the LAN regardless, since those are plain LAN
+# IPs. If that changes, look at Cloudflare Access in front of this
+# hostname.
+#
+# external-dns-managed: "true" -- opted in individually rather than relying
+# on the *.spicyfajitas.com wildcard (kubernetes/platform/cloudflared/02-wildcard-dns.yaml).
+# Found 2026-07 migrating this: the wildcard record exists correctly in
+# Cloudflare (confirmed via API, certs Managed, byte-identical structure to
+# magic's working record) but doesn't actually resolve -- a Cloudflare-side
+# quirk with wildcard records on this zone, not a config error here, and a
+# proxy toggle didn't fix it either. Same proven pattern as
+# kubernetes/apps/magic/ (which also has its own individual record, not
+# wildcard-derived) -- no cloudflare-proxied override needed, proxied is
+# the default. Safe to remove this annotation later if the wildcard starts
+# working; until then this is what actually makes the hostname resolve.
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -13,6 +23,7 @@ metadata:
   namespace: homepage
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-dns
+    external-dns-managed: "true"
 spec:
   ingressClassName: traefik
   tls:
