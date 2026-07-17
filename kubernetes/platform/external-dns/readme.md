@@ -50,6 +50,16 @@ helm install external-dns external-dns/external-dns \
   --wait --timeout 180s
 ```
 
+## The `crd` source
+
+`sources` includes `crd` in addition to `service`/`ingress` -- lets a plain
+`DNSEndpoint` object declare an exact DNS record with no backing
+Ingress/Service. Used for exactly one thing right now: the
+`*.spicyfajitas.com` wildcard tunnel record
+(`kubernetes/platform/cloudflared/02-wildcard-dns.yaml`). Same
+`annotationFilter` opt-in applies to it (needs
+`external-dns-managed: "true"` on the `DNSEndpoint` itself).
+
 ## Opting an Ingress/Service in
 
 ```yaml

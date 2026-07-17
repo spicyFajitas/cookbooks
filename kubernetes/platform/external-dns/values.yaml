@@ -11,6 +11,12 @@ env:
 sources:
   - service
   - ingress
+  # crd: lets a plain DNSEndpoint object declare an exact DNS record with
+  # no backing Ingress/Service -- used for the wildcard tunnel record, see
+  # kubernetes/platform/cloudflared/02-wildcard-dns.yaml. RBAC for it is
+  # granted automatically by the chart once this is in sources (conditional
+  # on `has "crd" .Values.sources` in its ClusterRole template).
+  - crd
 
 # Only touch zones this cluster actually uses -- the token itself is scoped
 # to "all zones" (broader than necessary, see kubernetes/platform/cert-manager/readme.md),

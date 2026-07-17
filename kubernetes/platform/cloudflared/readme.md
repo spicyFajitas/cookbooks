@@ -57,6 +57,18 @@ LAN (phone on cellular, not wifi) to confirm it's actually routing through
 Cloudflare's edge and not just working because you're on the same network
 as Traefik's LAN IP.
 
+## The wildcard DNS record
+
+The Public Hostname route above is a tunnel-side *routing* rule -- it does
+NOT create a DNS record. `02-wildcard-dns.yaml` is the actual
+`*.spicyfajitas.com` CNAME (via external-dns's `crd` source, proxied,
+pointing at `<tunnel-id>.cfargotunnel.com`), applied automatically once
+external-dns and this Application sync -- no manual Cloudflare dashboard
+step needed for new apps. See that file's own comment for the full story
+(found missing 2026-07 migrating homepage: `magic.spicyfajitas.com` worked
+off a leftover individual record, but nothing had ever created the real
+wildcard).
+
 ## Status
 
 - `magic.spicyfajitas.com` cut over from DigitalOcean to this tunnel,

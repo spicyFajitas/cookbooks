@@ -1,0 +1,49 @@
+# The tunnel's Public Hostname route (01-deployment.yaml's readme, "*" /
+# spicyfajitas.com -> Traefik) is a *routing* rule inside Cloudflare's
+# tunnel config -- it does NOT itself create a DNS record. Found 2026-07
+# migrating homepage: magic.spicyfajitas.com resolved fine (it has its own
+# leftover individual record from before this design was finalized), but
+# homepage.spicyfajitas.com was NXDOMAIN, because nothing had ever created
+# an actual `*.spicyfajitas.com` record. This DNSEndpoint is that record --
+# a one-time, declarative "make this exact DNS entry exist" object,
+# decoupled from any app's Ingress. Once applied, every new
+# *.spicyfajitas.com hostname resolves with zero further DNS work, matching
+# what the wildcard route was always supposed to mean.
+#
+# Deliberately NOT an Ingress/Service-based external-dns record: that
+# pattern (one record per app, exclude-annotation-based) is exactly what
+# caused external-dns and the tunnel to fight over the same hostname during
+# the magic cutover (see kubernetes/apps/magic/readme.md's debugging
+# story). The CRD source is a separate, explicit mechanism -- this object's
+# only job is to exist; nothing about any app's Ingress affects it.
+#
+# Requires external-dns's `crd` source (kubernetes/platform/external-dns/values.yaml)
+# and the `dnsendpoints.externaldns.k8s.io` CRD, which ships bundled in the
+# external-dns Helm chart's crds/ directory and installs automatically on
+# `helm install`/Argo CD sync.
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: wildcard-tunnel
+  namespace: cloudflared
+  annotations:
+    # external-dns's annotationFilter (opt-in model, see
+    # kubernetes/platform/external-dns/readme.md) applies across every
+    # source, CRD included -- without this, external-dns ignores this
+    # object entirely, same as an unopted-in Ingress.
+    external-dns-managed: "true"
+spec:
+  endpoints:
+    - dnsName: "*.spicyfajitas.com"
+      recordType: CNAME
+      targets:
+        # <tunnel-id>.cfargotunnel.com -- the tunnel ID from the same
+        # token in secrets/cloudflare-tunnel-token.sops.yaml. Cloudflare
+        # Tunnels only function through the proxy, so this record MUST be
+        # proxied (providerSpecific below) -- an unproxied CNAME to
+        # *.cfargotunnel.com won't route correctly.
+        - b70df153-37a9-481b-a828-f5596bdcbf9f.cfargotunnel.com
+      recordTTL: 300
+      providerSpecific:
+        - name: external-dns.alpha.kubernetes.io/cloudflare-proxied
+          value: "true"
