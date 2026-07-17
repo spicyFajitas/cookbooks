@@ -16,9 +16,10 @@
 # No docker.sock mount (unlike the old docker-compose version): nothing in
 # services.yaml actually uses Docker auto-discovery (`widget: type: docker`),
 # it's all static entries -- and k3s nodes run containerd, not Docker, so
-# there'd be no socket to mount anyway. Same reasoning for skipping the
-# Kubernetes-auto-discovery ServiceAccount/RBAC gethomepage's docs describe --
-# not something the current config uses, add it later if that changes.
+# there'd be no socket to mount anyway. Kubernetes auto-discovery IS wired
+# up though (serviceAccountName below, RBAC in 05-rbac.yaml,
+# kubernetes.yaml in 01-configmap.yaml) -- annotated Ingress objects across
+# the cluster show up automatically, see kubernetes/apps/magic/04-ingress.yaml.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -36,6 +37,7 @@ spec:
       labels:
         app: homepage
     spec:
+      serviceAccountName: homepage
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
@@ -64,6 +66,9 @@ spec:
             - name: config-map
               mountPath: /app/config/widgets.yaml
               subPath: widgets.yaml
+            - name: config-map
+              mountPath: /app/config/kubernetes.yaml
+              subPath: kubernetes.yaml
           resources:
             requests:
               cpu: 100m

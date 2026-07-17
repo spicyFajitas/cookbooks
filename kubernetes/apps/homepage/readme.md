@@ -21,21 +21,49 @@ for the pattern this follows if you're scaffolding a new app:
   here, to keep one pattern with the rest of `kubernetes/apps/`) --
   `kubectl -n homepage rollout restart deployment/homepage` after a change.
 - `02-deployment.yaml` -- port 3000, `envFrom` the `homepage-vars` Secret
-  (below), config mounted from the ConfigMap at `/app/config`. No
-  `docker.sock` mount (unlike the old docker-compose version) and no
-  Kubernetes-auto-discovery ServiceAccount/RBAC -- neither is used by the
-  current config (it's all static entries), add them later if that changes.
-  Health probes hit `/api/healthcheck` with an explicit `Host` header
-  override matching the public hostname, since `HOMEPAGE_ALLOWED_HOSTS`
-  would otherwise reject kubelet's pod-IP probe requests with a 403 and the
-  pod would never go Ready.
+  (below), config mounted from the ConfigMap at `/app/config`,
+  `serviceAccountName: homepage` for Kubernetes auto-discovery (RBAC in
+  `05-rbac.yaml`). No `docker.sock` mount (unlike the old docker-compose
+  version) -- nothing here uses Docker auto-discovery, and k3s nodes run
+  containerd anyway. Health probes hit `/api/healthcheck` with an explicit
+  `Host` header override matching the public hostname, since
+  `HOMEPAGE_ALLOWED_HOSTS` would otherwise reject kubelet's pod-IP probe
+  requests with a 403 and the pod would never go Ready.
 - `03-service.yaml` -- ClusterIP, port 3000.
-- `04-ingress.yaml` -- `homepage.spicyfajitas.com`, public via Cloudflare
-  Tunnel's wildcard route, same pattern as `kubernetes/apps/magic/`. No auth
-  in front of it (your call, made explicitly when migrating this) -- see the
-  ingress file's own comment for the tradeoff. The admin UIs it links to
+- `04-ingress.yaml` -- `homepage.spicyfajitas.com`. Has its own
+  `external-dns-managed: "true"` record (see the file's own comment for
+  why, and `kubernetes/platform/external-dns/readme.md`'s "Opting an
+  Ingress/Service in" for the `target`/`cloudflare-proxied` annotations
+  that actually make a tunnel-routed record work). No auth in front of it
+  (your call, made explicitly when migrating this) -- anyone with the URL
+  can view live Proxmox/Plex/Uptime-Kuma stats; the admin UIs it links to
   (Proxmox, TrueNAS, Cockpit) stay LAN-only regardless, since those are
   plain LAN IPs unreachable from outside.
+- `05-rbac.yaml` -- ServiceAccount + ClusterRole + ClusterRoleBinding for
+  Kubernetes auto-discovery (`kubernetes.yaml` in `01-configmap.yaml`:
+  `mode: cluster`, `ingress: true`). Cluster-scoped by necessity (needs
+  read access to Ingresses in every namespace, not just `homepage`'s own)
+  -- the only cluster-scoped resources anywhere under `kubernetes/apps/`.
+  Only `ingress: true` is enabled -- no Traefik `IngressRoute` CRD or
+  Gateway API support, since nothing in this repo uses those, every app is
+  a plain `networking.k8s.io/v1` Ingress.
+
+## Kubernetes auto-discovery
+
+Any app's Ingress can opt in and show up on the dashboard automatically,
+above the static `services.yaml` entries -- no homepage-side config needed
+per app. See `kubernetes/apps/magic/04-ingress.yaml` for a real, working
+example:
+
+```yaml
+metadata:
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: Magic
+    gethomepage.dev/description: EDHRec deck analyzer
+    gethomepage.dev/group: Services # merges into an existing services.yaml group by name
+    gethomepage.dev/icon: mtg
+```
 
 ## Secret
 

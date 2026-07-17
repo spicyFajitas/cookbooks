@@ -26,6 +26,14 @@ metadata:
   namespace: magic
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-dns
+    # Picked up by homepage's Kubernetes auto-discovery
+    # (kubernetes/apps/homepage/05-rbac.yaml), shown above services.yaml's
+    # static entries automatically -- no homepage-side config needed per app.
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: Magic
+    gethomepage.dev/description: EDHRec deck analyzer
+    gethomepage.dev/group: Services
+    gethomepage.dev/icon: mtg
 spec:
   ingressClassName: traefik
   tls:

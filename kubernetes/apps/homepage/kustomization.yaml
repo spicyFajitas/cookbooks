@@ -13,3 +13,4 @@ resources:
   - 02-deployment.yaml
   - 03-service.yaml
   - 04-ingress.yaml
+  - 05-rbac.yaml

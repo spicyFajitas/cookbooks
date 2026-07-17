@@ -10,6 +10,9 @@ metadata:
   name: homepage-config
   namespace: homepage
 data:
+  kubernetes.yaml: |
+    mode: cluster
+    ingress: true
   services.yaml: |
     - Infrastructure:
         - Router:

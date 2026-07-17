@@ -1,0 +1,64 @@
+# Kubernetes auto-discovery (kubernetes.yaml in 01-configmap.yaml):
+# discovered services from annotated Ingress objects across the whole
+# cluster show up above services.yaml's static entries automatically. Adds
+# `gethomepage.dev/enabled: "true"` (+ name/description/icon/group) to an
+# app's own Ingress to opt in -- see kubernetes/apps/magic/04-ingress.yaml
+# for a real example.
+#
+# ClusterRole/ClusterRoleBinding are cluster-scoped by nature (need read
+# access to Ingresses in every namespace, not just homepage's own) -- the
+# only cluster-scoped resources anywhere under kubernetes/apps/. Only
+# `ingress: true` is enabled in kubernetes.yaml (traefik IngressRoute CRDs
+# and Gateway API aren't used anywhere in this repo -- every app here is a
+# plain networking.k8s.io/v1 Ingress, per kubernetes/apps/_template), so
+# only the matching rules are included here rather than the full example
+# from https://gethomepage.dev/installation/k8s/.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: homepage
+  namespace: homepage
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: homepage
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+      - pods
+      - nodes
+    verbs:
+      - get
+      - list
+  - apiGroups:
+      - extensions
+      - networking.k8s.io
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - list
+  - apiGroups:
+      - metrics.k8s.io
+    resources:
+      - nodes
+      - pods
+    verbs:
+      - get
+      - list
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: homepage
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: homepage
+subjects:
+  - kind: ServiceAccount
+    name: homepage
+    namespace: homepage
