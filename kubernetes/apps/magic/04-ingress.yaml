@@ -33,7 +33,8 @@ metadata:
     gethomepage.dev/name: Magic
     gethomepage.dev/description: EDHRec deck analyzer
     gethomepage.dev/group: Services
-    gethomepage.dev/icon: https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flogodix.com%2Flogo%2F2086361.png&f=1&nofb=1&ipt=7c791c18bdae766a5613f546041bdb86e0f6d187e9b7bdc12ba9c778f2b8007f
+    gethomepage.dev/icon: https://magic.spicyfajitas.com/favicon.png # website icon
+    # actual magic planeswalkers icon gethomepage.dev/icon: https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flogodix.com%2Flogo%2F2086361.png&f=1&nofb=1&ipt=7c791c18bdae766a5613f546041bdb86e0f6d187e9b7bdc12ba9c778f2b8007f
 spec:
   ingressClassName: traefik
   tls:
