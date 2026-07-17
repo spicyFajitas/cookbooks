@@ -62,15 +62,37 @@ Ingress/Service. Used for exactly one thing right now: the
 
 ## Opting an Ingress/Service in
 
+For a genuinely internal-only name that should resolve to a private LAN IP
+(see `.claude-plan.md`'s DNS backend decision) -- this is external-dns's
+actual default behavior, deriving the target from the Ingress's own
+LoadBalancer IP:
+
 ```yaml
 metadata:
   annotations:
     external-dns-managed: "true"
-    # un-proxied ("DNS only") record, for genuinely internal-only names
-    # that should resolve to a private LAN IP -- see .claude-plan.md's DNS
-    # backend decision. Omit entirely (defaults to proxied) for anything
-    # meant to be reachable from the public internet.
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+```
+
+For a tunnel-routed app meant to be reachable from the public internet,
+both `target` and `cloudflare-proxied: "true"` must be **explicit** --
+despite what an earlier version of this doc claimed, omitting
+`cloudflare-proxied` does NOT default to proxied (confirmed via
+external-dns's own startup config log, `CloudflareProxied:false`). Without
+an explicit `target`, external-dns derives one from the Ingress's
+LoadBalancer IP (a private `10.x` address) and creates an unproxied `A`
+record pointing at it -- resolves fine on the LAN, completely unreachable
+from the public internet, since Cloudflare's edge can't dial a private IP
+regardless of proxy status. Found 2026-07 the hard way migrating
+`kubernetes/apps/homepage/`: see that app's `04-ingress.yaml` for a real,
+working example.
+
+```yaml
+metadata:
+  annotations:
+    external-dns-managed: "true"
+    external-dns.alpha.kubernetes.io/target: <tunnel-id>.cfargotunnel.com
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
 ```
 
 ## Verify
