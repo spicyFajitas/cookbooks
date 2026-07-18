@@ -116,7 +116,7 @@
 # --- docker_host-hosted services ---
 # All of them share one role (docker_services) -- see
 # roles/docker_services/readme.md. Each service still gets its own
-# --tags <service> (grafana, homepage): the role's tasks/main.yml applies
+# --tags <service> (currently just grafana): the role's tasks/main.yml applies
 # the tag per-service internally.
 
 - name: Configure docker_host services

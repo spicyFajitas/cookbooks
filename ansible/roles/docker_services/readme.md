@@ -60,11 +60,6 @@ change" handler adds.
 
 ## Known pre-existing quirks carried forward as-is
 
-- `homepage`'s `services.yaml.j2` references `unifi_controller_username`,
-  `unifi_controller_password`, and `truenas2_api_key` only inside a Jinja
-  comment block (`{# ... #}`) -- they're not actually used in the rendered
-  output today. Kept in the vault for continuity in case that section gets
-  re-enabled; safe to drop if not.
 - `media`'s old `templates/smb.j2` was never referenced by any task -- not
   carried forward.
 - `uptime_kuma` previously had two compose template variants gated on
@@ -89,13 +84,13 @@ change" handler adds.
   (`set_fact: args: "{{ docker_service_secrets }}"` in `service.yml`) has
   the same cross-service leakage shape as the `docker_service_extra_dirs`
   bug above -- it *adds* each service's secret keys as flat facts but
-  never removes the previous service's. Currently safe only because no two
-  active services' vaulted secrets happen to share a key name (checked
-  2026-07: grafana/homepage's secrets don't overlap). Adding a
-  service whose secrets *do* share a name with an earlier-running one in
-  `tasks/main.yml` will silently leak the earlier value, the same way
-  `docker_service_extra_dirs` did. Not fixed here because doing so properly
-  means templates reference `docker_service_secrets.<key>` instead of bare
-  `{{ key }}`, which touches every template -- reasonable to defer until it
-  actually bites, but worth knowing before assuming secrets isolation is
-  airtight.
+  never removes the previous service's. Currently moot with only `grafana`
+  active in `tasks/main.yml` (homepage removed 2026-07, migrated to k3s) --
+  re-check for key-name overlap the moment a second service gets added
+  back. Adding a service whose secrets *do* share a name with an
+  earlier-running one in `tasks/main.yml` will silently leak the earlier
+  value, the same way `docker_service_extra_dirs` did. Not fixed here
+  because doing so properly means templates reference
+  `docker_service_secrets.<key>` instead of bare `{{ key }}`, which touches
+  every template -- reasonable to defer until it actually bites, but worth
+  knowing before assuming secrets isolation is airtight.

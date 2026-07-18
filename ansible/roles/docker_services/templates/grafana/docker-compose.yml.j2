@@ -24,11 +24,6 @@ services:
       - '--web.enable-lifecycle'
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.retention.time=30d'
-    labels:
-      - homepage.group=Containers
-      - homepage.name=Prometheus
-      - homepage.icon=prometheus.png
-      - homepage.href=http://10.100.10.20:9090/
 
   pve-exporter:
     image: prompve/prometheus-pve-exporter
@@ -48,8 +43,3 @@ services:
     restart: unless-stopped
     volumes:
       - ./grafana_data:/var/lib/grafana
-    labels:
-      - homepage.group=Containers
-      - homepage.name=Grafana
-      - homepage.icon=grafana.png
-      - homepage.href=http://10.100.10.20:3000/

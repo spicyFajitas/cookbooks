@@ -25,12 +25,15 @@
 # the local instance was a redundant duplicate (real containers stopped and
 # removed via `docker compose down` on docker-host, not just untagged --
 # its /opt/mealie/data SQLite DB was left on disk, unexamined, in case it
-# has anything the DO instance doesn't). See roles/docker_services/readme.md
-# for how to bring any of these back. Their vars/templates still exist
-# under the old per-service roles in git history (see the commit that
-# removed roles/{frigate,media,netbox,netdata,speedtest-tracker,
-# uptime_kuma,wyze,minecraft-docker,mealie}), and their secrets are still
-# intact in vaults/production.yml, untouched.
+# has anything the DO instance doesn't). homepage removed 2026-07 too --
+# migrated to k3s (kubernetes/apps/homepage/), same "stop and remove the
+# containers by hand, don't just untag" treatment. See
+# roles/docker_services/readme.md for how to bring any of these back.
+# Their vars/templates still exist under the old per-service roles in git
+# history (see the commit that removed
+# roles/{frigate,media,netbox,netdata,speedtest-tracker,uptime_kuma,wyze,
+# minecraft-docker,mealie,homepage}), and their secrets are still intact in
+# vaults/production.yml, untouched.
 
 - name: Configure grafana
   ansible.builtin.include_tasks:
@@ -40,12 +43,3 @@
   vars:
     docker_service: grafana
   tags: [grafana]
-
-- name: Configure homepage
-  ansible.builtin.include_tasks:
-    file: service.yml
-    apply:
-      tags: [homepage]
-  vars:
-    docker_service: homepage
-  tags: [homepage]
