@@ -1,4 +1,6 @@
-# TrueNAS 
+# TrueNAS
+
+TrueNAS box uses ethernet port LAN 2
 
 ## Netdata Configuration
 
