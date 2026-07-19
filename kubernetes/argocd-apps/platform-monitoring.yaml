@@ -1,0 +1,26 @@
+# Kustomize-managed (kubernetes/platform/monitoring/kustomization.yaml),
+# same pattern as apps-appset.yaml's generated Applications -- Argo CD
+# auto-detects the kustomization.yaml and runs `kustomize build` against
+# this path. secrets/pve-token.sops.yaml is protected simply by not being
+# listed in that kustomization.yaml's resources -- kustomize only builds
+# what's explicitly listed, so there's no recurse setting to worry about
+# here the way the plain-directory-source Applications (cloudflared,
+# cert-manager-config) need.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: monitoring
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/spicyFajitas/cookbooks.git
+    targetRevision: HEAD
+    path: kubernetes/platform/monitoring
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true

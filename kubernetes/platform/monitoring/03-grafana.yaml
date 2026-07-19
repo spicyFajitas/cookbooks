@@ -1,0 +1,135 @@
+# Provisioned as code, unlike the docker-compose version -- that one
+# required manually clicking Grafana -> Dashboards -> Import for the
+# EDHRec dashboard (ansible/roles/docker_services/files/README.md). Here
+# both the Prometheus datasource and the dashboard itself load
+# automatically from provisioning/ on every start, no manual step.
+#
+# datasource uid MUST be "mimir" (not e.g. "prometheus") -- the dashboard
+# JSON (04-dashboard-configmap.yaml) hardcodes that uid on every panel,
+# copied as-is from the magic app's own repo. It's actually a Prometheus
+# datasource; "mimir" is just the uid string carried over so the dashboard
+# JSON didn't need editing.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-provisioning
+  namespace: monitoring
+data:
+  datasource.yaml: |
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        uid: mimir
+        type: prometheus
+        access: proxy
+        url: http://prometheus.monitoring.svc.cluster.local:9090
+        isDefault: true
+  dashboard-provider.yaml: |
+    apiVersion: 1
+    providers:
+      - name: default
+        folder: ""
+        type: file
+        options:
+          path: /var/lib/grafana/dashboards
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: grafana-data
+  namespace: monitoring
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: monitoring
+  labels:
+    app: grafana
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+        - name: grafana
+          image: grafana/grafana:latest
+          ports:
+            - name: web
+              containerPort: 3000
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/grafana
+            - name: provisioning
+              mountPath: /etc/grafana/provisioning/datasources/datasource.yaml
+              subPath: datasource.yaml
+            - name: provisioning
+              mountPath: /etc/grafana/provisioning/dashboards/dashboard-provider.yaml
+              subPath: dashboard-provider.yaml
+            - name: dashboards
+              mountPath: /var/lib/grafana/dashboards/edhrec-analyzer.json
+              subPath: edhrec-analyzer.json
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: "1"
+              memory: 512Mi
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: web
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: web
+            initialDelaySeconds: 10
+            periodSeconds: 15
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: grafana-data
+        - name: provisioning
+          configMap:
+            name: grafana-provisioning
+        - name: dashboards
+          configMap:
+            name: grafana-dashboards
+---
+# NodePort, not an Ingress -- this Grafana has only ever been reached via
+# direct LAN IP:port (10.100.10.20:3000 on docker-host), never a hostname,
+# and never through the tunnel. Keeping that exact access pattern avoids
+# any risk of colliding with the *separate*, already-existing
+# grafana.spicyfajitas.com tunnel route (kubernetes/platform/cloudflared/),
+# which points at an unrelated cloud-hosted Grafana, not this one.
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  type: NodePort
+  selector:
+    app: grafana
+  ports:
+    - name: web
+      port: 3000
+      targetPort: web
+      nodePort: 30300

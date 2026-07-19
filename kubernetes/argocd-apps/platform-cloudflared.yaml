@@ -22,3 +22,20 @@ spec:
     automated: {}
     syncOptions:
       - CreateNamespace=true
+  # This same manifest is now applied to more than one cluster (2026-07,
+  # temporary DOKS cluster during a move) sharing one Cloudflare Tunnel --
+  # only one cluster's connector may ever be registered at a time, or
+  # traffic load-balances unpredictably across both (real production
+  # impact, not hypothetical: this happened live during the DOKS cutover,
+  # 01-deployment.yaml doesn't pin `replicas`, so Argo CD's own adoption
+  # sync reset a deliberate `kubectl scale --replicas=0` back to 1).
+  # Excluding replicas from Argo CD's diff/sync entirely makes the
+  # active/standby toggle a purely manual `kubectl scale`, on both
+  # clusters, that Argo CD will never fight or reset.
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      name: cloudflared
+      namespace: cloudflared
+      jsonPointers:
+        - /spec/replicas

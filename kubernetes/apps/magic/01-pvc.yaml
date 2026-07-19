@@ -1,7 +1,11 @@
-# Local-path (k3s's built-in default StorageClass) for now -- fine for a
-# single-replica app on a single-node cluster. Revisit once TrueNAS NFS
-# provisioning (.claude-plan.md's storage plan) is actually built out, if
-# this ever needs to survive a node rebuild or scale beyond one replica.
+# No storageClassName -- deliberately omitted so this manifest works
+# unchanged on any cluster's own default StorageClass (k3s: local-path,
+# DOKS: do-block-storage), rather than hardcoding one. Was `local-path`
+# until 2026-07's temporary DOKS migration during a move made that a real
+# portability problem, not just a hypothetical one. Omitting the field on
+# an `apply` doesn't touch already-bound PVCs' existing (immutable)
+# storageClassName -- safe for k3s's live PVCs, and lets a fresh PVC (like
+# DOKS's) pick up whatever's actually default there.
 #
 # Losing this data isn't a real incident either way: cache/ just avoids
 # redundant EDHRec/Scryfall API calls, output/ is regenerated on next run.
@@ -12,7 +16,6 @@ metadata:
   namespace: magic
 spec:
   accessModes: ["ReadWriteOnce"]
-  storageClassName: local-path
   resources:
     requests:
       storage: 1Gi
@@ -24,7 +27,6 @@ metadata:
   namespace: magic
 spec:
   accessModes: ["ReadWriteOnce"]
-  storageClassName: local-path
   resources:
     requests:
       storage: 1Gi

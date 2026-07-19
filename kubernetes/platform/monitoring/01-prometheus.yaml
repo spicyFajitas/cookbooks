@@ -1,0 +1,133 @@
+# Migrated from ansible/roles/docker_services/templates/grafana/ (2026-07).
+# Dropped from the original scrape_configs: `docker-host` (node_exporter on
+# docker-host itself -- docker-host is going away soon, not worth
+# preserving host-level monitoring for it) and the `calcguard` job from
+# extra.yml.j2 (dead config even in the docker-compose version -- rendered
+# to disk but never actually mounted into the prometheus container or
+# referenced by prometheus.yml, so it was never really being scraped;
+# confirmed unused, dropped rather than carried forward).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: monitoring
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 1m
+
+    scrape_configs:
+      - job_name: 'prometheus'
+        static_configs:
+          - targets: ['localhost:9090']
+      - job_name: 'pve'
+        static_configs:
+          - targets:
+            - 10.100.10.10
+        metrics_path: /pve
+        params:
+          module: [default]
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: pve-exporter.monitoring.svc.cluster.local:9221
+      - job_name: 'magic-edhrec-analyzer'
+        # k3s pod, scraped via the NodePort Service
+        # (kubernetes/apps/magic/03-service.yaml) -- no in-cluster
+        # Prometheus Operator/ServiceMonitor needed for a single app.
+        scrape_interval: 15s
+        static_configs:
+          - targets: ['10.100.10.12:30852']
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: prometheus-data
+  namespace: monitoring
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+  namespace: monitoring
+  labels:
+    app: prometheus
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate # avoid two pods fighting over the same RWO PVC
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      containers:
+        - name: prometheus
+          image: prom/prometheus:latest
+          args:
+            - --web.enable-lifecycle
+            - --config.file=/etc/prometheus/prometheus.yml
+            - --storage.tsdb.retention.time=30d
+            - --storage.tsdb.path=/prometheus
+          ports:
+            - name: web
+              containerPort: 9090
+          volumeMounts:
+            - name: config
+              mountPath: /etc/prometheus/prometheus.yml
+              subPath: prometheus.yml
+            - name: data
+              mountPath: /prometheus
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: web
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: web
+            initialDelaySeconds: 10
+            periodSeconds: 15
+      volumes:
+        - name: config
+          configMap:
+            name: prometheus-config
+        - name: data
+          persistentVolumeClaim:
+            claimName: prometheus-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus
+  namespace: monitoring
+spec:
+  type: ClusterIP
+  selector:
+    app: prometheus
+  ports:
+    - name: web
+      port: 9090
+      targetPort: web

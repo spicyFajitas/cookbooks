@@ -1,0 +1,13 @@
+# secrets/pve-token.sops.yaml is deliberately NOT listed here -- same
+# reasoning as every other SOPS-managed secret in this repo (see
+# kubernetes/platform/sops-secrets-operator/readme.md): must only ever be
+# applied as a deliberate manual/CI step, never picked up automatically.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - 00-namespace.yaml
+  - 01-prometheus.yaml
+  - 02-pve-exporter.yaml
+  - 03-grafana.yaml
+  - 04-dashboard-configmap.yaml

@@ -1,0 +1,58 @@
+# pve.yml (pve-exporter's whole config) is nothing but the Proxmox API
+# token -- no non-secret content worth splitting into a separate ConfigMap,
+# unlike prometheus/grafana's configs. The full file lives as one key in
+# secrets/pve-token.sops.yaml and mounts directly at the path pve-exporter
+# expects, matching the original docker-compose's
+# ./pve.yml:/etc/prometheus/pve.yml mount.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pve-exporter
+  namespace: monitoring
+  labels:
+    app: pve-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pve-exporter
+  template:
+    metadata:
+      labels:
+        app: pve-exporter
+    spec:
+      containers:
+        - name: pve-exporter
+          image: prompve/prometheus-pve-exporter
+          ports:
+            - name: web
+              containerPort: 9221
+          volumeMounts:
+            - name: pve-config
+              mountPath: /etc/prometheus/pve.yml
+              subPath: pve.yml
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 128Mi
+      volumes:
+        - name: pve-config
+          secret:
+            secretName: pve-token
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pve-exporter
+  namespace: monitoring
+spec:
+  type: ClusterIP
+  selector:
+    app: pve-exporter
+  ports:
+    - name: web
+      port: 9221
+      targetPort: web
