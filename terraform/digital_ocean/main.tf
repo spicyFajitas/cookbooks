@@ -17,13 +17,13 @@ resource "digitalocean_droplet" "web_application" {
     tags                 = []
 }
 
-# Temporary cloud cluster for `magic` (kubernetes/apps/magic/) while the
-# on-prem k3s cluster is unreachable during a cross-country move, 2026-07.
-# Reuses the exact same app manifests unchanged -- just needs Traefik +
-# cert-manager installed to match what k3s ships/has already, see
-# kubernetes/platform/README (DOKS setup) for the rest of the bootstrap.
-# Meant to be torn down (`terraform destroy -target=...`) once back home
-# and DNS is cut back to the on-prem cluster -- not a permanent resource.
+# Temporary cloud cluster while the on-prem k3s cluster is unreachable
+# during a cross-country move, 2026-07 -- grew from "just magic" into a
+# full GitOps replica of the whole platform (Argo CD, cert-manager,
+# external-dns, sops-secrets-operator, Traefik, magic, homepage), same
+# manifests/repo as k3s. Meant to be torn down once back home -- see
+# kubernetes/magic-cloud-temp-teardown.md for the full cutover-back +
+# destroy sequence, not a permanent resource.
 resource "digitalocean_kubernetes_cluster" "magic_temp" {
   name    = "magic-temp-cloud"
   region  = "nyc3"
