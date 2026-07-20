@@ -11,3 +11,4 @@ resources:
   # - 02-pve-exporter.yaml
   - 03-grafana.yaml
   - 04-dashboard-configmap.yaml
+  - 05-ingress.yaml

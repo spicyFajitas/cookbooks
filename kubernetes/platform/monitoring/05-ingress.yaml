@@ -1,0 +1,48 @@
+# Grafana only -- Prometheus stays ClusterIP-only (03-grafana.yaml /
+# 01-prometheus.yaml), by deliberate choice: Prometheus has no
+# authentication of its own, and Grafana already talks to it internally
+# via its datasource, so nothing is lost by not exposing it publicly.
+#
+# homelab-grafana.spicyfajitas.com, not grafana.spicyfajitas.com -- that
+# hostname is already claimed by a separate, unrelated cloud-hosted
+# Grafana instance (see kubernetes/platform/cloudflared/'s tunnel config).
+#
+# Same external-dns pattern as kubernetes/apps/homepage/04-ingress.yaml --
+# explicit target + cloudflare-proxied, not the *.spicyfajitas.com
+# wildcard (kubernetes/platform/cloudflared/02-wildcard-dns.yaml), which
+# turned out unreliable on this zone. See that file's own comment for the
+# full story.
+#
+# No auth in front of this beyond Grafana's own login -- fine for now,
+# revisit with Cloudflare Access if that's ever not enough.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana
+  namespace: monitoring
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-dns
+    external-dns-managed: "true"
+    external-dns.alpha.kubernetes.io/target: b70df153-37a9-481b-a828-f5596bdcbf9f.cfargotunnel.com
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: Grafana
+    gethomepage.dev/group: Services
+    gethomepage.dev/icon: grafana.png
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - homelab-grafana.spicyfajitas.com
+      secretName: grafana-tls
+  rules:
+    - host: homelab-grafana.spicyfajitas.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana
+                port:
+                  name: web
