@@ -41,6 +41,31 @@ data:
         scrape_interval: 15s
         static_configs:
           - targets: ['10.100.10.12:30852']
+      - job_name: 'kube-state-metrics'
+        # Kubernetes *object state* (pod phase, deployment replicas,
+        # restarts, node conditions, ...) -- 06-kube-state-metrics.yaml.
+        # clusterIP: None (headless) + a single replica means DNS resolves
+        # directly to the one pod IP, no extra service-discovery needed.
+        static_configs:
+          - targets: ['kube-state-metrics.monitoring.svc.cluster.local:8080']
+      - job_name: 'kubernetes-cadvisor'
+        # Container resource *usage* (CPU/memory) -- distinct from
+        # kube-state-metrics above. Scrapes each node's kubelet directly
+        # via Kubernetes service discovery (role: node), authenticated
+        # with this pod's own (auto-mounted) service account token --
+        # RBAC below. Standard config from Prometheus's own docs
+        # (documentation/examples/prometheus-kubernetes.yml upstream).
+        scheme: https
+        metrics_path: /metrics/cadvisor
+        tls_config:
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        authorization:
+          credentials_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+        kubernetes_sd_configs:
+          - role: node
+        relabel_configs:
+          - action: labelmap
+            regex: __meta_kubernetes_node_label_(.+)
 ---
 # No storageClassName -- deliberately omitted, same reasoning and same
 # real incident as kubernetes/apps/magic/01-pvc.yaml: hardcoded
@@ -59,6 +84,53 @@ spec:
   resources:
     requests:
       storage: 10Gi
+---
+# RBAC for the kubernetes-cadvisor scrape job above -- nodes/metrics plus
+# the nonResourceURLs rule is specifically what authorizes a direct
+# kubelet /metrics/cadvisor scrape (kubelet's own webhook authz mode
+# delegates to a SubjectAccessReview against this exact non-resource URL,
+# a different check than normal resource-based RBAC). Standard reference:
+# Prometheus's own documentation/examples/rbac-setup.yml.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prometheus
+  namespace: monitoring
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: prometheus
+rules:
+  - apiGroups: [""]
+    resources:
+      - nodes
+      - nodes/metrics
+      - services
+      - endpoints
+      - pods
+    verbs: ["get", "list", "watch"]
+  - apiGroups:
+      - extensions
+      - networking.k8s.io
+    resources:
+      - ingresses
+    verbs: ["get", "list", "watch"]
+  - nonResourceURLs: ["/metrics", "/metrics/cadvisor"]
+    verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: prometheus
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: prometheus
+subjects:
+  - kind: ServiceAccount
+    name: prometheus
+    namespace: monitoring
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -87,6 +159,7 @@ spec:
       # permissive default directory perms on k3s.
       securityContext:
         fsGroup: 65534
+      serviceAccountName: prometheus
       containers:
         - name: prometheus
           image: prom/prometheus:latest

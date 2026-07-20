@@ -90,6 +90,9 @@ spec:
             - name: dashboards
               mountPath: /var/lib/grafana/dashboards/edhrec-analyzer.json
               subPath: edhrec-analyzer.json
+            - name: dashboards
+              mountPath: /var/lib/grafana/dashboards/kubernetes-cluster.json
+              subPath: kubernetes-cluster.json
           resources:
             requests:
               cpu: 100m

@@ -12,3 +12,4 @@ resources:
   - 03-grafana.yaml
   - 04-dashboard-configmap.yaml
   - 05-ingress.yaml
+  - 06-kube-state-metrics.yaml
