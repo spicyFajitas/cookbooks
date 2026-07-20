@@ -50,11 +50,13 @@ data:
           - targets: ['kube-state-metrics.monitoring.svc.cluster.local:8080']
       - job_name: 'kubernetes-cadvisor'
         # Container resource *usage* (CPU/memory) -- distinct from
-        # kube-state-metrics above. Scrapes each node's kubelet directly
-        # via Kubernetes service discovery (role: node), authenticated
-        # with this pod's own (auto-mounted) service account token --
-        # RBAC below. Standard config from Prometheus's own docs
-        # (documentation/examples/prometheus-kubernetes.yml upstream).
+        # kube-state-metrics above. Routes through the API server proxy
+        # (kubernetes.default.svc:443/api/v1/nodes/<node>/proxy/metrics/cadvisor)
+        # rather than hitting the kubelet on :10250 directly. The proxy
+        # approach avoids TLS cert mismatch issues (kubelet cert may not
+        # include the node IP as a SAN) and only requires nodes/proxy RBAC
+        # instead of fighting kubelet webhook auth. Standard pattern from
+        # Prometheus's own documentation/examples/prometheus-kubernetes.yml.
         scheme: https
         metrics_path: /metrics/cadvisor
         tls_config:
@@ -66,6 +68,12 @@ data:
         relabel_configs:
           - action: labelmap
             regex: __meta_kubernetes_node_label_(.+)
+          - target_label: __address__
+            replacement: kubernetes.default.svc:443
+          - source_labels: [__meta_kubernetes_node_name]
+            regex: (.+)
+            target_label: __metrics_path__
+            replacement: /api/v1/nodes/$1/proxy/metrics/cadvisor
 ---
 # No storageClassName -- deliberately omitted, same reasoning and same
 # real incident as kubernetes/apps/magic/01-pvc.yaml: hardcoded
@@ -106,6 +114,7 @@ rules:
     resources:
       - nodes
       - nodes/metrics
+      - nodes/proxy
       - services
       - endpoints
       - pods
