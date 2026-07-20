@@ -29,17 +29,18 @@ resource "digitalocean_kubernetes_cluster" "magic_temp" {
   region  = "nyc3"
   version = "1.36.0-do.3"
 
-  # 2 nodes, not 1 (2026-07): scope grew from "just magic" to a full
-  # GitOps replica (Argo CD, cert-manager, external-dns, sops-secrets-operator,
-  # Traefik, magic, homepage) -- a single s-1vcpu-2gb node hit 206% memory
-  # *limit* overcommit and real observed 93% usage. Adding a second node
-  # instead of resizing the existing one: no downtime to add it, and avoids
-  # a single point of failure for the whole temporary cluster while it's
-  # meant to run unattended during the move.
+  # Single bigger node (2026-07), not multiple small ones -- explicit call
+  # after real `kubectl top` data showed 2x and then 3x s-1vcpu-2gb nodes
+  # all under real pressure (90-105% CPU) running this stack (full Argo CD
+  # + cert-manager + external-dns + sops-secrets-operator + Traefik +
+  # metrics-server + magic + homepage), one of which got auto-recycled by
+  # DigitalOcean mid-trip and caused a real, live 502/503 outage. Same
+  # monthly cost as the 2-node setup ($24/mo), simpler single-node
+  # architecture instead of horizontal spread.
   node_pool {
     name       = "magic-temp-pool"
-    size       = "s-1vcpu-2gb"
-    node_count = 2
+    size       = "s-2vcpu-4gb"
+    node_count = 1
   }
 
   tags = ["terraform", "magic_temp_cloud"]
