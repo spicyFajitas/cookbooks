@@ -8,6 +8,6 @@ kind: Kustomization
 resources:
   - 00-namespace.yaml
   - 01-prometheus.yaml
-  - 02-pve-exporter.yaml
+  # - 02-pve-exporter.yaml
   - 03-grafana.yaml
   - 04-dashboard-configmap.yaml
