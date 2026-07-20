@@ -42,6 +42,12 @@ data:
         static_configs:
           - targets: ['10.100.10.12:30852']
 ---
+# No storageClassName -- deliberately omitted, same reasoning and same
+# real incident as kubernetes/apps/magic/01-pvc.yaml: hardcoded
+# `local-path` (k3s's default) left this PVC permanently Pending on the
+# temporary DOKS cluster, which has no StorageClass by that name. Omitting
+# the field lets each cluster use its own default (k3s: local-path, DOKS:
+# do-block-storage) instead.
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -50,7 +56,6 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: local-path
   resources:
     requests:
       storage: 10Gi
@@ -74,6 +79,14 @@ spec:
       labels:
         app: prometheus
     spec:
+      # fsGroup matches the image's UID (65534, nobody) -- without it, the
+      # mounted PVC is root-owned and prometheus panics on startup
+      # ("permission denied" opening its query log). Same real incident and
+      # fix as grafana-data's PVC below: this only surfaced on DOKS's real
+      # do-block-storage CSI driver, which doesn't share local-path's more
+      # permissive default directory perms on k3s.
+      securityContext:
+        fsGroup: 65534
       containers:
         - name: prometheus
           image: prom/prometheus:latest
