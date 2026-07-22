@@ -37,9 +37,22 @@ resource "digitalocean_kubernetes_cluster" "magic_temp" {
   # DigitalOcean mid-trip and caused a real, live 502/503 outage. Same
   # monthly cost as the 2-node setup ($24/mo), simpler single-node
   # architecture instead of horizontal spread.
+  # s-2vcpu-8gb-amd (2026-07): resized the underlying droplet directly via
+  # `doctl compute droplet-action resize` (power off, resize, power on) at
+  # the user's explicit direction, specifically to avoid another
+  # destroy+recreate cycle through terraform's node_pool size handling.
+  # Real consequence found immediately after: DOKS's own node pool record
+  # doesn't know about droplet-level resizes done outside its own node
+  # pool API -- it kept re-cordoning the node as a spec mismatch
+  # (`node.kubernetes.io/unschedulable` taint reappearing every ~90s,
+  # `doctl kubernetes cluster node-pool get` still reporting the old
+  # s-2vcpu-4gb size) until this value here caught up to match. Confirmed
+  # via `terraform plan` before applying that this reconciles state only,
+  # doesn't trigger a destroy+recreate on top of the already-completed
+  # manual resize.
   node_pool {
     name       = "magic-temp-pool"
-    size       = "s-2vcpu-4gb"
+    size       = "s-2vcpu-8gb-amd"
     node_count = 1
   }
 
