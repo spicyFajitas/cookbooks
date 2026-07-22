@@ -35,12 +35,18 @@ data:
           - target_label: __address__
             replacement: pve-exporter.monitoring.svc.cluster.local:9221
       - job_name: 'magic-edhrec-analyzer'
-        # k3s pod, scraped via the NodePort Service
-        # (kubernetes/apps/magic/03-service.yaml) -- no in-cluster
-        # Prometheus Operator/ServiceMonitor needed for a single app.
+        # In-cluster Service DNS, not the k3s node's IP:NodePort -- found
+        # 2026-07 that the hardcoded `10.100.10.12:30852` (a LAN-only k3s
+        # node address) meant this target was always down on DOKS despite
+        # magic running there too, and the EDHRec dashboard showed no data
+        # as a result. Prometheus now lives in-cluster on both clusters
+        # (kubernetes/platform/monitoring/), so it can reach magic's own
+        # metrics Service directly, portable across either one -- no
+        # per-cluster IP, no Prometheus Operator/ServiceMonitor needed for
+        # a single app.
         scrape_interval: 15s
         static_configs:
-          - targets: ['10.100.10.12:30852']
+          - targets: ['edhrec-analyzer-metrics.magic.svc.cluster.local:8502']
       - job_name: 'kube-state-metrics'
         # Kubernetes *object state* (pod phase, deployment replicas,
         # restarts, node conditions, ...) -- 06-kube-state-metrics.yaml.
