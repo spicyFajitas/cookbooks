@@ -1,25 +1,28 @@
 {
-    "extends": [
-      "config:base"
-    ],
-    "schedule": [
-      "* 1-5 * * 6,0"
-    ],
-    "packageRules": [
-      {
-        "matchUpdateTypes": [
-          "semver:minor",
-          "semver:patch"
-        ],
-        "automerge": true
-      },
-      {
-        "matchUpdateTypes": [
-          "semver:non-major"
-        ],
-        "schedule": [
-          "* 1-5 * * 6,0"
-        ]
-      }
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "schedule": [
+    "* 1-5 * * 6,0"
+  ],
+  "kubernetes": {
+    "managerFilePatterns": [
+      "/^kubernetes/(apps|platform)/.+\\.ya?ml$/"
     ]
-  }
+  },
+  "argocd": {
+    "managerFilePatterns": [
+      "/^kubernetes/argocd-apps/.+\\.ya?ml$/"
+    ]
+  },
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": true
+    }
+  ]
+}
