@@ -1,0 +1,28 @@
+# `argocd` write-back (the CRD's default when writeBackConfig is omitted,
+# see readme.md) -- Image Updater patches magic's live Application object
+# directly (spec.source.kustomize.images) via in-cluster RBAC, never
+# touches git. Deliberate choice, 2026-07: `git` write-back would auto-commit
+# to this repo on every new release, which cuts against the standing
+# "always ask before commit" rule -- `argocd` write-back means the exact
+# opposite trade normally made for GitOps tooling (deployed version isn't
+# recorded in git history) is accepted specifically to avoid that.
+#
+# allowTags restricts matches to plain X.Y.Z tags -- magic's build
+# (github.com/spicyFajitas/magic .github/workflows/docker-build.yml)
+# publishes latest, vX.Y.Z, AND X.Y.Z for the same image on every release;
+# this excludes `latest` (not a real version to compare) and the
+# `v`-prefixed duplicate (semver strategy expects a plain semver string).
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: magic
+  namespace: argocd
+spec:
+  applicationRefs:
+    - namePattern: "magic"
+      images:
+        - alias: edhrec-analyzer
+          imageName: ghcr.io/spicyfajitas/edhrec-deck-analyzer
+          commonUpdateSettings:
+            updateStrategy: semver
+            allowTags: 'regexp:^[0-9]+\.[0-9]+\.[0-9]+$'

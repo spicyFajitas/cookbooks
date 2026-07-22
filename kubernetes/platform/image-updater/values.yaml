@@ -1,0 +1,11 @@
+# Defaults already do everything needed for this repo's use case:
+# createClusterRoles/rbac.enabled: true (in-cluster RBAC to patch
+# Application objects directly -- "kubernetes mode", the chart's default,
+# not the --disable-kubernetes pure-API mode), and no git.* settings
+# needed since 01-image-updater.yaml uses `argocd` write-back (the
+# ImageUpdater CRD's own default when writeBackConfig is omitted), not
+# `git` -- no credentials of any kind required for this component.
+# Kept as an explicit file (not --set flags) for the same reason every
+# other platform component here does it that way: the exact installed
+# config lives in git, not just in shell history.
+replicaCount: 1

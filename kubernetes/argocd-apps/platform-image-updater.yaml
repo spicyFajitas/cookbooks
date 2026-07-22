@@ -1,0 +1,46 @@
+# Same split pattern as cert-manager: chart from upstream, values.yaml
+# from our own git repo, ImageUpdater CR as a separate Application since
+# it's a different source type (plain manifest, not a Helm chart).
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: image-updater
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://argoproj.github.io/argo-helm
+      chart: argocd-image-updater
+      targetRevision: 1.2.4
+      helm:
+        valueFiles:
+          - $values/kubernetes/platform/image-updater/values.yaml
+    - repoURL: https://github.com/spicyFajitas/cookbooks.git
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: image-updater-config
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/spicyFajitas/cookbooks.git
+    targetRevision: HEAD
+    path: kubernetes/platform/image-updater
+    directory:
+      exclude: "values.yaml"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated: {}
