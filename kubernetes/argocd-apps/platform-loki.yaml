@@ -1,0 +1,49 @@
+# Same split pattern as cert-manager: chart from upstream, values.yaml
+# from our own git repo, Alloy (the log-shipping agent) as a separate
+# Application since it's a different source type (plain manifests, not a
+# Helm chart). Both target the `monitoring` namespace -- already created
+# by platform-monitoring.yaml's Application, CreateNamespace=true here is
+# just idempotent safety, not a real ordering dependency.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: loki
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://grafana.github.io/helm-charts
+      chart: loki
+      targetRevision: 6.28.0
+      helm:
+        valueFiles:
+          - $values/kubernetes/platform/loki/values.yaml
+    - repoURL: https://github.com/spicyFajitas/cookbooks.git
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: loki-config
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/spicyFajitas/cookbooks.git
+    targetRevision: HEAD
+    path: kubernetes/platform/loki
+    directory:
+      exclude: "values.yaml"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated: {}

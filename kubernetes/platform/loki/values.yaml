@@ -1,0 +1,56 @@
+# SingleBinary mode, not the chart's default SimpleScalable/Distributed --
+# those REQUIRE object storage (S3/GCS/etc, the chart even ships an
+# optional bundled minio subchart for it), real overkill for a homelab.
+# Local filesystem storage instead, matching every other platform
+# component here's "simplest role" philosophy.
+deploymentMode: SingleBinary
+
+loki:
+  auth_enabled: false
+  storage:
+    type: filesystem
+  # tsdb + schema v13 (the current recommended combo) via the chart's own
+  # test-schema shortcut -- "test" is just this value's name, not an
+  # indication the schema itself is inadequate for real use. Avoids
+  # hand-writing an equivalent schemaConfig block from scratch, same
+  # tsdb/v13 either way.
+  useTestSchema: true
+
+# No nginx gateway in front of Loki -- Grafana and Alloy both talk to the
+# `loki` Service directly over ClusterIP, nothing external ever needs to
+# reach this, so the gateway's routing/auth layer has no job to do here.
+gateway:
+  enabled: false
+
+# write/read/backend default to replicas: 3 each regardless of
+# deploymentMode -- SimpleScalable-mode components that don't
+# auto-zero-out just because SingleBinary mode is selected. The chart's
+# own validation hard-fails without this ("more than zero replicas
+# configured for both the single binary and simple scalable targets").
+write:
+  replicas: 0
+read:
+  replicas: 0
+backend:
+  replicas: 0
+
+singleBinary:
+  replicas: 1
+  persistence:
+    size: 10Gi
+    # No storageClass override -- chart default (null) already means "use
+    # whatever's default on this cluster," the same portability lesson
+    # learned the hard way on magic's and monitoring's PVCs (local-path on
+    # k3s, do-block-storage on DOKS) rather than something new here.
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
+
+# Left at the chart's own default (enabled) -- tried disabling it, but the
+# chart's own template validation hard-fails ("Helm test requires the Loki
+# Canary to be enabled") without it. Small, low-resource synthetic
+# log-checker; not worth fighting the chart's own constraint for.

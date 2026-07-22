@@ -4,11 +4,13 @@
 # both the Prometheus datasource and the dashboard itself load
 # automatically from provisioning/ on every start, no manual step.
 #
-# datasource uid MUST be "mimir" (not e.g. "prometheus") -- the dashboard
-# JSON (04-dashboard-configmap.yaml) hardcodes that uid on every panel,
-# copied as-is from the magic app's own repo. It's actually a Prometheus
-# datasource; "mimir" is just the uid string carried over so the dashboard
-# JSON didn't need editing.
+# datasource uids MUST be "mimir" and "loki" exactly -- the dashboard
+# JSON (04-dashboard-configmap.yaml) hardcodes those uids on every panel,
+# copied as-is from the magic app's own repo. The Prometheus one is
+# actually Prometheus; "mimir" is just the uid string carried over so the
+# dashboard JSON didn't need editing. Loki genuinely is Loki
+# (kubernetes/platform/loki/), added 2026-07 -- the EDHRec dashboard's
+# "App Logs" panel finally has something to query.
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -24,6 +26,11 @@ data:
         access: proxy
         url: http://prometheus.monitoring.svc.cluster.local:9090
         isDefault: true
+      - name: Loki
+        uid: loki
+        type: loki
+        access: proxy
+        url: http://loki.monitoring.svc.cluster.local:3100
   dashboard-provider.yaml: |
     apiVersion: 1
     providers:
