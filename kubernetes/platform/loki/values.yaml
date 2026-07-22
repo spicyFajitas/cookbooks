@@ -50,6 +50,16 @@ singleBinary:
       cpu: "1"
       memory: 1Gi
 
+# chunksCache's default allocatedMemory (8192, i.e. 8192MB) produces a
+# memcached resources.request of 9830Mi on its own -- more than an entire
+# 8GB node has, so the pod sits Pending forever (found 2026-07 on the
+# single-node DOKS cluster). Same class of issue as write/read/backend
+# above: a SimpleScalable-scale default that doesn't self-adjust for
+# SingleBinary/homelab scale. 256MB is plenty of headroom for this
+# dataset's actual size.
+chunksCache:
+  allocatedMemory: 256
+
 # Left at the chart's own default (enabled) -- tried disabling it, but the
 # chart's own template validation hard-fails ("Helm test requires the Loki
 # Canary to be enabled") without it. Small, low-resource synthetic
