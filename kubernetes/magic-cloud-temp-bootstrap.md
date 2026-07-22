@@ -16,6 +16,13 @@ kubectl config current-context
 doctl kubernetes cluster kubeconfig save magic-temp-cloud
 ```
 
+Every manual secret below applies the real, encrypted `SopsSecret` file
+already checked into the repo (`kubectl apply -f secrets/*.sops.yaml`) --
+not a `sops -d | kubectl create secret --from-literal` workaround. That
+workaround only ever existed earlier in the 2026-07 move because
+sops-secrets-operator (step 2) wasn't installed yet at the time; once it's
+up, every secret in this doc goes through it, no exceptions.
+
 ## 1. Traefik
 
 DOKS has no built-in ingress controller (unlike k3s's bundled Traefik) --
@@ -32,33 +39,13 @@ helm install traefik traefik/traefik \
   --wait --timeout 240s
 ```
 
-## 2. cert-manager
+## 2. sops-secrets-operator
 
-```bash
-cd kubernetes/platform/cert-manager
-helm repo add jetstack https://charts.jetstack.io --force-update
-kubectl apply -f 00-namespace.yaml
-helm install cert-manager jetstack/cert-manager \
-  --namespace cert-manager \
-  --version v1.21.0 \
-  -f values.yaml \
-  --wait --timeout 240s
-
-# secret + ClusterIssuer (reuses the same encrypted token as k3s, no
-# second copy needed)
-export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
-TOKEN=$(sops -d --extract '["spec"]["secretTemplates"][0]["stringData"]["api-token"]' secrets/cloudflare-api-token.sops.yaml)
-kubectl create secret generic cloudflare-api-token --namespace cert-manager --from-literal=api-token="$TOKEN"
-kubectl apply -f 01-clusterissuer.yaml
-kubectl get clusterissuer letsencrypt-dns   # should show READY True within a few seconds
-cd ../../..
-```
-
-## 3. sops-secrets-operator
-
-Reuses the exact same `age` key as k3s -- this is the whole reason SOPS
-was chosen over Sealed Secrets originally: one key, portable across any
-cluster.
+Goes before cert-manager (unlike the platform's usual install order)
+specifically so cert-manager's secret can be applied the real way from the
+start, not the plain-secret workaround. Reuses the exact same `age` key as
+k3s -- this is the whole reason SOPS was chosen over Sealed Secrets
+originally: one key, portable across any cluster.
 
 ```bash
 kubectl create namespace sops-secrets-operator
@@ -73,6 +60,31 @@ helm install sops-secrets-operator sops-secrets-operator/sops-secrets-operator \
   -f kubernetes/platform/sops-secrets-operator/values.yaml \
   --wait --timeout 180s
 ```
+
+## 3. cert-manager
+
+```bash
+cd kubernetes/platform/cert-manager
+helm repo add jetstack https://charts.jetstack.io --force-update
+kubectl apply -f 00-namespace.yaml
+helm install cert-manager jetstack/cert-manager \
+  --namespace cert-manager \
+  --version v1.21.0 \
+  -f values.yaml \
+  --wait --timeout 240s
+
+# secret + ClusterIssuer (reuses the same encrypted token as k3s, no
+# second copy needed)
+kubectl apply -f secrets/cloudflare-api-token.sops.yaml
+kubectl apply -f 01-clusterissuer.yaml
+kubectl get clusterissuer letsencrypt-dns   # should show READY True within a few seconds
+cd ../../..
+```
+
+If the `SopsSecret` doesn't produce a real `Secret` within ~30s (check
+`kubectl -n cert-manager get secret cloudflare-api-token`), the operator's
+watch missed the create event -- a known quirk, not a config problem, see
+step 7's note for the fix.
 
 ## 4. metrics-server
 
@@ -126,14 +138,13 @@ below -- expected, their secrets aren't applied yet.
 
 These can't come from git automatically (deliberately -- see each
 platform component's own readme for why), so they need one apply each,
-by hand, every time the cluster is rebuilt:
+by hand, every time the cluster is rebuilt. All real `SopsSecret` files,
+same as cert-manager's in step 3:
 
 ```bash
-export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
-
-# external-dns's Cloudflare token (plain secret, same value as cert-manager's)
-TOKEN=$(sops -d --extract '["spec"]["secretTemplates"][0]["stringData"]["api-token"]' kubernetes/platform/external-dns/secrets/cloudflare-api-token.sops.yaml)
-kubectl create secret generic cloudflare-api-token --namespace external-dns --from-literal=api-token="$TOKEN"
+# external-dns's Cloudflare token (same value as cert-manager's, separate
+# copy since Secrets are namespace-scoped)
+kubectl apply -f kubernetes/platform/external-dns/secrets/cloudflare-api-token.sops.yaml
 
 # cloudflared's tunnel token (SAME tunnel as k3s -- toggling which
 # cluster's connector is active, not a second tunnel)
@@ -143,7 +154,7 @@ kubectl apply -f kubernetes/platform/cloudflared/secrets/cloudflare-tunnel-token
 kubectl apply -f kubernetes/apps/homepage/secrets/homepage-vars.sops.yaml
 ```
 
-If a `SopsSecret` doesn't produce a real `Secret` within ~30s, the
+If any `SopsSecret` doesn't produce a real `Secret` within ~30s, the
 operator's watch missed the create event (a known quirk, not a config
 problem) -- force it:
 
