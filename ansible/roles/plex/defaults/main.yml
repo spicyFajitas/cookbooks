@@ -1,5 +1,0 @@
----
-
-base_dir: /opt/media
-
-restart_policy: "unless-stopped"
