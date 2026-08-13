@@ -28,7 +28,7 @@ Checked items are currently in use.
 | In Use | Host              | Use / Future Plans            |
 | :----: | :---------------- | ----------------------------- |
 |  [ ]   | Thinkcentre M93p  | Proxmox Backup Server         |
-|  [X]   | Thinkcentre M93p  | Plex Server (intel graphics)  |
+|  [X]   | Thinkcentre M93p  | Alma/Rocky                    |
 |  [X]   | Beelink SER5 Mini | Proxmox Virtualization Server |
 
 ### Specs/Configs

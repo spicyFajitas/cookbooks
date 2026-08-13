@@ -22,11 +22,6 @@ all:
         docker-host: {}
       vars:
         ansible_user: root
-    plex:
-      hosts:
-        plex: {}
-      vars:
-        ansible_user: root
     proxmox:
       # the Proxmox hypervisor itself -- physical hardware, not a VM, so it
       # will never appear via the community.general.proxmox dynamic plugin
@@ -60,7 +55,4 @@ all:
         minecraft-grass-gang: {}
       vars:
         ansible_user: adam
-    containers:
-      hosts:
-        plex: {}
-        docker-host: {}
+

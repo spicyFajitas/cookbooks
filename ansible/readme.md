@@ -59,7 +59,7 @@ cd ansible
 ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt
 
 # Just one service
-ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --tags plex
+ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --tags mealie
 
 # One service, one host
 ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --tags docker_host --limit docker-host
@@ -73,7 +73,7 @@ To run locally: `ansible-playbook --connection=local site.yml -i 127.0.0.1`.
 To exclude a host: `--limit '!hostname'`. To limit to several: `--limit "host1,host2"`.
 
 Available tags: `common`, `helper`, `docker`, `docker_host`, `proxmox`,
-`k3s-server`, `plex`, `k3s-agent`, `semaphore`, `minecraft-grass-gang`, `grafana`,
+`k3s-server`, `k3s-agent`, `semaphore`, `minecraft-grass-gang`, `grafana`,
 `homepage`.
 
 Trimmed out of `site.yml` as of 2026-07, not currently run but not
@@ -151,7 +151,7 @@ LAN, same as the k3s install above:
   builder validates against the Proxmox API even for `validate`, so there's
   no cloud-compatible subset like Terraform's fmt/validate).
 - `ansible-playbook site.yml` itself -- nearly every active host
-  (`docker-host`, `k3s`, `plex`, `semaphore-01`,
+  (`docker-host`, `k3s`, `semaphore-01`,
   `proxmox`) is LAN-only, so there's no meaningful CD to automate
   from GitHub-hosted runners regardless of Terraform stack.
 
@@ -191,7 +191,7 @@ alias used in `inventory/static.yml` -- not by IP.
 
 ### Updating containers
 
-Every docker-compose service (`roles/docker_services`, plus `plex`,
+Every docker-compose service (`roles/docker_services`, plus
 `homepage` if run standalone, etc.) updates its containers on every
 `site.yml` run for its tag -- `community.docker.docker_compose_v2` with
 `pull: always` + `recreate: auto` is idempotent on its own, so there's no
@@ -208,7 +208,7 @@ separate "restart on change" handler to trigger.
     - host_vars            # ansible_host per alias
     - group_vars           # vars per group
   - roles
-    - <service> (e.g. plex)
+    - <service> (e.g. mealie)
       - defaults
       - handlers
       - meta

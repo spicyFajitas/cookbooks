@@ -36,7 +36,7 @@ for the pattern this follows if you're scaffolding a new app:
   Ingress/Service in" for the `target`/`cloudflare-proxied` annotations
   that actually make a tunnel-routed record work). No auth in front of it
   (your call, made explicitly when migrating this) -- anyone with the URL
-  can view live Proxmox/Plex/Uptime-Kuma stats; the admin UIs it links to
+  can view live Proxmox/Uptime-Kuma stats; the admin UIs it links to
   (Proxmox, TrueNAS, Cockpit) stay LAN-only regardless, since those are
   plain LAN IPs unreachable from outside.
 - `05-rbac.yaml` -- ServiceAccount + ClusterRole + ClusterRoleBinding for
@@ -69,8 +69,7 @@ metadata:
 
 Four values move from `ansible/roles/docker_services/vaults/production.yml`'s
 `docker_services_secrets.homepage` into a SOPS-encrypted `SopsSecret`:
-`HOMEPAGE_VAR_PROXMOX_API_TOKEN_ID`, `HOMEPAGE_VAR_PROXMOX_API_KEY`,
-`HOMEPAGE_VAR_PLEX_KEY`, `HOMEPAGE_VAR_KUMA_DOMAIN` -- see
+`HOMEPAGE_VAR_PROXMOX_API_TOKEN_ID`, `HOMEPAGE_VAR_PROXMOX_API_KEY`, `HOMEPAGE_VAR_KUMA_DOMAIN` -- see
 `kubernetes/platform/sops-secrets-operator/readme.md` for how the encrypt
 flow works. `secrets/homepage-vars.sops.yaml` currently has
 `REPLACE_WITH_REAL_VALUE` placeholders for all four. To populate real values
@@ -110,7 +109,7 @@ every other secret in this repo (kustomize deliberately never lists
 ## Cutover checklist
 
 1. Apply everything above, confirm `homepage.spicyfajitas.com` loads and
-   every widget (Proxmox, Plex, Uptime Kuma) renders real data, not just a
+   every widget (Proxmox, Uptime Kuma) renders real data, not just a
    blank/errored card.
 2. Update Cloudflare DNS / anything still pointing at the old
    `10.100.10.20:3002` or `homepage.spicylab.dev` (the docker-compose

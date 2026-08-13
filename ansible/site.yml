@@ -9,7 +9,7 @@
 #
 # Usage:
 #   ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt
-#   ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --tags plex
+#   ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --tags mealie
 #   ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --tags docker_host --limit docker-host
 #
 # See readme.md for the full tag list and the dynamic-inventory setup.
@@ -73,25 +73,6 @@
   tags: [k3s-server]
   roles:
     - k3s_server
-
-- name: Configure Plex
-  hosts: plex
-  become: true
-  become_user: root
-  become_method: ansible.builtin.sudo
-  tags: [plex]
-  roles:
-    - plex
-  vars_files:
-    - roles/plex/vaults/production.yml
-
-# - name: Configure the k3s agent on the Plex host
-#   hosts: plex
-#   become: true
-#   become_method: ansible.builtin.sudo
-#   tags: [k3s-agent]
-#   roles:
-#     - k3s_agent
 
 # - name: Configure Semaphore
 #   hosts: semaphore

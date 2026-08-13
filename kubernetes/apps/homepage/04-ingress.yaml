@@ -1,5 +1,5 @@
 # Public via the Cloudflare Tunnel, no auth in front of it. That means
-# anyone with the URL can view live Proxmox/Plex/Uptime-Kuma stats rendered
+# anyone with the URL can view live Proxmox/Uptime-Kuma stats rendered
 # here; the admin UIs it links to (Proxmox, TrueNAS, Cockpit) stay
 # unreachable from outside the LAN regardless, since those are plain LAN
 # IPs. If that changes, look at Cloudflare Access in front of this

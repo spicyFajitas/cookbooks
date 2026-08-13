@@ -1,5 +1,5 @@
 # Ported from ansible/roles/docker_services/templates/homepage/*.yaml.j2.
-# Secret values (proxmox creds, plex key, kuma domain) were Jinja2 vars
+# Secret values (proxmox creds, kuma domain) were Jinja2 vars
 # there; here they're homepage's own {{HOMEPAGE_VAR_x}} substitution
 # syntax, resolved from env vars sourced from secrets/homepage-vars.sops.yaml
 # at container start -- see https://gethomepage.dev, "environment variables"

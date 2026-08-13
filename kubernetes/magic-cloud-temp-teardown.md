@@ -141,7 +141,7 @@ actually running on a second real cluster, not DOKS-specific hacks:**
 
 ## 5. Loose ends
 
-- `homepage`'s widgets that depend on LAN IPs (Proxmox, TrueNAS, Plex,
+- `homepage`'s widgets that depend on LAN IPs (Proxmox, TrueNAS,
   Speedtest Tracker) were expected to show broken/empty on DOKS the whole
   time -- DOKS has no path back to the `10.100.10.x` LAN. Not a bug,
   nothing to fix, just confirm they're back to rendering real data now
