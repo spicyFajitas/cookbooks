@@ -22,7 +22,7 @@ Sub GHz (MHz radio)
 
 [Overhead light radio control file](../../../../../../Downloads/Light_toggle.sub)
 
-!!! Note FCC Information
+??? Note "Remote FCC Information"
     | FCC ID             | Device Details                     |
     | ------------------ | ---------------------------------- |
     | FCC ID             | CHQ7030T                           |

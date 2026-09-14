@@ -12,6 +12,11 @@ vault*.txt
 .dstore
 .DS_Store
 
+# mkdocs local preview
+.venv/
+docs/env/
+site/
+
 ######################
 #### packer files ####
 ######################

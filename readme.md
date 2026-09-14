@@ -4,6 +4,10 @@
 
 This repo contains all of my homelab cookbooks and documentation, from ansible roles and docker-compose files to (crappy) kubernetes manifests and personal userscripts.
 
+## Documentation
+
+Want to render the docs site locally to preview changes before pushing? See [`docs/README.md`](docs/README.md) for setup and preview server instructions.
+
 ## To Do / Project Ideas
 
 - [ ] Separate `hosts` playbook into separate playbooks (packages, SSH, etc)

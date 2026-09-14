@@ -6,10 +6,9 @@ This ~~is~~ used to be the repo for my documentation - now it's merged with my m
 
 ## Installation
 
-Markdown documentation files are stored in the `cookbooks/docs/src/` folder. Run the `cookbooks/docs/bin/setup.sh` script to set up a python virtual environment to be able to run `./bin/preview.sh` and view changes locally before pushing to your repo.
+Markdown documentation files are stored in the `cookbooks/docs/src/` folder. Run `docs/bin/setup.sh` to set up a python virtual environment, then run `docs/bin/preview.sh` to view changes locally before pushing to your repo. Both scripts work from any working directory and are tested on macOS and Ubuntu.
 
-!!! note
-        This is currently only tested and working on WSL on Windows builds. May also work on native linux. Lo siento. 
+`preview.sh` accepts `-c` to clean the build directory first, and `-t <seconds>` to auto-stop the preview server after a timeout.
 
 While this is not necessary, it helps save on runtime minutes if your docs website is run through a "freemium" CI pipeline. I.E. I have my website deployed to GitHub Pages through a GitHub Actions CI pipeline. Free GitHub accounts receive 2000 minutes to run GitHub Actions, so viewing changes locally helps cut down on re-running CI just to view a typo change. Running the preview server can also allow you to view changes instantly instead of having to wait for the CI pipeline to finish.
 
