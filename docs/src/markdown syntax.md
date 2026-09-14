@@ -245,7 +245,9 @@ If you'd like to organize information so that only some is visible at a time, yo
 === "Choice 2"
     Information for choice 2
 
-## Notes and Secrets
+## Admonitions (Notes and Secrets Drop Downs)
+
+Supported Types: <https://squidfunk.github.io/mkdocs-material/reference/admonitions/#supported-types>
 
 If you have a bit of information that you want to display as an aside, you can choose to format it as either a note or a secret. The Note/Secret title can be replaced with a one-word title.
 
