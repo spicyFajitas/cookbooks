@@ -35,5 +35,10 @@ credentials.tfvars
 *.tfvars
 
 # certs folders
-certs
+certs/*.pem
+certs/*.csr
+certs/*.cnf
+certs/*.key
+
+
 .claude*
