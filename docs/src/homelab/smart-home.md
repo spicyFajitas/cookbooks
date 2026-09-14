@@ -6,6 +6,12 @@
 
 ## Summer Wind Ceiling Light and Fan
 
+### Reference
+
+- <https://fccid.io/CHQ7030T>
+
+### Info
+
 Sub GHz (MHz radio)
 
 [Overhead light radio control file](../../../../../../Downloads/Light_toggle.sub)
