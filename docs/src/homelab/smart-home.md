@@ -1,8 +1,14 @@
 # Smart Home
 
-## Home Assistant
+## Parts
 
-<https://community.home-assistant.io/t/midea-formerly-midea-ac-lan-integration-is-now-part-of-home-assistant-core/1022097>
+- [IR (Infrared) Receiver Sensor - TSOP38238](https://www.adafruit.com/product/157)
+- ESP32 x Many
+- RF transmitter & receiver
+
+## GitHub
+
+- <https://github.com/smruchira/Midea-AC-IR-Protocol-Decode>
 
 ## Summer Wind Ceiling Light and Fan
 
@@ -17,7 +23,6 @@ Sub GHz (MHz radio)
 [Overhead light radio control file](../../../../../../Downloads/Light_toggle.sub)
 
 !!! Note FCC Information
-2026-09-14
     | FCC ID             | Device Details                     |
     | ------------------ | ---------------------------------- |
     | FCC ID             | CHQ7030T                           |
@@ -40,4 +45,6 @@ Infrared
 
 [AC infrared control file](../../../../../../Downloads/Reeeeeeeeee.ir)
 
-[ESPHome Midea](https://esphome.io/components/climate/midea/)
+- <https://esphome.io/components/climate/midea/>
+- <https://www.home-assistant.io/integrations/midea/>
+- <https://community.home-assistant.io/t/midea-formerly-midea-ac-lan-integration-is-now-part-of-home-assistant-core/1022097>
