@@ -8,6 +8,7 @@ Active Table
 | ---------------------- | ---------- | --------------------------- |
 | router                 | x...1      | router                      |
 | adguard                | x...2      | adguard                     |
+| home-assistant         | x...5      | home assistant              |
 | pve                    | x...10     | proxmox virtual environment |
 | k3s                    | x...12     | k3s control 1               |
 | spicyNAS               | x...15     | truenas storage server      |

@@ -48,3 +48,7 @@ Infrared
 - <https://esphome.io/components/climate/midea/>
 - <https://www.home-assistant.io/integrations/midea/>
 - <https://community.home-assistant.io/t/midea-formerly-midea-ac-lan-integration-is-now-part-of-home-assistant-core/1022097>
+
+## Home Assistant
+
+<https://smarthomescene.com/guides/how-to-install-home-assistant-on-proxmox-the-easy-way/>
