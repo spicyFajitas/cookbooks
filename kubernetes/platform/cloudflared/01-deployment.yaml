@@ -23,6 +23,10 @@ spec:
   selector:
     matchLabels:
       app: cloudflared
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
   template:
     metadata:
       labels:
