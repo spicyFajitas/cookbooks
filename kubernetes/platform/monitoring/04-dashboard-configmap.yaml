@@ -18,6 +18,13 @@
 # matches edhrec-analyzer.json's modern schemaVersion 39 style instead,
 # scoped to exactly the two metrics sources actually wired up here
 # (kube-state-metrics for object state, cAdvisor for CPU/memory usage).
+#
+# magic-traffic.json is hand-built too (2026-10): who is using magic and
+# for what. Three sources -- Traefik's metrics/access log
+# (kubernetes/platform/traefik/), the app's own edhrec_* counters, and the
+# app's JSON event log lines in Loki (session_start/analysis events, with
+# the visitor IP/country from Cloudflare's headers). Generated as JSON by
+# a script, not exported from the Grafana UI -- edit it directly.
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -558,5 +565,411 @@ data:
       "timezone": "browser",
       "title": "Kubernetes Cluster",
       "uid": "kubernetes-cluster",
+      "version": 1
+    }
+  magic-traffic.json: |
+    {
+      "annotations": {
+        "list": []
+      },
+      "editable": true,
+      "panels": [
+        {
+          "type": "stat",
+          "title": "Sessions",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "mimir"
+              },
+              "expr": "sum(increase(edhrec_sessions_started_total[$__range]))",
+              "instant": true
+            }
+          ],
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "colorMode": "none"
+          },
+          "id": 1,
+          "gridPos": {
+            "x": 0,
+            "y": 0,
+            "w": 6,
+            "h": 4
+          }
+        },
+        {
+          "type": "stat",
+          "title": "Unique visitor IPs",
+          "datasource": {
+            "type": "loki",
+            "uid": "loki"
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "expr": "count(sum by (client_ip) (count_over_time({namespace=\"magic\"} | json | event=\"session_start\" [$__range])))",
+              "queryType": "instant"
+            }
+          ],
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "colorMode": "none"
+          },
+          "id": 2,
+          "gridPos": {
+            "x": 6,
+            "y": 0,
+            "w": 6,
+            "h": 4
+          }
+        },
+        {
+          "type": "stat",
+          "title": "Successful analyses",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "mimir"
+              },
+              "expr": "sum(increase(edhrec_analysis_outcomes_total{outcome=\"success\"}[$__range]))",
+              "instant": true
+            }
+          ],
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "colorMode": "none"
+          },
+          "id": 3,
+          "gridPos": {
+            "x": 12,
+            "y": 0,
+            "w": 6,
+            "h": 4
+          }
+        },
+        {
+          "type": "stat",
+          "title": "Not found / no decks",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "mimir"
+              },
+              "expr": "sum(increase(edhrec_analysis_outcomes_total{outcome=~\"not_found|no_decks\"}[$__range]))",
+              "instant": true
+            }
+          ],
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "colorMode": "none"
+          },
+          "id": 4,
+          "gridPos": {
+            "x": 18,
+            "y": 0,
+            "w": 6,
+            "h": 4
+          }
+        },
+        {
+          "type": "timeseries",
+          "title": "Requests/s by status (Traefik)",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "unit": "reqps"
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "mimir"
+              },
+              "expr": "sum by (code) (rate(traefik_service_requests_total{service=\"magic-edhrec-analyzer-web@kubernetes\"}[5m]))",
+              "legendFormat": "{{code}}"
+            }
+          ],
+          "id": 5,
+          "gridPos": {
+            "x": 0,
+            "y": 4,
+            "w": 12,
+            "h": 8
+          }
+        },
+        {
+          "type": "timeseries",
+          "title": "HTTP latency (Traefik, excludes websocket)",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "mimir"
+              },
+              "expr": "histogram_quantile(0.5, sum by (le) (rate(traefik_service_request_duration_seconds_bucket{service=\"magic-edhrec-analyzer-web@kubernetes\",protocol=\"http\"}[5m])))",
+              "legendFormat": "p50"
+            },
+            {
+              "refId": "B",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "mimir"
+              },
+              "expr": "histogram_quantile(0.95, sum by (le) (rate(traefik_service_request_duration_seconds_bucket{service=\"magic-edhrec-analyzer-web@kubernetes\",protocol=\"http\"}[5m])))",
+              "legendFormat": "p95"
+            }
+          ],
+          "id": 6,
+          "gridPos": {
+            "x": 12,
+            "y": 4,
+            "w": 12,
+            "h": 8
+          }
+        },
+        {
+          "type": "bargauge",
+          "title": "Top commanders",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "mimir"
+              },
+              "expr": "topk(10, sum by (commander) (increase(edhrec_commander_analyses_total[$__range])))",
+              "legendFormat": "{{commander}}",
+              "instant": true
+            }
+          ],
+          "options": {
+            "orientation": "horizontal",
+            "displayMode": "basic",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "values": false
+            }
+          },
+          "id": 7,
+          "gridPos": {
+            "x": 0,
+            "y": 12,
+            "w": 8,
+            "h": 9
+          }
+        },
+        {
+          "type": "bargauge",
+          "title": "Sessions by country",
+          "datasource": {
+            "type": "loki",
+            "uid": "loki"
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "expr": "topk(10, sum by (country) (count_over_time({namespace=\"magic\"} | json | event=\"session_start\" [$__range])))",
+              "legendFormat": "{{country}}",
+              "queryType": "instant"
+            }
+          ],
+          "options": {
+            "orientation": "horizontal",
+            "displayMode": "basic",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "values": false
+            }
+          },
+          "id": 8,
+          "gridPos": {
+            "x": 8,
+            "y": 12,
+            "w": 8,
+            "h": 9
+          }
+        },
+        {
+          "type": "bargauge",
+          "title": "Analyses by outcome",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "mimir"
+              },
+              "expr": "sum by (outcome) (increase(edhrec_analysis_outcomes_total[$__range]))",
+              "legendFormat": "{{outcome}}",
+              "instant": true
+            }
+          ],
+          "options": {
+            "orientation": "horizontal",
+            "displayMode": "basic",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "values": false
+            }
+          },
+          "id": 9,
+          "gridPos": {
+            "x": 16,
+            "y": 12,
+            "w": 8,
+            "h": 9
+          }
+        },
+        {
+          "type": "logs",
+          "title": "Analyses",
+          "datasource": {
+            "type": "loki",
+            "uid": "loki"
+          },
+          "options": {
+            "showTime": true,
+            "sortOrder": "Descending",
+            "wrapLogMessage": true
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "expr": "{namespace=\"magic\"} | json | event=\"analysis\" | line_format \"{{.outcome}}  {{.commander}}  from {{.client_ip}} ({{.country}})  {{.duration_s}}s\""
+            }
+          ],
+          "id": 10,
+          "gridPos": {
+            "x": 0,
+            "y": 21,
+            "w": 24,
+            "h": 9
+          }
+        },
+        {
+          "type": "logs",
+          "title": "Traefik access log (magic)",
+          "datasource": {
+            "type": "loki",
+            "uid": "loki"
+          },
+          "options": {
+            "showTime": true,
+            "sortOrder": "Descending",
+            "wrapLogMessage": true
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "expr": "{namespace=\"kube-system\", container=\"traefik\"} | json | ServiceName=\"magic-edhrec-analyzer-web@kubernetes\" | line_format \"{{.DownstreamStatus}} {{.RequestMethod}} {{.RequestPath}}  from {{.request_Cf_Connecting_Ip}} ({{.request_Cf_Ipcountry}})  {{.request_User_Agent}}\""
+            }
+          ],
+          "id": 11,
+          "gridPos": {
+            "x": 0,
+            "y": 30,
+            "w": 24,
+            "h": 10
+          }
+        }
+      ],
+      "refresh": "1m",
+      "schemaVersion": 39,
+      "tags": [
+        "magic",
+        "traefik"
+      ],
+      "templating": {
+        "list": []
+      },
+      "time": {
+        "from": "now-7d",
+        "to": "now"
+      },
+      "timezone": "browser",
+      "title": "Magic Traffic",
+      "uid": "magic-traffic",
       "version": 1
     }

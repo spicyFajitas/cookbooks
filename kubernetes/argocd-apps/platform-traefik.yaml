@@ -1,0 +1,23 @@
+# Plain-directory source, same shape as cloudflared/loki-config. Only
+# carries the HelmChartConfig override for k3s's bundled Traefik -- Argo CD
+# doesn't install or own Traefik itself, k3s's HelmChart controller does
+# (see kubernetes/platform/traefik/readme.md). No CreateNamespace:
+# kube-system always exists.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: traefik-config
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/spicyFajitas/cookbooks.git
+    targetRevision: HEAD
+    path: kubernetes/platform/traefik
+    directory:
+      recurse: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  syncPolicy:
+    automated: {}
