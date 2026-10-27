@@ -29,7 +29,7 @@ Sub GHz (MHz radio)
     | Mirrors            | fcc.id / gov / fccid.ai            |
     | Grantee Code       | CHQ                                |
     | Product Code       | 7030T                              |
-    | Applicant Business | Rhine Electronics Co Ltd 🇹🇼      |
+    | Applicant Business | Rhine Electronics Co Ltd           |
     | Related Domains    | rhine-e.com.tw                     |
     | Equipment Class    | Transmitter of Remote Control      |
     | Test Firm          | Electronics Testing Center, Taiwan |
