@@ -47,6 +47,16 @@ data:
         scrape_interval: 15s
         static_configs:
           - targets: ['edhrec-analyzer-metrics.magic.svc.cluster.local:8502']
+      - job_name: 'traefik'
+        # k3s's bundled Traefik -- request rate/status/latency per
+        # Ingress backend (`service` label, e.g.
+        # magic-edhrec-analyzer-web@kubernetes). The traefik-metrics
+        # Service only exists because of
+        # kubernetes/platform/traefik/01-helmchartconfig.yaml; k3s doesn't
+        # create one by default.
+        scrape_interval: 15s
+        static_configs:
+          - targets: ['traefik-metrics.kube-system.svc.cluster.local:9100']
       - job_name: 'kube-state-metrics'
         # Kubernetes *object state* (pod phase, deployment replicas,
         # restarts, node conditions, ...) -- 06-kube-state-metrics.yaml.
