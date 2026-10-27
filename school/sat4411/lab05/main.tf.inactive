@@ -1,0 +1,45 @@
+provider "vsphere" {
+    vsphere_server = "172.20.191.56"
+  user                 = "administrator@vsphere.local"
+  password             = "P@ssw0rd"
+}
+
+data "vsphere_datacenter" "datacenter" {
+  name = "dc-r2"
+}
+
+data "vsphere_datastore" "datastore" {
+  name          = "ds0"
+}
+
+data "vsphere_compute_cluster" "cluster" {
+  name          = "cluster-01"
+}
+
+data "vsphere_network" "network" {
+  name          = "VM Network"
+  datacenter_id = data.vsphere_datacenter.datacenter.id
+}
+
+resource "vsphere_virtual_machine" "vm" {
+    count           = 0
+    name             = "TinyCore-tf-0${count.index+1}"
+    resource_pool_id = "res-36"
+    datacenter_id    = data.vsphere_datacenter.datacenter.id
+    datastore_id     = data.vsphere_datastore.datastore.id
+    num_cpus         = 1
+    memory           = 1024
+    guest_id         = "other3xLinux64Guest"
+    network_interface {
+    network_id 		= data.vsphere_network.network.id
+    }
+  disk {
+    label = "disk1"
+    size  = 20
+  }
+  cdrom {
+    datastore_id = data.vsphere_datastore.iso_datastore.id
+    path         = "/Volume/Storage/ISO/ubuntu.iso"
+  }
+  data
+}
