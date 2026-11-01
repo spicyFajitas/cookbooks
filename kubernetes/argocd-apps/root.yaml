@@ -18,8 +18,6 @@ spec:
     repoURL: https://github.com/spicyFajitas/cookbooks.git
     targetRevision: main
     path: kubernetes/argocd-apps
-    directory:
-      recurse: false
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd

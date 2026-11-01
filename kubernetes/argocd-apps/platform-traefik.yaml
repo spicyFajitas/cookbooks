@@ -14,8 +14,6 @@ spec:
     repoURL: https://github.com/spicyFajitas/cookbooks.git
     targetRevision: main
     path: kubernetes/platform/traefik
-    directory:
-      recurse: false
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system
