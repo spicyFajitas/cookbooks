@@ -1,0 +1,110 @@
+# Env carried over from docker-host's live docker-compose.yml (which had
+# drifted from the last version in git -- schedule, server, and display
+# timezone below are the live values, not git's), with three deliberate
+# changes:
+#   - SPEEDTEST_SCHEDULE / SPEEDTEST_SERVERS without the literal quotes
+#     the compose list syntax was passing through into the value.
+#   - APP_DEBUG=false -- it was true on docker-host, which was LAN-only.
+#     This one's reachable from the internet through the tunnel, and
+#     Laravel's debug page dumps env vars (DB password, APP_KEY) on errors.
+#   - APP_URL/ASSET_URL set, so Laravel builds https:// links behind
+#     Traefik's TLS termination instead of mixed-content http:// ones.
+#
+# TZ=America/Detroit replaces docker's /etc/localtime bind mount (that's
+# what docker-host is set to). DISPLAY_TIMEZONE=America/Los_Angeles is
+# kept as-is from the live config -- see readme.md's note on the app's
+# timezone weirdness before "fixing" it.
+#
+# :latest + Always, same as docker-host ran it. Not wired into
+# image-updater (linuxserver's -lsNNN tags aren't plain semver) -- pick up
+# a new release with:
+#   kubectl -n speedtest-tracker rollout restart deployment/speedtest-tracker
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: speedtest-tracker
+  namespace: speedtest-tracker
+  labels:
+    app: speedtest-tracker
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate # RWO config PVC, and two schedulers would double-run every test
+  selector:
+    matchLabels:
+      app: speedtest-tracker
+  template:
+    metadata:
+      labels:
+        app: speedtest-tracker
+    spec:
+      containers:
+        - name: speedtest-tracker
+          image: lscr.io/linuxserver/speedtest-tracker:latest
+          imagePullPolicy: Always
+          ports:
+            - name: web
+              containerPort: 80
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: America/Detroit
+            - name: APP_URL
+              value: https://speedtest.spicyfajitas.com
+            - name: ASSET_URL
+              value: https://speedtest.spicyfajitas.com
+            - name: APP_DEBUG
+              value: "false"
+            - name: DISPLAY_TIMEZONE
+              value: America/Los_Angeles
+            - name: SPEEDTEST_SCHEDULE
+              value: "7,27,47 * * * *"
+            - name: SPEEDTEST_SERVERS
+              value: "18339"
+            - name: DB_CONNECTION
+              value: pgsql
+            - name: DB_HOST
+              value: speedtest-tracker-db
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_DATABASE
+              value: speedtest_tracker
+            - name: DB_USERNAME
+              value: speedy
+          envFrom:
+            - secretRef:
+                name: speedtest-tracker # DB_PASSWORD, APP_KEY
+          volumeMounts:
+            - name: config
+              mountPath: /config
+          resources:
+            requests:
+              cpu: 50m
+              memory: 256Mi
+            limits:
+              memory: 1Gi
+          # First boot runs Laravel migrations + generates nginx/SSL config
+          # under /config, so give startup more room than steady state.
+          startupProbe:
+            httpGet:
+              path: /api/healthcheck
+              port: web
+            periodSeconds: 10
+            failureThreshold: 30
+          livenessProbe:
+            httpGet:
+              path: /api/healthcheck
+              port: web
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /api/healthcheck
+              port: web
+            periodSeconds: 10
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: speedtest-tracker-config

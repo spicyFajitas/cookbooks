@@ -1,0 +1,38 @@
+# Same external-dns pattern as kubernetes/platform/monitoring/05-ingress.yaml
+# -- explicit tunnel target + cloudflare-proxied rather than relying on the
+# *.spicyfajitas.com wildcard. See that file for why.
+#
+# No auth in front of this beyond Speedtest Tracker's own login (users
+# came over with the database migration) -- same stance as Grafana.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: speedtest-tracker
+  namespace: speedtest-tracker
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-dns
+    external-dns-managed: "true"
+    external-dns.alpha.kubernetes.io/target: b70df153-37a9-481b-a828-f5596bdcbf9f.cfargotunnel.com
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: Speedtest Tracker
+    gethomepage.dev/description: WAN speed history
+    gethomepage.dev/group: Services
+    gethomepage.dev/icon: speedtest-tracker.png
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - speedtest.spicyfajitas.com
+      secretName: speedtest-tracker-tls
+  rules:
+    - host: speedtest.spicyfajitas.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: speedtest-tracker
+                port:
+                  name: web

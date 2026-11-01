@@ -1,0 +1,85 @@
+# Stays on postgres 15 -- same major as the docker-host instance the data
+# was dumped from. A major bump (Renovate will propose one) is NOT a plain
+# image change: postgres won't start on a data dir from an older major.
+# Needs a pg_dump/restore, same procedure as readme.md's migration section.
+#
+# Default port 5432 here, not the docker setup's `-p 5433` (that only
+# existed to avoid clashing with something else on docker-host's network).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: speedtest-tracker-db
+  namespace: speedtest-tracker
+  labels:
+    app: speedtest-tracker-db
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate # RWO PVC, and two postgres processes on one data dir corrupts it
+  selector:
+    matchLabels:
+      app: speedtest-tracker-db
+  template:
+    metadata:
+      labels:
+        app: speedtest-tracker-db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          ports:
+            - name: postgres
+              containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: speedtest_tracker
+            - name: POSTGRES_USER
+              value: speedy
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: speedtest-tracker
+                  key: DB_PASSWORD
+            # Subdirectory, not the mount root -- some volume types put a
+            # lost+found there, which initdb refuses to run on top of.
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "speedy", "-d", "speedtest_tracker"]
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            exec:
+              command: ["pg_isready", "-U", "speedy", "-d", "speedtest_tracker"]
+            initialDelaySeconds: 30
+            periodSeconds: 20
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: speedtest-tracker-db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: speedtest-tracker-db
+  namespace: speedtest-tracker
+  labels:
+    app: speedtest-tracker-db
+spec:
+  type: ClusterIP
+  selector:
+    app: speedtest-tracker-db
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: postgres

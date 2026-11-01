@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: speedtest-tracker
+  namespace: speedtest-tracker
+  labels:
+    app: speedtest-tracker
+spec:
+  type: ClusterIP
+  selector:
+    app: speedtest-tracker
+  ports:
+    - name: web
+      port: 80
+      targetPort: web
