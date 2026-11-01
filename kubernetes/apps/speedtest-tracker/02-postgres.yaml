@@ -24,6 +24,9 @@ spec:
       labels:
         app: speedtest-tracker-db
     spec:
+      securityContext:
+        runAsUser: 999
+        runAsGroup: 999
       containers:
         - name: postgres
           image: postgres:15
