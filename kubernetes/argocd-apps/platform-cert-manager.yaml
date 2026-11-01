@@ -17,7 +17,7 @@ spec:
         valueFiles:
           - $values/kubernetes/platform/cert-manager/values.yaml
     - repoURL: https://github.com/spicyFajitas/cookbooks.git
-      targetRevision: HEAD
+      targetRevision: main
       ref: values
   destination:
     server: https://kubernetes.default.svc
@@ -39,7 +39,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/spicyFajitas/cookbooks.git
-    targetRevision: HEAD
+    targetRevision: main
     path: kubernetes/platform/cert-manager
     directory:
       exclude: "values.yaml"

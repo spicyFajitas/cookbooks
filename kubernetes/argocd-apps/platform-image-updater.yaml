@@ -16,7 +16,7 @@ spec:
         valueFiles:
           - $values/kubernetes/platform/image-updater/values.yaml
     - repoURL: https://github.com/spicyFajitas/cookbooks.git
-      targetRevision: HEAD
+      targetRevision: main
       ref: values
   destination:
     server: https://kubernetes.default.svc
@@ -35,7 +35,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/spicyFajitas/cookbooks.git
-    targetRevision: HEAD
+    targetRevision: main
     path: kubernetes/platform/image-updater
     directory:
       exclude: "values.yaml"

@@ -22,7 +22,7 @@ spec:
       project: default
       source:
         repoURL: https://github.com/spicyFajitas/cookbooks.git
-        targetRevision: HEAD
+        targetRevision: main
         path: "{{path}}"
       destination:
         server: https://kubernetes.default.svc

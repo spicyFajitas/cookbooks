@@ -15,7 +15,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/spicyFajitas/cookbooks.git
-    targetRevision: HEAD
+    targetRevision: main
     path: kubernetes/platform/monitoring
   destination:
     server: https://kubernetes.default.svc
