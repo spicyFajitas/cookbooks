@@ -28,6 +28,7 @@ metadata:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: Grafana
     gethomepage.dev/group: Services
+    gethomepage.dev/pod-selector: app=grafana
     gethomepage.dev/icon: grafana.png
 spec:
   ingressClassName: traefik

@@ -1,11 +1,3 @@
-# Split in two now that cert-manager/external-dns are live and 05-ingress.yaml
-# fronts the web port properly:
-#   - `edhrec-analyzer` (ClusterIP) -- what the Ingress routes to.
-#   - `edhrec-analyzer-metrics` (NodePort, :30852) -- Prometheus now lives
-#     in-cluster (kubernetes/platform/monitoring/, migrated 2026-07 off
-#     docker-host) and scrapes this by Service DNS name, not node IP:port,
-#     so NodePort isn't actually needed for that anymore -- kept anyway in
-#     case something external still wants direct node-IP access.
 apiVersion: v1
 kind: Service
 metadata:

@@ -1,14 +1,3 @@
-# No storageClassName -- deliberately omitted so this manifest works
-# unchanged on any cluster's own default StorageClass (k3s: local-path,
-# DOKS: do-block-storage), rather than hardcoding one. Was `local-path`
-# until 2026-07's temporary DOKS migration during a move made that a real
-# portability problem, not just a hypothetical one. Omitting the field on
-# an `apply` doesn't touch already-bound PVCs' existing (immutable)
-# storageClassName -- safe for k3s's live PVCs, and lets a fresh PVC (like
-# DOKS's) pick up whatever's actually default there.
-#
-# Losing this data isn't a real incident either way: cache/ just avoids
-# redundant EDHRec/Scryfall API calls, output/ is regenerated on next run.
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:

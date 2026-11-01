@@ -1,15 +1,3 @@
-# Single replica: the app mounts ReadWriteOnce PVCs (cache/, output/), so
-# it can't scale horizontally without shared storage anyway, and a
-# Streamlit UI + local analysis job doesn't benefit much from HA at this
-# scale.
-#
-# imagePullPolicy: Always + :latest means a fresh pod picks up whatever's
-# newest at *pod creation* time -- but unlike the old docker-compose setup
-# (Watchtower polling hourly), nothing in-cluster re-triggers a rollout
-# when a new image lands in ghcr.io. Until that's wired up (image-updater
-# controller, or a CI step that can reach the cluster), pick up a new
-# image with:
-#   kubectl -n magic rollout restart deployment/edhrec-analyzer
 apiVersion: apps/v1
 kind: Deployment
 metadata:

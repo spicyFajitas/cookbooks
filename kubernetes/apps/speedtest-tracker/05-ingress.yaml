@@ -20,6 +20,7 @@ metadata:
     gethomepage.dev/name: Speedtest Tracker
     gethomepage.dev/description: WAN speed history
     gethomepage.dev/group: Services
+    gethomepage.dev/pod-selector: app=speedtest-tracker
     gethomepage.dev/icon: speedtest-tracker.png
 spec:
   ingressClassName: traefik
