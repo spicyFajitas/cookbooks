@@ -25,16 +25,20 @@ rockauto
 
 Multiple tables for better readability when writing tables
 
-| Mileage | Date       | Service Item                                     | Notes                                         |
-| ------- | ---------- | ------------------------------------------------ | --------------------------------------------- |
-| 233,916 | 2026-06-12 | Replace canister purge regulator valve           | Town and Country Modern Mechanics, Lansing MI |
-| 233,916 | 2026-06-12 | Replace evap canister purge solenoid             | Town and Country Modern Mechanics, Lansing MI |
-| 233,916 | 2026-06-12 | Replace front left lower control arm             | Town and Country Modern Mechanics, Lansing MI |
-| 233,916 | 2026-06-12 | Wheel alignment                                  | Town and Country Modern Mechanics, Lansing MI |
-| 233,916 | 2026-06-12 | Replace valve cover gasket                       | Town and Country Modern Mechanics, Lansing MI |
-| 233,916 | 2026-06-12 | Tires balances (not convinced all were balanced) | Town and Country Modern Mechanics, Lansing MI |
-| 233,916 | 2026-06-12 | Replace sway bar links for all 4 wheels          | Town and Country Modern Mechanics, Lansing MI |
-| 233,916 | 2026-06-12 | Replace stabilizer bar control link              | Town and Country Modern Mechanics, Lansing MI |
+| Mileage | Date       | Service Item                                     | Notes                                           |
+| ------- | ---------- | ------------------------------------------------ | ----------------------------------------------- |
+| 240,635 | 2026-10-13 | Oil change Oil Changers Livermore, CA            |                                                 |
+| 239,251 | 2026-08-13 | Smog check vehicle inspection                    | passed                                          |
+| 237,685 | 2026-07-29 | Oil change valvoline Grand Junction, CO          | Engine oil leak, severe transmission leak noted |
+| 235,048 | 2026-07-01 | Oil change valvoline Lansing, MI                 | Transmission fluid leak noted                   |
+| 233,916 | 2026-06-12 | Replace canister purge regulator valve           | Town and Country Modern Mechanics, Lansing MI   |
+| 233,916 | 2026-06-12 | Replace evap canister purge solenoid             | Town and Country Modern Mechanics, Lansing MI   |
+| 233,916 | 2026-06-12 | Replace front left lower control arm             | Town and Country Modern Mechanics, Lansing MI   |
+| 233,916 | 2026-06-12 | Wheel alignment                                  | Town and Country Modern Mechanics, Lansing MI   |
+| 233,916 | 2026-06-12 | Replace valve cover gasket                       | Town and Country Modern Mechanics, Lansing MI   |
+| 233,916 | 2026-06-12 | Tires balances (not convinced all were balanced) | Town and Country Modern Mechanics, Lansing MI   |
+| 233,916 | 2026-06-12 | Replace sway bar links for all 4 wheels          | Town and Country Modern Mechanics, Lansing MI   |
+| 233,916 | 2026-06-12 | Replace stabilizer bar control link              | Town and Country Modern Mechanics, Lansing MI   |
 
 | Mileage | Date       | Service Item              | Notes                                                                                                                      |
 | ------- | ---------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
