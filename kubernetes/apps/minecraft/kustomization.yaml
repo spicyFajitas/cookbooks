@@ -11,6 +11,8 @@ resources:
   - 04-velocity.yaml
   - 05-limbo.yaml
   - 06-public-dns.yaml
+  - discord-relay-config.sops.yaml
+  - velocity-forwarding.sops.yaml
 
 configMapGenerator:
   - name: velocity-config
