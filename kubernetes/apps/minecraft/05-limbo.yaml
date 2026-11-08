@@ -1,9 +1,13 @@
 # Holding server for Velocity's failover: an empty void world (NanoLimbo)
 # where players wait while Paper restarts, then `/server paper` to go back.
 #
-# No world, no state (emptyDir), cluster-internal only. Runs with no info
-# forwarding, i.e. offline mode -- fine for a void with nothing to do or
-# protect, and the ClusterIP Service means only Velocity can reach it.
+# No world, no state (emptyDir), cluster-internal only.
+#
+# Uses Velocity modern forwarding like Paper does: Velocity in modern mode
+# refuses to hand players to any backend that doesn't request forwarding
+# ("Your server did not send a forwarding request to the proxy"), so a
+# plain offline-mode limbo doesn't work. The init container writes
+# config/nanolimbo-settings.yml into place with the secret filled in.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -25,6 +29,33 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
+      initContainers:
+        # NanoLimbo only writes its default settings.yml when the file is
+        # missing, so laying ours down first (fresh emptyDir every start)
+        # means it's always used as-is.
+        - name: settings
+          image: mikefarah/yq:4.44.3
+          command:
+            - sh
+            - -c
+            - |
+              set -e
+              yq '
+                .infoForwarding.type = "MODERN" |
+                .infoForwarding.secret = strenv(VELOCITY_SECRET)
+              ' /seed/settings.yml > /data/settings.yml
+              echo "wrote /data/settings.yml with MODERN forwarding"
+          env:
+            - name: VELOCITY_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: velocity-forwarding
+                  key: forwarding.secret
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: settings
+              mountPath: /seed
       containers:
         - name: limbo
           image: itzg/minecraft-server:java25
@@ -59,6 +90,9 @@ spec:
       volumes:
         - name: data
           emptyDir: {}
+        - name: settings
+          configMap:
+            name: limbo-settings
 ---
 apiVersion: v1
 kind: Service

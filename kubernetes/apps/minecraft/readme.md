@@ -21,7 +21,9 @@ whitelist and plugin configs the role managed.
   `paper-global.yml`).
 - `05-limbo.yaml`: NanoLimbo holding server. When Paper restarts, Velocity
   moves players here (an empty void) instead of disconnecting them. Back to
-  the real server with `/server paper` once it's up.
+  the real server with `/server paper` once it's up. Needs Velocity
+  forwarding too (Velocity refuses backends without it); its settings are
+  `config/nanolimbo-settings.yml`, secret filled in by an init container.
 - `06-public-dns.yaml`: DDNS updater keeping `minecraft.spicyfajitas.com`
   pointed at the home WAN IP (DNS-only, not proxied). Runs in the
   `external-dns` namespace to reuse its Cloudflare token.

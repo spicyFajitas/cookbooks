@@ -17,6 +17,10 @@ configMapGenerator:
     namespace: minecraft-grass-gang
     files:
       - velocity.toml=config/velocity.toml
+  - name: limbo-settings
+    namespace: minecraft-grass-gang
+    files:
+      - settings.yml=config/nanolimbo-settings.yml
   - name: axgraves-config
     namespace: minecraft-grass-gang
     files:
