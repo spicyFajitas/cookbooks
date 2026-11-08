@@ -133,6 +133,16 @@ spec:
                 bluemap
                 coreprotect
                 gunshell
+            # Carried over from the VM's server.properties where it
+            # differed from the image defaults (image default is easy).
+            - name: DIFFICULTY
+              value: normal
+            - name: VIEW_DISTANCE
+              value: "15"
+            - name: SPAWN_PROTECTION
+              value: "3"
+            - name: MOTD
+              value: K3s Paper Server
             - name: INIT_MEMORY
               value: 2G
             - name: MAX_MEMORY

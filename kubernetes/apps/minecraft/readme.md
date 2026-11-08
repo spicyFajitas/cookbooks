@@ -113,4 +113,18 @@ Velocity *does* disconnect everyone, so only touch `velocity.toml` /
 
 Whitelist: edit `WHITELIST` in `02-deployment.yaml`. `whitelist.json` is
 rebuilt from it on every start. Paper upgrades: bump `VERSION`; the
-newest stable Paper build for it is picked up on each start.
+newest stable Paper build for it is picked up on each start. `VERSION`
+only ever goes **up**: a world that has run on a version can't be opened
+on an older one. Check every plugin has a build for the new version first
+(Gunshell is usually the one holding things back).
+
+Plugins: the ones on Modrinth are listed in `MODRINTH_PROJECTS` in
+`02-deployment.yaml` and updated to their newest release for `VERSION` on
+each start -- add/remove a line to add/remove a plugin. The rest
+(BasicDiscordRelay, SleepMost, Timber) are hand-placed jars in
+`/data/plugins` that came over from the VM; replace them by `kubectl cp`.
+
+Gunshell's resource pack isn't set: its newest release targets 1.20.4 and
+custom item models changed in 1.21.4, so guns show as their base vanilla
+items. If an updated pack appears, set `RESOURCE_PACK` /
+`RESOURCE_PACK_SHA1` on the Paper container.
