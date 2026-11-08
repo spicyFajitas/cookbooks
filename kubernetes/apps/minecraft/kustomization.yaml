@@ -14,14 +14,14 @@ resources:
 
 configMapGenerator:
   - name: velocity-config
-    namespace: minecraft-grass-gang
+    namespace: minecraft
     files:
       - velocity.toml=config/velocity.toml
   - name: limbo-settings
-    namespace: minecraft-grass-gang
+    namespace: minecraft
     files:
       - settings.yml=config/nanolimbo-settings.yml
   - name: axgraves-config
-    namespace: minecraft-grass-gang
+    namespace: minecraft
     files:
       - config.yml=config/axgraves-config.yml

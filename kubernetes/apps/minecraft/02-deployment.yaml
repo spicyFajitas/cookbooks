@@ -21,7 +21,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: minecraft
-  namespace: minecraft-grass-gang
+  namespace: minecraft
   labels:
     app: minecraft
 spec:

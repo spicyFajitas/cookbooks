@@ -10,7 +10,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: velocity
-  namespace: minecraft-grass-gang
+  namespace: minecraft
   labels:
     app: velocity
 spec:
@@ -84,7 +84,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: velocity
-  namespace: minecraft-grass-gang
+  namespace: minecraft
   labels:
     app: velocity
 spec:

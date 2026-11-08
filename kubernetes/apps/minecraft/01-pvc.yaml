@@ -6,7 +6,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: minecraft-data
-  namespace: minecraft-grass-gang
+  namespace: minecraft
 spec:
   accessModes: ["ReadWriteOnce"]
   resources:
