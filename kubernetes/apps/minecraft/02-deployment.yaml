@@ -1,4 +1,4 @@
-# Replaces roles/minecraft-grass-gang (Paper jar + start.sh + systemd/tmux
+# Replaces roles/minecraft (Paper jar + start.sh + systemd/tmux
 # on its own VM) with itzg/minecraft-server, which handles the Paper
 # download, EULA, whitelist and JVM flags from env vars:
 #   - TYPE/VERSION: Paper on the pinned Minecraft version. No PAPER_BUILD,
@@ -15,7 +15,7 @@
 # has to be copied onto the PVC before the first start, or Paper generates
 # a brand-new world. Flip to 1 in a follow-up PR once the copy is done.
 #
-# Console: `kubectl -n minecraft-grass-gang exec -it deploy/minecraft -- rcon-cli`
+# Console: `kubectl -n minecraft exec -it deploy/minecraft -- rcon-cli`
 # (replaces the role's `grassgang` tmux session).
 apiVersion: apps/v1
 kind: Deployment

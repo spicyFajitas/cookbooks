@@ -23,8 +23,8 @@ ping-passthrough = "all"
 enable-player-address-logging = true
 
 [servers]
-paper = "minecraft.minecraft-grass-gang.svc.cluster.local:25565"
-limbo = "limbo.minecraft-grass-gang.svc.cluster.local:25565"
+paper = "minecraft.minecraft.svc.cluster.local:25565"
+limbo = "limbo.minecraft.svc.cluster.local:25565"
 # Join order, and where failover-on-unexpected-server-disconnect sends
 # players when Paper restarts. Back to Paper with `/server paper`.
 try = ["paper", "limbo"]

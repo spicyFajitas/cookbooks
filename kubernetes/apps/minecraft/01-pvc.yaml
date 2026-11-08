@@ -1,6 +1,6 @@
 # The whole server directory: world(s), plugins/ (jars + their data),
 # server.properties, etc. -- everything that lived in
-# /opt/minecraft/grass-gang on the minecraft-grass-gang VM. local-path, so
+# /opt/minecraft/grass-gang on the minecraft VM. local-path, so
 # it's on the k3s node's disk only; local-path doesn't enforce the size.
 apiVersion: v1
 kind: PersistentVolumeClaim

@@ -53,7 +53,7 @@ data:
             podSelector: app=minecraft
             widget:
                 type: minecraft
-                url: udp://minecraft.minecraft-grass-gang.svc.cluster.local:25565
+                url: udp://minecraft.minecraft.svc.cluster.local:25565
 
   bookmarks.yaml: |
     - Homelab:
