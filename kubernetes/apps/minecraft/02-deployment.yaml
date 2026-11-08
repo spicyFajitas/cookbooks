@@ -1,8 +1,8 @@
 # Replaces roles/minecraft-grass-gang (Paper jar + start.sh + systemd/tmux
 # on its own VM) with itzg/minecraft-server, which handles the Paper
 # download, EULA, whitelist and JVM flags from env vars:
-#   - TYPE/VERSION/PAPER_BUILD: same Paper build the role's start.sh ran
-#     (paper-1.21.10-129.jar).
+#   - TYPE/VERSION: Paper on the pinned Minecraft version. No PAPER_BUILD,
+#     so the image pulls the newest stable Paper build for VERSION.
 #   - INIT_MEMORY/MAX_MEMORY + USE_AIKAR_FLAGS: start.sh's -Xms2048M
 #     -Xmx4096M and the G1 flag set, which is exactly Aikar's flags.
 #   - WHITELIST + EXISTING_WHITELIST_FILE=SYNCHRONIZE: whitelist.json is
@@ -81,8 +81,6 @@ spec:
               value: PAPER
             - name: VERSION
               value: "26.3"
-            - name: PAPER_BUILD
-              value: "129"
             - name: INIT_MEMORY
               value: 2G
             - name: MAX_MEMORY

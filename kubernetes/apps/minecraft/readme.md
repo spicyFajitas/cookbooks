@@ -78,5 +78,5 @@ kubectl -n minecraft-grass-gang logs -f deploy/minecraft
 ```
 
 Whitelist: edit `WHITELIST` in `02-deployment.yaml`. `whitelist.json` is
-rebuilt from it on every start. Paper upgrades: bump `VERSION` /
-`PAPER_BUILD`.
+rebuilt from it on every start. Paper upgrades: bump `VERSION`; the
+newest stable Paper build for it is picked up on each start.
