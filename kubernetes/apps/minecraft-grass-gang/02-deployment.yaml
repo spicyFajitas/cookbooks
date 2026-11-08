@@ -23,7 +23,7 @@ metadata:
   labels:
     app: minecraft
 spec:
-  replicas: 0
+  replicas: 1
   strategy:
     type: Recreate # RWO PVC, and two servers on one world corrupts it
   selector:
