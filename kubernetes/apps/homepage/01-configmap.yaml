@@ -40,6 +40,21 @@ data:
             href: https://10.100.10.15
             ping: https://10.100.10.15
 
+    # Minecraft is raw TCP with no Ingress, so annotation auto-discovery
+    # can't see it -- static entry instead. namespace/podSelector still
+    # give it k8s pod status/CPU/mem; the widget pings the server for
+    # online status and player count over the in-cluster Service.
+    - Games:
+        - Minecraft:
+            icon: minecraft.png
+            description: Grass Gang Paper server
+            namespace: minecraft-grass-gang
+            app: minecraft
+            podSelector: app=minecraft
+            widget:
+                type: minecraft
+                url: udp://minecraft.minecraft-grass-gang.svc.cluster.local:25565
+
   bookmarks.yaml: |
     - Homelab:
         - Documentation:
