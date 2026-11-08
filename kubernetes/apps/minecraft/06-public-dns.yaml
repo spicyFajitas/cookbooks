@@ -1,0 +1,73 @@
+# minecraft.spicyfajitas.com -> home WAN IP, DNS-only (grey cloud).
+#
+# Why not external-dns / a DNSEndpoint like the rest of the zone:
+#   - Minecraft is raw TCP, so it can't ride the Cloudflare tunnel or proxy.
+#     Without its own record the name falls through to the proxied
+#     *.spicyfajitas.com tunnel wildcard, which only carries HTTP. A specific
+#     record always wins over the wildcard.
+#   - The record has to point at the WAN IP, which external-dns has no way
+#     to discover (it only knows the private ServiceLB IP), and hard-coding
+#     it in a DNSEndpoint would publish the home IP in this public repo and
+#     break whenever the ISP changes it.
+# So: a DDNS updater that looks up the current public IP and upserts just
+# this one A record every 5 minutes. It never touches other records, and
+# external-dns (upsert-only, TXT-owned records only) leaves it alone.
+#
+# Lives in the external-dns namespace to reuse that namespace's
+# cloudflare-api-token Secret (same token, see
+# kubernetes/platform/external-dns/readme.md) instead of keeping a second
+# copy of it here.
+#
+# Players still need the router's 25565 forward to 10.100.10.12 (Velocity's
+# ServiceLB) for the name to actually connect.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft-ddns
+  namespace: external-dns
+  labels:
+    app: minecraft-ddns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minecraft-ddns
+  template:
+    metadata:
+      labels:
+        app: minecraft-ddns
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+      containers:
+        - name: ddns
+          image: favonia/cloudflare-ddns:1.15.1
+          env:
+            - name: CLOUDFLARE_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: cloudflare-api-token
+                  key: api-token
+            - name: DOMAINS
+              value: minecraft.spicyfajitas.com
+            - name: PROXIED
+              value: "false"
+            # Home connection is IPv4-only as far as this repo knows; turn
+            # this back on (drop the var) to also publish an AAAA record.
+            - name: IP6_PROVIDER
+              value: none
+            - name: UPDATE_CRON
+              value: "@every 5m"
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              memory: 64Mi

@@ -63,6 +63,42 @@ spec:
               mountPath: /seed/axgraves
             - name: discord-relay-config
               mountPath: /seed/discord-relay
+        # Turns on Velocity modern forwarding in paper-global.yml (no env
+        # var for it in the image). Patches only these keys and leaves the
+        # rest of Paper's own file alone. If the file doesn't exist yet
+        # (brand-new PVC), skip it: Paper writes its defaults on first
+        # start, and the next restart patches them. Until then logins fail
+        # closed -- offline-mode UUIDs don't match the whitelist.
+        - name: velocity-forwarding
+          image: mikefarah/yq:4.44.3
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+          command:
+            - sh
+            - -c
+            - |
+              set -e
+              f=/data/config/paper-global.yml
+              if [ -f "$f" ]; then
+                yq -i '
+                  .proxies.velocity.enabled = true |
+                  .proxies.velocity["online-mode"] = true |
+                  .proxies.velocity.secret = strenv(VELOCITY_SECRET)
+                ' "$f"
+                echo "velocity forwarding enabled in $f"
+              else
+                echo "WARNING: $f missing (first start?), restart once Paper has created it"
+              fi
+          env:
+            - name: VELOCITY_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: velocity-forwarding
+                  key: forwarding.secret
+          volumeMounts:
+            - name: data
+              mountPath: /data
       containers:
         - name: minecraft
           image: itzg/minecraft-server:java25
@@ -91,6 +127,10 @@ spec:
               value: "true"
             - name: TZ
               value: America/Detroit
+            # Velocity does the Mojang auth and forwards the real
+            # player identity (see the velocity-forwarding init container).
+            - name: ONLINE_MODE
+              value: "FALSE"
             - name: EXISTING_OPS_FILE
               value: SYNCHRONIZE
             # UUIDs, one per line: spicy_Fajitas

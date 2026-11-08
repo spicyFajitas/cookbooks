@@ -1,0 +1,96 @@
+# Velocity proxy in front of Paper. Players connect here (25565 on the k3s
+# node via ServiceLB) instead of to Paper directly. When Paper restarts,
+# Velocity keeps their connection and parks them on the limbo server
+# (05-limbo.yaml) instead of dropping them to the multiplayer menu.
+#
+# Stateless: /server is an emptyDir, rebuilt from /config (velocity.toml +
+# forwarding.secret) on every start. Only restart this for proxy changes --
+# restarting it does disconnect everyone.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: velocity
+  namespace: minecraft-grass-gang
+  labels:
+    app: velocity
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: velocity
+  template:
+    metadata:
+      labels:
+        app: velocity
+    spec:
+      # Same reason as the Paper container: start unprivileged so the image
+      # never has to drop privileges itself.
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: velocity
+          image: itzg/mc-proxy:java21
+          ports:
+            - name: velocity
+              containerPort: 25577
+          env:
+            - name: TYPE
+              value: VELOCITY
+            - name: MEMORY
+              value: 512m
+            # Default would download the Velocircon plugin and want an
+            # RCON password; nothing uses it.
+            - name: ENABLE_RCON
+              value: "false"
+          volumeMounts:
+            - name: server
+              mountPath: /server
+            - name: config
+              mountPath: /config
+              readOnly: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 640Mi
+            limits:
+              memory: 1Gi
+          readinessProbe:
+            tcpSocket:
+              port: velocity
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: velocity
+            initialDelaySeconds: 30
+            periodSeconds: 30
+      volumes:
+        - name: server
+          emptyDir: {}
+        - name: config
+          projected:
+            sources:
+              - configMap:
+                  name: velocity-config
+              - secret:
+                  name: velocity-forwarding
+---
+# Takes over the public 25565 from Paper's Service (now ClusterIP), so the
+# router's port forward to 10.100.10.12:25565 doesn't change.
+apiVersion: v1
+kind: Service
+metadata:
+  name: velocity
+  namespace: minecraft-grass-gang
+  labels:
+    app: velocity
+spec:
+  type: LoadBalancer
+  selector:
+    app: velocity
+  ports:
+    - name: minecraft
+      port: 25565
+      targetPort: velocity
+      protocol: TCP
