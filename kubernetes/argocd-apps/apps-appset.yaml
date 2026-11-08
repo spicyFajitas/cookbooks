@@ -15,6 +15,7 @@ spec:
   ignoreApplicationDifferences:
     - jsonPointers:
         - /spec/source/kustomize
+        - /spec/syncPolicy
   template:
     metadata:
       name: "{{path.basename}}"
