@@ -31,7 +31,9 @@ spec:
         fsGroup: 1000
       containers:
         - name: velocity
-          image: itzg/mc-proxy:java21
+          # Velocity 4.x is built for Java 25 (class file 69); java21 fails
+          # with UnsupportedClassVersionError.
+          image: itzg/mc-proxy:java25
           ports:
             - name: velocity
               containerPort: 25577
