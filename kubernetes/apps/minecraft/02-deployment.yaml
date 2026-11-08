@@ -73,7 +73,7 @@ spec:
             - name: TYPE
               value: PAPER
             - name: VERSION
-              value: "1.21.10"
+              value: "26.3"
             - name: PAPER_BUILD
               value: "129"
             - name: INIT_MEMORY
