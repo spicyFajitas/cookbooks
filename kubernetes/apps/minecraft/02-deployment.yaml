@@ -63,7 +63,7 @@ spec:
               mountPath: /seed/discord-relay
       containers:
         - name: minecraft
-          image: itzg/minecraft-server:java21
+          image: itzg/minecraft-server:java25
           # Start as the image's minecraft user so the entrypoint skips
           # its gosu root->1000 switch, which hangs in-kernel on this node
           # (k3s v1.37.2 / kernel 7.0). /data is already 1000-owned and the
