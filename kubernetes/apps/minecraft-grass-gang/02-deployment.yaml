@@ -1,0 +1,149 @@
+# Replaces roles/minecraft-grass-gang (Paper jar + start.sh + systemd/tmux
+# on its own VM) with itzg/minecraft-server, which handles the Paper
+# download, EULA, whitelist and JVM flags from env vars:
+#   - TYPE/VERSION/PAPER_BUILD: same Paper build the role's start.sh ran
+#     (paper-1.21.10-129.jar).
+#   - INIT_MEMORY/MAX_MEMORY + USE_AIKAR_FLAGS: start.sh's -Xms2048M
+#     -Xmx4096M and the G1 flag set, which is exactly Aikar's flags.
+#   - WHITELIST + EXISTING_WHITELIST_FILE=SYNCHRONIZE: whitelist.json is
+#     rewritten from this list on every start, same as the role's template.
+#     Edit the list here to add/remove players.
+#
+# replicas: 0 on purpose -- see readme.md's cutover steps. The world data
+# has to be copied onto the PVC before the first start, or Paper generates
+# a brand-new world. Flip to 1 in a follow-up PR once the copy is done.
+#
+# Console: `kubectl -n minecraft-grass-gang exec -it deploy/minecraft -- rcon-cli`
+# (replaces the role's `grassgang` tmux session).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft
+  namespace: minecraft-grass-gang
+  labels:
+    app: minecraft
+spec:
+  replicas: 0
+  strategy:
+    type: Recreate # RWO PVC, and two servers on one world corrupts it
+  selector:
+    matchLabels:
+      app: minecraft
+  template:
+    metadata:
+      labels:
+        app: minecraft
+    spec:
+      # Gives the server time to save the world on shutdown/redeploy.
+      terminationGracePeriodSeconds: 120
+      initContainers:
+        # Same job as the role's template tasks for plugin configs: lay
+        # them down over whatever the plugin last wrote, on every start.
+        # Copied, not mounted, because plugins rewrite their own configs
+        # and a ConfigMap/Secret mount is read-only.
+        - name: plugin-configs
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              set -e
+              install -D -m 0664 -o 1000 -g 1000 /seed/axgraves/config.yml /data/plugins/AxGraves/config.yml
+              if [ -f /seed/discord-relay/config.yml ]; then
+                install -D -m 0640 -o 1000 -g 1000 /seed/discord-relay/config.yml /data/plugins/DiscordRelay/config.yml
+              else
+                echo "discord-relay-config secret not present, leaving DiscordRelay config as-is"
+              fi
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: axgraves-config
+              mountPath: /seed/axgraves
+            - name: discord-relay-config
+              mountPath: /seed/discord-relay
+      containers:
+        - name: minecraft
+          image: itzg/minecraft-server:java21
+          ports:
+            - name: minecraft
+              containerPort: 25565
+          env:
+            - name: EULA
+              value: "TRUE"
+            - name: TYPE
+              value: PAPER
+            - name: VERSION
+              value: "1.21.10"
+            - name: PAPER_BUILD
+              value: "129"
+            - name: INIT_MEMORY
+              value: 2G
+            - name: MAX_MEMORY
+              value: 4G
+            - name: USE_AIKAR_FLAGS
+              value: "true"
+            - name: TZ
+              value: America/Detroit
+            - name: ENABLE_WHITELIST
+              value: "TRUE"
+            - name: ENFORCE_WHITELIST
+              value: "TRUE"
+            - name: EXISTING_WHITELIST_FILE
+              value: SYNCHRONIZE
+            - name: WHITELIST
+              value: |
+                83fa4fe0-0e0e-42c0-8bec-97cc58148295
+                eef23291-c945-4ae4-a580-ec11e330f2c1
+                cc585f9d-0aea-45c8-b7b4-95bdb92c95a8
+                def8f26e-c4fb-4737-81a2-ec051747c8f3
+                d006aac0-8dfb-4938-b854-6118bdfe65e2
+                8a9997b1-eb9e-419a-a83d-ca9329d1954d
+                266f26ee-3305-44df-b4c0-06b5915ffd01
+                6180fd8a-8c03-4c3e-85cd-4b434defa251
+                a4ae9bd6-90a0-44fd-93a0-b336db7cc964
+                1edb14d7-9d91-470e-893a-c263c253e071
+                5b502011-d014-49d0-bee2-70f7bf93e591
+                f51f109a-82f1-4ea5-8bf0-37da9d11ec92
+                721526ef-e8b3-4e36-bb23-951fcbc7a72b
+                f9827bf9-a772-487c-ab89-235b4f0b0bd6
+                fa6d1295-6282-4f7f-84c7-ea6599a4ec55
+                86234888-3f78-4733-8049-02a7e910fde2
+                c51624b9-e590-475f-a408-48f103b94bb1
+                1fdb22af-75f2-426e-8aeb-3557b4d3258c
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          # 4G heap + JVM/off-heap overhead.
+          resources:
+            requests:
+              cpu: "1"
+              memory: 4Gi
+            limits:
+              memory: 6Gi
+          # mc-health ships in the image; first start downloads Paper and
+          # loads the world, so startup gets a long budget.
+          startupProbe:
+            exec:
+              command: ["mc-health"]
+            periodSeconds: 10
+            failureThreshold: 60
+          livenessProbe:
+            exec:
+              command: ["mc-health"]
+            periodSeconds: 30
+            failureThreshold: 4
+          readinessProbe:
+            exec:
+              command: ["mc-health"]
+            periodSeconds: 15
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: minecraft-data
+        - name: axgraves-config
+          configMap:
+            name: axgraves-config
+        - name: discord-relay-config
+          secret:
+            secretName: discord-relay-config
+            optional: true
