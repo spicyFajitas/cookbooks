@@ -89,6 +89,11 @@ spec:
               value: "true"
             - name: TZ
               value: America/Detroit
+            - name: EXISTING_OPS_FILE
+              value: SYNCHRONIZE
+            - name: OPS
+              value: |
+                83fa4fe0-0e0e-42c0-8bec-97cc58148295 # spicy_Fajitas
             - name: ENABLE_WHITELIST
               value: "TRUE"
             - name: ENFORCE_WHITELIST
