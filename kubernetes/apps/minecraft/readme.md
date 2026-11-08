@@ -16,7 +16,7 @@ whitelist and plugin configs the role managed.
   entry point. `LoadBalancer` via k3s ServiceLB, so `25565` is bound on the
   k3s node (10.100.10.12). Does the Mojang auth and forwards player
   identity to Paper (modern forwarding, signed with
-  `secrets/velocity-forwarding.sops.yaml`; the `velocity-forwarding` init
+  `velocity-forwarding.sops.yaml`; the `velocity-forwarding` init
   container in `02-deployment.yaml` writes the same secret into Paper's
   `paper-global.yml`).
 - `05-limbo.yaml`: NanoLimbo holding server. When Paper restarts, Velocity
@@ -31,13 +31,13 @@ whitelist and plugin configs the role managed.
   `axgrave-config.yaml.j2` (it had no templating). Kustomize turns it into
   a ConfigMap, and an initContainer copies it into `plugins/AxGraves/` on
   every start.
-- `secrets/discord-relay-config.sops.yaml`: the DiscordRelay
+- `discord-relay-config.sops.yaml`: the DiscordRelay
   `config.yml`. It's committed with **placeholder** values, so fill it in
   with the real values from `ansible/roles/minecraft/vaults/production.yml`:
 
   ```bash
   ansible-vault view ansible/roles/minecraft/vaults/production.yml   # discord_bot_token, discord_channel_id
-  sops kubernetes/apps/minecraft/secrets/discord-relay-config.sops.yaml
+  sops kubernetes/apps/minecraft/discord-relay-config.sops.yaml
   ```
 
   Not in `kustomization.yaml`, same as every other SopsSecret here. Apply it
@@ -50,7 +50,7 @@ Apply the forwarding secret **before** syncing the app. Paper's init
 container needs it and the pod won't start without it:
 
 ```bash
-kubectl apply -f kubernetes/apps/minecraft/secrets/velocity-forwarding.sops.yaml
+kubectl apply -f kubernetes/apps/minecraft/velocity-forwarding.sops.yaml
 ```
 
 Then sync. Paper restarts once with forwarding on; Velocity takes over the
@@ -73,7 +73,7 @@ but no server.
 1. **Stop the VM's server** so the world isn't changing mid-copy:
    `ssh adam@10.100.10.29 sudo systemctl stop minecraft`
 2. **Apply the Discord secret** (once you've filled it in):
-   `kubectl apply -f kubernetes/apps/minecraft/secrets/discord-relay-config.sops.yaml`
+   `kubectl apply -f kubernetes/apps/minecraft/discord-relay-config.sops.yaml`
 3. **Copy the data onto the PVC.** local-path won't bind the PVC until a
    pod uses it, so use a throwaway pod:
 

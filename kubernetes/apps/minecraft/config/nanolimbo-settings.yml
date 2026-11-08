@@ -18,7 +18,7 @@ maxPlayers: 100
 
 # Server's data in servers list
 ping:
-  description: '{"text": "&aGrass Gang &7- restarting"}'
+  description: '{"text": "&aK3s Paper Server &7- restarting"}'
   version: 'NanoLimbo'
   # Return static protocol version number in ping result
   # By default, its -1 to return the client version if it supported

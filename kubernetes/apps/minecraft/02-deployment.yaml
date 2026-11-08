@@ -117,8 +117,22 @@ spec:
               value: "TRUE"
             - name: TYPE
               value: PAPER
+            # Pinned to the newest version Gunshell supports. Never move
+            # this backwards once a world has run on it -- worlds can't be
+            # downgraded.
             - name: VERSION
-              value: "26.3"
+              value: "1.21.11"
+            # Plugins from Modrinth: the image picks the newest release of
+            # each for VERSION + Paper on every start, and removes ones
+            # dropped from this list. Plugins not on Modrinth
+            # (BasicDiscordRelay, SleepMost, Timber) are plain jars living
+            # in /data/plugins from the VM copy.
+            - name: MODRINTH_PROJECTS
+              value: |
+                axgraves
+                bluemap
+                coreprotect
+                gunshell
             - name: INIT_MEMORY
               value: 2G
             - name: MAX_MEMORY

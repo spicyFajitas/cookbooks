@@ -47,7 +47,7 @@ data:
     - Games:
         - Minecraft:
             icon: minecraft.png
-            description: Grass Gang Paper server
+            description: Paper Minecraft Server
             namespace: minecraft
             app: minecraft
             podSelector: app=minecraft

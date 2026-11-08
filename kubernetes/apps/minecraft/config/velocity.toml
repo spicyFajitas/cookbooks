@@ -4,7 +4,7 @@
 config-version = "2.7"
 
 bind = "0.0.0.0:25577"
-motd = "<green>Grass Gang"
+motd = "<green>K3s Paper Server"
 show-max-players = 20
 
 # The proxy does the Mojang auth; Paper sits behind it in offline mode and
