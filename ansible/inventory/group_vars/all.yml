@@ -14,12 +14,12 @@ package_list:
   - btop
   - curl
   - fail2ban
+  - fastfetch
   - gdu
   - git
   - glances
   - htop
   - needrestart
-  - neofetch
   - net-tools
   - python3
   - python3-pip

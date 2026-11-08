@@ -17,23 +17,13 @@ all:
         docker-host: {}
       vars:
         ansible_user: root
-    separate_hosts:
-      hosts:
-        docker-host: {}
-      vars:
-        ansible_user: root
     proxmox:
       # the Proxmox hypervisor itself -- physical hardware, not a VM, so it
       # will never appear via the community.general.proxmox dynamic plugin
       # (that plugin enumerates guests, not the host it queries). This entry
       # is a permanent, intentional exception, not a migration TODO.
       hosts:
-        proxmox: {}
-      vars:
-        ansible_user: root
-    docker_host:
-      hosts:
-        docker-host: {}
+        pve: {}
       vars:
         ansible_user: root
     k3s_server:

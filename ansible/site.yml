@@ -48,14 +48,6 @@
     - helper/ssh
     - helper/timezone
 
-- name: Configure the Docker host baseline
-  hosts: docker_host
-  become: true
-  become_method: ansible.builtin.sudo
-  tags: [docker, docker_host]
-  roles:
-    - docker_host
-
 - name: Configure Proxmox
   hosts: proxmox
   become: true
@@ -93,18 +85,3 @@
     - minecraft-grass-gang
   vars_files:
     - roles/minecraft-grass-gang/vaults/production.yml
-
-# --- docker_host-hosted services ---
-# All of them share one role (docker_services) -- see
-# roles/docker_services/readme.md. Each service still gets its own
-# --tags <service> (currently just grafana): the role's tasks/main.yml applies
-# the tag per-service internally.
-
-- name: Configure docker_host services
-  hosts: docker_host
-  become: true
-  become_method: ansible.builtin.sudo
-  roles:
-    - docker_services
-  vars_files:
-    - roles/docker_services/vaults/production.yml
