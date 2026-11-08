@@ -8,6 +8,8 @@
 #   - WHITELIST + EXISTING_WHITELIST_FILE=SYNCHRONIZE: whitelist.json is
 #     rewritten from this list on every start, same as the role's template.
 #     Edit the list here to add/remove players.
+#   - OPS + EXISTING_OPS_FILE=SYNCHRONIZE: same idea for ops.json -- ops
+#     granted in-game with /op are dropped on the next restart.
 #
 # replicas: 0 on purpose -- see readme.md's cutover steps. The world data
 # has to be copied onto the PVC before the first start, or Paper generates
@@ -91,9 +93,10 @@ spec:
               value: America/Detroit
             - name: EXISTING_OPS_FILE
               value: SYNCHRONIZE
+            # UUIDs, one per line: spicy_Fajitas
             - name: OPS
               value: |
-                83fa4fe0-0e0e-42c0-8bec-97cc58148295 # spicy_Fajitas
+                83fa4fe0-0e0e-42c0-8bec-97cc58148295
             - name: ENABLE_WHITELIST
               value: "TRUE"
             - name: ENFORCE_WHITELIST
