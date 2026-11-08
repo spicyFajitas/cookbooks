@@ -27,7 +27,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: limbo
-          image: itzg/minecraft-server:java21
+          image: itzg/minecraft-server:java25
           ports:
             - name: minecraft
               containerPort: 25565
