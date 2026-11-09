@@ -75,8 +75,9 @@ spec:
               value: normal
             - name: VIEW_DISTANCE
               value: "15"
+            # 0 = no spawn protection; anyone can build at spawn.
             - name: SPAWN_PROTECTION
-              value: "3"
+              value: "0"
             - name: MOTD
               value: K3s Paper Server
             - name: INIT_MEMORY
