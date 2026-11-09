@@ -1,0 +1,9 @@
+# Bukkit's server-wide permission defaults (/data/permissions.yml), laid
+# down by the plugin-configs init container on every start.
+#
+# QuickStack (itemquickstack) checks quickstack.stack but never declares
+# it in its plugin.yml, so Bukkit treats it as op-only. This lets every
+# player use /quickstack stack (alias /qs). quickstack.admin (reload)
+# stays op-only.
+quickstack.stack:
+  default: true

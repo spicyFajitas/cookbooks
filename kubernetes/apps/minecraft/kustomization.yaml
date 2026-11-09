@@ -15,3 +15,7 @@ configMapGenerator:
     namespace: minecraft
     files:
       - config.yml=config/axgraves-config.yml
+  - name: bukkit-permissions
+    namespace: minecraft
+    files:
+      - permissions.yml=config/permissions.yml

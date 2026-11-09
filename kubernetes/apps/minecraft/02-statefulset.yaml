@@ -36,6 +36,7 @@ spec:
             - |
               set -e
               install -D -m 0664 -o 1000 -g 1000 /seed/axgraves/config.yml /data/plugins/AxGraves/config.yml
+              install -m 0664 -o 1000 -g 1000 /seed/permissions/permissions.yml /data/permissions.yml
               # install -D creates missing parent dirs as root (only the
               # file gets -o/-g), and the plugins (uid 1000) need to write
               # their data next to their config.
@@ -45,6 +46,8 @@ spec:
               mountPath: /data
             - name: axgraves-config
               mountPath: /seed/axgraves
+            - name: bukkit-permissions
+              mountPath: /seed/permissions
       containers:
         - name: minecraft
           image: itzg/minecraft-server:java25
@@ -68,6 +71,11 @@ spec:
             # fetch a newer TreeFeller-*.jar next to it (duplicate plugin).
             # smartsort: click/command to sort chests and inventories.
             # crouch-grow: crouching near crops grows them (costs hunger).
+            # auto-replant: right-click a grown crop to harvest + replant.
+            # itemquickstack: /qs stack puts matching items into nearby
+            # chests. Pinned to 1.0.1 (zpkQL0LX) because no release lists
+            # 26.3, so an unpinned lookup finds nothing. Players get its
+            # permission via config/permissions.yml.
             - name: MODRINTH_PROJECTS
               value: |
                 axgraves
@@ -75,6 +83,8 @@ spec:
                 bluemap
                 smartsort
                 crouch-grow
+                auto-replant
+                itemquickstack:zpkQL0LX
             - name: DIFFICULTY
               value: normal
             - name: VIEW_DISTANCE
@@ -157,3 +167,6 @@ spec:
         - name: axgraves-config
           configMap:
             name: axgraves-config
+        - name: bukkit-permissions
+          configMap:
+            name: bukkit-permissions
