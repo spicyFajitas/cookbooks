@@ -139,7 +139,6 @@ spec:
                 axgraves
                 bluemap
                 coreprotect
-                gunshell
             # Carried over from the VM's server.properties where it
             # differed from the image defaults (image default is easy).
             - name: DIFFICULTY
