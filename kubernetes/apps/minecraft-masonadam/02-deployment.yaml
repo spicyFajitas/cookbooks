@@ -1,0 +1,89 @@
+# Mason & Adam's Paper server, moved off its own VM (minecraft,
+# 10.100.10.28). /data is the old server directory as-is, so worlds,
+# plugins + their configs, server.properties, whitelist and ops all carry
+# over untouched.
+#
+# Bedrock support (Geyser + floodgate) was dropped in the move: mc-router
+# only routes Java TCP by hostname, and the jars were renamed to
+# *.jar.disabled in plugins/ (their config dirs are still there).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft
+  namespace: minecraft-masonadam
+  labels:
+    app: minecraft
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: minecraft
+  template:
+    metadata:
+      labels:
+        app: minecraft
+    spec:
+      # Gives the server time to save the world on shutdown/redeploy.
+      terminationGracePeriodSeconds: 120
+      containers:
+        - name: minecraft
+          image: itzg/minecraft-server:2026.10.1-java21
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+          ports:
+            - name: minecraft
+              containerPort: 25565
+          env:
+            - name: EULA
+              value: "TRUE"
+            # Pinned to exactly what the VM ran (paper-1.21.5-87.jar).
+            # World upgrades are one-way -- bump deliberately, not via
+            # image updates.
+            - name: TYPE
+              value: PAPER
+            - name: VERSION
+              value: "1.21.5"
+            - name: PAPER_BUILD
+              value: "87"
+            # The copied server.properties/whitelist/ops are the source of
+            # truth; don't let the image rewrite them from env defaults.
+            - name: SKIP_SERVER_PROPERTIES
+              value: "true"
+            # VM ran -Xms2G -Xmx4G; trimmed to fit three servers on the
+            # 16G k3s node (small world, few players).
+            - name: INIT_MEMORY
+              value: 1G
+            - name: MAX_MEMORY
+              value: 3G
+            - name: TZ
+              value: America/Detroit
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          resources:
+            requests:
+              cpu: 500m
+              memory: 2Gi
+            limits:
+              memory: 4Gi
+          startupProbe:
+            exec:
+              command: ["mc-health"]
+            periodSeconds: 10
+            failureThreshold: 60
+          livenessProbe:
+            exec:
+              command: ["mc-health"]
+            periodSeconds: 30
+            failureThreshold: 4
+          readinessProbe:
+            exec:
+              command: ["mc-health"]
+            periodSeconds: 15
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: minecraft-data

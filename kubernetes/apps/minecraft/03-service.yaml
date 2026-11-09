@@ -1,8 +1,6 @@
-# Minecraft is raw TCP, so it can't go through Traefik/Ingress or the
-# Cloudflare tunnel like the web apps. LoadBalancer here is handled by
-# k3s's built-in ServiceLB (same mechanism as svclb-traefik), which binds
-# 25565 on the k3s node itself -- players reach it at 10.100.10.12:25565
-# (router port forward), or minecraft.spicyfajitas.com (06-public-dns.yaml).
+# ClusterIP only -- players reach this through mc-router
+# (kubernetes/apps/mc-router/), which owns :25565 on the node and routes
+# minecraft.spicyfajitas.com (and any unmatched hostname / raw IP) here.
 #
 # Also what homepage's Minecraft widget pings for status/player count.
 apiVersion: v1
@@ -13,7 +11,7 @@ metadata:
   labels:
     app: minecraft
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: minecraft
   ports:

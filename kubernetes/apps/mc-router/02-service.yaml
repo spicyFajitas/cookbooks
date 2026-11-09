@@ -1,0 +1,25 @@
+# Minecraft is raw TCP, so it can't go through Traefik/Ingress or the
+# Cloudflare tunnel like the web apps. LoadBalancer here is handled by
+# k3s's built-in ServiceLB (same mechanism as svclb-traefik), which binds
+# 25565 on the k3s node itself -- players reach it via the router's
+# 25565 port forward to 10.100.10.12, using whichever hostname picks
+# their server (see 01-deployment.yaml's MAPPING).
+#
+# This is the only thing that should hold :25565 on the node; the
+# servers themselves are ClusterIP.
+apiVersion: v1
+kind: Service
+metadata:
+  name: mc-router
+  namespace: mc-router
+  labels:
+    app: mc-router
+spec:
+  type: LoadBalancer
+  selector:
+    app: mc-router
+  ports:
+    - name: minecraft
+      port: 25565
+      targetPort: minecraft
+      protocol: TCP

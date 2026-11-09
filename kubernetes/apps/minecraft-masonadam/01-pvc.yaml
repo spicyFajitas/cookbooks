@@ -1,0 +1,14 @@
+# The whole mason-adam server directory, copied as-is from
+# /opt/minecraft/mason-adam-paper-1.21.5 on the old minecraft VM
+# (10.100.10.28). ~4.3G at copy time, 3G of that is the old backup/ dir.
+# local-path doesn't enforce the size.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: minecraft-data
+  namespace: minecraft-masonadam
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 10Gi

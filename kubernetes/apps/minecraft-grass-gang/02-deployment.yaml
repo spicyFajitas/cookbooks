@@ -1,0 +1,87 @@
+# Grass Gang's Paper server, moved off its own VM (minecraft-grass-gang,
+# 10.100.10.29, ansible/roles/minecraft-grass-gang). /data is the old
+# server directory as-is, so worlds, plugins + their configs,
+# server.properties, whitelist and ops all carry over untouched.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft
+  namespace: minecraft-gg
+  labels:
+    app: minecraft
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: minecraft
+  template:
+    metadata:
+      labels:
+        app: minecraft
+    spec:
+      # Gives the server time to save the world on shutdown/redeploy.
+      terminationGracePeriodSeconds: 120
+      containers:
+        - name: minecraft
+          image: itzg/minecraft-server:2026.10.1-java21
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+          ports:
+            - name: minecraft
+              containerPort: 25565
+          env:
+            - name: EULA
+              value: "TRUE"
+            # Pinned to exactly what the VM ran (paper-1.21.10-129.jar).
+            # World upgrades are one-way -- bump deliberately, not via
+            # image updates.
+            - name: TYPE
+              value: PAPER
+            - name: VERSION
+              value: "1.21.10"
+            - name: PAPER_BUILD
+              value: "129"
+            # The copied server.properties/whitelist/ops are the source of
+            # truth; don't let the image rewrite them from env defaults.
+            - name: SKIP_SERVER_PROPERTIES
+              value: "true"
+            # Same heap + Aikar flags as the VM's start.sh.
+            - name: INIT_MEMORY
+              value: 2G
+            - name: MAX_MEMORY
+              value: 4G
+            - name: USE_AIKAR_FLAGS
+              value: "true"
+            - name: TZ
+              value: America/Detroit
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          resources:
+            requests:
+              cpu: 500m
+              memory: 3Gi
+            limits:
+              memory: 5Gi
+          # 15G world -- first start on a new host can be slow.
+          startupProbe:
+            exec:
+              command: ["mc-health"]
+            periodSeconds: 10
+            failureThreshold: 90
+          livenessProbe:
+            exec:
+              command: ["mc-health"]
+            periodSeconds: 30
+            failureThreshold: 4
+          readinessProbe:
+            exec:
+              command: ["mc-health"]
+            periodSeconds: 15
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: minecraft-data

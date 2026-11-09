@@ -1,0 +1,15 @@
+# The whole grass-gang server directory, copied from
+# /opt/minecraft/grass-gang on the old minecraft-grass-gang VM
+# (10.100.10.29) *minus* bluemap/ (~30G of rendered map tiles -- BlueMap
+# re-renders from the world if it's ever wanted again). ~17G at copy time,
+# 15G of that is world/. local-path doesn't enforce the size.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: minecraft-data
+  namespace: minecraft-gg
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 40Gi

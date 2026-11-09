@@ -1,4 +1,6 @@
-# minecraft.spicyfajitas.com -> home WAN IP, DNS-only (grey cloud).
+# minecraft / gg / masonadam .spicyfajitas.com -> home WAN IP, DNS-only
+# (grey cloud). All three land on mc-router (kubernetes/apps/mc-router/),
+# which picks the server by hostname.
 #
 # Why not external-dns / a DNSEndpoint like the rest of the zone:
 #   - Minecraft is raw TCP, so it can't ride the Cloudflare tunnel or proxy.
@@ -10,7 +12,7 @@
 #     it in a DNSEndpoint would publish the home IP in this public repo and
 #     break whenever the ISP changes it.
 # So: a DDNS updater that looks up the current public IP and upserts just
-# this one A record every 5 minutes. It never touches other records, and
+# these A records every 5 minutes. It never touches other records, and
 # external-dns (upsert-only, TXT-owned records only) leaves it alone.
 #
 # Lives in the external-dns namespace to reuse that namespace's
@@ -18,8 +20,8 @@
 # kubernetes/platform/external-dns/readme.md) instead of keeping a second
 # copy of it here.
 #
-# Players still need the router's 25565 forward to 10.100.10.12 (Paper's
-# ServiceLB) for the name to actually connect.
+# Players still need the router's 25565 forward to 10.100.10.12
+# (mc-router's ServiceLB) for the name to actually connect.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -51,7 +53,7 @@ spec:
                   name: cloudflare-api-token
                   key: api-token
             - name: DOMAINS
-              value: minecraft.spicyfajitas.com
+              value: minecraft.spicyfajitas.com,gg.spicyfajitas.com,masonadam.spicyfajitas.com
             - name: PROXIED
               value: "false"
             # Home connection is IPv4-only as far as this repo knows; turn

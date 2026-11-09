@@ -47,13 +47,31 @@ data:
     - Games:
         - Minecraft:
             icon: minecraft.png
-            description: Paper Minecraft Server
+            description: Paper 26.3 -- minecraft.spicyfajitas.com
             namespace: minecraft
             app: minecraft
             podSelector: app=minecraft
             widget:
                 type: minecraft
                 url: udp://minecraft.minecraft.svc.cluster.local:25565
+        - Grass Gang:
+            icon: minecraft.png
+            description: Paper 1.21.10 -- gg.spicyfajitas.com
+            namespace: minecraft-gg
+            app: minecraft
+            podSelector: app=minecraft
+            widget:
+                type: minecraft
+                url: udp://minecraft.minecraft-gg.svc.cluster.local:25565
+        - Mason & Adam:
+            icon: minecraft.png
+            description: Paper 1.21.5 -- masonadam.spicyfajitas.com
+            namespace: minecraft-masonadam
+            app: minecraft
+            podSelector: app=minecraft
+            widget:
+                type: minecraft
+                url: udp://minecraft.minecraft-masonadam.svc.cluster.local:25565
 
   bookmarks.yaml: |
     - Homelab:
