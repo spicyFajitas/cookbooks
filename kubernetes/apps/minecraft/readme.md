@@ -5,7 +5,7 @@ Fresh Paper 26.3 server on `itzg/minecraft-server`, reached at
 (`kubernetes/apps/mc-router/`).
 
 The other two servers on the cluster are their own apps:
-`kubernetes/apps/minecraft-gg` (Grass Gang, moved from the
+`kubernetes/apps/minecraft-grass-gang` (Grass Gang, moved from the
 `minecraft-grass-gang` VM) and `kubernetes/apps/minecraft-masonadam`
 (Mason & Adam, moved from the `minecraft` VM).
 

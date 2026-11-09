@@ -1,4 +1,4 @@
-# minecraft-gg
+# minecraft-grass-gang
 
 Grass Gang's Paper 1.21.10 server, `gg.spicyfajitas.com` via mc-router.
 Replaces the `minecraft-grass-gang` VM (10.100.10.29) and

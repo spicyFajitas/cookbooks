@@ -34,7 +34,7 @@ spec:
             - name: MAPPING
               value: >-
                 minecraft.spicyfajitas.com=minecraft.minecraft.svc.cluster.local:25565,
-                gg.spicyfajitas.com=minecraft.minecraft-gg.svc.cluster.local:25565,
+                gg.spicyfajitas.com=minecraft.minecraft-grass-gang.svc.cluster.local:25565,
                 masonadam.spicyfajitas.com=minecraft.minecraft-masonadam.svc.cluster.local:25565
             # Anything that doesn't match a mapping (e.g. connecting by raw
             # IP, 10.100.10.12:25565) lands on the 26.3 server.

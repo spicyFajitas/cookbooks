@@ -8,7 +8,7 @@ hostname the player connected with.
 | Hostname                     | Server                                        |
 | ---------------------------- | --------------------------------------------- |
 | `minecraft.spicyfajitas.com` | `kubernetes/apps/minecraft` (Paper 26.3) -- also the default for unmatched hostnames / raw IP |
-| `gg.spicyfajitas.com`        | `kubernetes/apps/minecraft-gg` (Grass Gang, Paper 1.21.10) |
+| `gg.spicyfajitas.com`        | `kubernetes/apps/minecraft-grass-gang` (Grass Gang, Paper 1.21.10) |
 | `masonadam.spicyfajitas.com` | `kubernetes/apps/minecraft-masonadam` (Mason & Adam, Paper 1.21.5) |
 
 Public DNS for all three is the DDNS updater in
