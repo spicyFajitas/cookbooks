@@ -51,7 +51,7 @@ spec:
             - name: AUTO_SCALE_DOWN
               value: "true"
             - name: AUTO_SCALE_DOWN_AFTER
-              value: 15m
+              value: 1m
             # What the multiplayer server list shows while a server sleeps
             # (empty would make it look dead/unreachable).
             - name: AUTO_SCALE_ASLEEP_MOTD
