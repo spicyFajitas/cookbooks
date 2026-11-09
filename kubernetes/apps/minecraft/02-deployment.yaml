@@ -119,6 +119,8 @@ spec:
               value: "TRUE"
             - name: ENFORCE_WHITELIST
               value: "TRUE"
+            - name: EXISTING_WHITELIST_FILE
+              value: MERGE
             - name: WHITELIST
               value: |
                 83fa4fe0-0e0e-42c0-8bec-97cc58148295
