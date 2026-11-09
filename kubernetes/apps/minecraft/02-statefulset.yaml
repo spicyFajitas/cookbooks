@@ -66,11 +66,15 @@ spec:
             # jar was dropped into plugins/ by hand on 2026-11-08 so it
             # could load without restarting; unpinned, the image could
             # fetch a newer TreeFeller-*.jar next to it (duplicate plugin).
+            # smartsort: click/command to sort chests and inventories.
+            # crouch-grow: crouching near crops grows them (costs hunger).
             - name: MODRINTH_PROJECTS
               value: |
                 axgraves
                 thizzyz-tree-feller:bPFqoFvZ
                 bluemap
+                smartsort
+                crouch-grow
             - name: DIFFICULTY
               value: normal
             - name: VIEW_DISTANCE
