@@ -1,22 +1,3 @@
-# Replaces roles/minecraft (Paper jar + start.sh + systemd/tmux
-# on its own VM) with itzg/minecraft-server, which handles the Paper
-# download, EULA, whitelist and JVM flags from env vars:
-#   - TYPE/VERSION: Paper on the pinned Minecraft version. No PAPER_BUILD,
-#     so the image pulls the newest stable Paper build for VERSION.
-#   - INIT_MEMORY/MAX_MEMORY + USE_AIKAR_FLAGS: start.sh's -Xms2048M
-#     -Xmx4096M and the G1 flag set, which is exactly Aikar's flags.
-#   - WHITELIST + EXISTING_WHITELIST_FILE=SYNCHRONIZE: whitelist.json is
-#     rewritten from this list on every start, same as the role's template.
-#     Edit the list here to add/remove players.
-#   - OPS + EXISTING_OPS_FILE=SYNCHRONIZE: same idea for ops.json -- ops
-#     granted in-game with /op are dropped on the next restart.
-#
-# replicas: 0 on purpose -- see readme.md's cutover steps. The world data
-# has to be copied onto the PVC before the first start, or Paper generates
-# a brand-new world. Flip to 1 in a follow-up PR once the copy is done.
-#
-# Console: `kubectl -n minecraft exec -it deploy/minecraft -- rcon-cli`
-# (replaces the role's `grassgang` tmux session).
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -27,7 +8,7 @@ metadata:
 spec:
   replicas: 1
   strategy:
-    type: Recreate # RWO PVC, and two servers on one world corrupts it
+    type: Recreate
   selector:
     matchLabels:
       app: minecraft
@@ -73,10 +54,6 @@ spec:
       containers:
         - name: minecraft
           image: itzg/minecraft-server:java25
-          # Start as the image's minecraft user so the entrypoint skips
-          # its gosu root->1000 switch, which hangs in-kernel on this node
-          # (k3s v1.37.2 / kernel 7.0). /data is already 1000-owned and the
-          # init container installs plugin configs as 1000.
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
@@ -88,9 +65,6 @@ spec:
               value: "TRUE"
             - name: TYPE
               value: PAPER
-            # Pinned to the newest version Gunshell supports. Never move
-            # this backwards once a world has run on it -- worlds can't be
-            # downgraded.
             - name: VERSION
               value: "26.3"
             - name: DIFFICULTY
@@ -146,15 +120,12 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /data
-          # 4G heap + JVM/off-heap overhead.
           resources:
             requests:
               cpu: "1"
               memory: 4Gi
             limits:
               memory: 6Gi
-          # mc-health ships in the image; first start downloads Paper and
-          # loads the world, so startup gets a long budget.
           startupProbe:
             exec:
               command: ["mc-health"]
