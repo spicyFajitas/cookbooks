@@ -65,7 +65,7 @@ spec:
             - name: TZ
               value: America/Los_Angeles
             - name: MOTD
-              value: K3s Paper Server
+              value: Le bois lite
           volumeMounts:
             - name: data
               mountPath: /data
