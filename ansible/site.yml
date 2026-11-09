@@ -10,7 +10,6 @@
 # Usage:
 #   ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt
 #   ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --tags mealie
-#   ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --tags docker_host --limit docker-host
 #
 # See readme.md for the full tag list and the dynamic-inventory setup.
 #

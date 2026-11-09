@@ -62,7 +62,7 @@ ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt
 ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --tags mealie
 
 # One service, one host
-ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --tags docker_host --limit docker-host
+ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --tags k3s_server --limit k3s
 
 # Dry run
 ansible-playbook site.yml -i inventory --vault-password-file vault-pass.txt --check
@@ -151,8 +151,7 @@ LAN, same as the k3s install above:
   builder validates against the Proxmox API even for `validate`, so there's
   no cloud-compatible subset like Terraform's fmt/validate).
 - `ansible-playbook site.yml` itself -- nearly every active host
-  (`docker-host`, `k3s`, `semaphore-01`,
-  `proxmox`) is LAN-only, so there's no meaningful CD to automate
+  (`k3s`, `proxmox`) is LAN-only, so there's no meaningful CD to automate
   from GitHub-hosted runners regardless of Terraform stack.
 
 **Repo secrets still relevant** (Settings -> Secrets and variables ->
