@@ -55,7 +55,7 @@ spec:
             # What the multiplayer server list shows while a server sleeps
             # (empty would make it look dead/unreachable).
             - name: AUTO_SCALE_ASLEEP_MOTD
-              value: "Sleeping -- join to wake server (may take 1-3 minutes to start)"
+              value: "\u00a76Sleeping\u00a7r -- join to wake the server\u00a7r\n(may take 1-3 minutes to for the server to start)"
           ports:
             - name: minecraft
               containerPort: 25565
