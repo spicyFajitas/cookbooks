@@ -128,19 +128,7 @@ spec:
             # this backwards once a world has run on it -- worlds can't be
             # downgraded.
             - name: VERSION
-              value: "1.21.11"
-            # Plugins from Modrinth: the image picks the newest release of
-            # each for VERSION + Paper on every start, and removes ones
-            # dropped from this list. Plugins not on Modrinth
-            # (BasicDiscordRelay, SleepMost, Timber) are plain jars living
-            # in /data/plugins from the VM copy.
-            - name: MODRINTH_PROJECTS
-              value: |
-                axgraves
-                bluemap
-                coreprotect
-            # Carried over from the VM's server.properties where it
-            # differed from the image defaults (image default is easy).
+              value: "26.3"
             - name: DIFFICULTY
               value: normal
             - name: VIEW_DISTANCE
