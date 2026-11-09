@@ -1,3 +1,3 @@
 # Timezone
 
-Sets timezone on servers to America/Detroit
+Sets timezone on servers to America/Los_Angeles

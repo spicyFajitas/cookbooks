@@ -80,7 +80,7 @@ spec:
             - name: USE_AIKAR_FLAGS
               value: "true"
             - name: TZ
-              value: America/Detroit
+              value: America/Los_Angeles
             - name: ONLINE_MODE
               value: "TRUE"
             - name: EXISTING_OPS_FILE

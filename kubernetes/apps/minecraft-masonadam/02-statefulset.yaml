@@ -63,7 +63,9 @@ spec:
             - name: MAX_MEMORY
               value: 3G
             - name: TZ
-              value: America/Detroit
+              value: America/Los_Angeles
+            - name: MOTD
+              value: K3s Paper Server
           volumeMounts:
             - name: data
               mountPath: /data

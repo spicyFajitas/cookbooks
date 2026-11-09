@@ -68,7 +68,7 @@ It is good practice to set the time zone in the crontab file so your crons will 
 
 ```cron
 # setting timezone for cron timers
-CRON_TZ=America/Detroit
+CRON_TZ=America/Los_Angeles
 ```
 
 ## Systemd Timers

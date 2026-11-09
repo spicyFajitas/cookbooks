@@ -10,7 +10,7 @@
 #   - APP_URL/ASSET_URL set, so Laravel builds https:// links behind
 #     Traefik's TLS termination instead of mixed-content http:// ones.
 #
-# TZ=America/Detroit replaces docker's /etc/localtime bind mount (that's
+# TZ=America/Los_Angeles replaces docker's /etc/localtime bind mount (that's
 # what docker-host is set to). DISPLAY_TIMEZONE=America/Los_Angeles is
 # kept as-is from the live config -- see readme.md's note on the app's
 # timezone weirdness before "fixing" it.
@@ -51,7 +51,7 @@ spec:
             - name: PGID
               value: "1000"
             - name: TZ
-              value: America/Detroit
+              value: America/Los_Angeles
             - name: APP_URL
               value: https://speedtest.spicyfajitas.com
             - name: ASSET_URL
