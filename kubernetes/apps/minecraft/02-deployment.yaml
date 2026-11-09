@@ -32,25 +32,15 @@ spec:
             - |
               set -e
               install -D -m 0664 -o 1000 -g 1000 /seed/axgraves/config.yml /data/plugins/AxGraves/config.yml
-              if [ -f /seed/discord-relay/config.yml ]; then
-                install -D -m 0640 -o 1000 -g 1000 /seed/discord-relay/config.yml /data/plugins/DiscordRelay/config.yml
-              else
-                echo "discord-relay-config secret not present, leaving DiscordRelay config as-is"
-              fi
               # install -D creates missing parent dirs as root (only the
               # file gets -o/-g), and the plugins (uid 1000) need to write
               # their data next to their config.
-              chown 1000:1000 /data/plugins
-              for d in AxGraves DiscordRelay; do
-                [ -d "/data/plugins/$d" ] && chown 1000:1000 "/data/plugins/$d"
-              done
+              chown 1000:1000 /data/plugins /data/plugins/AxGraves
           volumeMounts:
             - name: data
               mountPath: /data
             - name: axgraves-config
               mountPath: /seed/axgraves
-            - name: discord-relay-config
-              mountPath: /seed/discord-relay
       containers:
         - name: minecraft
           image: itzg/minecraft-server:java25
@@ -67,6 +57,10 @@ spec:
               value: PAPER
             - name: VERSION
               value: "26.3"
+            - name: MODRINTH_PROJECTS
+              value: |
+                axgraves
+                bluemap
             - name: DIFFICULTY
               value: normal
             - name: VIEW_DISTANCE
@@ -147,7 +141,3 @@ spec:
         - name: axgraves-config
           configMap:
             name: axgraves-config
-        - name: discord-relay-config
-          secret:
-            secretName: discord-relay-config
-            optional: true

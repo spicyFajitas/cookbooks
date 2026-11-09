@@ -9,7 +9,6 @@ resources:
   - 02-deployment.yaml
   - 03-service.yaml
   - 06-public-dns.yaml
-  - discord-relay-config.sops.yaml
 
 configMapGenerator:
   - name: axgraves-config
