@@ -1,14 +1,18 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: minecraft
   namespace: minecraft
   labels:
     app: minecraft
 spec:
-  replicas: 1
-  strategy:
-    type: Recreate
+  # No `replicas:` on purpose -- mc-router owns it (0 when idle, 1 when a
+  # player connects). Argo ignores the field too
+  # (kubernetes/argocd-apps/apps-appset.yaml), so a sync never wakes it.
+  # StatefulSet, not Deployment, because that's the only kind mc-router
+  # can scale; it finds this by name, so name == serviceName == the
+  # Service's name.
+  serviceName: minecraft
   selector:
     matchLabels:
       app: minecraft

@@ -3,9 +3,19 @@
 # public :25565 can front any number of servers -- mc-router reads that
 # and proxies the TCP stream to the matching backend Service.
 #
-# Adding a server: give it a ClusterIP Service on 25565, add a
-# host=backend entry to MAPPING below, and add the hostname to the DDNS
-# updater's DOMAINS (kubernetes/apps/minecraft/06-public-dns.yaml).
+# Backends are discovered from Service annotations
+# (mc-router.itzg.me/externalServerName, .../defaultServer), not a static
+# list here, and each server's same-named StatefulSet is scaled on demand:
+#   - 0 -> 1 when a player logs in. 1.47.2 holds the login while the
+#     server boots, but the Java client gives up after ~30s and these
+#     servers take ~20-55s, so the first joiner may need to rejoin once.
+#   - 1 -> 0 after AUTO_SCALE_DOWN_AFTER with nobody connected. Server-list
+#     pings don't reset that timer, only logins do.
+#
+# Adding a server: StatefulSet + Service both named `minecraft` (or any
+# matching name/serviceName pair), annotate the Service with its
+# hostname, and add the hostname to the DDNS updater's DOMAINS
+# (kubernetes/apps/minecraft/06-public-dns.yaml).
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -23,6 +33,7 @@ spec:
       labels:
         app: mc-router
     spec:
+      serviceAccountName: mc-router
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
@@ -31,15 +42,20 @@ spec:
         - name: mc-router
           image: itzg/mc-router:1.47.2
           env:
-            - name: MAPPING
-              value: >-
-                minecraft.spicyfajitas.com=minecraft.minecraft.svc.cluster.local:25565,
-                gg.spicyfajitas.com=minecraft.minecraft-grass-gang.svc.cluster.local:25565,
-                masonadam.spicyfajitas.com=minecraft.minecraft-masonadam.svc.cluster.local:25565
-            # Anything that doesn't match a mapping (e.g. connecting by raw
-            # IP, 10.100.10.12:25565) lands on the 26.3 server.
-            - name: DEFAULT
-              value: minecraft.minecraft.svc.cluster.local:25565
+            # Watch Services (all namespaces) for mc-router.itzg.me/*
+            # annotations instead of a static MAPPING.
+            - name: IN_KUBE_CLUSTER
+              value: "true"
+            - name: AUTO_SCALE_UP
+              value: "true"
+            - name: AUTO_SCALE_DOWN
+              value: "true"
+            - name: AUTO_SCALE_DOWN_AFTER
+              value: 15m
+            # What the multiplayer server list shows while a server sleeps
+            # (empty would make it look dead/unreachable).
+            - name: AUTO_SCALE_ASLEEP_MOTD
+              value: "Sleeping -- join to wake it up (rejoin if it times out)"
           ports:
             - name: minecraft
               containerPort: 25565

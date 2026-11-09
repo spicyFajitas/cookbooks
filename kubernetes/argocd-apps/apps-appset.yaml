@@ -28,6 +28,17 @@ spec:
       destination:
         server: https://kubernetes.default.svc
         namespace: "{{path.basename}}"
+      # mc-router (kubernetes/apps/mc-router/) scales the Minecraft
+      # servers' StatefulSets between 0 and 1 on demand. Their manifests
+      # don't set replicas, and this keeps Argo (selfHeal or a sync) from
+      # ever treating mc-router's value as drift -- same idea as
+      # platform-cloudflared.yaml's ignoreDifferences.
+      ignoreDifferences:
+        - group: apps
+          kind: StatefulSet
+          name: minecraft
+          jsonPointers:
+            - /spec/replicas
       syncPolicy:
         automated: {}
         syncOptions:

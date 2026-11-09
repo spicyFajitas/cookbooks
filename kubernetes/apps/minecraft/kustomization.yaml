@@ -6,7 +6,7 @@ kind: Kustomization
 resources:
   - 00-namespace.yaml
   - 01-pvc.yaml
-  - 02-deployment.yaml
+  - 02-statefulset.yaml
   - 03-service.yaml
   - 06-public-dns.yaml
 

@@ -11,6 +11,17 @@ hostname the player connected with.
 | `gg.spicyfajitas.com`        | `kubernetes/apps/minecraft-grass-gang` (Grass Gang, Paper 1.21.10) |
 | `masonadam.spicyfajitas.com` | `kubernetes/apps/minecraft-masonadam` (Mason & Adam, Paper 1.21.5) |
 
+Routes come from `mc-router.itzg.me/externalServerName` (and
+`defaultServer`) annotations on each server's Service, not a static list.
+
+**Servers sleep when idle.** mc-router scales each server's StatefulSet to
+0 after 15 minutes with nobody logged in, and back to 1 when someone logs
+in. While asleep, the server list shows the "Sleeping" MOTD. The first
+person to join waits for boot (~20-55s); the Java client gives up after
+~30s, so they may need to rejoin once. homepage widgets ping the servers
+directly and show them offline while asleep. To keep one awake, annotate
+its Service `mc-router.itzg.me/autoScaleDown: "false"`.
+
 Public DNS for all three is the DDNS updater in
 `kubernetes/apps/minecraft/06-public-dns.yaml` (one A record per name to
 the WAN IP, DNS-only).

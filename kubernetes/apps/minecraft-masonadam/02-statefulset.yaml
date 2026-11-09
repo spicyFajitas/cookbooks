@@ -1,18 +1,26 @@
-# Grass Gang's Paper server, moved off its own VM (minecraft-grass-gang,
-# 10.100.10.29, ansible/roles/minecraft-grass-gang). /data is the old
-# server directory as-is, so worlds, plugins + their configs,
-# server.properties, whitelist and ops all carry over untouched.
+# Mason & Adam's Paper server, moved off its own VM (minecraft,
+# 10.100.10.28). /data is the old server directory as-is, so worlds,
+# plugins + their configs, server.properties, whitelist and ops all carry
+# over untouched.
+#
+# Bedrock support (Geyser + floodgate) was dropped in the move: mc-router
+# only routes Java TCP by hostname, and the jars were renamed to
+# *.jar.disabled in plugins/ (their config dirs are still there).
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: minecraft
-  namespace: minecraft-grass-gang
+  namespace: minecraft-masonadam
   labels:
     app: minecraft
 spec:
-  replicas: 1
-  strategy:
-    type: Recreate
+  # No `replicas:` on purpose -- mc-router owns it (0 when idle, 1 when a
+  # player connects). Argo ignores the field too
+  # (kubernetes/argocd-apps/apps-appset.yaml), so a sync never wakes it.
+  # StatefulSet, not Deployment, because that's the only kind mc-router
+  # can scale; it finds this by name, so name == serviceName == the
+  # Service's name.
+  serviceName: minecraft
   selector:
     matchLabels:
       app: minecraft
@@ -35,26 +43,25 @@ spec:
           env:
             - name: EULA
               value: "TRUE"
-            # Pinned to exactly what the VM ran (paper-1.21.10-129.jar).
+            # Pinned to exactly what the VM ran (paper-1.21.5-87.jar).
             # World upgrades are one-way -- bump deliberately, not via
             # image updates.
             - name: TYPE
               value: PAPER
             - name: VERSION
-              value: "1.21.10"
+              value: "1.21.5"
             - name: PAPER_BUILD
-              value: "129"
+              value: "87"
             # The copied server.properties/whitelist/ops are the source of
             # truth; don't let the image rewrite them from env defaults.
             - name: SKIP_SERVER_PROPERTIES
               value: "true"
-            # Same heap + Aikar flags as the VM's start.sh.
+            # VM ran -Xms2G -Xmx4G; trimmed to fit three servers on the
+            # 16G k3s node (small world, few players).
             - name: INIT_MEMORY
-              value: 2G
+              value: 1G
             - name: MAX_MEMORY
-              value: 4G
-            - name: USE_AIKAR_FLAGS
-              value: "true"
+              value: 3G
             - name: TZ
               value: America/Detroit
           volumeMounts:
@@ -63,15 +70,14 @@ spec:
           resources:
             requests:
               cpu: 500m
-              memory: 3Gi
+              memory: 2Gi
             limits:
-              memory: 5Gi
-          # 15G world -- first start on a new host can be slow.
+              memory: 4Gi
           startupProbe:
             exec:
               command: ["mc-health"]
             periodSeconds: 10
-            failureThreshold: 90
+            failureThreshold: 60
           livenessProbe:
             exec:
               command: ["mc-health"]

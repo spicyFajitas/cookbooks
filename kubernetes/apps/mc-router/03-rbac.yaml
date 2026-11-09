@@ -1,0 +1,37 @@
+# Cluster-wide because the Minecraft servers each live in their own
+# namespace. Rules from mc-router's README for Kubernetes auto-scaling:
+# read Services for routing, read + scale StatefulSets. `get`/`update`
+# cover its fallback path when `patch` isn't usable.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mc-router
+  namespace: mc-router
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: mc-router
+rules:
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["apps"]
+    resources: ["statefulsets"]
+    verbs: ["get", "list", "watch", "patch", "update"]
+  - apiGroups: ["apps"]
+    resources: ["statefulsets/scale"]
+    verbs: ["get", "patch", "update"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: mc-router
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: mc-router
+subjects:
+  - kind: ServiceAccount
+    name: mc-router
+    namespace: mc-router

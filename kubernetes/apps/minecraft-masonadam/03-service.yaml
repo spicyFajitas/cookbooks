@@ -1,6 +1,6 @@
 # ClusterIP only -- players reach this through mc-router
 # (kubernetes/apps/mc-router/), which owns :25565 on the node and routes
-# by the hostname the client connected with.
+# by the hostname in the annotation below.
 apiVersion: v1
 kind: Service
 metadata:
@@ -8,6 +8,10 @@ metadata:
   namespace: minecraft-masonadam
   labels:
     app: minecraft
+  annotations:
+    # mc-router (kubernetes/apps/mc-router/) discovers backends from these
+    # and wakes/sleeps the same-named StatefulSet on demand.
+    mc-router.itzg.me/externalServerName: masonadam.spicyfajitas.com
 spec:
   selector:
     app: minecraft

@@ -1,8 +1,10 @@
 # ClusterIP only -- players reach this through mc-router
 # (kubernetes/apps/mc-router/), which owns :25565 on the node and routes
-# minecraft.spicyfajitas.com (and any unmatched hostname / raw IP) here.
+# here by the annotations below.
 #
-# Also what homepage's Minecraft widget pings for status/player count.
+# Also what homepage's Minecraft widget pings for status/player count
+# (directly, not via mc-router, so the widget never wakes the server; it
+# shows offline while the server sleeps).
 apiVersion: v1
 kind: Service
 metadata:
@@ -10,6 +12,12 @@ metadata:
   namespace: minecraft
   labels:
     app: minecraft
+  annotations:
+    # mc-router (kubernetes/apps/mc-router/) discovers backends from these
+    # and wakes/sleeps the same-named StatefulSet on demand.
+    mc-router.itzg.me/externalServerName: minecraft.spicyfajitas.com
+    # Also catches raw-IP connections and any unknown hostname.
+    mc-router.itzg.me/defaultServer: "true"
 spec:
   type: ClusterIP
   selector:
