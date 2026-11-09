@@ -1,0 +1,126 @@
+# BlueMap viewer for Grass Gang (kubernetes/apps/minecraft-grass-gang) -> https://map-gg.spicyfajitas.com
+# nginx reads the server's own PVC read-only (local-path RWO is fine:
+# single node, so it can be mounted alongside the server pod).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bluemap
+  namespace: minecraft-grass-gang
+  labels:
+    app: bluemap
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bluemap
+  template:
+    metadata:
+      labels:
+        app: bluemap
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 101
+        runAsGroup: 101
+      containers:
+        - name: nginx
+          image: nginxinc/nginx-unprivileged:1.31.7-alpine
+          ports:
+            - name: web
+              containerPort: 8080
+          volumeMounts:
+            # Whole PVC, not a subPath: a subPath that doesn't exist yet
+            # gets created by kubelet as root, which BlueMap (uid 1000)
+            # then couldn't write into.
+            - name: data
+              mountPath: /srv
+              readOnly: true
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d
+              readOnly: true
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          # tcp, not http: before BlueMap's first render there's no
+          # index.html yet, which shouldn't make the pod unready.
+          readinessProbe:
+            tcpSocket:
+              port: web
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: web
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              memory: 64Mi
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: minecraft-data
+            readOnly: true
+        - name: nginx-config
+          configMap:
+            name: bluemap-nginx
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bluemap
+  namespace: minecraft-grass-gang
+  labels:
+    app: bluemap
+spec:
+  selector:
+    app: bluemap
+  ports:
+    - name: web
+      port: 8080
+      targetPort: web
+---
+# The Minecraft server's built-in BlueMap webserver (port 8100), for live
+# player/marker data only. No mc-router annotations, so mc-router ignores
+# it; no endpoints while the server sleeps (nginx then answers 204).
+apiVersion: v1
+kind: Service
+metadata:
+  name: bluemap-live
+  namespace: minecraft-grass-gang
+  labels:
+    app: bluemap
+spec:
+  selector:
+    app: minecraft
+  ports:
+    - name: bluemap
+      port: 8100
+      targetPort: 8100
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bluemap
+  namespace: minecraft-grass-gang
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-dns
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - map-gg.spicyfajitas.com
+      secretName: bluemap-tls
+  rules:
+    - host: map-gg.spicyfajitas.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bluemap
+                port:
+                  name: web

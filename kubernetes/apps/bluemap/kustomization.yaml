@@ -1,0 +1,25 @@
+# Lives in its own app (not inside each server's app dir) so changing the
+# map viewers never touches -- and so never restarts -- a Minecraft
+# StatefulSet. Each viewer has to run in its server's namespace to mount
+# that server's PVC, hence the explicit namespaces in every manifest.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - 10-minecraft.yaml
+  - 20-minecraft-grass-gang.yaml
+  - 30-minecraft-masonadam.yaml
+
+configMapGenerator:
+  - name: bluemap-nginx
+    namespace: minecraft
+    files:
+      - default.conf=config/default.conf
+  - name: bluemap-nginx
+    namespace: minecraft-grass-gang
+    files:
+      - default.conf=config/default.conf
+  - name: bluemap-nginx
+    namespace: minecraft-masonadam
+    files:
+      - default.conf=config/default.conf

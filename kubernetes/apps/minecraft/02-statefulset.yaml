@@ -61,9 +61,15 @@ spec:
               value: PAPER
             - name: VERSION
               value: "26.3"
+            # thizzyz-tree-feller: break one log with an axe, whole tree
+            # falls. Pinned to 1.33.0's version id (bPFqoFvZ) -- the same
+            # jar was dropped into plugins/ by hand on 2026-11-08 so it
+            # could load without restarting; unpinned, the image could
+            # fetch a newer TreeFeller-*.jar next to it (duplicate plugin).
             - name: MODRINTH_PROJECTS
               value: |
                 axgraves
+                thizzyz-tree-feller:bPFqoFvZ
                 bluemap
             - name: DIFFICULTY
               value: normal
