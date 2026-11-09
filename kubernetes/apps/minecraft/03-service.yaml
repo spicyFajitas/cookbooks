@@ -1,8 +1,8 @@
-# Paper's backend Service. Cluster-internal only: players come in through
-# Velocity (04-velocity.yaml), which owns the public 25565 on the k3s node.
-# Paper runs in offline mode behind the proxy, so it must NOT be reachable
-# directly -- Velocity modern forwarding also rejects any login that didn't
-# come through the proxy, as a second guard.
+# Minecraft is raw TCP, so it can't go through Traefik/Ingress or the
+# Cloudflare tunnel like the web apps. LoadBalancer here is handled by
+# k3s's built-in ServiceLB (same mechanism as svclb-traefik), which binds
+# 25565 on the k3s node itself -- players reach it at 10.100.10.12:25565
+# (router port forward), or minecraft.spicyfajitas.com (06-public-dns.yaml).
 #
 # Also what homepage's Minecraft widget pings for status/player count.
 apiVersion: v1
@@ -13,6 +13,7 @@ metadata:
   labels:
     app: minecraft
 spec:
+  type: LoadBalancer
   selector:
     app: minecraft
   ports:

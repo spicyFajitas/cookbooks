@@ -8,21 +8,10 @@ resources:
   - 01-pvc.yaml
   - 02-deployment.yaml
   - 03-service.yaml
-  - 04-velocity.yaml
-  - 05-limbo.yaml
   - 06-public-dns.yaml
   - discord-relay-config.sops.yaml
-  - velocity-forwarding.sops.yaml
 
 configMapGenerator:
-  - name: velocity-config
-    namespace: minecraft
-    files:
-      - velocity.toml=config/velocity.toml
-  - name: limbo-settings
-    namespace: minecraft
-    files:
-      - settings.yml=config/nanolimbo-settings.yml
   - name: axgraves-config
     namespace: minecraft
     files:

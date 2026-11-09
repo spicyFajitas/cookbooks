@@ -18,7 +18,7 @@
 # kubernetes/platform/external-dns/readme.md) instead of keeping a second
 # copy of it here.
 #
-# Players still need the router's 25565 forward to 10.100.10.12 (Velocity's
+# Players still need the router's 25565 forward to 10.100.10.12 (Paper's
 # ServiceLB) for the name to actually connect.
 apiVersion: apps/v1
 kind: Deployment
