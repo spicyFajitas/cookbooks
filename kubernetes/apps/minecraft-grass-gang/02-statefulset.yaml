@@ -61,6 +61,8 @@ spec:
               value: "true"
             - name: TZ
               value: America/Detroit
+            - name: MOTD
+              value: Welcome Grass Gang!
           volumeMounts:
             - name: data
               mountPath: /data
