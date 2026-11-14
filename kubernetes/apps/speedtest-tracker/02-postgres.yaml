@@ -29,7 +29,7 @@ spec:
         runAsGroup: 999
       containers:
         - name: postgres
-          image: postgres:15
+          image: postgres:18
           ports:
             - name: postgres
               containerPort: 5432
