@@ -45,7 +45,7 @@ spec:
         runAsNonRoot: true
       containers:
         - name: ddns
-          image: favonia/cloudflare-ddns:1.15.1
+          image: favonia/cloudflare-ddns:1.18.0
           env:
             - name: CLOUDFLARE_API_TOKEN
               valueFrom:
