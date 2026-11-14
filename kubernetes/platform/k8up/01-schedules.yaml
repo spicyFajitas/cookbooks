@@ -14,6 +14,10 @@ metadata:
   name: backup
   namespace: magic
 spec:
+  # Root, so restic can read files apps keep at mode 600 (e.g.
+  # speedtest-tracker's keys/cert.key, Minecraft plugin data).
+  podSecurityContext:
+    runAsUser: 0
   backend:
     s3:
       bucket: k8up-magic
@@ -36,6 +40,10 @@ metadata:
   name: backup
   namespace: minecraft
 spec:
+  # Root, so restic can read files apps keep at mode 600 (e.g.
+  # speedtest-tracker's keys/cert.key, Minecraft plugin data).
+  podSecurityContext:
+    runAsUser: 0
   backend:
     s3:
       bucket: k8up-minecraft
@@ -58,6 +66,10 @@ metadata:
   name: backup
   namespace: minecraft-grass-gang
 spec:
+  # Root, so restic can read files apps keep at mode 600 (e.g.
+  # speedtest-tracker's keys/cert.key, Minecraft plugin data).
+  podSecurityContext:
+    runAsUser: 0
   backend:
     s3:
       bucket: k8up-minecraft-grass-gang
@@ -80,6 +92,10 @@ metadata:
   name: backup
   namespace: minecraft-masonadam
 spec:
+  # Root, so restic can read files apps keep at mode 600 (e.g.
+  # speedtest-tracker's keys/cert.key, Minecraft plugin data).
+  podSecurityContext:
+    runAsUser: 0
   backend:
     s3:
       bucket: k8up-minecraft-masonadam
@@ -102,6 +118,10 @@ metadata:
   name: backup
   namespace: speedtest-tracker
 spec:
+  # Root, so restic can read files apps keep at mode 600 (e.g.
+  # speedtest-tracker's keys/cert.key, Minecraft plugin data).
+  podSecurityContext:
+    runAsUser: 0
   backend:
     s3:
       bucket: k8up-speedtest-tracker

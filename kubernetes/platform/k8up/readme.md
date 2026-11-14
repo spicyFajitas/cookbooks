@@ -88,7 +88,7 @@ Use restic directly. The password is in the `k8up-global` Secret.
 export RESTIC_REPOSITORY=s3:http://10.100.10.15:30320/k8up-speedtest-tracker
 export RESTIC_PASSWORD=... AWS_ACCESS_KEY_ID=... AWS_SECRET_ACCESS_KEY=...
 restic snapshots
-restic dump latest /speedtest-tracker-db.sql > dump.sql   # path from `restic ls latest`
+restic dump latest /speedtest-tracker-postgres.sql > dump.sql
 kubectl -n speedtest-tracker exec -i deploy/speedtest-tracker-db -- \
   sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB"' < dump.sql
 ```
