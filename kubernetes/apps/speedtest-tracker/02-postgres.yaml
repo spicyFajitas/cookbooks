@@ -23,6 +23,12 @@ spec:
     metadata:
       labels:
         app: speedtest-tracker-db
+      annotations:
+        # k8up runs this in the pod during the nightly backup and stores
+        # stdout as speedtest-tracker-db.sql in the restic repository.
+        # Restore: `restic dump` that file, then pipe it into psql.
+        k8up.io/backupcommand: sh -c 'PGPASSWORD="$POSTGRES_PASSWORD" pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" --clean --if-exists'
+        k8up.io/file-extension: .sql
     spec:
       securityContext:
         runAsUser: 999
@@ -30,6 +36,13 @@ spec:
       containers:
         - name: postgres
           image: postgres:15
+          # The node's default containerd AppArmor profile blocks signals
+          # between processes inside the container, so crash recovery dies
+          # with "could not signal for checkpoint: Permission denied" and
+          # the pod crash-loops forever (seen 2026-11, Ubuntu 26.04 node).
+          securityContext:
+            appArmorProfile:
+              type: Unconfined
           ports:
             - name: postgres
               containerPort: 5432

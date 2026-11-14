@@ -1,0 +1,56 @@
+# k8up: restic-based PVC backups to MinIO on the TrueNAS box. Same split as
+# cert-manager: the upstream chart (operator + CRDs) is one Application, and
+# our plain manifests (namespace + per-namespace Schedules) are another.
+# See kubernetes/platform/k8up/readme.md.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: k8up
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://k8up-io.github.io/k8up
+      chart: k8up
+      targetRevision: 4.10.1
+      helm:
+        valueFiles:
+          - $values/kubernetes/platform/k8up/values.yaml
+    - repoURL: https://github.com/spicyFajitas/cookbooks.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: k8up
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+      # k8up's CRDs are too big for client-side apply's
+      # last-applied-configuration annotation.
+      - ServerSideApply=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: k8up-config
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/spicyFajitas/cookbooks.git
+    targetRevision: main
+    path: kubernetes/platform/k8up
+    directory:
+      exclude: "values.yaml"
+      # recurse NOT set on purpose: secrets/ is applied by hand, same as
+      # every other SopsSecret (see platform-cert-manager.yaml).
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: k8up
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      # Schedules need k8up's CRDs, which the other Application installs.
+      # Without this, the first sync fails its dry run until they exist.
+      - SkipDryRunOnMissingResource=true

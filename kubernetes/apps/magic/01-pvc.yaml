@@ -3,6 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: edhrec-analyzer-cache
   namespace: magic
+  annotations:
+    # Cache, rebuilt on demand -- not worth backing up (k8up).
+    k8up.io/backup: "false"
 spec:
   accessModes: ["ReadWriteOnce"]
   resources:

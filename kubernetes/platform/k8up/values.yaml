@@ -1,0 +1,33 @@
+# Global backend: every Schedule in the cluster gets MinIO's endpoint,
+# credentials and the restic repository password from here. The Schedules
+# only set their own bucket (one restic repository per namespace), so no
+# app namespace needs a secret of its own. The Secret comes from
+# secrets/k8up-global.sops.yaml (applied by hand).
+k8up:
+  timezone: America/Los_Angeles
+  envVars:
+    - name: BACKUP_GLOBALS3ENDPOINT
+      value: http://10.100.10.15:30320
+    - name: BACKUP_GLOBALACCESSKEYID
+      valueFrom:
+        secretKeyRef:
+          name: k8up-global
+          key: access-key-id
+    - name: BACKUP_GLOBALSECRETACCESSKEY
+      valueFrom:
+        secretKeyRef:
+          name: k8up-global
+          key: secret-access-key
+    - name: BACKUP_GLOBALREPOPASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: k8up-global
+          key: repo-password
+  # Backup/prune/check job pods. Small on purpose: the node is near
+  # fully requested (the Minecraft servers take most of it).
+  globalResources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      memory: 1Gi

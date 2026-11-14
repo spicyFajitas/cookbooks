@@ -3,6 +3,11 @@ kind: PersistentVolumeClaim
 metadata:
   name: speedtest-tracker-db
   namespace: speedtest-tracker
+  annotations:
+    # A file copy of a running Postgres isn't safe to restore from. k8up
+    # backs this database up with pg_dump instead (annotations on the pod
+    # in 02-postgres.yaml).
+    k8up.io/backup: "false"
 spec:
   accessModes: ["ReadWriteOnce"]
   resources:
