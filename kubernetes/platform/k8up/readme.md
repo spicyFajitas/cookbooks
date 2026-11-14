@@ -52,6 +52,10 @@ spec:
 YAML
 ```
 
+```sh
+for ns in magic minecraft minecraft-grass-gang minecraft-masonadam speedtest-tracker; do printf 'apiVersion: k8up.io/v1\nkind: Backup\nmetadata:\n  generateName: manual-\nspec:\n  podSecurityContext:\n    runAsUser: 0\n  backend:\n    s3:\n      bucket: k8up-%s\n' "$ns" | kubectl -n "$ns" create -f -; done
+```
+
 ## Restoring
 
 ### A PVC (example: a Minecraft world)
