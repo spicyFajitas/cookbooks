@@ -76,6 +76,11 @@ spec:
             # chests. Pinned to 1.0.1 (zpkQL0LX) because no release lists
             # 26.3, so an unpinned lookup finds nothing. Players get its
             # permission via config/permissions.yml.
+            # veinminer: break one ore, the whole connected vein breaks
+            # (ores + pickaxes by default; tune in-game with
+            # /veinminer settings). Turn its autoUpdate off -- the image
+            # already fetches the latest on start, and both updating can
+            # leave two jars in plugins/.
             - name: MODRINTH_PROJECTS
               value: |
                 axgraves
@@ -85,6 +90,7 @@ spec:
                 crouch-grow
                 auto-replant
                 itemquickstack:zpkQL0LX
+                veinminer
             - name: DIFFICULTY
               value: normal
             - name: VIEW_DISTANCE
