@@ -40,7 +40,7 @@ spec:
         runAsNonRoot: true
       containers:
         - name: mc-router
-          image: itzg/mc-router:1.47.2
+          image: itzg/mc-router:1.56.4
           env:
             # Watch Services (all namespaces) for mc-router.itzg.me/*
             # annotations instead of a static MAPPING.
