@@ -1,0 +1,25 @@
+# Bedrock (Xbox / phone / Windows Bedrock) players, via Geyser on the
+# server itself. mc-router only routes Java TCP by hostname, so Bedrock
+# gets its own UDP LoadBalancer. k3s ServiceLB binds 19132/udp on the
+# node (10.100.10.12), same as mc-router's 25565 -- the router needs a
+# UDP 19132 forward there.
+#
+# No mc-router annotations on purpose: this Service is invisible to
+# mc-router. That's why 03-service.yaml turns off scale-to-zero for this
+# server -- mc-router can't see Bedrock players.
+apiVersion: v1
+kind: Service
+metadata:
+  name: minecraft-bedrock
+  namespace: minecraft
+  labels:
+    app: minecraft
+spec:
+  type: LoadBalancer
+  selector:
+    app: minecraft
+  ports:
+    - name: bedrock
+      port: 19132
+      targetPort: bedrock
+      protocol: UDP

@@ -21,6 +21,7 @@
 # copy of it here.
 #
 # Players still need the router's 25565 forward to 10.100.10.12
+# (and UDP 19132 for Bedrock on minecraft., see 04-bedrock-service.yaml)
 # (mc-router's ServiceLB) for the name to actually connect.
 apiVersion: apps/v1
 kind: Deployment

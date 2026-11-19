@@ -37,10 +37,29 @@ spec:
               set -e
               install -D -m 0664 -o 1000 -g 1000 /seed/axgraves/config.yml /data/plugins/AxGraves/config.yml
               install -m 0664 -o 1000 -g 1000 /seed/permissions/permissions.yml /data/permissions.yml
+              install -D -m 0664 -o 1000 -g 1000 /seed/oldcombatmechanics/config.yml /data/plugins/OldCombatMechanics/config.yml
               # install -D creates missing parent dirs as root (only the
               # file gets -o/-g), and the plugins (uid 1000) need to write
               # their data next to their config.
-              chown 1000:1000 /data/plugins /data/plugins/AxGraves
+              chown 1000:1000 /data/plugins /data/plugins/AxGraves /data/plugins/OldCombatMechanics
+
+              # MCXboxBroadcast: Geyser extension that shows this server
+              # in Xbox friends' "Joinable" list -- consoles can't add a
+              # custom server address, this is how they get in. Geyser
+              # extensions live in Geyser's own extensions/ dir, which the
+              # image's MODRINTH_PROJECTS can't target, so fetch it here.
+              # Pinned build 165 (uryWwQoA); busybox wget doesn't verify
+              # TLS, so the sha512 check is what guarantees the jar.
+              ext=/data/plugins/Geyser-Spigot/extensions
+              jar=$ext/MCXboxBroadcastExtension.jar
+              sum=11ffbf5c59f6a0a22fde75f917a7fb41eca66238d0fbfbcc773cd298cc8e4d763e43595b0045a0566e5a54484734a716db5caf5c4373c0839ca69d8b252bd4ba
+              if ! echo "$sum  $jar" | sha512sum -c -s 2>/dev/null; then
+                mkdir -p $ext
+                wget -q -O $jar.tmp https://cdn.modrinth.com/data/Vcl7t1Oa/versions/uryWwQoA/MCXboxBroadcastExtension.jar
+                echo "$sum  $jar.tmp" | sha512sum -c -s
+                mv $jar.tmp $jar
+              fi
+              chown -R 1000:1000 /data/plugins/Geyser-Spigot
           volumeMounts:
             - name: data
               mountPath: /data
@@ -48,6 +67,8 @@ spec:
               mountPath: /seed/axgraves
             - name: bukkit-permissions
               mountPath: /seed/permissions
+            - name: oldcombatmechanics-config
+              mountPath: /seed/oldcombatmechanics
       containers:
         - name: minecraft
           image: itzg/minecraft-server:java25
@@ -57,6 +78,10 @@ spec:
           ports:
             - name: minecraft
               containerPort: 25565
+            # Geyser's Bedrock listener (04-bedrock-service.yaml).
+            - name: bedrock
+              containerPort: 19132
+              protocol: UDP
           env:
             - name: EULA
               value: "TRUE"
@@ -71,11 +96,26 @@ spec:
             # fetch a newer TreeFeller-*.jar next to it (duplicate plugin).
             # smartsort: click/command to sort chests and inventories.
             # crouch-grow: crouching near crops grows them (costs hunger).
-            # auto-replant: right-click a grown crop to harvest + replant.
+            # scythe: right-click a grown crop to harvest + replant, and
+            # crops broken normally replant too (crouch to break without
+            # replanting; /scythe toggle per player). Replaced auto-replant
+            # -- running both double-handles the same crop.
             # itemquickstack: /qs stack puts matching items into nearby
             # chests. Pinned to 1.0.1 (zpkQL0LX) because no release lists
             # 26.3, so an unpinned lookup finds nothing. Players get its
             # permission via config/permissions.yml.
+            # geyser + floodgate (PLUGINS below): Bedrock/Xbox players join
+            # on UDP 19132 without a Java account. Geyser is left unpinned
+            # on purpose -- Bedrock clients auto-update and an old Geyser
+            # locks them out. Floodgate's Paper build isn't on Modrinth,
+            # so it comes from GeyserMC's own download API, pinned to
+            # 2.2.5 build 141 (its 26.3 update). Bedrock names show up
+            # with a "." prefix; whitelist them with /fwhitelist add.
+            # OldCombatMechanics (PLUGINS below): no attack cooldown, so
+            # spam-clicking does full damage; sword sweep is off too.
+            # Everything else stays modern -- see
+            # config/oldcombatmechanics-config.yml. Not on Modrinth, so
+            # it's the pinned v2.8.1 GitHub release jar.
             # veinminer: break one ore, the whole connected vein breaks
             # (ores + pickaxes by default; tune in-game with
             # /veinminer settings). Turn its autoUpdate off -- the image
@@ -88,9 +128,14 @@ spec:
                 bluemap
                 smartsort
                 crouch-grow
-                auto-replant
+                scythe
                 itemquickstack:zpkQL0LX
                 veinminer
+                geyser
+            - name: PLUGINS
+              value: |
+                https://download.geysermc.org/v2/projects/floodgate/versions/2.2.5/builds/141/downloads/spigot
+                https://github.com/kernitus/BukkitOldCombatMechanics/releases/download/v2.8.1/OldCombatMechanics.jar
             - name: DIFFICULTY
               value: normal
             - name: VIEW_DISTANCE
@@ -176,3 +221,6 @@ spec:
         - name: bukkit-permissions
           configMap:
             name: bukkit-permissions
+        - name: oldcombatmechanics-config
+          configMap:
+            name: oldcombatmechanics-config

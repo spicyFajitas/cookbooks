@@ -1,0 +1,652 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+# ############# OldCombatMechanics Plugin by kernitus and Rayzr522 ##########
+#                                                                           #
+# Bukkit Page: http://dev.bukkit.org/bukkit-plugins/oldcombatmechanics/     #
+# Spigot Page: https://www.spigotmc.org/resources/oldcombatmechanics.19510/ #
+# GitHub Page: https://github.com/kernitus/BukkitOldCombatMechanics/        #
+#                                                                           #
+# ###########################################################################
+
+# ---- Edited for this server (kubernetes/apps/minecraft) -------------
+# Only the attack cooldown is gone (spam-click), plus sword sweep (spam +
+# sweep would shred whole mob groups). Everything else -- damage, armour,
+# regen, knockback, golden apples, potions -- stays modern. Every module
+# OCM ships must be listed exactly once below, or it refuses to load; the
+# rest of this file is OCM 2.8.1's stock config.yml, unchanged except
+# update-checker.auto-update (the image pins the jar).
+
+always_enabled_modules:
+  # The only two modules in use.
+  - "disable-attack-cooldown"
+  - "disable-sword-sweep"
+
+disabled_modules:
+  - "attack-frequency"
+  - "old-armour-durability"
+  - "old-fishing-knockback"
+  - "fishing-rod-velocity"
+  - "projectile-knockback"
+  - "disable-crafting"
+  - "update-checker"
+  - "old-brewing-stand"
+  - "disable-enderpearl-cooldown"
+  - "disable-offhand"
+  - "disable-sword-sweep-particles"
+  - "disable-attack-sounds"
+  - "chorus-fruit"
+  - "old-burn-delay"
+  - "attack-range"
+  - "old-projectile-trajectory"
+  - "projectile-shoot-offset"
+  - "relative-projectile-velocity"
+  - "old-tool-damage"
+  - "sword-blocking"
+  - "shield-damage-reduction"
+  - "old-golden-apples"
+  - "old-player-knockback"
+  - "old-player-regen"
+  - "old-armour-strength"
+  - "old-potion-effects"
+  - "old-potion-throwing"
+  - "old-critical-hits"
+
+modesets:
+  # Unused (everything is always-on or disabled), kept because OCM
+  # expects at least one modeset for its world mapping.
+  old: []
+
+worlds:
+  __default__: [ "old" ]
+
+mode-permissions:
+  # When enabled, players can only select modesets for which they have oldcombatmechanics.modeset.<modeset>.
+  # Join and world-change fallback will also ignore modesets the player cannot use.
+  enabled: false
+
+mode-messages:
+  # Messages used when changing player mode
+  # To disable any message, leave the corresponding string empty (e.g., mode-status: "").
+  # This applies to all messages in the configuration.
+  mode-status: "&bYour current modeset is: &7%s"
+  message-usage: "&eYou can use &c/ocm mode <modeset> [player] &eto change modeset"
+  invalid-modeset: "&cPlease specify a valid modeset!"
+  no-permission-modeset: "&cYou do not have permission to use that modeset!"
+  invalid-player: "&cPlease specify a valid player!"
+  mode-set: "&2Set modeset to &7%s"
+
+# ########################
+# COMBAT MODULE SETTINGS
+# ########################
+
+disable-attack-cooldown:
+  # This is to disable the attack cooldown
+  # What to set the attack speed to. Default for 1.9 is 4, at least 40 is needed for no cooldown.
+  generic-attack-speed: 40
+  # Optional per-material override for the item in the player's main hand.
+  # Materials not listed here fall back to generic-attack-speed.
+  # The bundled defaults keep most items at no cooldown, while trident, mace,
+  # and spears retain more vanilla-like attack speeds.
+  # Newer-version material keys that are unavailable on the current server are
+  # ignored safely.
+  held-item-attack-speeds:
+    TRIDENT: 1.1
+    MACE: 0.6
+    WOODEN_SPEAR: 1.54
+    GOLDEN_SPEAR: 1.05
+    STONE_SPEAR: 1.33
+    COPPER_SPEAR: 1.18
+    IRON_SPEAR: 1.05
+    DIAMOND_SPEAR: 0.95
+    NETHERITE_SPEAR: 0.87
+
+attack-frequency:
+  # Allows changing the player invulnerability between hits
+  # The hit delay to apply. Default for 1.9+ is 20 ticks (1 second)
+  playerDelay: 18
+  mobDelay: 16
+
+attack-range:
+  # Applies 1.8-style hit detection (smaller hitbox margin, shorter creative reach).
+  # Paper 1.21.11+ only; auto-disables on older/Paperless servers.
+  # Note: this module re-applies reach when items are held and strips it when swapping/dropping to avoid tainting stored items.
+  # Very frequent hotbar swapping may have a small performance cost.
+  min-range: 0.0
+  max-range: 3.0
+  min-creative-range: 0.0
+  max-creative-range: 4.0
+  hitbox-margin: 0.1
+  mob-factor: 1.0
+
+old-tool-damage:
+  # This is to set the tool damage as in pre-1.9
+  # When the server identifies sweep attacks separately, their native damage is preserved.
+  # Enable disable-sword-sweep to remove sweeping attacks for 1.8 behaviour.
+  # Combat damage is changed by OCM; the tooltip below shows the configured value when enabled.
+  # Use old sharpness calculations, i.e. each level adds 1.25 damage
+  # In 1.9+, sharpness adds 1 + 0.5 * level damage
+  old-sharpness: true
+  tooltip:
+    # Correct only the native attack damage text when Paper supports per-attribute display overrides.
+    # Disable this to retain the legacy lore below on every server.
+    native-attribute: true
+    # Master switch for native display and lore fallback.
+    # Explicit custom attribute components retain their display and use lore instead.
+    # Lore can interact with plugins that rewrite it.
+    enabled: true
+    prefix: "OCM Damage:"
+  # Damage values are in 1.9+ "actual damage" terms (1 damage = half a heart).
+  # In 1.8, the client tooltip showed "+X Attack Damage", where X = (actual_damage - 1) because the base unarmed damage is 1.
+  damages:
+    # Axe damages
+    GOLD_AXE: 4
+    WOOD_AXE: 4
+    STONE_AXE: 5
+    IRON_AXE: 6
+    DIAMOND_AXE: 7
+    NETHERITE_AXE: 8
+    COPPER_AXE: 12
+    # Shovel damages
+    GOLD_SPADE: 2
+    WOOD_SPADE: 2
+    STONE_SPADE: 3
+    IRON_SPADE: 4
+    DIAMOND_SPADE: 5
+    NETHERITE_SPADE: 6
+    COPPER_SPADE: 3
+    # Sword damages
+    GOLD_SWORD: 5
+    WOOD_SWORD: 5
+    STONE_SWORD: 6
+    IRON_SWORD: 7
+    DIAMOND_SWORD: 8
+    NETHERITE_SWORD: 9
+    COPPER_SWORD: 12
+    # Pickaxe damages
+    GOLD_PICKAXE: 3
+    WOOD_PICKAXE: 3
+    STONE_PICKAXE: 4
+    IRON_PICKAXE: 5
+    DIAMOND_PICKAXE: 6
+    NETHERITE_PICKAXE: 7
+    COPPER_PICKAXE: 4
+    # Hoe damages
+    GOLD_HOE: 1
+    WOOD_HOE: 1
+    STONE_HOE: 1
+    IRON_HOE: 1
+    DIAMOND_HOE: 1
+    NETHERITE_HOE: 1
+    COPPER_HOE: 1
+    # Trident and mace
+    TRIDENT: 8
+    TRIDENT_THROWN: 8
+    MACE: 6
+
+old-critical-hits:
+  # Makes critical hits work like in 1.8
+  # With a critical hit, the damage will be multiplied by 1.5
+  # In 1.9, the user must also not be sprinting for it to be a crit
+  world: [ ]
+  # What the damage, after applying potions effects, is multiplied by
+  multiplier: 1.5
+  # Whether to allow crits while sprinting. 1.8: true, 1.9: false
+  allow-sprinting: true
+
+old-player-regen:
+  # This is to make players' regeneration act mostly like it did in pre-1.9
+  # Based on https://minecraft.gamepedia.com/Hunger?oldid=948685
+  # How often a player should regenerate health, in milliseconds (In 1.8: 4 seconds)
+  # Rounded to the nearest server tick (50ms), with a minimum of one tick.
+  # Both saturated and unsaturated native regeneration use this interval when the API exists.
+  # Legacy servers use a shared timer observed before native food processing; boundary changes
+  # can differ by one tick. Native exhaustion correction cannot identify foreign costs at the cap of 40.
+  interval: 3990
+  # How many half-hearts the player should heal by at each interval
+  amount: 1
+  # How much exhaustion the player should get from healing. In 1.8: 3    In 1.9: 4    In 1.11: 6
+  # If, after adding this, Minecraft finds the value is above 4, it subtracts 4
+  # and either reduces saturation or, if saturation is 0, reduces food level by 1 (1/2 a stick)
+  exhaustion: 3
+
+# ########################
+# ARMOUR
+# ########################
+
+old-armour-strength:
+  # This is to make armour calculations like in 1.8
+  # Based on this: https://minecraft.gamepedia.com/index.php?title=Armor&oldid=909187
+  # Whether to introduce randomness in the calculation, as in 1.8
+  randomness: true
+
+old-armour-durability:
+  # This makes armour take a constant amount of durability damage (except for explosions)
+  # By how much to reduce durability every attack. 1.8 default is 1
+  reduction: 1
+
+# ########################
+# SWEEP, SHIELDS & BLOCKING
+# ########################
+
+shield-damage-reduction:
+  # This module allows changing the damage reduction behaviour of shields
+  # How much damage blocking should reduce
+  # Firstly, amount is subtracted, then value is multiplied by percentage
+  # 1.8: (damage - 1) * 50%    1.9: damage * 33%   1.11: damage * 0%
+  # Damage reduction = (damage - damageReductionAmount) * damageReductionPercentage / 100
+  generalDamageReductionAmount: 1
+  generalDamageReductionPercentage: 50
+  # This value works the same but is exclusively for projectile damage
+  # Set amount and percentage to 0 to leave projectile damage unchanged by blocking
+  projectileDamageReductionAmount: 1
+  projectileDamageReductionPercentage: 50
+
+sword-blocking:
+  # Optional Paper-animation overrides: generalDamageReductionAmount and generalDamageReductionPercentage.
+  # Each omitted value follows the corresponding shield-damage-reduction setting.
+  # Set both to 0 to leave sword damage reduction to another plugin without changing shields.
+  # This is to allow players to block with swords again, by getting a shield while they hold right click with a sword
+  # Paper 1.20.5+ uses a consumable-based blocking animation. Older/Paperless servers fall back to an offhand shield.
+  # With ViaVersion, clients older than 1.20.5 will also fall back to the shield behaviour.
+  # Set to false to disable the Paper animation path entirely and always use the legacy shield fallback.
+  paper-animation: true
+  # How often, in ticks, OCM should check if the player is still blocking with a shield, and remove it if not
+  # If this is too fast, the player will have their shield disappear before they're able to block again causing a slight delay
+  # If this is too slow, players will have a shield in their hand well after they've stopped blocking
+  # 20 ticks = 1 second
+  restoreDelay: 40
+  # Whether to require players to have oldcombatmechanics.swordblock permission to block with a sword
+  use-permission: false
+
+disable-sword-sweep:
+  # This is to disable the sword sweep attack
+  # With PacketEvents, particle effect is also removed
+
+disable-sword-sweep-particles:
+  # This is to disable the sword sweep attack particles
+  # Requires PacketEvents
+
+# ########################
+# KNOCKBACK
+# ########################
+
+old-player-knockback:
+  # This is to change knockback players receive from attacks.  Default values are as in 1.8.
+  # Arrow base knockback uses these settings when a suitable Bukkit or Paper event exists.
+  # Native Punch remains separate. Servers without that event, including 1.9 and 1.12,
+  # retain native arrow knockback, including native airborne behaviour.
+  # Full native resistance can suppress the event on older Paper, so no base correction
+  # is possible there. Disabling resistance removes modifiers, not foreign base attributes.
+  #
+  # Practice servers tend to use lower knockback, for example:
+  # knockback-horizontal: 0.35
+  # knockback-vertical: 0.35
+  # knockback-vertical-limit: 0.4
+  # knockback-extra-horizontal: 0.425
+  # knockback-extra-vertical: 0.085
+  #
+  # Minigame servers use higher vertical knockback and lower horizontal knockback, exact values are unknown.
+  # Horizontal knockback is reduced by 40% for every successful attack by the player, with no limit
+  # Increase to make clicking more important, decrease to make it less important
+  knockback-horizontal: 0.4
+  # Divides existing velocity on all three axes once per hit, before adding knockback.
+  # 2.0 retains half the velocity; larger values retain less, values below 1.0 amplify it.
+  # Must be a positive finite number. Missing or invalid values use 2.0.
+  knockback-friction: 2.0
+  # Vertical knockback is not reduced by clicking faster
+  # Increase to make clicking less important, decrease to make clicking more important
+  knockback-vertical: 0.4
+  # Vertical knockback limit is applied after base vertical knockback
+  # This limit can be exceeded by sprint hitting or knockback enchantments, from the extra vertical knockback
+  knockback-vertical-limit: 0.4
+  # Extra horizontal knockback is applied for each level of knockback enchant, and for sprinting
+  # Increase to make sprint resetting (w-tapping) more important, decrease to make it less important
+  # Increase to make clicking more important, decrease to make clicking less important
+  knockback-extra-horizontal: 0.5
+  # Extra vertical knockback is applied for each level of knockback enchant, and for sprinting
+  # Increase to make sprint resetting (w-tapping) more important, decrease to make it less important
+  # Increase to make clicking less important, decrease to make clicking more important
+  knockback-extra-vertical: 0.1
+  # Should knockback resistance be enabled? (e.g. netherite armour knockback resistance)
+  enable-knockback-resistance: false
+
+old-fishing-knockback:
+  # This is to make the knockback of players when they get hit by a fishing bobber the same as it was in pre-1.9
+  # This is the damage done by the fishing rod attack
+  damage: 0.0001
+  # This is to cancel dragging in the entity attached to the fishing rod when reeling in, like in 1.8
+  # Options: all, players, mobs, none. players allows compatibility with WorldGuard pvp-deny regions
+  cancelDraggingIn: players
+  # Whether to also give knockback on non-player living entities (e.g. mobs)
+  knockbackNonPlayerEntities: true
+
+fishing-rod-velocity:
+  # In 1.9+ fishing rods go 8 blocks instead of 12 blocks
+  # This is due to both gravity and initial launch speed
+  # Enabled through the module lists above; always uses the 1.8 launch calculation.
+  # Downward acceleration in blocks per tick squared, from 0 to 1.
+  # Vanilla 1.8 and 1.9: 0.04. Vanilla 1.12 and modern servers (including 1.14+): 0.03.
+  # Custom gravity takes effect from the next server tick. Water behaviour stays native.
+  gravity: 0.04
+
+projectile-knockback:
+  # This adds knockback and/or damage to players when they get hit by snowballs, eggs & enderpearls
+  # This has been a Bukkit bug for so long people thought it was vanilla when it was patched
+  # Knockback is triggered by the small damage values below. Full damage resistance
+  # (such as Resistance V or higher) can prevent this knockback.
+  # This is the damage done by each projectile
+  damage:
+    snowball: 0.0001
+    egg: 0.0001
+    ender_pearl: 0.0001
+
+# ########################
+# GAPPLES & POTIONS
+# ########################
+
+old-golden-apples:
+  # This is to change the behaviour / crafting of golden apples to how it was in pre-1.9
+  # WARNING: If on 1.12 or above and you disable this module you must reload the server for the recipe to disappear
+  # Cooldown between eating the apples, in seconds
+  cooldown:
+    # The cooldown for normal golden apples
+    # PlaceholderAPI: %ocm_gapple_cooldown%
+    normal: 0
+    # Message when user tries to eat golden apple during cooldown. Leave empty to disable.
+    message-normal: "&ePlease wait %seconds%s before eating another golden apple."
+    # The cooldown for enchanted golden apples
+    # PlaceholderAPI: %ocm_napple_cooldown%
+    enchanted: 0
+    # Message when user tries to eat enchanted golden apple during cooldown. Leave empty to disable.
+    message-enchanted: "&ePlease wait %seconds%s before eating another enchanted golden apple."
+    # Whether the two apple types share a cooldown.
+    # If this is true:
+    #   1. Eating any apple resets both cooldowns
+    #   2. Each apple type can only be eaten when its cooldown time is over
+    #      This means that when you eat *any* apple you start two parallel cooldowns: One for enchanted and one
+    #      for normal apples. Each type can only be eaten when its cooldown is over.
+    #      Once any apple is eaten, both cooldowns are restarted, so you can not eat either type again
+    #      before its full cooldown is over.
+    #   3. To have the plugin treat normal and enchanted golden apples as having the same cooldown,
+    #      then set the same cooldown time and enable shared mode. (This was the old mode)
+    # If this is false:
+    #   Eating an enchanted apple will prevent any *enchanted* apple type from being eaten before the cooldown is over
+    #   Eating a normal apple will prevent any *normal* apple type from being eaten before the normal cooldown is over
+    is-shared: false
+    # Show the cooldown on the apple items in the hotbar, like ender pearls (1.13+).
+    # The client then refuses to eat apples on cooldown, so the cooldown messages are rarely shown.
+    # Applied on the next tick after accepted consumption and kept in step with the elapsed real time.
+    # Durations above one day use renewable one-day indicators; the configured restriction is unchanged.
+    # Existing cooldowns from other plugins are preserved; later changes relinquish OCM ownership.
+    # Same-valued writes by another plugin cannot be distinguished. OCM clears its own indicator
+    # on reload, shutdown or when the module becomes inactive for the player.
+    show-item-cooldown: false
+  # If you want to allow enchanted golden apple crafting
+  enchanted-golden-apple-crafting: true
+  # Enabling this makes the potion effects gained by eating golden apples
+  # and enchanted golden apples the same as it was in pre-1.9
+  old-potion-effects: true
+  # Potion effects for golden apples
+  # Duration is in seconds
+  # Amplifier is the potion level-1, so Regeneration IV would be amplifier 3
+  golden-apple-effects:
+    regeneration:
+      duration: 5
+      amplifier: 1
+    absorption:
+      duration: 120
+      amplifier: 0
+  # Potion effects for enchanted golden apples
+  enchanted-golden-apple-effects:
+    regeneration:
+      duration: 30
+      amplifier: 4
+    resistance:
+      duration: 300
+      amplifier: 0
+    fire_resistance:
+      duration: 300
+      amplifier: 0
+    absorption:
+      duration: 120
+      amplifier: 0
+  # Enable this if you have another plugin which adds a crafting recipe for
+  # enchanted golden apples (requires server restart)
+  no-conflict-mode: false
+
+old-potion-throwing:
+  # Independent of old-potion-effects. Only changes player-thrown splash potions.
+  # Lingering potions, witches and dispensers keep their native launch behaviour.
+  # Position offsets precede movement on Paper; servers without a safe insertion hook use the next tick.
+  # Launch speed, in blocks per tick (0 to 10). Vanilla 1.8: 0.5; vanilla 1.9: 0.5.
+  launch-speed: 0.5
+  # Angles in degrees (-180 to 180). Pitch changes the vertical component only.
+  # Vanilla 1.8 and 1.9: pitch -20, yaw 0. Native Gaussian launch spread is retained.
+  pitch-offset: -20.0
+  yaw-offset: 0.0
+  # Blocks right of the shooter's eyes (-4 to 4). Vanilla 1.8: 0.16; vanilla 1.9: 0.
+  sideways-offset: 0.16
+  # Blocks above the eyes (-4 to 4, negative means below). Vanilla 1.8 and 1.9: -0.1.
+  vertical-offset: -0.1
+  # Vanilla 1.8: false; vanilla 1.9: true.
+  # When true, add horizontal player velocity, and vertical velocity only while airborne.
+  inherit-player-velocity: false
+  # Downward acceleration in blocks per tick squared (0 to 1). Vanilla 1.8 and 1.9: 0.05.
+  # Custom gravity takes effect from the next server tick; native drag and tick order are retained.
+  gravity: 0.05
+
+old-potion-effects:
+  # This is to restore the 1.8 potion effects and duration
+
+  # DURATION: (in seconds)
+  # Durations are seconds; fractional values are rounded to the nearest server tick.
+  potion-durations:
+    drinkable:
+      regeneration: 45
+      strong_regeneration: 22
+      long_regeneration: 120
+
+      swiftness: 180
+      strong_swiftness: 90
+      long_swiftness: 480
+
+      fire_resistance: 180
+      long_fire_resistance: 480
+
+      poison: 45
+      strong_poison: 22
+      long_poison: 120
+
+      night_vision: 180
+      long_night_vision: 480
+
+      weakness: 90
+      long_weakness: 240
+
+      strength: 180
+      strong_strength: 90
+      long_strength: 480
+
+      slowness: 90
+      long_slowness: 240
+
+      leaping: 180
+      strong_leaping: 90
+      long_leaping: 480
+
+      water_breathing: 180
+      long_water_breathing: 480
+
+      invisibility: 180
+      long_invisibility: 480
+
+      # 1.9+ potions. You can add more as needed.
+      # Make sure to also add to splash section below.
+      luck: 300
+
+      slow_falling: 90
+      long_slow_falling: 240
+
+    splash:
+      regeneration: 33
+      strong_regeneration: 16
+      long_regeneration: 90
+
+      swiftness: 135
+      strong_swiftness: 67
+      long_swiftness: 360
+
+      fire_resistance: 135
+      long_fire_resistance: 360
+
+      poison: 33
+      strong_poison: 16
+      long_poison: 90
+
+      night_vision: 180
+      long_night_vision: 480
+
+      weakness: 90
+      long_weakness: 240
+
+      strength: 135
+      strong_strength: 67
+      long_strength: 360
+
+      slowness: 67
+      long_slowness: 180
+
+      leaping: 135
+      strong_leaping: 67
+      long_leaping: 360
+
+      water_breathing: 135
+      long_water_breathing: 360
+
+      invisibility: 135
+      long_invisibility: 360
+
+      # 1.9+ potions. You can add more as needed
+      luck: 300
+
+      slow_falling: 90
+      long_slow_falling: 240
+
+  # EFFECTS
+  # If 'multiplier' is true value is multiplied by base tool damage. If 'addend' it is added.
+  # If both true, it is first increased by 1 then multiplied (same as +xx%)
+  # Strength potion
+  # 1.9: I = +3; II = +6;    1.8: I = +130%; II = +260%
+  strength:
+    modifier: 1.3
+    multiplier: true
+    addend: true
+  # Weakness potion
+  # 1.9 value: -4   1.8 value: -0.5
+  weakness:
+    modifier: -0.5
+    multiplier: false
+
+# ########################
+# MISCELLANEOUS
+# ########################
+
+disable-crafting:
+  # Disable the crafting of specified items
+  # List of denied items
+  denied:
+    - shield
+  # Show the user a message if they try to craft a blacklisted item
+  showMessage: true
+  message: "&cYou cannot craft that item!"
+
+disable-offhand:
+  # Disable the usage of the offhand
+  # Won't affect sword-blocking module
+  # Whether the following list allows items or blocks them
+  whitelist: true
+  # List of items that should be allowed/blocked
+  # Example: [diamond_sword,BOW]
+  items: [ ]
+  # Message to send user when denied. Set to '' to disable
+  denied-message: "&cOff-hand is disabled"
+
+old-brewing-stand:
+  # Automatically refuels brewing stands
+
+disable-enderpearl-cooldown:
+  # Disables enderpearl cooldown
+  # The cooldown, in seconds
+  # PlaceholderAPI: %ocm_enderpearl_cooldown%
+  cooldown: 0
+  # Show the user a message if they try to use an enderpearl and the cooldown has not expired yet
+  showMessage: true
+  message: "&cYou must wait &7%ds&c before using an enderpearl again!"
+
+chorus-fruit:
+  # This makes the chorus fruit behaviour configurable
+  # The maximum distance the fruit can teleport the player. This a PER AXIS value, so this outlines a cube with
+  # 2 * max-teleportation-distance as the side length
+  # Vanilla default is 8.
+  # Setting this to 0 disables chorus fruit teleport.
+  # Setting this to a value greater than 8 MIGHT CAUSE CONFLICTS with bukkit's internal anti cheat
+  # and *potentially* any other anti-cheat you use. Please make sure this is not an issue before increasing
+  # this value.
+  max-teleportation-distance: 8
+  # Whether to prevent eating the fruit completely. This also prevents the teleportation.
+  prevent-eating: false
+  # The saturation value of the chorus fruit.
+  # Vanilla default is 2.4
+  saturation-value: 2.4
+  # The hunger value of the chorus fruit.
+  # Vanilla default is 4 (2 bars)
+  hunger-value: 4
+
+old-burn-delay:
+  # This makes it so entities will immediately start to burn when entering fire
+  # How long, in ticks, entities should be on fire for after not being in direct contact anymore
+  fire-ticks: 120
+
+disable-attack-sounds:
+  # Disables attack sounds that were added with 1.9+
+  # Requires PacketEvents
+  # The sounds that will be blocked by this module
+  blocked-sound-names:
+    - "ENTITY_PLAYER_ATTACK_STRONG"
+    - "ENTITY_PLAYER_ATTACK_SWEEP"
+    - "ENTITY_PLAYER_ATTACK_NODAMAGE"
+    - "ENTITY_PLAYER_ATTACK_KNOCKBACK"
+    - "ENTITY_PLAYER_ATTACK_CRIT"
+    - "ENTITY_PLAYER_ATTACK_WEAK"
+
+# ########################
+# SPECIAL SETTINGS BELOW #
+# ########################
+
+message-prefix: "&6[OCM]&r"
+
+# This is to toggle the update checker
+update-checker:
+  # Whether to check for updates and notify players with the oldcombatmechanics.notify permission
+  # Whether to automatically download an update of the plugin
+  # The update is applied on the next restart/reload of the server
+  # Auto update is disabled if Spigot version is below 1.18.1 and force-below-1-18-1-config-upgrade is false
+  # This is to prevent accidentally resetting the config
+  auto-update: false
+
+# Whether to force config upgrade even in Spigot versions below 1.18.1
+# This is not advised, as all the comments would be removed
+force-below-1-18-1-config-upgrade: false
+
+# This enables command argument completion when pressing tab
+command-completer:
+  enabled: true
+
+# This enables debug messages, only enable when troubleshooting
+debug:
+  enabled: false
+
+# DO NOT CHANGE THIS NUMBER AS IT WILL RESET YOUR CONFIG
+config-version: 79

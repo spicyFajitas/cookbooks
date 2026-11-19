@@ -8,6 +8,7 @@ resources:
   - 01-pvc.yaml
   - 02-statefulset.yaml
   - 03-service.yaml
+  - 04-bedrock-service.yaml
   - 06-public-dns.yaml
 
 configMapGenerator:
@@ -15,6 +16,10 @@ configMapGenerator:
     namespace: minecraft
     files:
       - config.yml=config/axgraves-config.yml
+  - name: oldcombatmechanics-config
+    namespace: minecraft
+    files:
+      - config.yml=config/oldcombatmechanics-config.yml
   - name: bukkit-permissions
     namespace: minecraft
     files:
