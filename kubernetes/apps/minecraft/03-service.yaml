@@ -24,7 +24,7 @@ metadata:
     # nor tell they're online, and would put the server to sleep under
     # them. Scale-up stays on, so a Java join still wakes it if it's ever
     # at 0.
-    mc-router.itzg.me/autoScaleDown: "false"
+    mc-router.itzg.me/autoScaleDown: "true"
 spec:
   type: ClusterIP
   selector:
