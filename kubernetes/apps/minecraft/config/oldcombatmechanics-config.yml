@@ -147,8 +147,8 @@ old-tool-damage:
     # Trimmed on purpose: only weapons listed here are changed, everything
     # else keeps vanilla damage (sharpness too). Vanilla for reference:
     # copper sword 5, copper axe 9. Values are total damage (half-hearts).
-    COPPER_AXE: 12
-    COPPER_SWORD: 12
+    COPPER_AXE: 30
+    COPPER_SWORD: 30
 
 old-critical-hits:
   # Makes critical hits work like in 1.8
