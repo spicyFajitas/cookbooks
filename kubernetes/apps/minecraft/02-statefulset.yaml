@@ -107,7 +107,11 @@ spec:
             # geyser + floodgate (PLUGINS below): Bedrock/Xbox players join
             # on UDP 19132 without a Java account. Geyser is left unpinned
             # on purpose -- Bedrock clients auto-update and an old Geyser
-            # locks them out. Floodgate's Paper build isn't on Modrinth,
+            # locks them out. `:beta` because GeyserMC only publishes beta
+            # builds on Modrinth, and the image only takes releases by
+            # default (scoped to geyser, not MODRINTH_PROJECTS_DEFAULT_
+            # VERSION_TYPE, so no other plugin picks up betas).
+            # Floodgate's Paper build isn't on Modrinth,
             # so it comes from GeyserMC's own download API, pinned to
             # 2.2.5 build 141 (its 26.3 update). Bedrock names show up
             # with a "." prefix; whitelist them with /fwhitelist add.
@@ -131,7 +135,7 @@ spec:
                 scythe
                 itemquickstack:zpkQL0LX
                 veinminer
-                geyser
+                geyser:beta
             - name: PLUGINS
               value: |
                 https://download.geysermc.org/v2/projects/floodgate/versions/2.2.5/builds/141/downloads/spigot

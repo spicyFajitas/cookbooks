@@ -18,12 +18,6 @@ metadata:
     mc-router.itzg.me/externalServerName: minecraft.spicyfajitas.com
     # Also catches raw-IP connections and any unknown hostname.
     mc-router.itzg.me/defaultServer: "true"
-    # Never scale this one to zero. Bedrock/Xbox players come in over
-    # Geyser's UDP port (04-bedrock-service.yaml), not mc-router, so
-    # mc-router can't see them: it could neither wake the server for them
-    # nor tell they're online, and would put the server to sleep under
-    # them. Scale-up stays on, so a Java join still wakes it if it's ever
-    # at 0.
     mc-router.itzg.me/autoScaleDown: "true"
 spec:
   type: ClusterIP
