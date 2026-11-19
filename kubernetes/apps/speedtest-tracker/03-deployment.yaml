@@ -74,6 +74,8 @@ spec:
               value: speedtest_tracker
             - name: DB_USERNAME
               value: speedy
+            - name: PUBLIC_DASHBOARD
+              value: true
           envFrom:
             - secretRef:
                 name: speedtest-tracker # DB_PASSWORD, APP_KEY
