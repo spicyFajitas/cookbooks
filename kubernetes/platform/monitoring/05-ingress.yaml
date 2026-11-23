@@ -23,8 +23,8 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-dns
     external-dns-managed: "true"
-    external-dns.alpha.kubernetes.io/target: b70df153-37a9-481b-a828-f5596bdcbf9f.cfargotunnel.com
-    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+    external-dns.kubernetes.io/target: b70df153-37a9-481b-a828-f5596bdcbf9f.cfargotunnel.com
+    external-dns.kubernetes.io/cloudflare-proxied: "true"
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: Grafana
     gethomepage.dev/group: Services

@@ -71,7 +71,7 @@ LoadBalancer IP:
 metadata:
   annotations:
     external-dns-managed: "true"
-    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+    external-dns.kubernetes.io/cloudflare-proxied: "false"
 ```
 
 For a tunnel-routed app meant to be reachable from the public internet,
@@ -91,8 +91,8 @@ working example.
 metadata:
   annotations:
     external-dns-managed: "true"
-    external-dns.alpha.kubernetes.io/target: <tunnel-id>.cfargotunnel.com
-    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+    external-dns.kubernetes.io/target: <tunnel-id>.cfargotunnel.com
+    external-dns.kubernetes.io/cloudflare-proxied: "true"
 ```
 
 ## Verify
