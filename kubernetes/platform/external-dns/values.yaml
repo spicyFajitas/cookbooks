@@ -20,8 +20,8 @@ sources:
 
 # Only touch zones this cluster actually uses -- the token itself is scoped
 # to "all zones" (broader than necessary, see kubernetes/platform/cert-manager/readme.md),
-# so this is the actual safety boundary. Add adfulton.com back here if/when
-# something on that domain moves onto k3s.
+# so this is the actual safety boundary. Add other zones here if/when
+# something on another domain moves onto k3s.
 domainFilters:
   - spicyfajitas.com
 

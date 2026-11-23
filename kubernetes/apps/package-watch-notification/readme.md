@@ -48,9 +48,7 @@ Each `name`/`series`/`version_prefix` combination is tracked separately.
 Mail goes out the same way as Proxmox's postfix relay
 (`ansible/roles/proxmox/templates/main.cf.j2`, `docs/src/homelab/proxmox.md`'s
 "Email Alerts"): Gmail at `smtp.gmail.com:587` with STARTTLS, using an app
-password. `02-cronjob.yaml` sets `SMTP_HOST`, `SMTP_PORT` and `MAIL_FROM`
-(`Linux Server <linux-server@adfulton.com>`, the From address postfix's
-`smtp_header_checks` rewrites to).
+password. `02-cronjob.yaml` sets `SMTP_HOST` and `SMTP_PORT`.
 
 The credentials are the same ones postfix uses, from
 `ansible/roles/proxmox/vaults/production.yml`:
@@ -60,6 +58,7 @@ The credentials are the same ones postfix uses, from
 | `SMTP_USERNAME` | `gmail_username`                     |
 | `SMTP_PASSWORD` | `app_password`                       |
 | `MAIL_TO`       | address(es) to send to, comma-separated |
+| `MAIL_FROM`     | From header, e.g. `Linux Server <you@gmail.com>` |
 
 ```bash
 # from ansible/

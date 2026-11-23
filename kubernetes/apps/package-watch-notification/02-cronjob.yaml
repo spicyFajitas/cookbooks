@@ -28,8 +28,6 @@ spec:
                   value: smtp.gmail.com
                 - name: SMTP_PORT
                   value: "587"
-                - name: MAIL_FROM
-                  value: Linux Server <linux-server@adfulton.com>
               envFrom:
                 - secretRef:
                     name: kernel-watch-smtp

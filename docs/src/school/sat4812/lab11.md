@@ -22,10 +22,10 @@ systemtl start fail2ban
 systemctl status fail2ban
 
 # edit fail2ban to create whitelist rule
-vim /etc/fail2ban/jail.d/afulton.conf
+vim /etc/fail2ban/jail.d/custom.conf
 ```
 
-Contents of `/etc/fail2ban/jail.d/afulton.conf`
+Contents of `/etc/fail2ban/jail.d/custom.conf`
 
 ```config
 [DEFAULT]

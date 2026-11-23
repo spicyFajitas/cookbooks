@@ -11,7 +11,7 @@
 - name: Configure SMTP header checks
   ansible.builtin.lineinfile:
     path: /etc/postfix/smtp_header_checks
-    line: "/^From:.*/ REPLACE From: Linux Server <linux-server@adfulton.com>"
+    line: "/^From:.*/ REPLACE From: {{ mail_from }}"
     owner: root
     group: root
     mode: '0600'

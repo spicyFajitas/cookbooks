@@ -10,6 +10,7 @@ spec:
             SMTP_USERNAME: ENC[AES256_GCM,data:rjnWD62CJZOhvheEkFZAnJsFa3k=,iv:Nw4aZif2wca7h+Xrxj+jAxWYW2vSwetHGYYTx7yxciw=,tag:d7B0AmADNBIMy96/YKy9rA==,type:str]
             SMTP_PASSWORD: ENC[AES256_GCM,data:nGQ+YzFlOyJDzunIJAmKoNKtVQ==,iv:+MtaCSgVoOWI9nzSnEiwcasMsdH7QcgVgEKLl7LltBo=,tag:C/ss5wHgTRa32hUiFvJdMQ==,type:str]
             MAIL_TO: ENC[AES256_GCM,data:9dNOmuSTZo6+sR8Pv1n9ssKeHzDu,iv:6o5Hd1PUcvf43LBq8UCakqahs0YUYEFVNMW/atAnhvI=,tag:FXbSWem7APWA+DVc4VujIw==,type:str]
+            MAIL_FROM: ENC[AES256_GCM,data:TpbqyC50cKhyarB82y5vPYvHpiceMde7NqAbc0irUR5LcZQ=,iv:qiuM8xjt7M8jGHchkx6ogJ5OthmW9q8st8RnkGciCe4=,tag:UHVxt7X7Ug06W7/y0IKYrg==,type:str]
 sops:
     age:
         - enc: |
@@ -22,6 +23,6 @@ sops:
             -----END AGE ENCRYPTED FILE-----
           recipient: age1a4v9rkhc0lmv9ju0yzsp5gmas7hu982q23jrq4y44dhuqgcsua4qe3wl9x
     encrypted_regex: ^(data|stringData)$
-    lastmodified: "2026-11-23T17:02:47Z"
-    mac: ENC[AES256_GCM,data:gInavITg2iVcmAWENCVOJJXrBOEw6vFjwJZf+dvFP5k1qEC3vLRtJZ18ZwJ/Frbh5AghqzC5IR76FnnAmwrDdE458ixpxA9uyuNs8rQGiSeZmqQjbYawgU9q1c22Ds58EXRjhZotj7MWowJLF2gPXv5PmgkfFaMy1nWSJdlaquU=,iv:0Hoq1co7keSq4J0vWvvgj62jRX+L2DZ7PJWqGrepu2U=,tag:naTJik8E+hKy46p0Dh7gHg==,type:str]
+    lastmodified: "2026-11-23T17:27:24Z"
+    mac: ENC[AES256_GCM,data:w68BTqetE/+0EMCzpXmornSahvS5u6SFlTguqBKDMl3jR8nD99ZR3T0L8H8lJr8tZ+bEpWkhGCMJeat9jjUo4E4xXFWc3I/DnVM0/6eGZ3elRmSzaNgaIBCEQCuk30pL7IqptxEjE1YcGAgtbD890WTsaqzwjl9jVSA4ojvJMSk=,iv:BE4uj2LzTkrfyhzAi9hoqBtOP+xVUA6fAUoCCVXExr4=,tag:RUr6d1cnJUvKfz0pIFH3zA==,type:str]
     version: 3.13.3
