@@ -187,7 +187,7 @@ spec:
       serviceAccountName: prometheus
       containers:
         - name: prometheus
-          image: prom/prometheus:latest
+          image: prom/prometheus:v3.16.0
           args:
             - --web.enable-lifecycle
             - --config.file=/etc/prometheus/prometheus.yml

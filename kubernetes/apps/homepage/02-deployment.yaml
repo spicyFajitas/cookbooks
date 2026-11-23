@@ -43,7 +43,7 @@ spec:
         runAsGroup: 1000
       containers:
         - name: homepage
-          image: ghcr.io/gethomepage/homepage:latest
+          image: ghcr.io/gethomepage/homepage:v2.8.0
           imagePullPolicy: Always
           ports:
             - name: web
