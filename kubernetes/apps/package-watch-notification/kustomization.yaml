@@ -7,6 +7,8 @@ resources:
   - 00-namespace.yaml
   - 01-pvc.yaml
   - 02-cronjob.yaml
+  - 03-kernel-watch-smtp.sops.yaml
+
 
 configMapGenerator:
   - name: kernel-watch-config
