@@ -1,0 +1,15 @@
+[
+  {
+    "name": "linux",
+    "series": "noble",
+    "version_prefix": "6.8.0-"
+  },
+  {
+    "name": "wheel",
+    "series": "noble"
+  },
+  {
+    "name": "python-pip",
+    "series": "noble"
+  }
+]

@@ -48,3 +48,6 @@ certs/*.key
 
 .claude*
 ynab.md
+
+# python stuff
+**/__pycache__

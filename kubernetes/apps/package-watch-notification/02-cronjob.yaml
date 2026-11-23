@@ -1,0 +1,54 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: kernel-watch
+  namespace: kernel-watch
+spec:
+  schedule: "20 */3 * * *"
+  timeZone: America/Los_Angeles
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: Never
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+          containers:
+            - name: kernel-watch
+              image: python:3.13-slim
+              command: ["python", "-I", "/config/kernel_watch.py"]
+              env:
+                - name: SMTP_HOST
+                  value: smtp.gmail.com
+                - name: SMTP_PORT
+                  value: "587"
+                - name: MAIL_FROM
+                  value: Linux Server <linux-server@adfulton.com>
+              envFrom:
+                - secretRef:
+                    name: kernel-watch-smtp
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 32Mi
+                limits:
+                  memory: 128Mi
+              volumeMounts:
+                - name: config
+                  mountPath: /config
+                  readOnly: true
+                - name: state
+                  mountPath: /state
+          volumes:
+            - name: config
+              configMap:
+                name: kernel-watch-config
+            - name: state
+              persistentVolumeClaim:
+                claimName: kernel-watch-state
