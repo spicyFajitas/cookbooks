@@ -35,7 +35,7 @@ spec:
         runAsGroup: 999
       containers:
         - name: postgres
-          image: postgres:15
+          image: postgres:19
           # The node's default containerd AppArmor profile blocks signals
           # between processes inside the container, so crash recovery dies
           # with "could not signal for checkpoint: Permission denied" and
