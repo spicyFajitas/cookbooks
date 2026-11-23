@@ -40,6 +40,11 @@ data:
             href: https://10.100.10.15
             ping: https://10.100.10.15
 
+        - Home Assistant:
+            icon: home-assistant.png
+            href: http://10.100.10.5
+            ping: http://10.100.10.5
+
     # Minecraft is raw TCP with no Ingress, so annotation auto-discovery
     # can't see it -- static entry instead. namespace/podSelector still
     # give it k8s pod status/CPU/mem; the widget pings the server for
