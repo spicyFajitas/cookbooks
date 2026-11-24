@@ -29,7 +29,7 @@ spec:
       terminationGracePeriodSeconds: 120
       containers:
         - name: minecraft
-          image: itzg/minecraft-server:2026.11.0-java21
+          image: itzg/minecraft-server:2026.11.1-java21
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
