@@ -71,7 +71,7 @@ spec:
               mountPath: /seed/oldcombatmechanics
       containers:
         - name: minecraft
-          image: itzg/minecraft-server:2026.11.0-java25
+          image: itzg/minecraft-server:2026.11.1-java25
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
