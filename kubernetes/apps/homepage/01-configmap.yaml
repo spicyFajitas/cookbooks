@@ -48,10 +48,12 @@ data:
     # Minecraft is raw TCP with no Ingress, so annotation auto-discovery
     # can't see it -- static entry instead. namespace/podSelector still
     # give it k8s pod status/CPU/mem; the widget pings the server for
-    # online status and player count over the in-cluster Service.
+    # online status and player count over the in-cluster Service. href
+    # opens each world's BlueMap viewer (kubernetes/apps/bluemap).
     - Games:
         - Minecraft:
             icon: minecraft.png
+            href: https://map-minecraft.spicyfajitas.com
             description: Paper 26.3 -- minecraft.spicyfajitas.com
             namespace: minecraft
             app: minecraft
@@ -61,6 +63,7 @@ data:
                 url: udp://minecraft.minecraft.svc.cluster.local:25565
         - Grass Gang:
             icon: minecraft.png
+            href: https://map-gg.spicyfajitas.com
             description: Paper 1.21.10 -- gg.spicyfajitas.com
             namespace: minecraft-grass-gang
             app: minecraft
@@ -70,6 +73,7 @@ data:
                 url: udp://minecraft.minecraft-grass-gang.svc.cluster.local:25565
         - Mason & Adam:
             icon: minecraft.png
+            href: https://map-masonadam.spicyfajitas.com
             description: Paper 1.21.5 -- masonadam.spicyfajitas.com
             namespace: minecraft-masonadam
             app: minecraft
