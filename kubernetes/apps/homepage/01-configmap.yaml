@@ -53,6 +53,7 @@ data:
         - Minecraft:
             icon: minecraft.png
             description: Paper 26.3 -- minecraft.spicyfajitas.com
+            href: https://map-minecraft.spicyfajitas.com
             namespace: minecraft
             app: minecraft
             podSelector: app=minecraft
@@ -62,6 +63,7 @@ data:
         - Grass Gang:
             icon: minecraft.png
             description: Paper 1.21.10 -- gg.spicyfajitas.com
+            href: https://map-gg.spicyfajitas.com
             namespace: minecraft-grass-gang
             app: minecraft
             podSelector: app=minecraft
@@ -71,6 +73,7 @@ data:
         - Mason & Adam:
             icon: minecraft.png
             description: Paper 1.21.5 -- masonadam.spicyfajitas.com
+            href: https://map-masonadam.spicyfajitas.com
             namespace: minecraft-masonadam
             app: minecraft
             podSelector: app=minecraft
