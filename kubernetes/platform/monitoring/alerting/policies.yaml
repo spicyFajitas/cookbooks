@@ -1,0 +1,11 @@
+# Replaces the whole notification policy tree -- fine, nothing else
+# manages it. One route: everything goes to email. Grouped per alert rule
+# + namespace so one broken app is one email, not one per pod.
+apiVersion: 1
+policies:
+  - orgId: 1
+    receiver: email
+    group_by: ["grafana_folder", "alertname", "namespace"]
+    group_wait: 30s
+    group_interval: 5m
+    repeat_interval: 4h

@@ -30,6 +30,8 @@ a hostname risks colliding with that.
   non-secret config across a ConfigMap + Secret.
 - `03-grafana.yaml` -- ConfigMap (datasource + dashboard-provider configs)
   + PVC (1Gi) + Deployment + NodePort Service (`:30300`).
+- `alerting/` + `secrets/grafana-smtp.sops.yaml` -- Grafana alert rules,
+  email contact point, SMTP credentials. See [Alerting](#alerting).
 - `04-dashboard-configmap.yaml` -- the EDHRec dashboard JSON, copied from
   `ansible/roles/docker_services/files/edhrec-grafana-dashboard.json`
   (itself from the magic app's own repo). **Now auto-provisioned** --
@@ -91,6 +93,57 @@ experience as any new Grafana install. Prometheus itself is ClusterIP-only
 today (no direct LAN access) -- ordinarily reached through Grafana's
 datasource; add a NodePort to `01-prometheus.yaml`'s Service if direct
 access is ever needed.
+
+## Alerting
+
+Grafana-managed alerts, provisioned as code from `alerting/` (mounted at
+`/etc/grafana/provisioning/alerting/` via a `configMapGenerator` in
+`kustomization.yaml`, so editing a rule and merging rolls Grafana and
+reloads it). Provisioned rules show up under **Alerting -> Alert rules**,
+folder `Kubernetes`, and are read-only in the UI -- change them here.
+
+| Rule | Fires when | `for` |
+| ---- | ---------- | ----- |
+| Deployment replicas unavailable | `spec.replicas - available > 0` | 5m |
+| StatefulSet replicas not ready | `replicas - ready > 0` (idle Minecraft at 0/0 is fine) | 10m |
+| Container restarting repeatedly | > 2 restarts in 15m (CrashLoopBackOff, OOMKilled) | -- |
+| Metrics target down | Prometheus `up == 0` for any job except `pve` | 5m |
+
+Every alert carries `namespace` + the workload name, and notifications are
+grouped per rule + namespace (repeat every 4h while firing, plus a
+"resolved" email). If Prometheus itself is unreachable, Grafana raises its
+own `DatasourceError` alert through the same contact point.
+
+Only contact point: email, via Gmail SMTP (`smtp.gmail.com:587`, app
+password) -- the same setup as `kubernetes/apps/package-watch-notification/`.
+Swapping to Discord/ntfy/Slack is just a different `type:` in
+`alerting/contact-points.yaml`.
+
+### SMTP secret
+
+`secrets/grafana-smtp.sops.yaml` -- **apply it before syncing**, Grafana
+won't start without the `grafana-smtp` Secret.
+
+| Key | Value |
+| --- | ----- |
+| `GF_SMTP_USER` | Gmail address (`gmail_username` in `ansible/roles/proxmox/vaults/production.yml`) |
+| `GF_SMTP_PASSWORD` | Gmail app password (`app_password` in the same vault) |
+| `GF_SMTP_FROM_ADDRESS` | Usually the same Gmail address |
+| `ALERT_EMAIL_TO` | Recipient(s), `;`-separated |
+
+```bash
+sops kubernetes/platform/monitoring/secrets/grafana-smtp.sops.yaml   # or --encrypt --in-place first, see above
+kubectl apply -f kubernetes/platform/monitoring/secrets/grafana-smtp.sops.yaml
+```
+
+### Testing
+
+- **Alerting -> Contact points -> email -> Test** sends a test email.
+- Real end-to-end: `kubectl -n <app> scale deploy/<name> --replicas=0`
+  won't fire (desired 0 = healthy). Instead break it, e.g.
+  `kubectl -n <app> set image deploy/<name> <container>=does-not-exist:0`,
+  wait ~6 min for the email, then `kubectl -n <app> rollout undo deploy/<name>`
+  (Argo CD self-heal may revert it first).
 
 ## Cutover checklist
 

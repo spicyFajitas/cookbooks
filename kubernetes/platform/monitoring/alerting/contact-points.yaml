@@ -1,0 +1,19 @@
+# Grafana alerting provisioning -- loaded from
+# /etc/grafana/provisioning/alerting/ on startup (03-grafana.yaml).
+#
+# ${ALERT_EMAIL_TO} is expanded by Grafana from the pod's environment
+# (secrets/grafana-smtp.sops.yaml). That's the ONLY `$` in these files on
+# purpose: Grafana runs env-var expansion over every provisioning file, so
+# alert templates here use `.Labels.x` / `.Values.A` rather than the
+# `$labels` / `$values` shorthand, which would be eaten by that expansion.
+apiVersion: 1
+contactPoints:
+  - orgId: 1
+    name: email
+    receivers:
+      - uid: email
+        type: email
+        settings:
+          addresses: ${ALERT_EMAIL_TO}
+          singleEmail: true
+        disableResolveMessage: false
