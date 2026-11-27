@@ -1,0 +1,172 @@
+# "Is an app down?" rules, all from kube-state-metrics / Prometheus's own
+# `up` series (01-prometheus.yaml, 06-kube-state-metrics.yaml). Every rule
+# returns one series per workload, so each alert carries `namespace` plus
+# `deployment` / `statefulset` / `pod` / `job` labels.
+#
+# Minecraft StatefulSets: mc-router (kubernetes/apps/mc-router/) scales
+# them between 0 and 1 on demand. The statefulset rule compares *desired*
+# vs ready, so an idle server at 0/0 is healthy and never alerts; only a
+# server that was asked to start and didn't come up does. `for: 10m`
+# gives a cold Minecraft start (world load, plugin init) time to finish.
+#
+# datasourceUid is `mimir` -- that's this repo's Prometheus datasource uid
+# (see 03-grafana.yaml for why it isn't `prometheus`).
+apiVersion: 1
+groups:
+  - orgId: 1
+    name: workloads
+    folder: Kubernetes
+    interval: 1m
+    rules:
+      - uid: deployment-replicas-unavailable
+        title: Deployment replicas unavailable
+        condition: C
+        for: 5m
+        noDataState: NoData
+        execErrState: Error
+        labels:
+          severity: critical
+        annotations:
+          summary: >-
+            {{ .Labels.namespace }}/{{ .Labels.deployment }} has
+            {{ .Values.A }} replica(s) unavailable
+          description: >-
+            Desired replicas are not available. Check
+            `kubectl -n {{ .Labels.namespace }} get pods` and
+            `kubectl -n {{ .Labels.namespace }} describe deploy/{{ .Labels.deployment }}`.
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: mimir
+            model:
+              refId: A
+              instant: true
+              expr: >-
+                kube_deployment_spec_replicas
+                - kube_deployment_status_replicas_available
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [0]
+
+      - uid: statefulset-replicas-not-ready
+        title: StatefulSet replicas not ready
+        condition: C
+        for: 10m
+        noDataState: NoData
+        execErrState: Error
+        labels:
+          severity: critical
+        annotations:
+          summary: >-
+            {{ .Labels.namespace }}/{{ .Labels.statefulset }} has
+            {{ .Values.A }} replica(s) not ready
+          description: >-
+            Desired replicas are not ready (scaled-to-zero is fine and
+            does not trigger this). Check
+            `kubectl -n {{ .Labels.namespace }} get pods`.
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: mimir
+            model:
+              refId: A
+              instant: true
+              expr: >-
+                kube_statefulset_replicas
+                - kube_statefulset_status_replicas_ready
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [0]
+
+      - uid: pod-restarting
+        title: Container restarting repeatedly
+        condition: C
+        for: 0s
+        noDataState: OK
+        execErrState: Error
+        labels:
+          severity: warning
+        annotations:
+          summary: >-
+            {{ .Labels.namespace }}/{{ .Labels.pod }} ({{ .Labels.container }})
+            restarted {{ .Values.A }} times in 15m
+          description: >-
+            Likely CrashLoopBackOff or OOMKilled. Check
+            `kubectl -n {{ .Labels.namespace }} logs {{ .Labels.pod }} -c {{ .Labels.container }} --previous`.
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 900
+              to: 0
+            datasourceUid: mimir
+            model:
+              refId: A
+              instant: true
+              expr: >-
+                round(increase(kube_pod_container_status_restarts_total[15m]))
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [2]
+
+      - uid: scrape-target-down
+        title: Metrics target down
+        condition: C
+        for: 5m
+        noDataState: NoData
+        execErrState: Error
+        labels:
+          severity: critical
+        annotations:
+          summary: "Prometheus can't scrape {{ .Labels.job }} ({{ .Labels.instance }})"
+          description: >-
+            The target's metrics endpoint is unreachable -- the app (or
+            its Service) is likely down. If job is kube-state-metrics,
+            the other workload alerts are blind until it's back.
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: mimir
+            model:
+              refId: A
+              instant: true
+              # job!="pve": 02-pve-exporter.yaml is commented out of
+              # kustomization.yaml, so that target is down by design.
+              # Drop this filter once pve-exporter is deployed.
+              expr: up{job!="pve"}
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator:
+                    type: lt
+                    params: [1]

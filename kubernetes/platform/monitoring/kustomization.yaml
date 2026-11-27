@@ -1,4 +1,5 @@
-# secrets/pve-token.sops.yaml is deliberately NOT listed here -- same
+# secrets/pve-token.sops.yaml and secrets/grafana-discord.sops.yaml are
+# deliberately NOT listed here -- same
 # reasoning as every other SOPS-managed secret in this repo (see
 # kubernetes/platform/sops-secrets-operator/readme.md): must only ever be
 # applied as a deliberate manual/CI step, never picked up automatically.
@@ -13,3 +14,15 @@ resources:
   - 04-dashboard-configmap.yaml
   - 05-ingress.yaml
   - 06-kube-state-metrics.yaml
+
+# Grafana alerting provisioning (contact point, notification policy, alert
+# rules). Generated rather than a plain ConfigMap so the hash suffix
+# changes on every edit and rolls the grafana Deployment -- Grafana only
+# reads provisioning files at startup.
+configMapGenerator:
+  - name: grafana-alerting
+    namespace: monitoring
+    files:
+      - alerting/contact-points.yaml
+      - alerting/policies.yaml
+      - alerting/rules.yaml

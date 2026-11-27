@@ -85,6 +85,17 @@ spec:
           ports:
             - name: web
               containerPort: 3000
+          env:
+            # Makes the alert / silence links in Discord notifications
+            # point somewhere reachable (05-ingress.yaml).
+            - name: GF_SERVER_ROOT_URL
+              value: https://homelab-grafana.spicyfajitas.com
+          # DISCORD_WEBHOOK_URL for alerting/contact-points.yaml, from
+          # secrets/grafana-discord.sops.yaml. The Secret must exist before
+          # this pod can start.
+          envFrom:
+            - secretRef:
+                name: grafana-discord
           volumeMounts:
             - name: data
               mountPath: /var/lib/grafana
@@ -94,6 +105,9 @@ spec:
             - name: provisioning
               mountPath: /etc/grafana/provisioning/dashboards/dashboard-provider.yaml
               subPath: dashboard-provider.yaml
+            - name: alerting
+              mountPath: /etc/grafana/provisioning/alerting
+              readOnly: true
             - name: dashboards
               mountPath: /var/lib/grafana/dashboards/edhrec-analyzer.json
               subPath: edhrec-analyzer.json
@@ -132,6 +146,9 @@ spec:
         - name: dashboards
           configMap:
             name: grafana-dashboards
+        - name: alerting
+          configMap:
+            name: grafana-alerting
 ---
 # NodePort, not an Ingress -- this Grafana has only ever been reached via
 # direct LAN IP:port (10.100.10.20:3000 on docker-host), never a hostname,

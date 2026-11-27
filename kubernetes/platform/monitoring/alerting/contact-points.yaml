@@ -1,0 +1,22 @@
+# Grafana alerting provisioning -- loaded from
+# /etc/grafana/provisioning/alerting/ on startup (03-grafana.yaml).
+#
+# ${DISCORD_WEBHOOK_URL} is expanded by Grafana from the pod's environment
+# (secrets/grafana-discord.sops.yaml) -- the webhook URL is the credential,
+# so it stays out of git. That's the ONLY `$` in these files on purpose:
+# Grafana runs env-var expansion over every provisioning file, so alert
+# templates here use `.Labels.x` / `.Values.A` rather than the `$labels` /
+# `$values` shorthand, which would be eaten by that expansion.
+apiVersion: 1
+contactPoints:
+  - orgId: 1
+    name: discord
+    receivers:
+      - uid: discord
+        type: discord
+        settings:
+          url: ${DISCORD_WEBHOOK_URL}
+          # Post as the name/avatar set on the webhook in Discord, not
+          # Grafana's default.
+          use_discord_username: true
+        disableResolveMessage: false

@@ -30,6 +30,8 @@ a hostname risks colliding with that.
   non-secret config across a ConfigMap + Secret.
 - `03-grafana.yaml` -- ConfigMap (datasource + dashboard-provider configs)
   + PVC (1Gi) + Deployment + NodePort Service (`:30300`).
+- `alerting/` + `secrets/grafana-discord.sops.yaml` -- Grafana alert rules,
+  Discord contact point, webhook URL. See [Alerting](#alerting).
 - `04-dashboard-configmap.yaml` -- the EDHRec dashboard JSON, copied from
   `ansible/roles/docker_services/files/edhrec-grafana-dashboard.json`
   (itself from the magic app's own repo). **Now auto-provisioned** --
@@ -91,6 +93,56 @@ experience as any new Grafana install. Prometheus itself is ClusterIP-only
 today (no direct LAN access) -- ordinarily reached through Grafana's
 datasource; add a NodePort to `01-prometheus.yaml`'s Service if direct
 access is ever needed.
+
+## Alerting
+
+Grafana-managed alerts, provisioned as code from `alerting/` (mounted at
+`/etc/grafana/provisioning/alerting/` via a `configMapGenerator` in
+`kustomization.yaml`, so editing a rule and merging rolls Grafana and
+reloads it). Provisioned rules show up under **Alerting -> Alert rules**,
+folder `Kubernetes`, and are read-only in the UI -- change them here.
+
+| Rule | Fires when | `for` |
+| ---- | ---------- | ----- |
+| Deployment replicas unavailable | `spec.replicas - available > 0` | 5m |
+| StatefulSet replicas not ready | `replicas - ready > 0` (idle Minecraft at 0/0 is fine) | 10m |
+| Container restarting repeatedly | > 2 restarts in 15m (CrashLoopBackOff, OOMKilled) | -- |
+| Metrics target down | Prometheus `up == 0` for any job except `pve` | 5m |
+
+Every alert carries `namespace` + the workload name, and notifications are
+grouped per rule + namespace (repeat every 4h while firing, plus a
+"resolved" message). If Prometheus itself is unreachable, Grafana raises its
+own `DatasourceError` alert through the same contact point.
+
+Only contact point: a Discord channel webhook. Swapping to
+email/ntfy/Slack is just a different `type:` + settings in
+`alerting/contact-points.yaml`.
+
+### Discord webhook secret
+
+`secrets/grafana-discord.sops.yaml` -- **apply it before syncing**, Grafana
+won't start without the `grafana-discord` Secret. The webhook URL is the
+whole credential (anyone holding it can post to the channel), hence SOPS.
+
+1. In Discord: channel -> **Edit Channel -> Integrations -> Webhooks -> New
+   Webhook**. Set its name/avatar (alerts post as that, via
+   `use_discord_username`), then **Copy Webhook URL**.
+2. Put it in the `DISCORD_WEBHOOK_URL` placeholder and encrypt/apply:
+
+```bash
+sops kubernetes/platform/monitoring/secrets/grafana-discord.sops.yaml   # or --encrypt --in-place first, see above
+kubectl apply -f kubernetes/platform/monitoring/secrets/grafana-discord.sops.yaml
+kubectl -n monitoring rollout restart deployment/grafana   # if Grafana was already running
+```
+
+### Testing
+
+- **Alerting -> Contact points -> discord -> Test** posts a test message.
+- Real end-to-end: `kubectl -n <app> scale deploy/<name> --replicas=0`
+  won't fire (desired 0 = healthy). Instead break it, e.g.
+  `kubectl -n <app> set image deploy/<name> <container>=does-not-exist:0`,
+  wait ~6 min for the message, then `kubectl -n <app> rollout undo deploy/<name>`
+  (Argo CD self-heal may revert it first).
 
 ## Cutover checklist
 
