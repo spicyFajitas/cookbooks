@@ -30,8 +30,8 @@ a hostname risks colliding with that.
   non-secret config across a ConfigMap + Secret.
 - `03-grafana.yaml` -- ConfigMap (datasource + dashboard-provider configs)
   + PVC (1Gi) + Deployment + NodePort Service (`:30300`).
-- `alerting/` + `secrets/grafana-smtp.sops.yaml` -- Grafana alert rules,
-  email contact point, SMTP credentials. See [Alerting](#alerting).
+- `alerting/` + `secrets/grafana-discord.sops.yaml` -- Grafana alert rules,
+  Discord contact point, webhook URL. See [Alerting](#alerting).
 - `04-dashboard-configmap.yaml` -- the EDHRec dashboard JSON, copied from
   `ansible/roles/docker_services/files/edhrec-grafana-dashboard.json`
   (itself from the magic app's own repo). **Now auto-provisioned** --
@@ -111,38 +111,37 @@ folder `Kubernetes`, and are read-only in the UI -- change them here.
 
 Every alert carries `namespace` + the workload name, and notifications are
 grouped per rule + namespace (repeat every 4h while firing, plus a
-"resolved" email). If Prometheus itself is unreachable, Grafana raises its
+"resolved" message). If Prometheus itself is unreachable, Grafana raises its
 own `DatasourceError` alert through the same contact point.
 
-Only contact point: email, via Gmail SMTP (`smtp.gmail.com:587`, app
-password) -- the same setup as `kubernetes/apps/package-watch-notification/`.
-Swapping to Discord/ntfy/Slack is just a different `type:` in
+Only contact point: a Discord channel webhook. Swapping to
+email/ntfy/Slack is just a different `type:` + settings in
 `alerting/contact-points.yaml`.
 
-### SMTP secret
+### Discord webhook secret
 
-`secrets/grafana-smtp.sops.yaml` -- **apply it before syncing**, Grafana
-won't start without the `grafana-smtp` Secret.
+`secrets/grafana-discord.sops.yaml` -- **apply it before syncing**, Grafana
+won't start without the `grafana-discord` Secret. The webhook URL is the
+whole credential (anyone holding it can post to the channel), hence SOPS.
 
-| Key | Value |
-| --- | ----- |
-| `GF_SMTP_USER` | Gmail address (`gmail_username` in `ansible/roles/proxmox/vaults/production.yml`) |
-| `GF_SMTP_PASSWORD` | Gmail app password (`app_password` in the same vault) |
-| `GF_SMTP_FROM_ADDRESS` | Usually the same Gmail address |
-| `ALERT_EMAIL_TO` | Recipient(s), `;`-separated |
+1. In Discord: channel -> **Edit Channel -> Integrations -> Webhooks -> New
+   Webhook**. Set its name/avatar (alerts post as that, via
+   `use_discord_username`), then **Copy Webhook URL**.
+2. Put it in the `DISCORD_WEBHOOK_URL` placeholder and encrypt/apply:
 
 ```bash
-sops kubernetes/platform/monitoring/secrets/grafana-smtp.sops.yaml   # or --encrypt --in-place first, see above
-kubectl apply -f kubernetes/platform/monitoring/secrets/grafana-smtp.sops.yaml
+sops kubernetes/platform/monitoring/secrets/grafana-discord.sops.yaml   # or --encrypt --in-place first, see above
+kubectl apply -f kubernetes/platform/monitoring/secrets/grafana-discord.sops.yaml
+kubectl -n monitoring rollout restart deployment/grafana   # if Grafana was already running
 ```
 
 ### Testing
 
-- **Alerting -> Contact points -> email -> Test** sends a test email.
+- **Alerting -> Contact points -> discord -> Test** posts a test message.
 - Real end-to-end: `kubectl -n <app> scale deploy/<name> --replicas=0`
   won't fire (desired 0 = healthy). Instead break it, e.g.
   `kubectl -n <app> set image deploy/<name> <container>=does-not-exist:0`,
-  wait ~6 min for the email, then `kubectl -n <app> rollout undo deploy/<name>`
+  wait ~6 min for the message, then `kubectl -n <app> rollout undo deploy/<name>`
   (Argo CD self-heal may revert it first).
 
 ## Cutover checklist

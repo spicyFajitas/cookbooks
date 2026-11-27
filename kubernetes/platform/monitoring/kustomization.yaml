@@ -1,4 +1,4 @@
-# secrets/pve-token.sops.yaml and secrets/grafana-smtp.sops.yaml are
+# secrets/pve-token.sops.yaml and secrets/grafana-discord.sops.yaml are
 # deliberately NOT listed here -- same
 # reasoning as every other SOPS-managed secret in this repo (see
 # kubernetes/platform/sops-secrets-operator/readme.md): must only ever be

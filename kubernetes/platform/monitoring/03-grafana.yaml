@@ -85,25 +85,17 @@ spec:
           ports:
             - name: web
               containerPort: 3000
-          # Alert email -- Gmail SMTP with an app password, same as
-          # kubernetes/apps/package-watch-notification/ and Proxmox's
-          # postfix relay. Credentials + recipient come from the
-          # grafana-smtp Secret (secrets/grafana-smtp.sops.yaml), which
-          # must exist before this pod can start.
           env:
-            - name: GF_SMTP_ENABLED
-              value: "true"
-            - name: GF_SMTP_HOST
-              value: smtp.gmail.com:587
-            - name: GF_SMTP_FROM_NAME
-              value: Homelab Grafana
-            # Makes the "View alert" / silence links in emails point
-            # somewhere reachable (05-ingress.yaml).
+            # Makes the alert / silence links in Discord notifications
+            # point somewhere reachable (05-ingress.yaml).
             - name: GF_SERVER_ROOT_URL
               value: https://homelab-grafana.spicyfajitas.com
+          # DISCORD_WEBHOOK_URL for alerting/contact-points.yaml, from
+          # secrets/grafana-discord.sops.yaml. The Secret must exist before
+          # this pod can start.
           envFrom:
             - secretRef:
-                name: grafana-smtp
+                name: grafana-discord
           volumeMounts:
             - name: data
               mountPath: /var/lib/grafana
