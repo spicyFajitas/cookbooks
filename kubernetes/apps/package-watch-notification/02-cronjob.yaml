@@ -21,7 +21,7 @@ spec:
             fsGroup: 1000
           containers:
             - name: kernel-watch
-              image: python:3.13-slim
+              image: python:3.15-slim
               command: ["python", "-I", "/config/kernel_watch.py"]
               env:
                 - name: SMTP_HOST
